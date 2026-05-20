@@ -1,12 +1,14 @@
 {
-  "name": "ClaudyGod Ministries",
+  "name": "ClaudyGod Music Ministries",
   "short_name": "ClaudyGod",
+  "description": "Official website of ClaudyGod — Gospel music artist, minister, and worship leader.",
   "icons": [
-    { "src": "/ClaudyLogo-1.png", "type": "image/png", "sizes": "192x192" },
-    { "src": "/ClaudyLogo-2.png", "type": "image/png", "sizes": "512x512" }
+    { "src": "/ClaudySocial.jpg", "type": "image/jpeg", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "/ClaudySocial.jpg", "type": "image/jpeg", "sizes": "512x512", "purpose": "any maskable" }
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "portrait",
+  "theme_color": "#C9A84C",
+  "background_color": "#080808"
 }
