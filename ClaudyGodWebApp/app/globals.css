@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Font faces ──────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('/fonts/BricolageGrotesque-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Raleway';
+  src: url('/fonts/Raleway-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WorkSans';
+  src: url('/fonts/WorkSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WorkSans';
+  src: url('/fonts/WorkSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WorkSans';
+  src: url('/fonts/WorkSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WorkSans';
+  src: url('/fonts/WorkSans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'AbrilFatface';
+  src: url('/fonts/AbrilFatface-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* ─── CSS custom properties ───────────────────────────────────────────────── */
+:root {
+  /* Colours */
+  --color-gold:         #C9A84C;
+  --color-gold-light:   #E8C96A;
+  --color-gold-dark:    #8B6914;
+  --color-bg:           #080808;
+  --color-surface:      #0E0E0E;
+  --color-elevated:     #161616;
+  --color-overlay:      #1E1E1E;
+  --color-border:       #2A2A2A;
+  --color-text:         #F5F5F5;
+  --color-text-muted:   #A8A8A8;
+  --color-text-dim:     #6B6B6B;
+
+  /* Sizes */
+  --navbar-height: 4.5rem;
+  --section-py:    5rem;
+
+  /* Motion */
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --ease-smooth:     cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Base layer ──────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface-base text-white font-bricolage antialiased;
+    min-height: 100dvh;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-surface); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-gold-dark); }
+
+  /* Selection */
+  ::selection {
+    background-color: rgba(201, 168, 76, 0.3);
+    color: var(--color-gold-light);
+  }
+
+  img, video { @apply max-w-full; }
+
+  a {
+    @apply text-inherit no-underline;
+    transition: color var(--duration-fast) var(--ease-smooth);
+  }
+}
+
+/* ─── Component layer ─────────────────────────────────────────────────────── */
+@layer components {
+  /* Container */
+  .container-site {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1280px;
+  }
+  .container-narrow {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 800px;
+  }
+  .container-wide {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1440px;
+  }
+
+  /* Section */
+  .section-py   { @apply py-16 md:py-20 lg:py-24; }
+  .section-pt   { @apply pt-16 md:pt-20 lg:pt-24; }
+  .section-pb   { @apply pb-16 md:pb-20 lg:pb-24; }
+
+  /* Gold text gradient */
+  .text-gradient-gold {
+    @apply bg-gradient-gold bg-clip-text text-transparent;
+  }
+
+  /* Gold border accent */
+  .border-gold-accent {
+    border-image: linear-gradient(90deg, transparent, #C9A84C, transparent) 1;
+  }
+
+  /* Glass effect */
+  .glass {
+    background: rgba(22, 22, 22, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+  }
+  .glass-dark {
+    background: rgba(8, 8, 8, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Shimmer skeleton */
+  .skeleton {
+    @apply rounded-md;
+    background: linear-gradient(
+      90deg,
+      var(--color-elevated) 25%,
+      var(--color-overlay) 50%,
+      var(--color-elevated) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  /* Overlay gradient for images */
+  .image-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(
+      to bottom,
+      transparent 30%,
+      rgba(8, 8, 8, 0.7) 70%,
+      rgba(8, 8, 8, 0.95) 100%
+    );
+  }
+
+  /* Navbar blur */
+  .navbar-blur {
+    background: rgba(8, 8, 8, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+
+/* ─── Utility layer ───────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Visually hidden (accessible) */
+  .sr-only-focusable:focus { @apply not-sr-only; }
+
+  /* Aspect ratios */
+  .aspect-portrait  { aspect-ratio: 3/4; }
+  .aspect-landscape { aspect-ratio: 16/9; }
+  .aspect-square    { aspect-ratio: 1/1; }
+
+  /* Smooth hover scale */
+  .hover-scale { @apply transition-transform duration-300 hover:scale-105; }
+  .hover-scale-sm { @apply transition-transform duration-300 hover:scale-102; }
+
+  /* Text balance */
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* GPU acceleration */
+  .gpu { transform: translateZ(0); will-change: transform; }
+
+  /* Gold underline decoration */
+  .underline-gold {
+    @apply relative;
+  }
+  .underline-gold::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 h-0.5 w-full bg-gold-500 scale-x-0 transition-transform duration-300 origin-left;
+  }
+  .underline-gold:hover::after { @apply scale-x-100; }
+}

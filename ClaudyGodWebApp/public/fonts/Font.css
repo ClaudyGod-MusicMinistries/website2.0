@@ -1,0 +1,76 @@
+@font-face {
+  font-family: 'Raleway';
+  src: url('./Raleway-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('./Raleway-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: url('./Raleway-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('./WorkSans-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('./WorkSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'AbrilFatFace';
+  src: url('./AbrilFatface-Regular.ttf') format('truetype');
+  font-weight: 400; /* Changed from 700 to 400 since it's Regular weight */
+}
+
+@font-face {
+  font-family: 'LukiestGuy';
+  src: url('./LuckiestGuy-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Ultra';
+  src: url('./Ultra-Regular.ttf') format('truetype');
+  font-weight: 400; /* Changed from 600 to 400 since it's Regular weight */
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('./Roboto-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'RobotoCondensed';
+  src: url('./Roboto_Condensed-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Bricolage';
+  src: url('./BricolageGrotesque-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Bricolage';
+  src: url('./BricolageGrotesque-ExtraBold.ttf') format('truetype');
+  font-weight: 800; /* Changed to 800 to match the extrabold weight */
+}
+@font-face {
+  font-family: 'Shadows';
+  src: url('./ShadowsIntoLight-Regular.ttf');
+  font-weight: 500;
+}
