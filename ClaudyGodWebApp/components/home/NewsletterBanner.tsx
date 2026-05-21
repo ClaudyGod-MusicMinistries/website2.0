@@ -3,28 +3,18 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { newsletterSchema, type NewsletterInput } from '@/utils/validators';
-import { Section, Container } from '@/components/ui/Layout';
-import { Heading, Text } from '@/components/ui/Typography';
-import { Button } from '@/components/ui/Button';
-import { Spinner } from '@/components/ui/Spinner';
 
 export function NewsletterBanner() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<NewsletterInput>({ resolver: zodResolver(newsletterSchema) });
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
+    useForm<NewsletterInput>({ resolver: zodResolver(newsletterSchema) });
 
   const onSubmit = async (data: NewsletterInput) => {
     try {
       const res = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error();
@@ -36,73 +26,62 @@ export function NewsletterBanner() {
   };
 
   return (
-    <Section
-      bg="base"
-      py="lg"
-      className="bg-gradient-to-r from-surface-base via-surface-elevated to-surface-base border-y border-gold-500/20"
-    >
-      <Container>
-        <div className="max-w-2xl mx-auto text-center flex flex-col gap-6">
-          <div>
-            <span className="font-worksans uppercase tracking-widest text-gold-400 text-xs">
-              Stay Connected
-            </span>
-            <Heading level={2} className="mt-2">
-              Join the Ministry Community
-            </Heading>
-            <Text color="muted" className="mt-3">
-              Get worship songs, ministry updates, and event invitations delivered to your inbox.
-            </Text>
+    <section className="bg-[#0a0a0a] section-py border-t border-white/5">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="max-w-xl">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="rule-gold" />
+            <span className="label-eyebrow">Stay Connected</span>
           </div>
 
+          <h2 className="font-raleway font-extralight text-white text-3xl md:text-4xl tracking-tight leading-snug mb-4">
+            Join the Ministry Community
+          </h2>
+          <p className="font-raleway text-neutral-500 text-sm leading-relaxed mb-8 font-light">
+            Worship songs, ministry updates, and event invitations — straight to your inbox.
+            No noise. Unsubscribe anytime.
+          </p>
+
           {status === 'success' ? (
-            <div className="flex items-center justify-center gap-2 text-status-success bg-status-successBg border border-status-success/30 rounded-xl px-6 py-4">
-              <CheckCircle2 className="h-5 w-5 shrink-0" />
-              <Text size="sm" color="success">
-                You&apos;re subscribed! Thank you for joining us.
-              </Text>
+            <div className="flex items-center gap-3 text-gold-400">
+              <CheckCircle2 className="h-4 w-4 shrink-0" />
+              <span className="font-worksans text-[0.65rem] tracking-[0.15em] uppercase">
+                You&apos;re subscribed — thank you.
+              </span>
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex gap-0">
                 <div className="flex-1">
                   <input
                     {...register('email')}
                     type="email"
-                    placeholder="Enter your email address"
-                    className="w-full h-11 px-4 rounded-lg bg-surface-elevated border border-surface-border text-white placeholder:text-neutral-500 text-sm font-bricolage focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent transition-all duration-200"
+                    placeholder="your@email.com"
+                    className="w-full h-11 px-4 bg-transparent border border-white/10 border-r-0 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300"
                   />
                   {errors.email && (
-                    <p className="mt-1 text-xs text-status-error text-left">{errors.email.message}</p>
+                    <p className="mt-1.5 font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
+                      {errors.email.message}
+                    </p>
                   )}
                 </div>
-                <Button
+                <button
                   type="submit"
-                  variant="primary"
-                  size="lg"
                   disabled={isSubmitting}
-                  className="shrink-0"
+                  className="shrink-0 h-11 px-6 bg-gold-500 hover:bg-gold-400 disabled:opacity-50 text-[#080808] font-worksans text-[0.6rem] tracking-[0.2em] uppercase transition-all duration-300"
                 >
-                  {isSubmitting ? <Spinner size="sm" /> : 'Subscribe'}
-                </Button>
+                  {isSubmitting ? '…' : 'Subscribe'}
+                </button>
               </div>
-
               {status === 'error' && (
-                <div className="flex items-center gap-2 mt-3 text-status-error">
-                  <AlertCircle className="h-4 w-4 shrink-0" />
-                  <Text size="xs" color="error">
-                    Something went wrong. Please try again.
-                  </Text>
-                </div>
+                <p className="mt-2 font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
+                  Something went wrong. Please try again.
+                </p>
               )}
             </form>
           )}
-
-          <Text size="xs" color="dim">
-            No spam, ever. Unsubscribe at any time.
-          </Text>
         </div>
-      </Container>
-    </Section>
+      </div>
+    </section>
   );
 }

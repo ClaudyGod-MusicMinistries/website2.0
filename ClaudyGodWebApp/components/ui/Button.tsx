@@ -4,7 +4,7 @@ import { type VariantProps } from 'class-variance-authority';
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { buttonVariants } from './buttonVariants';
+import { buttonVariants } from '@/utils/buttonVariants';
 
 export { buttonVariants };
 
