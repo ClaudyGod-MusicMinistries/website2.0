@@ -1,68 +1,90 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaSpotify, FaApple, FaYoutube, FaDeezer, FaAmazon, FaMusic,
 } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
-import { heroSlides, textVariants } from '@/data/heroSlides';
-import { heroSlide } from '@/utils/animations';
-import { buttonVariants } from '@/components/ui/buttonVariants';
-import { IconButton } from '@/components/ui/IconButton';
+import { heroSlides } from '@/data/heroSlides';
 import { cn } from '@/utils/cn';
+
+const DURATION = 7000; // ms per slide
 
 const iconMap: Record<string, IconType> = {
   FaSpotify, FaApple, FaYoutube, FaDeezer, FaAmazon, FaMusic,
 };
 
+const fadeVariants = {
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { duration: 1.2, ease: [0.25, 0.1, 0.25, 1] } },
+  exit:   { opacity: 0, transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] } },
+};
+
+const textVariants = {
+  hidden:  { opacity: 0, y: 16 },
+  visible: (delay = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] },
+  }),
+};
+
 export function HeroCarousel() {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [paused, setPaused] = useState(false);
+  const [current, setCurrent]   = useState(0);
+  const [paused, setPaused]     = useState(false);
+  const [progress, setProgress] = useState(0);
+  const startRef  = useRef<number>(Date.now());
+  const rafRef    = useRef<number>(0);
 
   const total = heroSlides.length;
 
-  const goTo = useCallback(
-    (index: number, dir: number) => {
-      setDirection(dir);
-      setCurrent((index + total) % total);
-    },
-    [total]
-  );
+  const advance = useCallback(() => {
+    setCurrent((c) => (c + 1) % total);
+    startRef.current = Date.now();
+    setProgress(0);
+  }, [total]);
 
-  const prev = () => goTo(current - 1, -1);
-  const next = useCallback(() => goTo(current + 1, 1), [current, goTo]);
-
+  // Progress bar animation
   useEffect(() => {
-    if (paused) return;
-    const id = setInterval(next, 6000);
-    return () => clearInterval(id);
-  }, [paused, next]);
+    if (paused) { cancelAnimationFrame(rafRef.current); return; }
+    const tick = () => {
+      const elapsed = Date.now() - startRef.current;
+      const pct = Math.min(elapsed / DURATION, 1);
+      setProgress(pct);
+      if (pct < 1) { rafRef.current = requestAnimationFrame(tick); }
+      else { advance(); }
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [paused, current, advance]);
+
+  const goTo = (i: number) => {
+    setCurrent(i);
+    startRef.current = Date.now();
+    setProgress(0);
+  };
 
   const slide = heroSlides[current];
 
   return (
-    <div
-      className="relative w-full min-h-hero overflow-hidden bg-surface-base"
+    <section
+      className="relative w-full h-screen min-h-[600px] overflow-hidden bg-[#080808]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <AnimatePresence mode="wait" custom={direction}>
+      {/* ── Background image crossfade ── */}
+      <AnimatePresence mode="sync">
         <motion.div
-          key={slide.id}
-          custom={direction}
-          variants={heroSlide}
+          key={`bg-${slide.id}`}
+          variants={fadeVariants}
           initial="enter"
           animate="center"
           exit="exit"
           className="absolute inset-0"
         >
-          {/* Background image */}
-          {(slide.imageUrl || slide.imageUrlDesktop) && (
+          {(slide.imageUrlDesktop || slide.imageUrl) && (
             <Image
               src={(slide.imageUrlDesktop ?? slide.imageUrl)!}
               alt=""
@@ -73,147 +95,176 @@ export function HeroCarousel() {
             />
           )}
           <div className="image-overlay absolute inset-0" />
-
-          {/* Slide content */}
-          <div className="relative z-10 flex items-center min-h-hero">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-[var(--navbar-height)]">
-              <SlideContent type={slide.type} content={slide.content} />
-            </div>
-          </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Prev / Next */}
-      <IconButton
-        label="Previous slide"
-        variant="ghost"
-        size="md"
-        onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white border-white/20"
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </IconButton>
-      <IconButton
-        label="Next slide"
-        variant="ghost"
-        size="md"
-        onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white border-white/20"
-      >
-        <ChevronRight className="h-5 w-5" />
-      </IconButton>
-
-      {/* Dot indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-        {heroSlides.map((s, i) => (
-          <button
-            key={s.id}
-            aria-label={`Go to slide ${i + 1}`}
-            onClick={() => goTo(i, i > current ? 1 : -1)}
-            className={cn(
-              'rounded-full transition-all duration-300',
-              i === current
-                ? 'w-6 h-2 bg-gold-500'
-                : 'w-2 h-2 bg-white/40 hover:bg-white/70'
-            )}
-          />
-        ))}
+      {/* ── Slide content — bottom-left editorial ── */}
+      <div className="absolute inset-0 flex flex-col justify-end pb-20 md:pb-24">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div key={`content-${slide.id}`} className="max-w-2xl">
+              <SlideContent slide={slide} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+
+      {/* ── Progress indicators ── */}
+      <div className="absolute bottom-8 left-0 right-0">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center gap-3">
+          {heroSlides.map((s, i) => (
+            <button
+              key={s.id}
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => goTo(i)}
+              className="relative h-px flex-1 max-w-[60px] bg-white/15 overflow-hidden"
+            >
+              {i === current && (
+                <motion.span
+                  className="absolute inset-y-0 left-0 bg-gold-400"
+                  style={{ width: `${progress * 100}%` }}
+                />
+              )}
+              {i < current && (
+                <span className="absolute inset-0 bg-white/40" />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Slide counter ── */}
+      <div className="absolute bottom-8 right-6 lg:right-12 hidden md:flex items-center gap-2">
+        <span className="font-worksans text-[0.58rem] tracking-[0.2em] text-gold-400">
+          {String(current + 1).padStart(2, '0')}
+        </span>
+        <span className="w-6 h-px bg-white/20" />
+        <span className="font-worksans text-[0.58rem] tracking-[0.2em] text-neutral-600">
+          {String(total).padStart(2, '0')}
+        </span>
+      </div>
+    </section>
   );
 }
 
-// ─── Slide content by type ────────────────────────────────────────────────────
+// ─── Slide content renderers ──────────────────────────────────────────────────
 
-function SlideContent({
-  type,
-  content,
-}: {
-  type: string;
-  content?: {
-    quote?: string;
-    reference?: string;
-    listenText?: string;
-    streamingPlatforms?: { name: string; iconName: string; url: string }[];
-  };
-}) {
+function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
+  const { type, content } = slide;
+
   if (type === 'quote' && content?.quote) {
     return (
-      <div className="max-w-3xl">
-        <motion.blockquote
+      <>
+        <motion.span
+          custom={0}
           variants={textVariants}
           initial="hidden"
           animate="visible"
-          className="font-abril text-white text-2xl md:text-4xl lg:text-5xl leading-snug text-balance"
+          className="label-eyebrow block mb-4"
+        >
+          Scripture
+        </motion.span>
+        <motion.blockquote
+          custom={0.15}
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+          className="font-raleway font-light text-white text-xl md:text-2xl lg:text-3xl leading-relaxed tracking-wide max-w-xl text-balance"
         >
           &ldquo;{content.quote}&rdquo;
         </motion.blockquote>
         {content.reference && (
           <motion.p
+            custom={0.35}
             variants={textVariants}
             initial="hidden"
             animate="visible"
-            className="mt-4 font-worksans uppercase tracking-widest text-gold-400 text-sm"
+            className="mt-4 font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-gold-400/70"
           >
             {content.reference}
           </motion.p>
         )}
-      </div>
+      </>
     );
   }
 
   if (type === 'cta') {
     return (
-      <motion.div
-        variants={textVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col items-start gap-4"
-      >
-        <p className="font-worksans uppercase tracking-widest text-gold-400 text-sm">
+      <>
+        <motion.span
+          custom={0}
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+          className="label-eyebrow block mb-5"
+        >
           ClaudyGod Music Ministries
-        </p>
-        <h1 className="font-abril text-white text-4xl md:text-6xl lg:text-7xl leading-none">
-          Worship. <br />
-          <span className="text-gradient-gold">Music.</span> Ministry.
-        </h1>
-        <div className="flex flex-wrap gap-3 mt-2">
+        </motion.span>
+        <motion.h1
+          custom={0.15}
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+          className="font-raleway font-extralight text-white text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight"
+        >
+          Worship.<br />
+          <span className="italic text-gold-300/80">Music.</span>{' '}
+          Ministry.
+        </motion.h1>
+        <motion.div
+          custom={0.4}
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+          className="mt-8 flex items-center gap-6"
+        >
           <Link
             href="/bookings"
-            className={cn(buttonVariants({ variant: 'primary', size: 'lg', uppercase: true }))}
+            className="font-worksans text-[0.65rem] tracking-[0.2em] uppercase text-[#080808] bg-gold-500 hover:bg-gold-400 px-7 h-10 inline-flex items-center transition-all duration-300"
           >
             Book Now
           </Link>
           <Link
             href="/music"
-            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }))}
+            className="font-worksans text-[0.65rem] tracking-[0.2em] uppercase text-white/70 hover:text-white transition-colors duration-300 border-b border-white/20 hover:border-white/60 pb-px"
           >
-            Listen Now
+            Listen Now →
           </Link>
-        </div>
-      </motion.div>
+        </motion.div>
+      </>
     );
   }
 
   if (type === 'music' && content?.streamingPlatforms) {
     return (
-      <motion.div
-        variants={textVariants}
-        initial="hidden"
-        animate="visible"
-        className="flex flex-col items-start gap-6"
-      >
+      <>
+        <motion.span
+          custom={0}
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+          className="label-eyebrow block mb-4"
+        >
+          Now Streaming
+        </motion.span>
         {content.listenText && (
-          <div>
-            <p className="font-worksans uppercase tracking-widest text-gold-400 text-sm mb-2">
-              Now Streaming
-            </p>
-            <h2 className="font-abril text-white text-3xl md:text-5xl leading-tight">
-              {content.listenText}
-            </h2>
-          </div>
+          <motion.h2
+            custom={0.15}
+            variants={textVariants}
+            initial="hidden"
+            animate="visible"
+            className="font-raleway font-light text-white text-3xl md:text-4xl leading-snug tracking-wide mb-7"
+          >
+            {content.listenText}
+          </motion.h2>
         )}
-        <div className="flex flex-wrap gap-3">
+        <motion.div
+          custom={0.3}
+          variants={textVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-wrap gap-3"
+        >
           {content.streamingPlatforms.map((platform) => {
             const Icon = iconMap[platform.iconName] ?? FaMusic;
             return (
@@ -222,15 +273,15 @@ function SlideContent({
                 href={platform.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-bricolage font-medium transition-all duration-200 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-4 h-9 border border-white/15 hover:border-gold-500/50 text-white/70 hover:text-white font-worksans text-[0.6rem] tracking-[0.15em] uppercase transition-all duration-300 backdrop-blur-sm"
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-3 w-3" />
                 {platform.name}
               </a>
             );
           })}
-        </div>
-      </motion.div>
+        </motion.div>
+      </>
     );
   }
 

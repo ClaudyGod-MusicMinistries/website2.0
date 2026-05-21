@@ -5,121 +5,111 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X } from 'lucide-react';
 import { featuredVideos } from '@/data/featured';
-import { Section, Container, Grid } from '@/components/ui/Layout';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { IconButton } from '@/components/ui/IconButton';
-import { Text, Caption } from '@/components/ui/Typography';
-import { modalOverlay, modalContent } from '@/utils/animations';
+import { cn } from '@/utils/cn';
 
-function getYouTubeId(url: string): string | null {
-  const match = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
-  return match ? match[1] : null;
+function getYouTubeId(url: string) {
+  const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
+  return m ? m[1] : null;
 }
 
 export function FeaturedVideos() {
   const [activeId, setActiveId] = useState<string | null>(null);
-
   const activeVideo = featuredVideos.find((v) => v.id === activeId);
-  const youtubeId = activeVideo ? getYouTubeId(activeVideo.youtubeUrl) : null;
+  const ytId = activeVideo ? getYouTubeId(activeVideo.youtubeUrl) : null;
 
   return (
     <>
-      <Section bg="base" py="lg">
-        <Container>
-          <SectionHeader
-            eyebrow="Watch & Worship"
-            title="Featured Videos"
-            subtitle="Experience anointed worship sessions, live recordings, and music videos."
-            className="mb-10"
-          />
+      <section className="bg-[#0a0a0a] section-py">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
-          <Grid cols={4} gap="md">
-            {featuredVideos.map((video) => (
+          {/* Header row */}
+          <div className="flex items-end justify-between mb-14">
+            <div>
+              <div className="flex items-center gap-4 mb-3">
+                <span className="rule-gold" />
+                <span className="label-eyebrow">Watch & Worship</span>
+              </div>
+              <h2 className="font-raleway font-extralight text-white text-4xl md:text-5xl tracking-tight leading-tight">
+                Featured Videos
+              </h2>
+            </div>
+          </div>
+
+          {/* Grid: first video large, rest smaller */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+            {featuredVideos.slice(0, 6).map((video, i) => (
               <button
                 key={video.id}
                 onClick={() => setActiveId(video.id)}
-                className="group relative rounded-xl overflow-hidden bg-surface-elevated cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
+                className={cn(
+                  'group relative overflow-hidden bg-[#0a0a0a] cursor-pointer text-left',
+                  i === 0 ? 'md:col-span-2 md:row-span-2 aspect-[16/10]' : 'aspect-video'
+                )}
               >
-                {/* Thumbnail */}
-                <div className="relative aspect-video">
-                  <Image
-                    src={video.thumbnailUrl}
-                    alt={video.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
-                  {/* Play button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="h-12 w-12 rounded-full bg-gold-500 flex items-center justify-center shadow-gold transition-transform duration-300 group-hover:scale-110">
-                      <Play className="h-5 w-5 text-surface-base fill-surface-base ml-0.5" />
-                    </div>
+                <Image
+                  src={video.thumbnailUrl}
+                  alt={video.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-70 group-hover:opacity-90"
+                  sizes="(max-width:768px) 100vw, 50vw"
+                />
+                {/* Play */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:border-gold-400/60 group-hover:bg-black/40 transition-all duration-300">
+                    <Play className="h-4 w-4 text-white fill-white ml-0.5" />
                   </div>
-                  {/* Duration badge */}
-                  <span className="absolute bottom-2 right-2 bg-black/70 text-white text-xs font-bricolage px-1.5 py-0.5 rounded">
+                </div>
+                {/* Title overlay */}
+                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="font-raleway text-white text-sm font-light leading-snug line-clamp-2">
+                    {video.title}
+                  </p>
+                  <span className="font-worksans text-[0.55rem] tracking-[0.15em] uppercase text-gold-400/70 mt-1 block">
                     {video.duration}
                   </span>
                 </div>
-
-                {/* Title */}
-                <div className="p-3">
-                  <Text size="xs" weight="medium" color="primary" leading="snug" className="line-clamp-2">
-                    {video.title}
-                  </Text>
-                </div>
               </button>
             ))}
-          </Grid>
-        </Container>
-      </Section>
+          </div>
+        </div>
+      </section>
 
-      {/* Lightbox modal */}
+      {/* Lightbox */}
       <AnimatePresence>
-        {activeId && youtubeId && (
+        {activeId && ytId && (
           <>
             <motion.div
-              key="overlay"
-              variants={modalOverlay}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm"
+              key="backdrop"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-[600] bg-black/90 backdrop-blur-md"
               onClick={() => setActiveId(null)}
             />
             <motion.div
-              key="content"
-              variants={modalContent}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="fixed inset-0 z-modal flex items-center justify-center p-4 pointer-events-none"
+              key="modal"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              className="fixed inset-0 z-[601] flex items-center justify-center p-6 pointer-events-none"
             >
-              <div className="relative w-full max-w-4xl pointer-events-auto">
-                <IconButton
-                  label="Close video"
-                  variant="ghost"
-                  size="sm"
+              <div className="relative w-full max-w-5xl pointer-events-auto">
+                <button
                   onClick={() => setActiveId(null)}
-                  className="absolute -top-10 right-0 text-white border-white/20 bg-black/30"
+                  aria-label="Close"
+                  className="absolute -top-10 right-0 text-white/50 hover:text-white transition-colors"
                 >
-                  <X className="h-4 w-4" />
-                </IconButton>
-                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <X className="h-5 w-5" />
+                </button>
+                <div className="relative aspect-video bg-black">
                   <iframe
-                    src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}
+                    src={`https://www.youtube.com/embed/${ytId}?autoplay=1`}
                     title={activeVideo?.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="absolute inset-0 w-full h-full"
                   />
                 </div>
-                {activeVideo && (
-                  <Caption className="mt-2 text-neutral-300 text-center block">
-                    {activeVideo.title}
-                  </Caption>
-                )}
               </div>
             </motion.div>
           </>
