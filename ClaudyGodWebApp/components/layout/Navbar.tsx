@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { navigationItems } from '@/data/navbar';
 import { cn } from '@/utils/cn';
+import { CartIcon } from '@/components/store/CartIcon';
 
 const PRIMARY_NAV = ['About', 'Music', 'Videos', 'Ministry', 'Store', 'Contact'];
 
@@ -84,6 +85,7 @@ export function Navbar() {
 
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-4 shrink-0">
+            <CartIcon />
             {bookingLink && (
               <Link
                 href={bookingLink.href}
