@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2 } from 'lucide-react';
 import { contactSchema, type ContactInput } from '@/utils/validators';
+import { post } from '@/utils/apiClient';
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -17,12 +18,7 @@ export function ContactForm() {
 
   const onSubmit = async (data: ContactInput) => {
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error();
+      await post('/contact', data);
       setStatus('success');
       reset();
     } catch {

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2 } from 'lucide-react';
 import { newsletterSchema, type NewsletterInput } from '@/utils/validators';
+import { post } from '@/utils/apiClient';
 
 export function NewsletterBanner() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -13,11 +14,7 @@ export function NewsletterBanner() {
 
   const onSubmit = async (data: NewsletterInput) => {
     try {
-      const res = await fetch('/api/newsletter', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error();
+      await post('/newsletter', data);
       setStatus('success');
       reset();
     } catch {
