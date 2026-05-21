@@ -281,7 +281,7 @@ export function BookingForm() {
           <button
             type="button"
             onClick={next}
-            className="flex items-center gap-2 h-11 px-8 bg-gold-500 hover:bg-gold-400 text-[#080808] font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
+            className="flex items-center gap-2 h-11 px-8 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
           >
             Continue <ChevronRight className="h-3 w-3" />
           </button>
@@ -289,7 +289,7 @@ export function BookingForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="h-11 px-8 bg-gold-500 hover:bg-gold-400 disabled:opacity-50 text-[#080808] font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
+            className="h-11 px-8 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
           >
             {isSubmitting ? 'Submitting…' : 'Submit Request'}
           </button>

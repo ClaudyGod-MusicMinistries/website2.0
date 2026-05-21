@@ -13,6 +13,29 @@ export const colors = {
     900: '#4A3400',
   },
 
+  // Brand purple scale
+  purple: {
+    50:  '#F5F3FF',
+    100: '#EDE9FE',
+    200: '#DDD6FE',
+    300: '#C4B5FD',
+    400: '#A78BFA',
+    500: '#7C3AED', // primary interactive
+    600: '#6D28D9',
+    700: '#5B21B6',
+    800: '#4C1D95',
+    900: '#2E1065',
+  },
+
+  // Cream scale
+  cream: {
+    50:  '#FDFCFB',
+    100: '#F8F5F0',
+    200: '#F5F0E8', // primary cream
+    300: '#EDE4D5',
+    400: '#DDD0BC',
+  },
+
   // Neutral / background scale
   neutral: {
     0:   '#FFFFFF',

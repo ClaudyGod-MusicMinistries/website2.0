@@ -7,6 +7,7 @@ export interface SocialLink {
   label: string;
   color: string;
   hover: string;
+  brandColor: string;
 }
 
 export const socialLinks: SocialLink[] = [
@@ -16,6 +17,7 @@ export const socialLinks: SocialLink[] = [
     label: 'Facebook',
     color: 'bg-[#1877F2]',
     hover: 'hover:bg-[#166FE5]',
+    brandColor: '#1877F2',
   },
   {
     icon: FaXTwitter,
@@ -23,6 +25,7 @@ export const socialLinks: SocialLink[] = [
     label: 'Twitter',
     color: 'bg-black',
     hover: 'hover:bg-[#0D0D0D]',
+    brandColor: '#E7E9EA',
   },
   {
     icon: FaInstagram,
@@ -30,6 +33,7 @@ export const socialLinks: SocialLink[] = [
     label: 'Instagram',
     color: 'bg-gradient-to-br from-[#833AB4] via-[#C13584] to-[#E1306C]',
     hover: 'hover:from-[#8F47B9] hover:via-[#C73E8C] hover:to-[#E63C74]',
+    brandColor: '#E1306C',
   },
   {
     icon: FaLinkedinIn,
@@ -37,6 +41,7 @@ export const socialLinks: SocialLink[] = [
     label: 'LinkedIn',
     color: 'bg-[#0A66C2]',
     hover: 'hover:bg-[#095DB9]',
+    brandColor: '#0A66C2',
   },
   {
     icon: FaTiktok,
@@ -44,5 +49,6 @@ export const socialLinks: SocialLink[] = [
     label: 'TikTok',
     color: 'bg-[#000000]',
     hover: 'hover:bg-[#111111]',
+    brandColor: '#EE1D52',
   },
 ];
