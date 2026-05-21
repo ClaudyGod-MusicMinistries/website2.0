@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 import './globals.css';
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
@@ -52,7 +54,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="font-bricolage bg-surface-base text-white antialiased min-h-dvh">
-        {children}
+        <Navbar />
+        <main className="min-h-dvh">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
