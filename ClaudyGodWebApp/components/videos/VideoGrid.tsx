@@ -4,8 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X } from 'lucide-react';
-import { videos } from '@/data/videos';
-import type { VideoType } from '@/data/videos';
+import { videos, type VideoType } from '@/data/videos';
 import { cn } from '@/utils/cn';
 
 const categories = ['All', 'Music Videos', 'Visualizers', 'Live Sessions', 'Christmas'] as const;
