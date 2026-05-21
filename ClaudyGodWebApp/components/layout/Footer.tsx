@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { navigationItems } from '@/data/navbar';
 import { socialLinks } from '@/data/socials';
+import { Logo } from '@/components/ui/Logo';
 
 const legalLinks = [
   { href: '/legal/privacy', label: 'Privacy' },
@@ -25,14 +25,8 @@ export function Footer() {
 
           {/* Brand — 2 cols on lg */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-5 w-fit">
-              <Image src="/CD1.png" alt="ClaudyGod" width={22} height={22} className="opacity-80" />
-              <div className="flex flex-col leading-none">
-                <span className="font-abril text-white text-[0.85rem] tracking-wide">ClaudyGod</span>
-                <span className="font-worksans text-gold-400/60 text-[0.44rem] tracking-[0.24em] uppercase mt-px">
-                  Music Ministries
-                </span>
-              </div>
+            <Link href="/" className="mb-5 w-fit block">
+              <Logo size="sm" />
             </Link>
             <p className="font-raleway text-neutral-600 text-sm leading-relaxed max-w-xs font-light">
               Gospel music artist, minister, and worship leader spreading the love of God through music.
@@ -48,7 +42,8 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="text-neutral-700 hover:text-gold-400 transition-colors duration-300"
+                    style={{ '--brand': s.brandColor } as React.CSSProperties}
+                    className="text-neutral-700 hover:text-[var(--brand)] transition-colors duration-300"
                   >
                     <Icon className="h-3.5 w-3.5" />
                   </a>

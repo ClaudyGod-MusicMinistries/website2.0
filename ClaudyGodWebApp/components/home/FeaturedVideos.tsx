@@ -29,7 +29,7 @@ export function FeaturedVideos() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-raleway font-extralight text-white text-4xl md:text-5xl tracking-tight leading-tight">
+              <h2 className="font-raleway font-extralight text-white text-3xl md:text-4xl tracking-tight leading-tight">
                 Featured Videos
               </h2>
             </div>

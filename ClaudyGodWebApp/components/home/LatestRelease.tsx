@@ -32,7 +32,7 @@ export function LatestRelease() {
 
           {/* Content */}
           <div>
-            <h2 className="font-raleway font-extralight text-white text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-3">
+            <h2 className="font-raleway font-extralight text-white text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.05] mb-3">
               {latest.title}
             </h2>
             <p className="font-worksans text-[0.6rem] tracking-[0.22em] uppercase text-gold-400/70 mb-10">
@@ -53,7 +53,8 @@ export function LatestRelease() {
                     href={platform.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2.5 px-5 h-10 border border-white/10 hover:border-gold-500/40 text-white/60 hover:text-white font-worksans text-[0.6rem] tracking-[0.15em] uppercase transition-all duration-300"
+                    style={{ '--brand': platform.brandColor } as React.CSSProperties}
+                    className="inline-flex items-center gap-2.5 px-5 h-10 border border-white/10 hover:border-[var(--brand)]/40 text-white/60 hover:text-[var(--brand)] font-worksans text-[0.6rem] tracking-[0.15em] uppercase transition-all duration-300"
                   >
                     <Icon className="h-3 w-3 shrink-0" />
                     {platform.name}

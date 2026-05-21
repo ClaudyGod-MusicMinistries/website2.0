@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -9,6 +8,7 @@ import { Menu, X } from 'lucide-react';
 import { navigationItems } from '@/data/navbar';
 import { cn } from '@/utils/cn';
 import { CartIcon } from '@/components/store/CartIcon';
+import { Logo } from '@/components/ui/Logo';
 
 const PRIMARY_NAV = ['About', 'Music', 'Videos', 'Ministry', 'Store', 'Contact'];
 
@@ -48,20 +48,8 @@ export function Navbar() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 h-16 flex items-center justify-between gap-8">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <Image
-              src="/CD1.png"
-              alt="ClaudyGod"
-              width={26}
-              height={26}
-              className="opacity-90 group-hover:opacity-100 transition-opacity duration-300"
-            />
-            <div className="flex flex-col leading-none">
-              <span className="font-abril text-white text-[0.9rem] tracking-wide">ClaudyGod</span>
-              <span className="font-worksans text-gold-400/80 text-[0.48rem] tracking-[0.24em] uppercase mt-px">
-                Music Ministries
-              </span>
-            </div>
+          <Link href="/" className="shrink-0">
+            <Logo size="md" />
           </Link>
 
           {/* Desktop links */}
@@ -89,7 +77,7 @@ export function Navbar() {
             {bookingLink && (
               <Link
                 href={bookingLink.href}
-                className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-white/70 border border-white/15 hover:border-gold-500/50 hover:text-gold-400 px-5 h-8 inline-flex items-center transition-all duration-300"
+                className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-white/70 border border-white/15 hover:border-purple-500/50 hover:text-purple-400 px-5 h-8 inline-flex items-center transition-all duration-300"
               >
                 Bookings
               </Link>

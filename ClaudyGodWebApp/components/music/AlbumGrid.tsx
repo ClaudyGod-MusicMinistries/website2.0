@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { albums, securedMusicPlatforms } from '@/data/music';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
+import { platformColors } from '@/utils/platformColors';
 
 const platformIconMap = {
   spotify: FaSpotify,
@@ -57,7 +58,8 @@ export function AlbumGrid() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`Listen on ${key}`}
-                        className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-gold-500/40 text-neutral-600 hover:text-gold-400 transition-all duration-300"
+                        style={{ '--brand': platformColors[key] } as React.CSSProperties}
+                        className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-[var(--brand)]/40 text-neutral-600 hover:text-[var(--brand)] transition-all duration-300"
                       >
                         <Icon className="h-3 w-3" />
                       </a>

@@ -21,3 +21,6 @@ export { Divider, GoldBar }                 from './Divider';
 
 // Composed
 export { SectionHeader }                    from './SectionHeader';
+
+// Brand
+export { Logo }                             from './Logo';
