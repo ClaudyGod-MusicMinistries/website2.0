@@ -122,8 +122,8 @@
   --color-text-dim:     #6B6B6B;
 
   /* Sizes */
-  --navbar-height: 4.5rem;
-  --section-py:    5rem;
+  --navbar-height: 4rem;
+  --section-py:    6rem;
 
   /* Motion */
   --duration-fast:   150ms;
@@ -201,10 +201,28 @@
     max-width: 1440px;
   }
 
-  /* Section */
-  .section-py   { @apply py-16 md:py-20 lg:py-24; }
-  .section-pt   { @apply pt-16 md:pt-20 lg:pt-24; }
-  .section-pb   { @apply pb-16 md:pb-20 lg:pb-24; }
+  /* Section — generous editorial spacing */
+  .section-py   { @apply py-20 md:py-28 lg:py-36; }
+  .section-pt   { @apply pt-20 md:pt-28 lg:pt-36; }
+  .section-pb   { @apply pb-20 md:pb-28 lg:pb-36; }
+
+  /* Eyebrow label */
+  .label-eyebrow {
+    font-family: 'WorkSans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  /* Editorial divider line */
+  .rule-gold {
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.6;
+  }
 
   /* Gold text gradient */
   .text-gradient-gold {
@@ -243,14 +261,26 @@
     animation: shimmer 1.8s linear infinite;
   }
 
-  /* Overlay gradient for images */
+  /* Overlay gradient for images — editorial bottom-weighted */
   .image-overlay {
     @apply absolute inset-0;
     background: linear-gradient(
       to bottom,
-      transparent 30%,
-      rgba(8, 8, 8, 0.7) 70%,
-      rgba(8, 8, 8, 0.95) 100%
+      rgba(8, 8, 8, 0.15) 0%,
+      transparent 25%,
+      transparent 40%,
+      rgba(8, 8, 8, 0.6) 70%,
+      rgba(8, 8, 8, 0.92) 100%
+    );
+  }
+
+  /* Lighter overlay for mid sections */
+  .image-overlay-light {
+    @apply absolute inset-0;
+    background: linear-gradient(
+      to bottom,
+      rgba(8, 8, 8, 0.3) 0%,
+      rgba(8, 8, 8, 0.5) 100%
     );
   }
 
