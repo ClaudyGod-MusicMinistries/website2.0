@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
 import { bookingSchema, type BookingInput } from '@/utils/validators';
 import { cn } from '@/utils/cn';
+import { post } from '@/utils/apiClient';
 
 const steps = ['Contact', 'Event', 'Location'] as const;
 
@@ -73,12 +74,7 @@ export function BookingForm() {
 
   const onSubmit = async (data: BookingInput) => {
     try {
-      const res = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error();
+      await post('/bookings', data);
       setSubmitted(true);
     } catch {
       // error handled in UI below
