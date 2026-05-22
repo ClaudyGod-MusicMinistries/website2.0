@@ -33,7 +33,7 @@ export function FeaturedVideos() {
 
   return (
     <>
-      <section className="bg-[#080808] section-py">
+      <section className="bg-white section-py border-t border-black/[0.05]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
           {/* Header */}
@@ -43,13 +43,13 @@ export function FeaturedVideos() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-raleway font-normal text-white text-3xl md:text-4xl tracking-tight leading-tight">
+              <h2 className="font-raleway font-normal text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight">
                 Featured Videos
               </h2>
             </div>
             <Link
               href="/videos"
-              className="hidden sm:flex items-center gap-2 font-worksans text-[0.58rem] tracking-[0.18em] uppercase text-neutral-600 hover:text-gold-400 transition-colors duration-300 group"
+              className="hidden sm:flex items-center gap-2 font-worksans text-[0.58rem] tracking-[0.18em] uppercase text-neutral-500 hover:text-purple-600 transition-colors duration-300 group"
             >
               See All
               <ChevronRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -172,7 +172,7 @@ export function FeaturedVideos() {
           <div className="mt-8 flex justify-center sm:hidden">
             <Link
               href="/videos"
-              className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-gold-400 transition-colors border-b border-neutral-700 hover:border-gold-500/40 pb-px"
+              className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors border-b border-neutral-300 hover:border-purple-400 pb-px"
             >
               See All Videos →
             </Link>
