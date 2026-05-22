@@ -35,6 +35,7 @@ export default function MinistryPage() {
         title="Beyond the Music"
         subtitle="Teachings, community impact, and a team devoted to spreading the love of God."
         backgroundImage="/resize_abt.webp"
+        objectPosition="center top"
       />
       <AnimateOnView><TeachingsGrid /></AnimateOnView>
       <AnimateOnView delay={0.1}><GallerySection /></AnimateOnView>

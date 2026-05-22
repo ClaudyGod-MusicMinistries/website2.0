@@ -5,8 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
+import { getCookie, setCookie } from '@/utils/cookies';
 
-const SESSION_KEY = 'cgm_welcome_shown';
+// Session cookie — no expires = browser-session lifetime
+const SESSION_KEY = 'cgm_welcome';
 
 const backdrop = {
   hidden:  { opacity: 0 },
@@ -26,14 +28,15 @@ export function WelcomeModal() {
   const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem(SESSION_KEY)) return;
+    if (getCookie(SESSION_KEY)) return;
     const t = setTimeout(() => setOpen(true), 1800);
     return () => clearTimeout(t);
   }, []);
 
   const close = useCallback(() => {
     setOpen(false);
-    sessionStorage.setItem(SESSION_KEY, '1');
+    // Session cookie — expires when browser is closed (no `expires` option)
+    setCookie(SESSION_KEY, '1');
   }, []);
 
   useEffect(() => {

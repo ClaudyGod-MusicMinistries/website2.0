@@ -19,6 +19,7 @@ export default function ContactPage() {
         title="Get in Touch"
         subtitle="Bookings, collaborations, or general inquiries — we're here."
         backgroundImage="/manBack.jpg"
+        objectPosition="center top"
       />
       <section className="bg-white section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">

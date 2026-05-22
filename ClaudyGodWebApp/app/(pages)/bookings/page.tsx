@@ -29,6 +29,7 @@ export default function BookingsPage() {
         title="Book ClaudyGod"
         subtitle="Fill out the form below and our team will contact you within 3–5 business days to confirm details."
         backgroundImage="/tour_1.jpg"
+        objectPosition="center center"
       />
 
       <section className="bg-cream-100 section-py">

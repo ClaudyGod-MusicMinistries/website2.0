@@ -142,7 +142,7 @@ export function FeaturedVideos() {
                     <span className="font-worksans text-[0.45rem] tracking-[0.12em] uppercase text-gold-400/60 mb-1 block">
                       {i === 0 ? 'Music Video' : i === 1 ? 'Live Session' : 'Visualizer'}
                     </span>
-                    <p className="font-bricolage font-semibold text-sm text-white/75 group-hover:text-white leading-snug line-clamp-2 mb-1.5 transition-colors duration-300">
+                    <p className="font-bricolage font-semibold text-xs text-white/75 group-hover:text-white leading-snug line-clamp-2 mb-1.5 transition-colors duration-300">
                       {video.title}
                     </p>
                     {video.duration && (

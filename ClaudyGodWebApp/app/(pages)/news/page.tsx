@@ -26,6 +26,7 @@ export default function NewsPage() {
         title="What's Happening"
         subtitle="Tour dates, new releases, and ministry updates — all in one place."
         backgroundImage="/tour_1.jpg"
+        objectPosition="center center"
       />
 
       {/* Tour dates */}

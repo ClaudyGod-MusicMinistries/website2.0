@@ -6,10 +6,18 @@ interface PageHeroProps {
   subtitle?: string;
   eyebrow?: string;
   backgroundImage?: string;
+  /**
+   * CSS object-position. Defaults to 'center top' (safe for portrait images).
+   * Pass 'center center' for landscape images.
+   */
+  objectPosition?: string;
   className?: string;
 }
 
-export function PageHero({ title, subtitle, eyebrow, backgroundImage, className }: PageHeroProps) {
+export function PageHero({
+  title, subtitle, eyebrow, backgroundImage,
+  objectPosition = 'center top', className,
+}: PageHeroProps) {
   return (
     <div
       className={cn(
@@ -25,13 +33,16 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
             alt=""
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover"
+            style={{ objectPosition }}
             sizes="100vw"
           />
-          {/* Multi-stop gradient: top vignette + heavy bottom for text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/25 to-black/90" />
+          {/* Strong bottom fade for text legibility over any image */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/20 to-black/92" />
+          {/* Left gradient — text always readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
           {/* Purple brand tint */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/35 via-transparent to-transparent" />
         </>
       ) : (
         <div className="absolute inset-0 bg-[#0a0914]">

@@ -30,6 +30,7 @@ export default function StorePage() {
         title="Official Merchandise"
         subtitle="Music, apparel, and accessories — wear your worship."
         backgroundImage="/mum1.jpg"
+        objectPosition="center top"
       />
       <AnimateOnView><ProductGrid /></AnimateOnView>
       <CartDrawer />

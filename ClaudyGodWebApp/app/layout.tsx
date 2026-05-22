@@ -7,6 +7,7 @@ import './globals.css';
 
 const WelcomeModal   = dynamic(() => import('@/components/shared/WelcomeModal').then(m => m.WelcomeModal),   { ssr: false });
 const CookieConsent  = dynamic(() => import('@/components/shared/CookieConsent').then(m => m.CookieConsent), { ssr: false });
+const ChatWidget     = dynamic(() => import('@/components/shared/ChatWidget').then(m => m.ChatWidget),       { ssr: false });
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
 export const viewport: Viewport = {

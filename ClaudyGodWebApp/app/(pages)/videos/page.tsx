@@ -25,6 +25,7 @@ export default function VideosPage() {
         title="Videos"
         subtitle="Music videos, live sessions, visualizers — a visual worship experience."
         backgroundImage="/tour_1.jpg"
+        objectPosition="center center"
       />
       <VideoGrid />
       <CrossPromo />

@@ -28,6 +28,7 @@ export default function MusicPage() {
         title="Worship That Transforms"
         subtitle="Seven albums of spirit-filled gospel music — available everywhere you stream."
         backgroundImage="/resize_abt.webp"
+        objectPosition="center top"
       />
       <StreamingPlatforms />
       <MusicPlayer />

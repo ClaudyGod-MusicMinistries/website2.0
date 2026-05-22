@@ -182,14 +182,6 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
           <span className="block w-10 h-px bg-gold-500/80 sm:hidden" />
         </motion.div>
 
-        {/* Large quote mark */}
-        <motion.div
-          custom={0.05} variants={fadeUp} initial="hidden" animate="visible"
-          className="font-abril text-gold-400/25 text-[8rem] leading-none select-none -mb-8 block"
-        >
-          &ldquo;
-        </motion.div>
-
         <div className="overflow-hidden">
           <motion.blockquote
             custom={0.12} variants={reveal} initial="hidden" animate="visible"
