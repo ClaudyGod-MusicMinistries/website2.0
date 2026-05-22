@@ -44,7 +44,7 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
             <span className="label-eyebrow">{eyebrow}</span>
           </div>
         )}
-        <h1 className="font-raleway font-extralight text-white text-4xl md:text-5xl lg:text-5xl tracking-tight leading-[1.05]">
+        <h1 className="font-raleway font-light text-white text-4xl md:text-5xl lg:text-5xl tracking-tight leading-[1.05]">
           {title}
         </h1>
         {subtitle && (

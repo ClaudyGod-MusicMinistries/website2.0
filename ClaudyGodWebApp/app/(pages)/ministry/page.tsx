@@ -5,8 +5,11 @@ import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
 
 export const metadata: Metadata = {
-  title: 'Ministry — ClaudyGod Music Ministries',
-  description: 'Explore the ministry of ClaudyGod — teachings, podcasts, gallery, and the team behind the mission.',
+  title: 'ClaudyGod Ministry — Teachings, Gallery & Team',
+  description: 'Explore the ministry of ClaudyGod — live teachings, podcast episodes, ministry gallery, and the dedicated team spreading the gospel.',
+  keywords: ['ClaudyGod ministry', 'gospel teachings', 'CGM podcast', 'ministry gallery', 'Christian ministry Nigeria'],
+  openGraph: { title: 'ClaudyGod Ministry', description: 'Teachings, gallery, and the team behind the mission.', url: '/ministry' },
+  alternates: { canonical: 'https://claudygod.com/ministry' },
 };
 
 const TeachingsGrid = dynamic(
@@ -31,6 +34,7 @@ export default function MinistryPage() {
         eyebrow="Ministry"
         title="Beyond the Music"
         subtitle="Teachings, community impact, and a team devoted to spreading the love of God."
+        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Ministry1.jpg"
       />
       <AnimateOnView><TeachingsGrid /></AnimateOnView>
       <AnimateOnView delay={0.1}><GallerySection /></AnimateOnView>
