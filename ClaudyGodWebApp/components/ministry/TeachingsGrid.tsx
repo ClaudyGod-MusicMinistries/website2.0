@@ -19,27 +19,27 @@ export function TeachingsGrid() {
 
   return (
     <>
-      <section className="bg-[#080808] section-py">
+      <section className="bg-cream-100 section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="flex items-center gap-4 mb-6">
             <span className="rule-gold" />
             <span className="label-eyebrow">Teachings & Podcasts</span>
           </div>
-          <h2 className="font-raleway font-extralight text-white text-4xl md:text-5xl tracking-tight leading-tight mb-12">
+          <h2 className="font-raleway font-normal text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-12">
             Ministry Content
           </h2>
 
           {/* Filter tabs */}
-          <div className="flex items-center gap-6 mb-10 border-b border-white/[0.06] pb-0">
+          <div className="flex items-center gap-6 mb-10 border-b border-black/[0.07] pb-0">
             {filters.map((f) => (
               <button
                 key={f}
                 onClick={() => setActive(f)}
                 className={cn(
-                  'font-worksans text-[0.55rem] tracking-[0.2em] uppercase pb-4 border-b-2 -mb-px transition-all duration-300',
+                  'font-worksans text-xs tracking-[0.18em] uppercase pb-4 border-b-2 -mb-px transition-all duration-300',
                   active === f
-                    ? 'text-gold-400 border-gold-500'
-                    : 'text-neutral-600 border-transparent hover:text-neutral-400'
+                    ? 'text-purple-600 border-purple-500'
+                    : 'text-neutral-500 border-transparent hover:text-neutral-700'
                 )}
               >
                 {f}
@@ -48,12 +48,12 @@ export function TeachingsGrid() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-white/[0.04]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filtered.map((teaching) => (
               <button
                 key={teaching.id}
                 onClick={() => setPlayingId(teaching.youtubeId)}
-                className="group relative bg-[#080808] text-left overflow-hidden"
+                className="group relative bg-neutral-900 text-left overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.12)]"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -72,8 +72,8 @@ export function TeachingsGrid() {
                     {teaching.scripture}
                   </span>
                 </div>
-                <div className="p-4 border-t border-white/[0.04]">
-                  <p className="font-raleway text-sm text-neutral-400 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
+                <div className="p-4 border-t border-white/[0.06]">
+                  <p className="font-raleway text-base text-neutral-300 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
                     {teaching.title}
                   </p>
                 </div>

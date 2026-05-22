@@ -215,8 +215,8 @@
   /* Eyebrow label */
   .label-eyebrow {
     font-family: 'WorkSans', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.22em;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--color-purple);
   }
@@ -224,10 +224,10 @@
   /* Editorial divider line */
   .rule-gold {
     display: block;
-    width: 2rem;
+    width: 2.5rem;
     height: 1px;
     background: var(--color-gold);
-    opacity: 0.6;
+    opacity: 0.7;
   }
 
   /* Gold text gradient */

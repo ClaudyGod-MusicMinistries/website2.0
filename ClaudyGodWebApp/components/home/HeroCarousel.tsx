@@ -63,7 +63,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="relative w-full h-screen min-h-[600px] overflow-hidden bg-[#080808]"
+      className="relative w-full min-h-[100dvh] min-h-screen overflow-hidden bg-[#080808]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -83,7 +83,7 @@ export function HeroCarousel() {
               alt=""
               fill
               priority={current === 0}
-              className="object-cover object-center scale-[1.03] transition-transform duration-[8000ms] ease-out"
+              className="object-cover object-[50%_30%]"
               sizes="100vw"
             />
           )}

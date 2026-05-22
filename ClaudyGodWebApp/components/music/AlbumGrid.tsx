@@ -21,11 +21,11 @@ export function AlbumGrid() {
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {albums.map((album, i) => (
-            <div key={album.title} className="group bg-[#080808] p-8">
+            <div key={album.title} className="group bg-white shadow-[0_2px_12px_rgba(0,0,0,0.06)] overflow-hidden">
               {/* Album art */}
-              <div className="relative aspect-square mb-6 overflow-hidden">
+              <div className="relative aspect-square overflow-hidden">
                 <Image
                   src={album.image}
                   alt={album.title}
@@ -34,37 +34,39 @@ export function AlbumGrid() {
                   sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
                   priority={i === 0}
                 />
-                <div className="absolute inset-0 ring-1 ring-white/5 pointer-events-none" />
+                <div className="absolute inset-0 ring-1 ring-black/[0.05] pointer-events-none" />
               </div>
 
-              {/* Title */}
-              <p className="font-raleway font-light text-white text-xl leading-tight mb-1 group-hover:text-gold-100 transition-colors duration-300">
-                {album.title}
-              </p>
-              <p className="font-worksans text-[0.5rem] tracking-[0.2em] uppercase text-neutral-600 mb-5">
-                Album
-              </p>
+              <div className="p-7">
+                {/* Title */}
+                <p className="font-raleway font-normal text-neutral-900 text-xl md:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                  {album.title}
+                </p>
+                <p className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5">
+                  Album
+                </p>
 
-              {/* Platform links */}
-              <div className="flex items-center gap-3 flex-wrap">
-                {(Object.entries(album.links) as [keyof typeof platformIconMap, string][])
-                  .filter(([key]) => key in platformIconMap)
-                  .map(([key, url]) => {
-                    const Icon = platformIconMap[key];
-                    return (
-                      <a
-                        key={key}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Listen on ${key}`}
-                        style={{ '--brand': platformColors[key] } as React.CSSProperties}
-                        className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-[var(--brand)]/40 text-neutral-600 hover:text-[var(--brand)] transition-all duration-300"
-                      >
-                        <Icon className="h-3 w-3" />
-                      </a>
-                    );
-                  })}
+                {/* Platform links */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  {(Object.entries(album.links) as [keyof typeof platformIconMap, string][])
+                    .filter(([key]) => key in platformIconMap)
+                    .map(([key, url]) => {
+                      const Icon = platformIconMap[key];
+                      return (
+                        <a
+                          key={key}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Listen on ${key}`}
+                          style={{ '--brand': platformColors[key] } as React.CSSProperties}
+                          className="w-10 h-10 flex items-center justify-center border border-neutral-200 hover:border-[var(--brand)]/50 text-neutral-400 hover:text-[var(--brand)] transition-all duration-300"
+                        >
+                          <Icon className="h-4 w-4" />
+                        </a>
+                      );
+                    })}
+                </div>
               </div>
             </div>
           ))}

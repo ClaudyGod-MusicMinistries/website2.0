@@ -22,7 +22,7 @@ export function MusicHighlight() {
           </div>
           <Link
             href="/music"
-            className="hidden md:inline font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors duration-300 border-b border-neutral-300 hover:border-purple-400 pb-px"
+            className="hidden md:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 transition-all duration-300"
           >
             All Albums →
           </Link>
@@ -43,7 +43,7 @@ export function MusicHighlight() {
               </div>
 
               {/* Info */}
-              <h3 className="font-raleway font-normal text-neutral-800 text-xl tracking-wide mb-3">
+              <h3 className="font-raleway font-normal text-neutral-800 text-xl md:text-2xl tracking-wide mb-3">
                 {album.title}
               </h3>
 
@@ -59,9 +59,9 @@ export function MusicHighlight() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${album.title} on ${key}`}
-                      className="w-7 h-7 flex items-center justify-center border border-neutral-200 hover:border-gold-400/50 text-neutral-400 hover:text-gold-500 transition-all duration-300"
+                      className="w-9 h-9 flex items-center justify-center border border-neutral-200 hover:border-gold-400/50 text-neutral-400 hover:text-gold-500 transition-all duration-300"
                     >
-                      <Icon className="h-3 w-3" />
+                      <Icon className="h-4 w-4" />
                     </a>
                   );
                 })}
@@ -73,9 +73,10 @@ export function MusicHighlight() {
         <div className="mt-12 md:hidden">
           <Link
             href="/music"
-            className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors border-b border-neutral-300 pb-px"
+            className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 transition-all duration-300 group"
           >
-            View All Albums →
+            View All Albums
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
       </div>

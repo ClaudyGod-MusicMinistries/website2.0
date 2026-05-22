@@ -31,14 +31,14 @@ export function LatestRelease() {
 
           {/* Content */}
           <div>
-            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.05] mb-3">
+            <h2 className="font-raleway font-normal text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-3">
               {latest.title}
             </h2>
             <p className="font-worksans text-[0.6rem] tracking-[0.22em] uppercase text-gold-500/80 mb-10">
               Latest Album — Available Everywhere
             </p>
 
-            <p className="font-raleway text-neutral-600 text-base leading-relaxed max-w-sm mb-10 font-light">
+            <p className="font-raleway text-neutral-600 text-base md:text-lg leading-relaxed max-w-sm mb-10">
               Experience worship that transforms — available now on all major streaming platforms.
             </p>
 
@@ -53,7 +53,7 @@ export function LatestRelease() {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ '--brand': platform.brandColor } as React.CSSProperties}
-                    className="inline-flex items-center gap-2.5 px-5 h-10 border border-neutral-200 hover:border-[var(--brand)]/50 text-neutral-500 hover:text-[var(--brand)] font-worksans text-[0.6rem] tracking-[0.15em] uppercase transition-all duration-300"
+                    className="inline-flex items-center gap-2.5 px-5 h-11 border border-neutral-200 hover:border-[var(--brand)]/50 text-neutral-500 hover:text-[var(--brand)] font-worksans text-xs tracking-[0.15em] uppercase transition-all duration-300"
                   >
                     <Icon className="h-3 w-3 shrink-0" />
                     {platform.name}
@@ -62,12 +62,19 @@ export function LatestRelease() {
               })}
             </div>
 
-            <div className="mt-10 pt-10 border-t border-neutral-100">
+            <div className="mt-10 pt-10 border-t border-neutral-100 flex flex-wrap gap-4">
               <Link
                 href="/music"
-                className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors duration-300 border-b border-neutral-300 hover:border-purple-400 pb-px"
+                className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 transition-all duration-300 group"
               >
-                View Full Discography →
+                View Full Discography
+                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+              <Link
+                href="/store"
+                className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 transition-all duration-300"
+              >
+                Visit Store
               </Link>
             </div>
           </div>
