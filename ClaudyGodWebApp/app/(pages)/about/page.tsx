@@ -4,8 +4,11 @@ import { BiographySection } from '@/components/about/BiographySection';
 import { AlbumTimeline } from '@/components/about/AlbumTimeline';
 
 export const metadata: Metadata = {
-  title: 'About — ClaudyGod Music Ministries',
-  description: 'Learn about Minister ClaudyGod — gospel artist, songwriter, evangelist, and worship leader spreading the love of God through music.',
+  title: 'About ClaudyGod — Gospel Artist & Minister',
+  description: 'Learn about Minister ClaudyGod — Nigerian gospel artist, songwriter, evangelist, and worship leader. Over 20 years of ministry, 7 albums, and countless lives touched.',
+  keywords: ['ClaudyGod biography', 'Nigerian gospel artist', 'gospel minister', 'Port Harcourt worship leader', 'gospel songwriter'],
+  openGraph: { title: 'About ClaudyGod', description: 'The story of a God-called gospel minister and worship leader.', url: '/about' },
+  alternates: { canonical: 'https://claudygod.com/about' },
 };
 
 export default function AboutPage() {
@@ -14,7 +17,8 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About ClaudyGod"
         title="Minister, Artist & Worshipper"
-        subtitle="A California-based gospel music minister whose God-breathed songs have touched lives across the world."
+        subtitle="A Nigerian gospel music minister whose God-breathed songs have touched lives across the world."
+        backgroundImage="/aboutUs.webp"
       />
       <BiographySection />
       <AlbumTimeline />

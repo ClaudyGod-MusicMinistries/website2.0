@@ -4,8 +4,11 @@ import { PageHero } from '@/components/shared/PageHero';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 
 export const metadata: Metadata = {
-  title: 'Videos — ClaudyGod Music Ministries',
-  description: 'Watch music videos, visualizers, live worship sessions, and more from Minister ClaudyGod.',
+  title: 'Watch ClaudyGod Videos — Music & Worship',
+  description: 'Watch music videos, live worship sessions, visualizers, and ministry recordings from Minister ClaudyGod on YouTube.',
+  keywords: ['ClaudyGod videos', 'gospel music videos', 'worship videos YouTube', 'live worship sessions'],
+  openGraph: { title: 'ClaudyGod Videos', description: 'Music videos, live worship sessions, and more.', url: '/videos' },
+  alternates: { canonical: 'https://claudygod.com/videos' },
 };
 
 const VideoGrid = dynamic(
@@ -20,6 +23,7 @@ export default function VideosPage() {
         eyebrow="Watch & Worship"
         title="Videos"
         subtitle="Music videos, live sessions, visualizers — a visual worship experience."
+        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/desktopBg.jpg"
       />
       <VideoGrid />
     </>
