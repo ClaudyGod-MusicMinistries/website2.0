@@ -18,7 +18,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 56);
+    const fn = () => setScrolled(window.scrollY > 20);
     fn();
     window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
@@ -35,9 +35,9 @@ export function Navbar() {
   const bookingLink  = navigationItems.find((i)  => i.label === 'Bookings');
   const mobileLinks  = navigationItems.filter((i) => !['Donate'].includes(i.label));
 
-  const headerBg  = scrolled
+  const headerBg = scrolled
     ? 'bg-white/96 backdrop-blur-2xl border-b border-black/[0.07] shadow-[0_1px_16px_rgba(0,0,0,0.08)]'
-    : 'bg-transparent';
+    : 'bg-gradient-to-b from-black/60 via-black/20 to-transparent';
 
   const linkBase    = 'font-worksans text-xs tracking-[0.15em] uppercase transition-colors duration-300';
   const linkColor   = scrolled ? 'text-neutral-600 hover:text-neutral-900' : 'text-white/80 hover:text-white';
@@ -101,7 +101,7 @@ export function Navbar() {
               <Link
                 href={bookingLink.href}
                 className={cn(
-                  'font-worksans text-xs tracking-[0.18em] uppercase px-6 h-10 inline-flex items-center transition-all duration-300',
+                  'font-worksans text-xs tracking-[0.18em] uppercase px-6 h-10 inline-flex items-center rounded-xl transition-all duration-300',
                   scrolled
                     ? 'text-white bg-purple-600 hover:bg-purple-500'
                     : 'text-white border border-white/30 hover:border-white/70 hover:bg-white/10'
@@ -204,14 +204,14 @@ export function Navbar() {
                 {bookingLink && (
                   <Link
                     href={bookingLink.href}
-                    className="inline-flex items-center font-worksans text-xs tracking-[0.2em] uppercase bg-purple-600 hover:bg-purple-500 text-white px-7 h-11 transition-colors duration-300"
+                    className="inline-flex items-center font-worksans text-xs tracking-[0.2em] uppercase bg-purple-600 hover:bg-purple-500 text-white px-7 h-11 rounded-xl transition-colors duration-300"
                   >
                     Book Now
                   </Link>
                 )}
                 <Link
                   href="/donate"
-                  className="inline-flex items-center font-worksans text-xs tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-[#080808] px-7 h-11 transition-colors duration-300"
+                  className="inline-flex items-center font-worksans text-xs tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-[#080808] px-7 h-11 rounded-xl transition-colors duration-300"
                 >
                   Donate
                 </Link>
