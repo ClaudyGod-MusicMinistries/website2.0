@@ -34,8 +34,11 @@ const posts = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Blog — ClaudyGod Music Ministries',
-  description: 'Devotionals, ministry insights, and encouragement from ClaudyGod Music Ministries.',
+  title: 'Blog — ClaudyGod Ministry Insights & Devotionals',
+  description: 'Read devotionals, ministry insights, and spiritual encouragement from Minister ClaudyGod. Words of life for the believer\'s journey.',
+  keywords: ['ClaudyGod blog', 'gospel devotionals', 'worship devotional', 'Christian blog Nigeria', 'ministry insights'],
+  openGraph: { title: 'ClaudyGod Blog', description: 'Devotionals, ministry insights, and encouragement.', url: '/blog' },
+  alternates: { canonical: 'https://claudygod.com/blog' },
 };
 
 export default function BlogPage() {
@@ -45,6 +48,7 @@ export default function BlogPage() {
         eyebrow="Blog"
         title="Words of Life"
         subtitle="Devotionals, ministry insights, and encouragement for your journey."
+        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/abt_2.webp"
       />
 
       <section className="bg-[#080808] section-py">
