@@ -48,7 +48,7 @@ export default function BlogPage() {
         eyebrow="Blog"
         title="Words of Life"
         subtitle="Devotionals, ministry insights, and encouragement for your journey."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/abt_2.webp"
+        backgroundImage="/mum1.jpg"
       />
 
       <section className="bg-[#080808] section-py">

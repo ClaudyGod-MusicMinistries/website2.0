@@ -38,7 +38,7 @@ export function GallerySection() {
             <span className="label-eyebrow">Gallery</span>
           </div>
 
-          <div className="space-y-20">
+          <div className="space-y-16">
             {galleryCategories.map((cat) => (
               <div key={cat.title}>
                 <div className="mb-6">
@@ -49,12 +49,12 @@ export function GallerySection() {
                     {cat.description}
                   </p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-black/[0.05]">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {cat.images.map((src, j) => (
                     <button
                       key={j}
                       onClick={() => open(src)}
-                      className="group relative aspect-square overflow-hidden bg-cream-100"
+                      className="group relative aspect-square overflow-hidden bg-cream-100 rounded-xl"
                     >
                       <Image
                         src={src}

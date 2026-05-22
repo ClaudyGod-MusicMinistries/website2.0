@@ -3,7 +3,7 @@ const CDN = 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@la
 export const newsAlbums = [
   {
     title: 'Lover of my Soul',
-    image: `${CDN}/CoverArt.jpg`,
+    image: '/CD1.png',
     links: {
       spotify: 'https://open.spotify.com/album/1QtuBqSvCerflLbHTiniCI',
       youtube: 'https://youtu.be/ivj5gVeTCJQ?si=AXXbrP8SllDc4FeV',
@@ -13,7 +13,7 @@ export const newsAlbums = [
   },
   {
     title: 'Very Glorious',
-    image: `${CDN}/Bg_13.webp`,
+    image: '/resize_abt.webp',
     links: {
       spotify: 'https://open.spotify.com/track/4Y59X6LBT2FZQbkcQAa2AQ?si=90ee973a0546426c',
       youtube: 'https://youtu.be/F36AiXSSADQ?si=yA2Y0mXeZtIYosy3',

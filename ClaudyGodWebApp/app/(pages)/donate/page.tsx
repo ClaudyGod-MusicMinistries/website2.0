@@ -21,7 +21,7 @@ export default function DonatePage() {
         eyebrow="Donate"
         title="Support the Ministry"
         subtitle="Your generosity helps spread the gospel through music — every gift makes a difference."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Ministry1.jpg"
+        backgroundImage="/manBack.jpg"
       />
 
       <section className="bg-[#080808] section-py">

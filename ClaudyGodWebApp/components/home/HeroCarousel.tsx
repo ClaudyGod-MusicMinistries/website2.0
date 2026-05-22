@@ -83,18 +83,18 @@ export function HeroCarousel() {
               alt=""
               fill
               priority={current === 0}
-              className="object-cover object-[50%_30%]"
+              className="object-cover object-center"
               sizes="100vw"
             />
           )}
           {/* Rich cinematic overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/30 via-transparent to-[#080808]/95" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/70 via-[#080808]/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/40 via-[#080808]/20 to-[#080808]/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/80 via-[#080808]/30 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Slide content — bottom-left editorial */}
-      <div className="absolute inset-0 flex flex-col justify-end pb-24 md:pb-28">
+      {/* Slide content — centered on mobile, bottom-left on desktop */}
+      <div className="absolute inset-0 flex flex-col justify-center md:justify-end pt-20 pb-20 md:pt-0 md:pb-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
           <AnimatePresence mode="wait">
             <motion.div key={`content-${slide.id}`} className="max-w-2xl">
@@ -190,7 +190,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         >
           <Link
             href="/bookings"
-            className="font-worksans text-[0.62rem] tracking-[0.22em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-8 h-11 inline-flex items-center transition-all duration-300"
+            className="font-worksans text-[0.62rem] tracking-[0.22em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-8 h-11 inline-flex items-center rounded-xl transition-all duration-300"
           >
             Book Now
           </Link>

@@ -21,7 +21,7 @@ export default function BookingsPage() {
         eyebrow="Bookings"
         title="Book ClaudyGod"
         subtitle="Fill out the form below and our team will contact you within 3–5 business days to confirm details."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/tour_1.jpg"
+        backgroundImage="/tour_1.jpg"
       />
       <section className="bg-[#080808] section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">

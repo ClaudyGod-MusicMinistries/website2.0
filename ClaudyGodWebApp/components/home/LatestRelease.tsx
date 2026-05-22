@@ -18,7 +18,7 @@ export function LatestRelease() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
           {/* Album art */}
-          <div className="relative aspect-square max-w-md w-full shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
+          <div className="relative aspect-square max-w-md w-full rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
             <Image
               src={latest.image}
               alt={latest.title}
@@ -53,7 +53,7 @@ export function LatestRelease() {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ '--brand': platform.brandColor } as React.CSSProperties}
-                    className="inline-flex items-center gap-2.5 px-5 h-11 border border-neutral-200 hover:border-[var(--brand)]/50 text-neutral-500 hover:text-[var(--brand)] font-worksans text-xs tracking-[0.15em] uppercase transition-all duration-300"
+                    className="inline-flex items-center gap-2.5 px-5 h-11 border border-neutral-200 hover:border-[var(--brand)]/50 text-neutral-500 hover:text-[var(--brand)] font-worksans text-xs tracking-[0.15em] uppercase rounded-xl transition-all duration-300"
                   >
                     <Icon className="h-3 w-3 shrink-0" />
                     {platform.name}
@@ -65,14 +65,14 @@ export function LatestRelease() {
             <div className="mt-10 pt-10 border-t border-neutral-100 flex flex-wrap gap-4">
               <Link
                 href="/music"
-                className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 transition-all duration-300 group"
+                className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
               >
                 View Full Discography
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/store"
-                className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 transition-all duration-300"
+                className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300"
               >
                 Visit Store
               </Link>

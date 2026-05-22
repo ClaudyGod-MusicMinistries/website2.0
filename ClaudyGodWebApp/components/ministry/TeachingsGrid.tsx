@@ -48,12 +48,12 @@ export function TeachingsGrid() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filtered.map((teaching) => (
               <button
                 key={teaching.id}
                 onClick={() => setPlayingId(teaching.youtubeId)}
-                className="group relative bg-neutral-900 text-left overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.12)]"
+                className="group relative bg-neutral-900 text-left overflow-hidden rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-shadow duration-300"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image

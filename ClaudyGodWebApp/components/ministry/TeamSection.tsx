@@ -12,7 +12,7 @@ export function TeamSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {teamMembers.map((member) => (
-            <div key={member.id} className="group bg-cream-50 shadow-[0_2px_12px_rgba(0,0,0,0.06)] overflow-hidden">
+            <div key={member.id} className="group bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] overflow-hidden transition-shadow duration-300 border border-black/[0.04]">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
                   src={member.image}
