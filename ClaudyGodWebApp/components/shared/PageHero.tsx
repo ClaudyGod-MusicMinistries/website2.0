@@ -31,8 +31,8 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
           <div className="image-overlay absolute inset-0" />
         </>
       ) : (
-        <div className="absolute inset-0 bg-[#080808]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(201,168,76,0.06)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[#0a0914]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(124,58,237,0.12)_0%,transparent_70%)]" />
         </div>
       )}
 

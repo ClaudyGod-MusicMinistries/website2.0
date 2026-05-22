@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import { products, categories } from '@/data/store';
 import { ProductCard } from './ProductCard';
+import { ProductModal } from './ProductModal';
 import { cn } from '@/utils/cn';
+import type { Product } from '@/types/store';
 
 export function ProductGrid() {
-  const [active, setActive] = useState('all');
+  const [active, setActive]         = useState('all');
+  const [modalProduct, setModalProduct] = useState<Product | null>(null);
 
   const filtered =
     active === 'all' ? products : products.filter((p) => p.category === active);
@@ -33,12 +36,18 @@ export function ProductGrid() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/[0.05]">
           {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              onViewDetails={() => setModalProduct(product)}
+            />
           ))}
         </div>
       </div>
+
+      <ProductModal product={modalProduct} onClose={() => setModalProduct(null)} />
     </section>
   );
 }
