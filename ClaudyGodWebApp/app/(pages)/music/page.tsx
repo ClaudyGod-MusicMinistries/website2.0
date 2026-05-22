@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
 import { StreamingPlatforms } from '@/components/music/StreamingPlatforms';
+import { CrossPromo } from '@/components/shared/CrossPromo';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
 
@@ -25,10 +26,11 @@ export default function MusicPage() {
         eyebrow="Music"
         title="Worship That Transforms"
         subtitle="Seven albums of spirit-filled gospel music — available everywhere you stream."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Bg_13.webp"
+        backgroundImage="/resize_abt.webp"
       />
       <StreamingPlatforms />
       <AnimateOnView><AlbumGrid /></AnimateOnView>
+      <CrossPromo />
     </>
   );
 }

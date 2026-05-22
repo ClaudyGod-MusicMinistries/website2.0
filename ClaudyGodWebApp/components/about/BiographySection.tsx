@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { firstSectionTexts, secondSectionTexts } from '@/data/biography';
 
-const CDN = 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest';
 
 export function BiographySection() {
   return (
@@ -29,7 +28,7 @@ export function BiographySection() {
 
           <div className="relative aspect-[3/4] w-full max-w-sm lg:max-w-none">
             <Image
-              src={`${CDN}/Ministry2.jpg`}
+              src="/mum1.jpg"
               alt="Minister ClaudyGod in ministry"
               fill
               className="object-cover object-top"
@@ -46,7 +45,7 @@ export function BiographySection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           <div className="relative aspect-[4/5] w-full max-w-sm lg:max-w-none order-2 lg:order-1">
             <Image
-              src={`${CDN}/Ministry3.jpg`}
+              src="/aboutUs.webp"
               alt="Minister ClaudyGod worship"
               fill
               className="object-cover object-top"

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
+import { CrossPromo } from '@/components/shared/CrossPromo';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 
 export const metadata: Metadata = {
@@ -23,9 +24,10 @@ export default function VideosPage() {
         eyebrow="Watch & Worship"
         title="Videos"
         subtitle="Music videos, live sessions, visualizers — a visual worship experience."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/desktopBg.jpg"
+        backgroundImage="/tour_1.jpg"
       />
       <VideoGrid />
+      <CrossPromo />
     </>
   );
 }

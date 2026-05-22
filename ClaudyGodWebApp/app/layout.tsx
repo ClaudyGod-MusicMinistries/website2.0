@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { Loader } from '@/components/shared/Loader';
 import './globals.css';
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="font-bricolage bg-surface-base text-white antialiased min-h-dvh">
+        <Loader />
         <Navbar />
         <main className="min-h-dvh">
           {children}

@@ -55,13 +55,13 @@ export function Footer() {
             {/* Logo */}
             <Link href="/" className="mb-6 w-fit block group">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/20 flex-shrink-0 group-hover:ring-gold-500/40 transition-all duration-300">
+                <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/20 flex-shrink-0 group-hover:ring-gold-500/40 transition-all duration-300 bg-white/5">
                   <Image
                     src="/ClaudyGoLogo.webp"
                     alt="ClaudyGod Music Ministries"
-                    width={56}
-                    height={56}
-                    className="object-cover w-full h-full brightness-0 invert"
+                    fill
+                    className="object-contain p-1"
+                    sizes="56px"
                   />
                 </div>
                 <div className="flex flex-col gap-0.5 text-white">

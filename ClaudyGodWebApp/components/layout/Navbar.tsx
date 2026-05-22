@@ -51,13 +51,13 @@ export function Navbar() {
           {/* Brand lockup */}
           <Link href="/" className="shrink-0 flex items-center gap-3.5 group">
             {/* Rounded logo */}
-            <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-gold-500/30 shrink-0 flex-shrink-0">
+            <div className="relative w-11 h-11 rounded-full overflow-hidden ring-2 ring-gold-500/30 shrink-0 flex-shrink-0">
               <Image
                 src="/ClaudyGoLogo.webp"
                 alt="ClaudyGod"
-                width={44}
-                height={44}
-                className="object-cover w-full h-full"
+                fill
+                className="object-contain p-0.5"
+                sizes="44px"
                 priority
               />
             </div>
@@ -153,13 +153,13 @@ export function Navbar() {
           >
             {/* Mobile header bar */}
             <div className="h-[76px] shrink-0 border-b border-white/[0.06] flex items-center px-6 gap-3.5">
-              <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
                 <Image
                   src="/ClaudyGoLogo.webp"
                   alt="ClaudyGod"
-                  width={40}
-                  height={40}
-                  className="object-cover w-full h-full"
+                  fill
+                  className="object-contain p-0.5"
+                  sizes="40px"
                 />
               </div>
               <span className="w-px h-8 bg-white/15 shrink-0" />

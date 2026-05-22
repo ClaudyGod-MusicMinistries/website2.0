@@ -34,7 +34,7 @@ export default function MinistryPage() {
         eyebrow="Ministry"
         title="Beyond the Music"
         subtitle="Teachings, community impact, and a team devoted to spreading the love of God."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Ministry1.jpg"
+        backgroundImage="/manBack.jpg"
       />
       <AnimateOnView><TeachingsGrid /></AnimateOnView>
       <AnimateOnView delay={0.1}><GallerySection /></AnimateOnView>

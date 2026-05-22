@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const CDN = 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest';
-
 const sections = [
   {
     href:        '/about',
@@ -17,7 +15,7 @@ const sections = [
     eyebrow:     'Music',
     title:       'Full Discography',
     description: 'Seven studio albums of Spirit-filled worship. Stream on Spotify, Apple Music, YouTube, and beyond.',
-    image:       `${CDN}/Bg_13.webp`,
+    image:       '/resize_abt.webp',
     cta:         'Explore Music',
   },
   {
@@ -25,7 +23,7 @@ const sections = [
     eyebrow:     'Videos',
     title:       'Watch & Worship',
     description: 'Live worship sessions, official music videos, and recorded ministry services.',
-    image:       `${CDN}/desktopBg.jpg`,
+    image:       '/tour_1.jpg',
     cta:         'Watch Videos',
   },
   {
@@ -33,7 +31,7 @@ const sections = [
     eyebrow:     'Ministry',
     title:       'Ministry Work',
     description: 'Teachings, outreach programmes, ministry gallery, and the global reach of the mission.',
-    image:       `${CDN}/Ministry1.jpg`,
+    image:       '/manBack.jpg',
     cta:         'Visit Ministry',
   },
   {
@@ -41,7 +39,7 @@ const sections = [
     eyebrow:     'Blog',
     title:       'Words of Life',
     description: 'Devotionals, ministry insights, and encouragement written for the believer\'s daily journey.',
-    image:       `${CDN}/abt_2.webp`,
+    image:       '/mum1.jpg',
     cta:         'Read the Blog',
   },
   {
@@ -76,7 +74,7 @@ export function PagesExplorer() {
             <Link
               key={s.href}
               href={s.href}
-              className="group bg-white overflow-hidden flex flex-col shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] transition-shadow duration-400"
+              className="group bg-white overflow-hidden flex flex-col rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] transition-shadow duration-400"
             >
               {/* Image — no text overlay */}
               <div className="relative h-52 overflow-hidden">
@@ -108,7 +106,7 @@ export function PagesExplorer() {
                 </p>
 
                 {/* CTA button */}
-                <span className="inline-flex items-center gap-2.5 self-start font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 group-hover:bg-purple-700 text-white px-6 h-10 transition-all duration-300">
+                <span className="inline-flex items-center gap-2.5 self-start font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 group-hover:bg-purple-700 text-white px-6 h-10 rounded-xl transition-all duration-300">
                   {s.cta}
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </span>

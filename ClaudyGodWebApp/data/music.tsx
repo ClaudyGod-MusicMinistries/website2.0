@@ -112,7 +112,7 @@ export const latestReleasePlatforms: MusicPlatform[] = [
 export const albums = [
   {
     title: 'Lover of my Soul',
-    image: `${CDN}/CoverArt.jpg`,
+    image: '/CD1.png',
     links: {
       spotify: 'https://open.spotify.com/album/1QtuBqSvCerflLbHTiniCI',
       youtube: 'https://youtu.be/ivj5gVeTCJQ?si=AXXbrP8SllDc4FeV',
@@ -122,7 +122,7 @@ export const albums = [
   },
   {
     title: 'Very Glorious',
-    image: `${CDN}/Bg_13.webp`,
+    image: '/resize_abt.webp',
     links: {
       spotify: 'https://open.spotify.com/track/4Y59X6LBT2FZQbkcQAa2AQ?si=90ee973a0546426c',
       youtube: 'https://youtu.be/F36AiXSSADQ?si=yA2Y0mXeZtIYosy3',
@@ -132,7 +132,7 @@ export const albums = [
   },
   {
     title: 'King of Heavens',
-    image: `${CDN}/desktopBg.jpg`,
+    image: '/tour_1.jpg',
     links: {
       spotify: 'https://open.spotify.com/track/6Q07B7YUlHjtbI8KMoBfMy?si=b27d98de60ed41be',
       youtube: 'https://youtu.be/W_Gfia-R3Ec?si=KQP_0DQ6UjZjSm7x',
@@ -192,31 +192,31 @@ export const galleryCategories = [
     title: 'ClaudyGod with Students',
     description: 'Engaging with the next generation of worshippers in universities and youth gatherings across Port Harcourt.',
     images: [
-      `${CDN}/Ministry6.jpg`,
-      `${CDN}/Ministry12.jpg`,
-      `${CDN}/Ministry10.jpg`,
+      '/mum1.jpg',
+      '/aboutUs.webp',
+      '/manBack.jpg',
     ],
   },
   {
     title: 'Worship Moments',
     description: 'Powerful moments of praise and worship that transformed lives and brought heaven to earth.',
-    images: [`${CDN}/Ministry2.jpg`, `${CDN}/Ministry3.jpg`],
+    images: ['/resize_abt.webp', '/tour_1.jpg'],
   },
   {
     title: 'Min. ClaudyGod With Guests',
     description: 'Collaborative moments with ministry partners and guest worshippers who joined our gatherings.',
     images: [
-      `${CDN}/Ministry14.jpg`,
-      `${CDN}/Ministry13.jpg`,
-      `${CDN}/Ministry1.jpg`,
-      `${CDN}/Ministry3.jpg`,
-      `${CDN}/Ministry11.jpg`,
+      '/manBack.jpg',
+      '/mum1.jpg',
+      '/aboutUs.webp',
+      '/tour_1.jpg',
+      '/resize_abt.webp',
     ],
   },
   {
     title: 'Community Impact',
     description: 'Touching lives beyond the worship center through outreach and community transformation programs.',
-    images: [`${CDN}/Ministry8.jpg`, `${CDN}/Ministry9.jpg`],
+    images: ['/tour_1.jpg', '/manBack.jpg'],
   },
 ];
 
@@ -226,20 +226,20 @@ export const teamMembers = [
     name: 'Minister ClaudyGod - Music Team',
     role: 'Music Team',
     description: `"A dedicated team of passionate worshipers committed to leading people into deep encounters with God through spirit-filled music, excellence in sound, and heartfelt praise."`,
-    image: `${CDN}/Ministry2.jpg`,
+    image: '/mum1.jpg',
   },
   {
     id: 3,
     name: 'Minister ClaudyGod - Music Team',
     role: 'Music Team',
     description: `"A dedicated team of passionate worshipers committed to leading people into deep encounters with God through spirit-filled music, excellence in sound, and heartfelt praise."`,
-    image: `${CDN}/Ministry3.jpg`,
+    image: '/aboutUs.webp',
   },
   {
     id: 4,
     name: 'Minister ClaudyGod - Music Team',
     role: 'Music Team',
     description: `"A dedicated team of passionate worshipers committed to leading people into deep encounters with God through spirit-filled music, excellence in sound, and heartfelt praise."`,
-    image: `${CDN}/Ministry4.jpg`,
+    image: '/manBack.jpg',
   },
 ];

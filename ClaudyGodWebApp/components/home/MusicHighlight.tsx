@@ -22,7 +22,7 @@ export function MusicHighlight() {
           </div>
           <Link
             href="/music"
-            className="hidden md:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 transition-all duration-300"
+            className="hidden md:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300"
           >
             All Albums →
           </Link>
@@ -32,7 +32,7 @@ export function MusicHighlight() {
           {albums.map((album) => (
             <div key={album.title} className="group">
               {/* Art */}
-              <div className="relative aspect-square mb-5 overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.10)]">
+              <div className="relative aspect-square mb-5 overflow-hidden rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.10)]">
                 <Image
                   src={album.image}
                   alt={album.title}
@@ -59,7 +59,7 @@ export function MusicHighlight() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${album.title} on ${key}`}
-                      className="w-9 h-9 flex items-center justify-center border border-neutral-200 hover:border-gold-400/50 text-neutral-400 hover:text-gold-500 transition-all duration-300"
+                      className="w-9 h-9 flex items-center justify-center border border-neutral-200 hover:border-gold-400/50 text-neutral-400 hover:text-gold-500 rounded-lg transition-all duration-300"
                     >
                       <Icon className="h-4 w-4" />
                     </a>
@@ -73,7 +73,7 @@ export function MusicHighlight() {
         <div className="mt-12 md:hidden">
           <Link
             href="/music"
-            className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 transition-all duration-300 group"
+            className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
           >
             View All Albums
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
