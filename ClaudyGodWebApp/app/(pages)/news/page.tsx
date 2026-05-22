@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, Clock, Calendar, ExternalLink } from 'lucide-react';
 import { PageHero } from '@/components/shared/PageHero';
-import { tourDates, newsAlbums, socialShareLinks } from '@/data/news';
+import { EventsSection } from '@/components/news/EventsSection';
+import { newsAlbums, socialShareLinks } from '@/data/news';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -29,75 +29,8 @@ export default function NewsPage() {
         objectPosition="center center"
       />
 
-      {/* Tour dates */}
-      <section className="bg-white section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="rule-gold" />
-            <span className="label-eyebrow">Upcoming Tour</span>
-          </div>
-          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-14">
-            2025 Ministry Tour
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {tourDates.map((date) => {
-              const d    = new Date(date.date);
-              const day  = d.toLocaleDateString('en-GB', { day: '2-digit' });
-              const mon  = d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
-              const full = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-              const past = d < new Date();
-              return (
-                <div key={date.id} className="group relative overflow-hidden rounded-2xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(124,58,237,0.08)] transition-all duration-300">
-                  <div className="relative h-44 overflow-hidden">
-                    <Image
-                      src={date.image}
-                      alt={date.city}
-                      fill
-                      className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                      sizes="(max-width:768px) 100vw, 50vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
-                    <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg">
-                      <p className="font-bricolage font-bold text-neutral-900 text-xl leading-none">{day}</p>
-                      <p className="font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
-                    </div>
-                    {past && (
-                      <span className="absolute top-4 right-4 font-worksans text-[0.5rem] tracking-[0.15em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">Past Event</span>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-bricolage font-bold text-neutral-900 text-xl mb-1 group-hover:text-purple-700 transition-colors duration-300">
-                      {date.city}
-                    </h3>
-                    <p className="flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mb-1">
-                      <MapPin className="h-3 w-3 shrink-0" />{date.venue}
-                    </p>
-                    <div className="flex items-center gap-4 mt-3">
-                      <span className="flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-                        <Calendar className="h-3 w-3" />{full}
-                      </span>
-                      <span className="flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-                        <Clock className="h-3 w-3" />{date.time}
-                      </span>
-                    </div>
-                    {!past && date.ticketUrl !== '#' && (
-                      <a
-                        href={date.ticketUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-4 inline-flex items-center gap-2 font-worksans text-[0.6rem] tracking-[0.18em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-5 h-9 rounded-xl transition-all duration-300"
-                      >
-                        Get Tickets <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* Events & Tours — highlights + registration portal */}
+      <EventsSection />
 
       {/* New releases */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">

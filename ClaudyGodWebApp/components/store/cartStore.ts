@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { Product, CartItem } from '@/types/store';
 
 interface CartStore {
@@ -54,6 +54,9 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'cgm-cart',
+      storage: createJSONStorage(() =>
+        typeof window !== 'undefined' ? sessionStorage : localStorage
+      ),
       partialize: (state) => ({ items: state.items }),
     }
   )

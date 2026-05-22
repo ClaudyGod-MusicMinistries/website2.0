@@ -15,9 +15,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = schema.parse(body);
 
-    // TODO: persist to database / send confirmation email
-    // For now: log and return success so the frontend can integrate later
-    console.log('[EVENT REGISTRATION]', data);
+    // TODO: persist to database / send confirmation email when backend is wired
 
     return NextResponse.json(
       { success: true, message: 'Registration received', data },
