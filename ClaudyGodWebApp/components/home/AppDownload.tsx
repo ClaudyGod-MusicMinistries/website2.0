@@ -71,8 +71,8 @@ export function AppDownload() {
           </a>
         </div>
 
-        <p className="mt-8 font-worksans text-[0.48rem] tracking-[0.15em] uppercase text-neutral-700">
-          Free to download · iOS & Android
+        <p className="mt-8 font-worksans text-xs tracking-[0.12em] text-neutral-400">
+          Free to download &nbsp;·&nbsp; iOS &amp; Android
         </p>
       </div>
     </section>
