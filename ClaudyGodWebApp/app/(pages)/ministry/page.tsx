@@ -35,7 +35,7 @@ export default function MinistryPage() {
         eyebrow="Ministry"
         title="Beyond the Music"
         subtitle="Teachings, community impact, and a team devoted to spreading the love of God."
-        backgroundImage="/resize_abt.webp"
+        backgroundImage="/aboutUs.webp"
         objectPosition="center top"
       />
       <AnimateOnView><TeachingsGrid /></AnimateOnView>
