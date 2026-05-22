@@ -33,7 +33,7 @@ export function FeaturedVideos() {
 
   return (
     <>
-      <section className="bg-[#080808] section-py">
+      <section className="bg-white section-py border-t border-black/[0.05]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
           {/* Header */}
@@ -43,16 +43,16 @@ export function FeaturedVideos() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-raleway font-normal text-white text-3xl md:text-4xl tracking-tight leading-tight">
+              <h2 className="font-raleway font-normal text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight">
                 Featured Videos
               </h2>
             </div>
             <Link
               href="/videos"
-              className="hidden sm:flex items-center gap-2 font-worksans text-[0.58rem] tracking-[0.18em] uppercase text-neutral-600 hover:text-gold-400 transition-colors duration-300 group"
+              className="hidden sm:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 group"
             >
               See All
-              <ChevronRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+              <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </div>
 
@@ -68,7 +68,7 @@ export function FeaturedVideos() {
             <motion.button
               variants={cardVariant}
               onClick={() => setActiveId(featured.id)}
-              className="group relative aspect-video overflow-hidden bg-[#111] cursor-pointer"
+              className="group relative aspect-video overflow-hidden bg-[#111] cursor-pointer rounded-2xl"
             >
               <Image
                 src={featured.thumbnailUrl}
@@ -100,7 +100,7 @@ export function FeaturedVideos() {
                 <button
                   key={video.id}
                   onClick={() => setActiveId(video.id)}
-                  className="group relative flex gap-4 items-center bg-[#0e0e0e] hover:bg-[#141414] border border-white/[0.04] hover:border-white/[0.08] p-3 transition-all duration-300 cursor-pointer text-left"
+                  className="group relative flex gap-4 items-center bg-[#0e0e0e] hover:bg-[#141414] border border-white/[0.04] hover:border-white/[0.08] p-3 rounded-xl transition-all duration-300 cursor-pointer text-left overflow-hidden"
                 >
                   <div className="relative w-28 h-16 flex-shrink-0 overflow-hidden">
                     <Image
@@ -144,7 +144,7 @@ export function FeaturedVideos() {
                 key={video.id}
                 variants={cardVariant}
                 onClick={() => setActiveId(video.id)}
-                className="group relative aspect-video overflow-hidden bg-[#111] cursor-pointer"
+                className="group relative aspect-video overflow-hidden bg-[#111] cursor-pointer rounded-xl"
               >
                 <Image
                   src={video.thumbnailUrl}
@@ -172,9 +172,10 @@ export function FeaturedVideos() {
           <div className="mt-8 flex justify-center sm:hidden">
             <Link
               href="/videos"
-              className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-gold-400 transition-colors border-b border-neutral-700 hover:border-gold-500/40 pb-px"
+              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
             >
-              See All Videos →
+              See All Videos
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>

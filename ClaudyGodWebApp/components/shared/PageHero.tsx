@@ -13,7 +13,7 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
   return (
     <div
       className={cn(
-        'relative w-full min-h-[45vh] flex items-end pb-16 md:pb-20 pt-[var(--navbar-height)]',
+        'relative w-full min-h-[60vh] flex items-end pb-20 md:pb-24 pt-[var(--navbar-height)]',
         className
       )}
     >
@@ -28,27 +28,28 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div className="image-overlay absolute inset-0" />
+          {/* Stronger gradient overlay for legibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/85" />
         </>
       ) : (
-        <div className="absolute inset-0 bg-[#080808]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(201,168,76,0.06)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[#0a0914]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(124,58,237,0.15)_0%,transparent_70%)]" />
         </div>
       )}
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12">
         {eyebrow && (
-          <div className="flex items-center gap-4 mb-4">
+          <div className="flex items-center gap-4 mb-5">
             <span className="rule-gold" />
-            <span className="label-eyebrow">{eyebrow}</span>
+            <span className="label-eyebrow text-white/70">{eyebrow}</span>
           </div>
         )}
-        <h1 className="font-raleway font-light text-white text-4xl md:text-5xl lg:text-5xl tracking-tight leading-[1.05]">
+        <h1 className="font-raleway font-normal text-white text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] max-w-3xl">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-5 font-raleway text-neutral-500 text-sm leading-relaxed max-w-xl font-light">
+          <p className="mt-6 font-raleway text-neutral-300 text-base md:text-lg leading-relaxed max-w-xl">
             {subtitle}
           </p>
         )}

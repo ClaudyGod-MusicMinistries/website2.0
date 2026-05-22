@@ -12,21 +12,21 @@ const platformIcons = {
 
 export function AlbumTimeline() {
   return (
-    <section className="bg-[#0a0a0a] section-py">
+    <section className="bg-cream-100 section-py">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-14">
           <span className="rule-gold" />
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <h2 className="font-raleway font-light text-white text-3xl md:text-4xl tracking-tight leading-tight mb-16">
+        <h2 className="font-raleway font-normal text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-16">
           Albums & Releases
         </h2>
 
         {/* Timeline */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-0 lg:left-1/2 top-0 bottom-0 w-px bg-white/[0.06] hidden md:block" />
+          <div className="absolute left-0 lg:left-1/2 top-0 bottom-0 w-px bg-black/[0.08] hidden md:block" />
 
           <div className="space-y-0">
             {albums.map((album, i) => {
@@ -54,12 +54,12 @@ export function AlbumTimeline() {
                             src={album.image}
                             alt={album.title}
                             fill
-                            className="object-cover ring-1 ring-white/10 group-hover:ring-gold-500/30 transition-all duration-300"
+                            className="object-cover ring-1 ring-black/[0.06] group-hover:ring-gold-500/30 transition-all duration-300"
                             sizes="80px"
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-raleway font-light text-white text-lg leading-tight mb-2 group-hover:text-gold-100 transition-colors duration-300">
+                          <p className="font-raleway font-normal text-neutral-800 text-xl leading-tight mb-2 group-hover:text-purple-700 transition-colors duration-300">
                             {album.title}
                           </p>
                           <div className="flex items-center gap-3 mt-3">
@@ -84,7 +84,7 @@ export function AlbumTimeline() {
                           </div>
                         </div>
                       </div>
-                      <div className="mt-4 border-b border-white/[0.04]" />
+                      <div className="mt-4 border-b border-black/[0.06]" />
                     </div>
                   </div>
 
@@ -96,12 +96,13 @@ export function AlbumTimeline() {
           </div>
         </div>
 
-        <div className="mt-12 pt-10 border-t border-white/[0.06]">
+        <div className="mt-12 pt-10 border-t border-black/[0.06] flex flex-wrap gap-4">
           <Link
             href="/music"
-            className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-gold-400 transition-colors duration-300 border-b border-neutral-700 hover:border-gold-500/40 pb-px"
+            className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 transition-all duration-300 group"
           >
-            View Full Music Catalogue →
+            View Full Music Catalogue
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
       </div>

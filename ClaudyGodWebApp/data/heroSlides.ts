@@ -80,8 +80,8 @@ export const modalVariants: Variants = {
 export const heroSlides: HeroSlide[] = [
   {
     id: 1,
-    imageUrlMobile: 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/desktopBg.jpg',
-    imageUrlDesktop: 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/desktopBg.jpg',
+    imageUrlMobile: '/tour_1.jpg',
+    imageUrlDesktop: '/tour_1.jpg',
     type: 'quote',
     content: {
       quote: 'Enter Into His Gates With Thanksgiving And Into His Courts With Praise; Be Thankful Unto Him, and Bless His Name.',
@@ -90,13 +90,13 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: 2,
-    imageUrl: 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/abt_2.webp',
+    imageUrl: '/aboutUs.webp',
     type: 'cta',
     content: {},
   },
   {
     id: 3,
-    imageUrl: 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Bg_13.webp',
+    imageUrl: '/resize_abt.webp',
     type: 'music',
     content: {
       listenText: 'Experience the Divine Melody',
@@ -112,7 +112,7 @@ export const heroSlides: HeroSlide[] = [
   },
   {
     id: 4,
-    imageUrl: 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/BannerLanding.webp',
+    imageUrl: '/manBack.jpg',
     type: 'quote',
     content: {
       quote: 'Praise the Lord Most High',

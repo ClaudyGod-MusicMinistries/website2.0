@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import { HeroCarousel }    from '@/components/home/HeroCarousel';
-import { MinistryStats }   from '@/components/home/MinistryStats';
+import { BibleVerse }      from '@/components/home/BibleVerse';
 import { LatestRelease }   from '@/components/home/LatestRelease';
 import { FeaturedVideos }  from '@/components/home/FeaturedVideos';
 import { MusicHighlight }  from '@/components/home/MusicHighlight';
+import { PagesExplorer }   from '@/components/home/PagesExplorer';
+import { StorePreview }    from '@/components/home/StorePreview';
+import { AppDownload }     from '@/components/home/AppDownload';
 import { NewsletterBanner } from '@/components/home/NewsletterBanner';
 import { AnimateOnView }   from '@/components/shared/AnimateOnView';
 
@@ -27,10 +30,13 @@ export default function Home() {
   return (
     <>
       <HeroCarousel />
-      <MinistryStats />
+      <BibleVerse />
       <AnimateOnView><LatestRelease /></AnimateOnView>
       <AnimateOnView><FeaturedVideos /></AnimateOnView>
       <AnimateOnView><MusicHighlight /></AnimateOnView>
+      <AnimateOnView><PagesExplorer /></AnimateOnView>
+      <AnimateOnView><StorePreview /></AnimateOnView>
+      <AppDownload />
       <NewsletterBanner />
     </>
   );

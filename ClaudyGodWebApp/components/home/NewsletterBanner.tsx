@@ -126,7 +126,7 @@ export function NewsletterBanner() {
                         {...register('email')}
                         type="email"
                         placeholder="your@email.com"
-                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
+                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
                       />
                       {errors.email && (
                         <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -138,7 +138,7 @@ export function NewsletterBanner() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.22em] uppercase transition-all duration-300 flex items-center justify-center gap-2 group"
+                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
                     >
                       {isSubmitting ? (
                         'Subscribing…'

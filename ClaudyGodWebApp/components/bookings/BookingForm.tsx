@@ -38,17 +38,17 @@ function FieldError({ message }: { message?: string }) {
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
+    <label className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 block mb-2">
       {children}
     </label>
   );
 }
 
 const inputClass =
-  'w-full h-11 px-4 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300';
+  'w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300';
 
 const selectClass =
-  'w-full h-11 px-4 bg-[#0a0a0a] border border-white/10 text-white font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300';
+  'w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300';
 
 export function BookingForm() {
   const [step, setStep] = useState(0);
@@ -85,7 +85,7 @@ export function BookingForm() {
     return (
       <div className="flex flex-col gap-3 py-12">
         <CheckCircle2 className="h-5 w-5 text-gold-400" />
-        <p className="font-raleway font-light text-white text-xl leading-snug">
+        <p className="font-raleway font-light text-neutral-900 text-xl leading-snug">
           Booking request received.
         </p>
         <p className="font-raleway text-neutral-500 text-sm font-light max-w-sm">
@@ -115,7 +115,7 @@ export function BookingForm() {
                     ? 'border-gold-500/60 bg-gold-500/10'
                     : i === step
                     ? 'border-gold-500'
-                    : 'border-white/10'
+                    : 'border-neutral-300'
                 )}
               >
                 {i + 1}
@@ -125,7 +125,7 @@ export function BookingForm() {
               </span>
             </div>
             {i < steps.length - 1 && (
-              <div className="w-8 h-px bg-white/10 mx-3" />
+              <div className="w-8 h-px bg-neutral-200 mx-3" />
             )}
           </div>
         ))}
@@ -193,7 +193,7 @@ export function BookingForm() {
               {...register('eventDetails')}
               rows={5}
               placeholder="Tell us more about your event — theme, expected attendance, set duration…"
-              className="w-full px-4 py-3 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300 resize-none"
+              className="w-full px-4 py-3 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none"
             />
             <FieldError message={errors.eventDetails?.message} />
           </div>
@@ -264,12 +264,12 @@ export function BookingForm() {
       )}
 
       {/* Navigation */}
-      <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/[0.06]">
+      <div className="flex items-center justify-between mt-8 pt-6 border-t border-neutral-100">
         {step > 0 ? (
           <button
             type="button"
             onClick={() => setStep((s) => s - 1)}
-            className="flex items-center gap-2 font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-500 hover:text-white transition-colors duration-300"
+            className="flex items-center gap-2 font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-500 hover:text-neutral-900 transition-colors duration-300"
           >
             <ChevronLeft className="h-3 w-3" /> Back
           </button>
