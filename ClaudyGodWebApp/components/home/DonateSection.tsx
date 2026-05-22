@@ -3,10 +3,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
-import { ministryStats, donationTiers } from '@/data/ministryStats';
+import { Heart, Music2, Globe2, Mic2 } from 'lucide-react';
 
-const amounts = donationTiers.slice(0, 4);
+const impacts = [
+  { icon: Mic2,   label: 'Record new worship albums' },
+  { icon: Globe2, label: 'Fund gospel outreach events' },
+  { icon: Music2, label: 'Support ministry tours & concerts' },
+  { icon: Heart,  label: 'Reach communities in need' },
+] as const;
 
 const fadeUp = {
   hidden:  { opacity: 0, y: 24 },
@@ -23,18 +27,15 @@ export function DonateSection() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(201,168,76,0.10)_0%,transparent_70%)]" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(109,40,217,0.15)_0%,transparent_65%)]" />
-        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_left,rgba(109,40,217,0.08)_0%,transparent_65%)]" />
       </div>
 
       {/* Gold top line */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-500/60 to-transparent" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-20 md:py-28">
-
-        {/* Two-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
 
-          {/* Left — copy + stats */}
+          {/* Left — copy + impact list */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -46,64 +47,49 @@ export function DonateSection() {
             </motion.div>
 
             <div className="overflow-hidden mb-2">
-              <motion.h2
-                custom={0.1}
-                variants={fadeUp}
+              <motion.h2 custom={0.1} variants={fadeUp}
                 className="font-abril text-white text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
               >
                 Partner With
               </motion.h2>
             </div>
             <div className="overflow-hidden mb-8">
-              <motion.h2
-                custom={0.2}
-                variants={fadeUp}
+              <motion.h2 custom={0.2} variants={fadeUp}
                 className="font-abril text-gold-300/90 text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
               >
                 the Ministry.
               </motion.h2>
             </div>
 
-            <motion.p
-              custom={0.3} variants={fadeUp}
-              className="font-raleway text-neutral-400 text-base leading-[1.85] max-w-md mb-10"
+            <motion.p custom={0.3} variants={fadeUp}
+              className="font-raleway text-neutral-400 text-base leading-[1.85] max-w-md mb-8"
             >
               Your generous support helps us record new music, reach more lives through concerts and events,
               and spread the gospel to the ends of the earth. Every gift — large or small — makes a difference.
             </motion.p>
 
-            {/* Impact stats */}
-            <motion.div
-              custom={0.4} variants={fadeUp}
-              className="grid grid-cols-2 gap-4"
-            >
-              {ministryStats.map(({ icon: Icon, stat, label }) => (
-                <div
-                  key={label}
-                  className="flex items-start gap-3.5 p-4 rounded-xl bg-white/[0.04] border border-white/[0.06]"
-                >
-                  <div className="w-9 h-9 rounded-lg bg-purple-600/20 border border-purple-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Icon className="h-4 w-4 text-purple-300" />
+            {/* What your gift does */}
+            <motion.div custom={0.4} variants={fadeUp} className="space-y-3 mb-8">
+              {impacts.map(({ icon: Icon, label }) => (
+                <div key={label} className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-purple-600/15 border border-purple-500/20 flex items-center justify-center shrink-0">
+                    <Icon className="h-3.5 w-3.5 text-purple-400" />
                   </div>
-                  <div>
-                    <p className="font-abril text-white text-2xl leading-none mb-1">{stat}</p>
-                    <p className="font-worksans text-[0.55rem] tracking-[0.14em] uppercase text-neutral-500">{label}</p>
-                  </div>
+                  <p className="font-raleway text-neutral-300 text-sm">{label}</p>
                 </div>
               ))}
             </motion.div>
 
             {/* Scripture */}
-            <motion.p
-              custom={0.55} variants={fadeUp}
-              className="mt-8 font-raleway italic text-neutral-600 text-sm leading-relaxed border-l-2 border-gold-500/30 pl-4"
+            <motion.blockquote custom={0.55} variants={fadeUp}
+              className="font-raleway italic text-neutral-600 text-sm leading-relaxed border-l-2 border-gold-500/30 pl-4"
             >
               &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together and
               running over, will be poured into your lap.&rdquo;
               <span className="not-italic font-worksans text-[0.52rem] tracking-[0.15em] uppercase text-gold-500/60 block mt-1.5">
                 Luke 6:38
               </span>
-            </motion.p>
+            </motion.blockquote>
           </motion.div>
 
           {/* Right — donation card */}
@@ -114,20 +100,11 @@ export function DonateSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-2xl overflow-hidden p-8 md:p-10 backdrop-blur-sm">
-
-              {/* Inner glow */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse_at_top_right,rgba(201,168,76,0.07)_0%,transparent_70%)] pointer-events-none" />
 
-              {/* Logo + headline */}
               <div className="flex items-center gap-4 mb-8">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/25 flex-shrink-0">
-                  <Image
-                    src="/ClaudyGoLogo.webp"
-                    alt="ClaudyGod"
-                    fill
-                    className="object-contain p-1"
-                    sizes="56px"
-                  />
+                <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
+                  <Image src="/ClaudyGoLogo.webp" alt="ClaudyGod" fill className="object-contain p-1" sizes="56px" />
                 </div>
                 <div>
                   <p className="font-bricolage font-bold text-white text-base leading-tight">ClaudyGod Music Ministries</p>
@@ -135,34 +112,11 @@ export function DonateSection() {
                 </div>
               </div>
 
-              <p className="font-bricolage font-semibold text-white text-xl mb-2">
-                Choose an Amount
-              </p>
-              <p className="font-raleway text-neutral-500 text-sm mb-6">
-                100% of your donation supports the ministry directly.
+              <p className="font-bricolage font-semibold text-white text-xl mb-2">Make a Difference Today</p>
+              <p className="font-raleway text-neutral-500 text-sm mb-8">
+                100% of your donation supports the ministry directly. Choose any currency on the Donate page.
               </p>
 
-              {/* Quick-select amounts */}
-              <div className="grid grid-cols-4 gap-2.5 mb-6">
-                {amounts.map(({ value, label }) => (
-                  <Link
-                    key={value}
-                    href={`/donate?amount=${value}`}
-                    className="h-12 flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] hover:bg-purple-600/20 hover:border-purple-500/50 font-bricolage font-bold text-white text-sm transition-all duration-200 hover:scale-[1.03]"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
-
-              {/* Divider */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="flex-1 h-px bg-white/[0.07]" />
-                <span className="font-worksans text-[0.52rem] tracking-[0.15em] uppercase text-neutral-600">or choose your own</span>
-                <span className="flex-1 h-px bg-white/[0.07]" />
-              </div>
-
-              {/* CTA buttons */}
               <div className="flex flex-col gap-3">
                 <Link
                   href="/donate"
@@ -179,16 +133,14 @@ export function DonateSection() {
                 </Link>
               </div>
 
-              {/* Trust note */}
               <p className="mt-5 text-center font-worksans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-700">
-                Secure giving · Tax receipts available
+                Secure giving · Multiple currencies supported
               </p>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Bottom gold line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/25 to-transparent" />
     </section>
   );

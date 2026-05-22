@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Play } from 'lucide-react';
 import {
   FaSpotify, FaApple, FaYoutube, FaDeezer, FaAmazon, FaMusic,
 } from 'react-icons/fa6';
@@ -199,6 +200,31 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
             {content.reference}
           </motion.p>
         )}
+
+        {/* Play button — links to worship channel */}
+        <motion.div
+          custom={0.65} variants={fadeUp} initial="hidden" animate="visible"
+          className="mt-8"
+        >
+          <a
+            href="https://www.youtube.com/@claudygodministries"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 group"
+          >
+            <span className="relative w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center bg-black/20 backdrop-blur-sm group-hover:border-gold-400/80 group-hover:bg-gold-500/20 transition-all duration-300 shadow-[0_0_30px_rgba(0,0,0,0.3)] group-hover:shadow-[0_0_40px_rgba(201,168,76,0.35)]">
+              <Play className="h-5 w-5 text-white fill-white ml-0.5 group-hover:text-gold-300 transition-colors duration-300" />
+            </span>
+            <span className="flex flex-col gap-0.5">
+              <span className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-gold-400/75 group-hover:text-gold-400 transition-colors duration-300">
+                Watch on YouTube
+              </span>
+              <span className="font-bricolage font-semibold text-white/80 text-sm group-hover:text-white transition-colors duration-300">
+                Worship with ClaudyGod
+              </span>
+            </span>
+          </a>
+        </motion.div>
       </div>
     );
   }
