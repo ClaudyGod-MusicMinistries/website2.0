@@ -75,7 +75,7 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
         </p>
 
         <div className="flex items-center justify-between gap-3 mt-auto">
-          <span className="font-raleway font-semibold text-neutral-900 text-lg">
+          <span className="font-bricolage font-semibold text-neutral-900 text-lg">
             {formatPrice(product.price)}
           </span>
           <button

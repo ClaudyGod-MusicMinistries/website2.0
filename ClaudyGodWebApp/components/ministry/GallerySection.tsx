@@ -42,7 +42,7 @@ export function GallerySection() {
             {galleryCategories.map((cat) => (
               <div key={cat.title}>
                 <div className="mb-6">
-                  <h3 className="font-raleway font-bold text-neutral-900 text-xl tracking-tight mb-1">
+                  <h3 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">
                     {cat.title}
                   </h3>
                   <p className="font-raleway text-neutral-500 text-sm font-light leading-relaxed max-w-lg">

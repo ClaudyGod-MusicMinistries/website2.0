@@ -29,7 +29,7 @@ export default function StorePage() {
         eyebrow="Store"
         title="Official Merchandise"
         subtitle="Music, apparel, and accessories — wear your worship."
-        backgroundImage="/resize_abt.webp"
+        backgroundImage="/mum1.jpg"
       />
       <AnimateOnView><ProductGrid /></AnimateOnView>
       <CartDrawer />

@@ -50,7 +50,7 @@ export default function BookingsPage() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">How It Works</span>
               </div>
-              <h3 className="font-raleway font-bold text-neutral-900 text-2xl md:text-3xl tracking-tight leading-snug mb-10">
+              <h3 className="font-bricolage font-bold text-neutral-900 text-2xl md:text-3xl tracking-tight leading-snug mb-10">
                 What to Expect
               </h3>
               <div className="space-y-0">
@@ -64,7 +64,7 @@ export default function BookingsPage() {
                       <span className="font-worksans text-[0.55rem] tracking-[0.15em] text-white font-semibold">{item.step}</span>
                     </div>
                     <div className="pt-1.5">
-                      <p className="font-raleway font-bold text-neutral-900 text-base mb-1">{item.title}</p>
+                      <p className="font-bricolage font-bold text-neutral-900 text-base mb-1">{item.title}</p>
                       <p className="font-raleway text-neutral-500 text-sm leading-relaxed">{item.body}</p>
                     </div>
                   </div>
@@ -74,7 +74,7 @@ export default function BookingsPage() {
               {/* Contact card */}
               <div className="mt-6 bg-white rounded-2xl border border-neutral-200 p-6">
                 <p className="font-worksans text-xs tracking-[0.12em] uppercase text-neutral-400 mb-1">Questions?</p>
-                <p className="font-raleway font-bold text-neutral-900 text-lg mb-3">Contact Us Directly</p>
+                <p className="font-bricolage font-bold text-neutral-900 text-lg mb-3">Contact Us Directly</p>
                 <a
                   href="mailto:claudygodministries@gmail.com"
                   className="font-raleway text-purple-600 hover:text-purple-800 text-sm transition-colors"

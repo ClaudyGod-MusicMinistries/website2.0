@@ -52,7 +52,7 @@ export function DonateClient() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 p-8 bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl">
         {stats.map((s) => (
           <div key={s.label} className="text-center">
-            <p className="font-raleway font-bold text-white text-3xl md:text-4xl mb-1">{s.number}</p>
+            <p className="font-bricolage font-bold text-white text-3xl md:text-4xl mb-1">{s.number}</p>
             <p className="font-worksans text-[0.58rem] tracking-[0.18em] uppercase text-purple-200">{s.label}</p>
           </div>
         ))}
@@ -66,7 +66,7 @@ export function DonateClient() {
             <span className="rule-gold" />
             <span className="label-eyebrow">Your Gift Matters</span>
           </div>
-          <h2 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-5">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-5">
             Partner with the <span className="text-purple-600">Mission</span>
           </h2>
           <p className="font-raleway text-neutral-500 text-base leading-relaxed mb-10">
@@ -88,10 +88,10 @@ export function DonateClient() {
               >
                 <span className="text-2xl w-10 text-center shrink-0">{it.icon}</span>
                 <div className="flex-1 min-w-0">
-                  <span className="font-raleway font-semibold text-neutral-900 text-sm">{it.label}</span>
+                  <span className="font-bricolage font-semibold text-neutral-900 text-sm">{it.label}</span>
                 </div>
                 <span className={cn(
-                  'font-raleway font-bold text-lg shrink-0 transition-colors duration-300',
+                  'font-bricolage font-bold text-lg shrink-0 transition-colors duration-300',
                   finalAmount === parseInt(it.amount.replace('$', '')) && !custom
                     ? 'text-purple-600'
                     : 'text-gold-500 group-hover:text-purple-600'
@@ -120,7 +120,7 @@ export function DonateClient() {
                     <CheckCircle2 className="h-10 w-10 text-green-500" />
                   </div>
                   <div>
-                    <h3 className="font-raleway font-bold text-neutral-900 text-2xl mb-2">
+                    <h3 className="font-bricolage font-bold text-neutral-900 text-2xl mb-2">
                       Thank You!
                     </h3>
                     <p className="font-raleway text-neutral-500 text-base leading-relaxed max-w-xs">
@@ -146,7 +146,7 @@ export function DonateClient() {
                       <Heart className="h-5 w-5 text-purple-600" />
                     </div>
                     <div>
-                      <p className="font-raleway font-semibold text-neutral-900 text-base">Make a Donation</p>
+                      <p className="font-bricolage font-semibold text-neutral-900 text-base">Make a Donation</p>
                       <p className="font-worksans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-400">Secure · Anonymous option available</p>
                     </div>
                   </div>
@@ -179,7 +179,7 @@ export function DonateClient() {
                       Custom Amount
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-raleway font-semibold text-neutral-400 text-base">$</span>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bricolage font-semibold text-neutral-400 text-base">$</span>
                       <input
                         type="number"
                         min="1"
@@ -195,7 +195,7 @@ export function DonateClient() {
                   {valid && (
                     <div className="bg-purple-50 border border-purple-100 rounded-xl px-4 py-3 mb-5 flex items-center justify-between">
                       <span className="font-worksans text-xs tracking-[0.1em] uppercase text-purple-600">Your gift</span>
-                      <span className="font-raleway font-bold text-purple-700 text-xl">${finalAmount}</span>
+                      <span className="font-bricolage font-bold text-purple-700 text-xl">${finalAmount}</span>
                     </div>
                   )}
 

@@ -35,7 +35,7 @@ export default function NewsPage() {
             <span className="rule-gold" />
             <span className="label-eyebrow">Upcoming Tour</span>
           </div>
-          <h2 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-14">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-14">
             2025 Ministry Tour
           </h2>
 
@@ -58,7 +58,7 @@ export default function NewsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
                     <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg">
-                      <p className="font-raleway font-bold text-neutral-900 text-xl leading-none">{day}</p>
+                      <p className="font-bricolage font-bold text-neutral-900 text-xl leading-none">{day}</p>
                       <p className="font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
                     </div>
                     {past && (
@@ -66,7 +66,7 @@ export default function NewsPage() {
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="font-raleway font-bold text-neutral-900 text-xl mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                    <h3 className="font-bricolage font-bold text-neutral-900 text-xl mb-1 group-hover:text-purple-700 transition-colors duration-300">
                       {date.city}
                     </h3>
                     <p className="flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mb-1">
@@ -105,7 +105,7 @@ export default function NewsPage() {
             <span className="rule-gold" />
             <span className="label-eyebrow">New Releases</span>
           </div>
-          <h2 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
             Latest Music
           </h2>
 
@@ -122,7 +122,7 @@ export default function NewsPage() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-raleway font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                  <p className="font-bricolage font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
                     {album.title}
                   </p>
                   <p className="font-worksans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-4">
@@ -168,7 +168,7 @@ export default function NewsPage() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Follow Along</span>
               </div>
-              <p className="font-raleway font-bold text-neutral-900 text-2xl tracking-tight">
+              <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">
                 Stay Connected
               </p>
             </div>

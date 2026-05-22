@@ -41,7 +41,7 @@ export function VideoGrid() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-raleway font-semibold text-neutral-900 text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-bricolage font-semibold text-neutral-900 text-3xl md:text-4xl tracking-tight">
                 All Videos
               </h2>
             </div>
@@ -184,7 +184,7 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
 
       {/* Info */}
       <div className="p-4">
-        <p className="font-raleway font-medium text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
+        <p className="font-bricolage font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
           {video.title}
         </p>
         {video.duration && (

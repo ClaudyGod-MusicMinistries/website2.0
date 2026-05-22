@@ -54,7 +54,7 @@ export function MusicPlayer() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Now Playing</span>
             </div>
-            <h2 className="font-raleway font-bold text-white text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight">
               Music Player
             </h2>
             <p className="font-raleway text-neutral-500 text-sm mt-2">
@@ -98,7 +98,7 @@ export function MusicPlayer() {
                   className="rounded-full opacity-40"
                 />
                 <div className="text-center">
-                  <p className="font-raleway font-semibold text-white/40 text-lg mb-1">Select a track to play</p>
+                  <p className="font-bricolage font-semibold text-white/40 text-lg mb-1">Select a track to play</p>
                   <p className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-700">
                     {tracks.length} tracks available
                   </p>
@@ -114,7 +114,7 @@ export function MusicPlayer() {
                     <Music2 className="h-3.5 w-3.5 text-purple-400" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-raleway font-semibold text-white text-sm truncate">{activeTrack.title}</p>
+                    <p className="font-bricolage font-semibold text-white text-sm truncate">{activeTrack.title}</p>
                     <p className="font-worksans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-600">ClaudyGod Music Ministries</p>
                   </div>
                 </div>
