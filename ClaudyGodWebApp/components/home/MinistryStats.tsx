@@ -41,7 +41,7 @@ function CountUp({ target, suffix, active }: { target: number; suffix: string; a
   return (
     <span>
       {count}
-      <span className="text-gold-400">{suffix}</span>
+      <span className="text-gold-500">{suffix}</span>
     </span>
   );
 }
@@ -51,9 +51,9 @@ export function MinistryStats() {
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} className="bg-[#0a0a0a] border-t border-b border-white/[0.04]">
+    <section ref={ref} className="bg-cream-100 border-t border-b border-black/[0.06]">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 md:py-20">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x lg:divide-white/[0.06]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0 lg:divide-x lg:divide-black/[0.07]">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
@@ -64,13 +64,13 @@ export function MinistryStats() {
                 transition: `opacity 0.6s ease ${i * 0.12}s, transform 0.6s ease ${i * 0.12}s`,
               }}
             >
-              <p className="font-raleway font-medium text-white text-4xl md:text-5xl tracking-tight leading-none mb-2">
+              <p className="font-raleway font-medium text-neutral-900 text-4xl md:text-5xl tracking-tight leading-none mb-2">
                 <CountUp target={stat.value} suffix={stat.suffix} active={isInView} />
               </p>
-              <p className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-gold-400/80 mb-1.5">
+              <p className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-purple-600 mb-1.5">
                 {stat.label}
               </p>
-              <p className="font-raleway text-neutral-600 text-xs leading-relaxed">
+              <p className="font-raleway text-neutral-500 text-xs leading-relaxed">
                 {stat.description}
               </p>
             </div>
