@@ -24,7 +24,7 @@ export default function DonatePage() {
         backgroundImage="/manBack.jpg"
       />
 
-      <section className="bg-[#080808] section-py">
+      <section className="bg-cream-100 section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <DonateClient />
         </div>

@@ -1,5 +1,3 @@
-const CDN = 'https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest';
-
 export const newsAlbums = [
   {
     title: 'Lover of my Soul',
@@ -24,12 +22,12 @@ export const newsAlbums = [
 ];
 
 export const socialShareLinks = [
-  { name: 'Facebook', iconName: 'FaFacebookF', color: '#1877F2', url: 'https://www.facebook.com/ClaudyGod/' },
-  { name: 'YouTube', iconName: 'FaYoutube', color: '#FF0000', url: 'https://www.youtube.com/@ClaudyGODMinistries' },
-  { name: 'Twitter', iconName: 'FaXTwitter', color: '#1DA1F2', url: 'https://twitter.com/claudygod' },
-  { name: 'TikTok', iconName: 'FaTiktok', color: '#FFFFFF', url: 'https://tiktok.com/@claudygod' },
-  { name: 'Spotify', iconName: 'FaSpotify', color: '#1DB954', url: 'https://open.spotify.com/artist/claudygod' },
-  { name: 'Apple Music', iconName: 'FaApple', color: '#FFFFFF', url: 'https://music.apple.com/ng/artist/claudygod/1440081695' },
+  { name: 'Facebook',     iconName: 'FaFacebookF', color: '#1877F2', url: 'https://www.facebook.com/ClaudyGod/' },
+  { name: 'YouTube',      iconName: 'FaYoutube',   color: '#FF0000', url: 'https://www.youtube.com/@ClaudyGODMinistries' },
+  { name: 'Twitter',      iconName: 'FaXTwitter',  color: '#1DA1F2', url: 'https://twitter.com/claudygod' },
+  { name: 'TikTok',       iconName: 'FaTiktok',    color: '#010101', url: 'https://tiktok.com/@claudygod' },
+  { name: 'Spotify',      iconName: 'FaSpotify',   color: '#1DB954', url: 'https://open.spotify.com/artist/claudygod' },
+  { name: 'Apple Music',  iconName: 'FaApple',     color: '#555555', url: 'https://music.apple.com/ng/artist/claudygod/1440081695' },
 ];
 
 export const tourDates = [
@@ -40,7 +38,7 @@ export const tourDates = [
     venue: 'University of Port Harcourt Auditorium',
     date: '2025-07-12',
     time: '5:00 PM',
-    image: `${CDN}/Ministry6.jpg`,
+    image: '/tour_1.jpg',
     ticketUrl: '#',
   },
   {
@@ -50,7 +48,7 @@ export const tourDates = [
     venue: 'Tafawa Balewa Square',
     date: '2025-08-02',
     time: '6:00 PM',
-    image: `${CDN}/Ministry4.jpg`,
+    image: '/manBack.jpg',
     ticketUrl: '#',
   },
   {
@@ -60,7 +58,7 @@ export const tourDates = [
     venue: 'Enyimba Cultural Centre',
     date: '2025-08-16',
     time: '5:00 PM',
-    image: `${CDN}/Ministry5.jpg`,
+    image: '/aboutUs.webp',
     ticketUrl: '#',
   },
   {
@@ -70,7 +68,7 @@ export const tourDates = [
     venue: 'Imo State University',
     date: '2025-09-06',
     time: '5:00 PM',
-    image: `${CDN}/Ministry7.jpg`,
+    image: '/mum1.jpg',
     ticketUrl: '#',
   },
 ];
