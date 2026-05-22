@@ -24,7 +24,8 @@ export function StreamingPlatforms() {
                   href={platform.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 px-5 h-10 border border-white/10 hover:border-gold-500/40 text-neutral-500 hover:text-white font-worksans text-[0.58rem] tracking-[0.15em] uppercase transition-all duration-300"
+                  style={{ '--brand': platform.brandColor } as React.CSSProperties}
+                  className="inline-flex items-center gap-2.5 px-5 h-10 border border-white/10 hover:border-[var(--brand)]/40 text-neutral-500 hover:text-[var(--brand)] font-worksans text-[0.58rem] tracking-[0.15em] uppercase transition-all duration-300"
                 >
                   <Icon className="h-3 w-3 shrink-0" />
                   {platform.name}

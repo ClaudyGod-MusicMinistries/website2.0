@@ -22,7 +22,7 @@ export default function CartPage() {
         </p>
         <Link
           href="/store"
-          className="mt-4 font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-[#080808] bg-gold-500 hover:bg-gold-400 transition-colors h-10 px-7 inline-flex items-center"
+          className="mt-4 font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-white bg-purple-600 hover:bg-purple-500 transition-colors h-10 px-7 inline-flex items-center"
         >
           Go to Store
         </Link>
@@ -130,7 +130,7 @@ export default function CartPage() {
                 </p>
               </div>
               <button
-                className="w-full h-11 bg-gold-500 hover:bg-gold-400 text-[#080808] font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
+                className="w-full h-11 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
               >
                 Proceed to Checkout
               </button>
