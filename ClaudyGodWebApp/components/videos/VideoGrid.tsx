@@ -18,20 +18,20 @@ export function VideoGrid() {
 
   return (
     <>
-      <section className="bg-[#080808] section-py">
+      <section className="bg-white section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
 
           {/* Filter tabs */}
-          <div className="flex items-center gap-4 mb-14 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex items-center gap-4 mb-14 overflow-x-auto pb-1 scrollbar-none border-b border-black/[0.07]">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActive(cat)}
                 className={cn(
-                  'shrink-0 font-worksans text-[0.55rem] tracking-[0.2em] uppercase pb-3 border-b transition-all duration-300',
+                  'shrink-0 font-worksans text-[0.55rem] tracking-[0.2em] uppercase pb-3 border-b-2 -mb-px transition-all duration-300',
                   active === cat
-                    ? 'text-gold-400 border-gold-500/50'
-                    : 'text-neutral-600 border-transparent hover:text-neutral-400'
+                    ? 'text-purple-600 border-purple-500'
+                    : 'text-neutral-500 border-transparent hover:text-neutral-700'
                 )}
               >
                 {cat}
@@ -40,7 +40,7 @@ export function VideoGrid() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-white/[0.04]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filtered.map((video) => (
               <VideoCard key={video.id} video={video} onPlay={() => setPlayingId(video.youtubeId)} />
             ))}
@@ -97,7 +97,7 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
   return (
     <button
       onClick={onPlay}
-      className="group relative bg-[#080808] text-left overflow-hidden"
+      className="group relative bg-neutral-950 text-left overflow-hidden"
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
@@ -121,8 +121,8 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
       </div>
 
       {/* Info */}
-      <div className="p-4 border-t border-white/[0.04]">
-        <p className="font-raleway text-sm text-neutral-400 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
+      <div className="p-4 border-t border-white/[0.06]">
+        <p className="font-raleway text-sm md:text-base text-neutral-300 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
           {video.title}
         </p>
       </div>

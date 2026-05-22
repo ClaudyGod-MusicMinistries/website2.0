@@ -49,10 +49,10 @@ export function FeaturedVideos() {
             </div>
             <Link
               href="/videos"
-              className="hidden sm:flex items-center gap-2 font-worksans text-[0.58rem] tracking-[0.18em] uppercase text-neutral-500 hover:text-purple-600 transition-colors duration-300 group"
+              className="hidden sm:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 transition-all duration-300 group"
             >
               See All
-              <ChevronRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+              <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </div>
 
@@ -172,9 +172,10 @@ export function FeaturedVideos() {
           <div className="mt-8 flex justify-center sm:hidden">
             <Link
               href="/videos"
-              className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors border-b border-neutral-300 hover:border-purple-400 pb-px"
+              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 transition-all duration-300 group"
             >
-              See All Videos →
+              See All Videos
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </div>
         </div>

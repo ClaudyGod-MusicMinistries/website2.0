@@ -22,7 +22,7 @@ export function DonateClient() {
           <span className="rule-gold" />
           <span className="label-eyebrow">Your Gift Matters</span>
         </div>
-        <p className="font-raleway font-light text-white text-2xl tracking-tight leading-snug mb-6">
+        <p className="font-raleway font-light text-neutral-900 text-2xl tracking-tight leading-snug mb-6">
           Partner with the Mission
         </p>
         <p className="font-raleway text-neutral-500 text-sm leading-[1.85] font-light mb-6">
@@ -37,7 +37,7 @@ export function DonateClient() {
             { amount: '$50', label: 'Sponsors a ministry tour stop' },
             { amount: '$100', label: 'Supports full album production' },
           ].map((item) => (
-            <div key={item.amount} className="flex items-center gap-4 border-b border-white/[0.04] pb-4">
+            <div key={item.amount} className="flex items-center gap-4 border-b border-black/[0.06] pb-4">
               <span className="font-raleway font-light text-gold-400 text-lg w-16 shrink-0">
                 {item.amount}
               </span>
@@ -56,7 +56,7 @@ export function DonateClient() {
           <span className="label-eyebrow">Give Now</span>
         </div>
 
-        <p className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 mb-3">
+        <p className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 mb-3">
           Select Amount
         </p>
         <div className="grid grid-cols-4 gap-2 mb-4">
@@ -68,7 +68,7 @@ export function DonateClient() {
                 'h-11 font-worksans text-[0.58rem] tracking-[0.18em] uppercase transition-all duration-300 border',
                 amount === p && !custom
                   ? 'bg-gold-500 border-gold-500 text-[#080808]'
-                  : 'border-white/10 text-neutral-500 hover:border-gold-500/40 hover:text-white'
+                  : 'border-neutral-200 text-neutral-500 hover:border-gold-500/40 hover:text-neutral-900'
               )}
             >
               ${p}
@@ -77,7 +77,7 @@ export function DonateClient() {
         </div>
 
         <div className="mb-6">
-          <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
+          <label className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 block mb-2">
             Custom Amount
           </label>
           <div className="relative">
@@ -88,13 +88,13 @@ export function DonateClient() {
               placeholder="Enter amount"
               value={custom}
               onChange={(e) => { setCustom(e.target.value); setAmount(null); }}
-              className="w-full h-11 pl-8 pr-4 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300"
+              className="w-full h-11 pl-8 pr-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
             />
           </div>
         </div>
 
         <div className="mb-6">
-          <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
+          <label className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 block mb-2">
             Message <span className="text-neutral-700">(optional)</span>
           </label>
           <textarea
@@ -102,7 +102,7 @@ export function DonateClient() {
             onChange={(e) => setMessage(e.target.value)}
             rows={3}
             placeholder="Leave a note of encouragement…"
-            className="w-full px-4 py-3 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300 resize-none"
+            className="w-full px-4 py-3 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none"
           />
         </div>
 
@@ -114,7 +114,7 @@ export function DonateClient() {
           {finalAmount && !isNaN(finalAmount) ? `Give $${finalAmount}` : 'Give'}
         </button>
 
-        <p className="mt-4 font-raleway text-neutral-700 text-xs font-light text-center">
+        <p className="mt-4 font-raleway text-neutral-500 text-xs font-light text-center">
           Secure payment processing. All donations support ClaudyGod Music Ministries.
         </p>
       </div>
