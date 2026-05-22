@@ -10,8 +10,11 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export const metadata: Metadata = {
-  title: 'News — ClaudyGod Music Ministries',
-  description: 'Latest news, upcoming tour dates, new releases, and ministry updates from ClaudyGod.',
+  title: 'News & Tour Dates — ClaudyGod Music Ministries',
+  description: 'Latest news, upcoming tour dates in Nigeria and beyond, new releases, and ministry updates from Minister ClaudyGod.',
+  keywords: ['ClaudyGod tour dates', 'gospel concerts Nigeria 2025', 'ClaudyGod news', 'Port Harcourt gospel concert'],
+  openGraph: { title: 'ClaudyGod News & Tour Dates', description: 'Tour dates, new releases, and ministry updates.', url: '/news' },
+  alternates: { canonical: 'https://claudygod.com/news' },
 };
 
 export default function NewsPage() {
@@ -19,8 +22,9 @@ export default function NewsPage() {
     <>
       <PageHero
         eyebrow="News & Updates"
-        title="What&apos;s Happening"
+        title="What's Happening"
         subtitle="Tour dates, new releases, and ministry updates — all in one place."
+        backgroundImage="/tour_1.jpg"
       />
 
       {/* Tour dates */}

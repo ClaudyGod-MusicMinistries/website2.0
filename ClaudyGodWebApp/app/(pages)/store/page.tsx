@@ -5,8 +5,11 @@ import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
 
 export const metadata: Metadata = {
-  title: 'Store — ClaudyGod Music Ministries',
-  description: 'Shop exclusive ClaudyGod merchandise — music, apparel, and accessories.',
+  title: 'Official ClaudyGod Merchandise Store',
+  description: 'Shop exclusive ClaudyGod merchandise — gospel music, worship apparel, and accessories. Wear your faith.',
+  keywords: ['ClaudyGod merchandise', 'gospel music store', 'Christian apparel', 'ministry store'],
+  openGraph: { title: 'ClaudyGod Official Store', description: 'Exclusive merchandise — music, apparel, and accessories.', url: '/store' },
+  alternates: { canonical: 'https://claudygod.com/store' },
 };
 
 const ProductGrid = dynamic(
@@ -26,6 +29,7 @@ export default function StorePage() {
         eyebrow="Store"
         title="Official Merchandise"
         subtitle="Music, apparel, and accessories — wear your worship."
+        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Bg_13.webp"
       />
       <AnimateOnView><ProductGrid /></AnimateOnView>
       <CartDrawer />
