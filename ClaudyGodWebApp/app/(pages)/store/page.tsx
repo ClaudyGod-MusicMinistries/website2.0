@@ -29,7 +29,7 @@ export default function StorePage() {
         eyebrow="Store"
         title="Official Merchandise"
         subtitle="Music, apparel, and accessories — wear your worship."
-        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Bg_13.webp"
+        backgroundImage="/resize_abt.webp"
       />
       <AnimateOnView><ProductGrid /></AnimateOnView>
       <CartDrawer />

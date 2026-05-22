@@ -20,7 +20,7 @@ export default function ContactPage() {
         subtitle="Bookings, collaborations, or general inquiries — we're here."
         backgroundImage="/manBack.jpg"
       />
-      <section className="bg-[#080808] section-py">
+      <section className="bg-white section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             <ContactForm />

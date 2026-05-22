@@ -30,7 +30,7 @@ export function ContactForm() {
     return (
       <div className="flex flex-col gap-3 py-12">
         <CheckCircle2 className="h-5 w-5 text-gold-400" />
-        <p className="font-raleway font-light text-white text-xl leading-snug">
+        <p className="font-raleway font-light text-neutral-900 text-xl leading-snug">
           Message received.
         </p>
         <p className="font-raleway text-neutral-500 text-sm font-light">
@@ -38,7 +38,7 @@ export function ContactForm() {
         </p>
         <button
           onClick={() => setStatus('idle')}
-          className="mt-4 font-worksans text-[0.55rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-gold-400 transition-colors duration-300 w-fit border-b border-neutral-700 hover:border-gold-500/40 pb-px"
+          className="mt-4 font-worksans text-[0.55rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors duration-300 w-fit border-b border-neutral-200 hover:border-purple-400 pb-px"
         >
           Send another message
         </button>
@@ -51,14 +51,14 @@ export function ContactForm() {
       {/* Name + Email row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
-          <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
+          <label className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 block mb-2">
             Full Name
           </label>
           <input
             {...register('name')}
             type="text"
             placeholder="Your full name"
-            className="w-full h-11 px-4 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300"
+            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
           />
           {errors.name && (
             <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -67,14 +67,14 @@ export function ContactForm() {
           )}
         </div>
         <div>
-          <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
+          <label className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 block mb-2">
             Email Address
           </label>
           <input
             {...register('email')}
             type="email"
             placeholder="your@email.com"
-            className="w-full h-11 px-4 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300"
+            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
           />
           {errors.email && (
             <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -93,7 +93,7 @@ export function ContactForm() {
           {...register('phone')}
           type="tel"
           placeholder="+1 (555) 000-0000"
-          className="w-full h-11 px-4 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300"
+          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
         />
         {errors.phone && (
           <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -111,7 +111,7 @@ export function ContactForm() {
           {...register('subject')}
           type="text"
           placeholder="What is this about?"
-          className="w-full h-11 px-4 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300"
+          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
         />
       </div>
 
@@ -124,7 +124,7 @@ export function ContactForm() {
           {...register('message')}
           rows={5}
           placeholder="Write your message here…"
-          className="w-full px-4 py-3 bg-transparent border border-white/10 text-white placeholder:text-neutral-700 font-raleway text-sm font-light focus:outline-none focus:border-gold-500/40 transition-colors duration-300 resize-none"
+          className="w-full px-4 py-3 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none"
         />
         {errors.message && (
           <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">

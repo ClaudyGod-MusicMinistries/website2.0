@@ -20,7 +20,7 @@ export const products: Product[] = [
   {
     id: '1',
     name: 'ClaudyGod Exclusive Mug',
-    image: `${CDN}/Product1.jpg`,
+    image: '/CD1.png',
     price: 5,
     category: 'accessories',
     description: 'Double-Walled Ceramic Mug',
@@ -29,7 +29,7 @@ export const products: Product[] = [
   {
     id: '2',
     name: 'Saviour is born, Jesus is here',
-    image: `${CDN}/Product2.jpg`,
+    image: '/ClaudySocial.jpg',
     price: 5,
     category: 'accessories',
     description: 'Ceramic Design Mug',
@@ -38,7 +38,7 @@ export const products: Product[] = [
   {
     id: '3',
     name: 'ClaudyGod Premium T-Shirt',
-    image: `${CDN}/Product3.png`,
+    image: '/mum1.jpg',
     price: 25,
     category: 'clothing',
     description: 'Premium Cotton T-Shirt',
@@ -47,7 +47,7 @@ export const products: Product[] = [
   {
     id: '4',
     name: 'ClaudyGod Premium T-Shirt',
-    image: `${CDN}/Product4.png`,
+    image: '/aboutUs.webp',
     price: 30,
     category: 'clothing',
     description: 'Limited Edition T-Shirt',
@@ -56,7 +56,7 @@ export const products: Product[] = [
   {
     id: '5',
     name: 'ClaudyGod Music EP',
-    image: `${CDN}/CoverArt.jpg`,
+    image: '/CD1.png',
     price: 10,
     category: 'music',
     description: 'Digital EP: Pay. Stream. Download.',
@@ -65,7 +65,7 @@ export const products: Product[] = [
   {
     id: '6',
     name: 'Get our Latest Album',
-    image: `${CDN}/Bg_13.webp`,
+    image: '/resize_abt.webp',
     price: 10,
     category: 'music',
     description: 'Full album digital download.',
