@@ -6,8 +6,11 @@ import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
 
 export const metadata: Metadata = {
-  title: 'Music — ClaudyGod Music Ministries',
-  description: 'Explore the full discography of Minister ClaudyGod — gospel albums and worship music available on all major streaming platforms.',
+  title: 'Music & Discography — ClaudyGod',
+  description: 'Stream ClaudyGod\'s full discography — 7 albums of spirit-filled gospel music available on Spotify, Apple Music, YouTube, Deezer, and Amazon Music.',
+  keywords: ['ClaudyGod music', 'gospel albums', 'worship songs Spotify', 'Nigerian gospel discography', 'ClaudyGod albums'],
+  openGraph: { title: 'ClaudyGod Music & Discography', description: '7 albums of spirit-filled gospel worship music.', url: '/music' },
+  alternates: { canonical: 'https://claudygod.com/music' },
 };
 
 const AlbumGrid = dynamic(
@@ -22,6 +25,7 @@ export default function MusicPage() {
         eyebrow="Music"
         title="Worship That Transforms"
         subtitle="Seven albums of spirit-filled gospel music — available everywhere you stream."
+        backgroundImage="https://cdn.jsdelivr.net/gh/ClaudyGod-MusicMinistries/CGM-Assets@latest/Bg_13.webp"
       />
       <StreamingPlatforms />
       <AnimateOnView><AlbumGrid /></AnimateOnView>

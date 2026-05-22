@@ -4,8 +4,11 @@ import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfo } from '@/components/contact/ContactInfo';
 
 export const metadata: Metadata = {
-  title: 'Contact — ClaudyGod Music Ministries',
-  description: 'Get in touch with ClaudyGod Music Ministries for bookings, collaborations, or general inquiries.',
+  title: 'Contact ClaudyGod — Bookings & Enquiries',
+  description: 'Contact ClaudyGod Music Ministries for event bookings, media enquiries, ministry collaborations, or prayer requests.',
+  keywords: ['contact ClaudyGod', 'gospel artist booking', 'ministry enquiry', 'book ClaudyGod'],
+  openGraph: { title: 'Contact ClaudyGod', description: 'Reach out for bookings, collaborations, or general enquiries.', url: '/contact' },
+  alternates: { canonical: 'https://claudygod.com/contact' },
 };
 
 export default function ContactPage() {
@@ -15,6 +18,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Get in Touch"
         subtitle="Bookings, collaborations, or general inquiries — we're here."
+        backgroundImage="/manBack.jpg"
       />
       <section className="bg-[#080808] section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
