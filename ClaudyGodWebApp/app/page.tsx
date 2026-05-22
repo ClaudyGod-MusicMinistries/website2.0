@@ -6,6 +6,7 @@ import { FeaturedVideos }  from '@/components/home/FeaturedVideos';
 import { MusicHighlight }  from '@/components/home/MusicHighlight';
 import { PagesExplorer }   from '@/components/home/PagesExplorer';
 import { StorePreview }    from '@/components/home/StorePreview';
+import { DonateSection }   from '@/components/home/DonateSection';
 import { AppDownload }     from '@/components/home/AppDownload';
 import { NewsletterBanner } from '@/components/home/NewsletterBanner';
 import { AnimateOnView }   from '@/components/shared/AnimateOnView';
@@ -36,6 +37,7 @@ export default function Home() {
       <AnimateOnView><MusicHighlight /></AnimateOnView>
       <AnimateOnView><PagesExplorer /></AnimateOnView>
       <AnimateOnView><StorePreview /></AnimateOnView>
+      <AnimateOnView><DonateSection /></AnimateOnView>
       <AppDownload />
       <NewsletterBanner />
     </>

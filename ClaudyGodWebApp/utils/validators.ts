@@ -62,14 +62,10 @@ const CountryCode = z.enum(['US', 'CA', 'UK', 'NG', 'GH'], {
   errorMap: () => ({ message: 'Please select a valid country' }),
 });
 
-const OrgType = z.enum([
-  'church',
-  'university',
-  'conference',
-  'concert',
-  'private',
-  'other',
-]);
+const OrgType = z.enum(
+  ['church', 'university', 'conference', 'concert', 'private', 'other'],
+  { errorMap: () => ({ message: 'Please select an organization type' }) }
+);
 
 export const bookingSchema = z.object({
   // Personal
