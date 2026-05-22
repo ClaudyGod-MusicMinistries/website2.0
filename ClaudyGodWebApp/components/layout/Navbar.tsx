@@ -36,12 +36,12 @@ export function Navbar() {
   const mobileLinks  = navigationItems.filter((i) => !['Donate'].includes(i.label));
 
   const headerBg = scrolled
-    ? 'bg-white/96 backdrop-blur-2xl border-b border-black/[0.07] shadow-[0_1px_16px_rgba(0,0,0,0.08)]'
-    : 'bg-gradient-to-b from-black/60 via-black/20 to-transparent';
+    ? 'bg-white/[0.98] backdrop-blur-2xl border-b border-neutral-100 shadow-[0_4px_24px_rgba(0,0,0,0.10)]'
+    : 'bg-gradient-to-b from-black/70 via-black/30 to-transparent';
 
   const linkBase    = 'font-worksans text-xs tracking-[0.15em] uppercase transition-colors duration-300';
-  const linkColor   = scrolled ? 'text-neutral-600 hover:text-neutral-900' : 'text-white/80 hover:text-white';
-  const activeColor = scrolled ? 'text-purple-600' : 'text-gold-400';
+  const linkColor   = scrolled ? 'text-neutral-700 hover:text-neutral-900' : 'text-white/90 hover:text-white';
+  const activeColor = scrolled ? 'text-purple-600 font-medium' : 'text-gold-400';
 
   return (
     <>
@@ -71,9 +71,9 @@ export function Navbar() {
             {/* Brand text — stacked vertically */}
             <div className={cn(
               'hidden sm:flex flex-col gap-0.5 transition-colors duration-300',
-              scrolled ? 'text-neutral-800' : 'text-white/95'
+              scrolled ? 'text-neutral-900' : 'text-white/95'
             )}>
-              <span className="font-bricolage font-semibold text-sm tracking-tight leading-none">ClaudyGod</span>
+              <span className="font-bricolage font-bold text-sm tracking-tight leading-none">ClaudyGod</span>
               <span className="font-worksans text-[0.52rem] tracking-[0.2em] uppercase opacity-55 leading-none mt-0.5">Music Ministries</span>
             </div>
           </Link>
