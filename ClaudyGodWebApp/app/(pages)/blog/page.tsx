@@ -91,43 +91,48 @@ function formatDate(d: string) {
   return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-// ── Interview video card ──────────────────────────────────────────────────────
+// ── Interview video card — matches ArticleCard light style ───────────────────
 function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPlay: () => void }) {
   return (
     <motion.button
       variants={item}
       onClick={onPlay}
-      className="group w-full text-left bg-neutral-950 rounded-2xl overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.22)] border border-white/[0.04] hover:border-purple-500/30 transition-all duration-400"
+      className="group w-full text-left bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col"
     >
-      <div className="relative aspect-video overflow-hidden">
+      {/* Thumbnail — same height as ArticleCard image */}
+      <div className="relative h-52 overflow-hidden flex-shrink-0">
         <Image
           src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
           alt={v.title}
           fill
-          className="object-cover opacity-70 group-hover:opacity-95 transition-all duration-500 group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-14 h-14 rounded-full border-2 border-white/30 flex items-center justify-center bg-black/30 backdrop-blur-sm group-hover:border-purple-400 group-hover:bg-purple-600/60 group-hover:scale-110 transition-all duration-300">
+          <div className="w-14 h-14 rounded-full border-2 border-white/50 flex items-center justify-center bg-black/30 backdrop-blur-sm group-hover:border-purple-400 group-hover:bg-purple-600/60 group-hover:scale-110 transition-all duration-300">
             <Play className="h-5 w-5 text-white fill-white ml-0.5" />
           </div>
         </div>
-        <span className="absolute top-3 left-3 font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-white/80 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full">
+        {/* Interview badge — same position/style as category badge */}
+        <span className="absolute top-3 left-3 font-worksans text-[0.52rem] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full font-medium bg-purple-100 text-purple-700">
           Interview
         </span>
       </div>
-      <div className="p-5">
-        <p className="font-worksans text-[0.55rem] tracking-[0.12em] uppercase text-gold-400/80 mb-1.5">{v.channel}</p>
-        <p className="font-bricolage font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
+
+      {/* Body — same padding + layout as ArticleCard */}
+      <div className="flex-1 flex flex-col p-6">
+        <p className="font-worksans text-[0.52rem] tracking-[0.14em] uppercase text-gold-600 mb-2">{v.channel}</p>
+        <h3 className="font-bricolage font-bold text-neutral-900 text-lg leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2 flex-1">
           {v.title}
-        </p>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
+        </h3>
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-black/[0.05]">
+          <span className="flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
             <Calendar className="h-3 w-3" />{v.date}
           </span>
           {v.duration && (
-            <span className="flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
+            <span className="flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
               <Clock className="h-3 w-3" />{v.duration}
             </span>
           )}
@@ -155,8 +160,8 @@ function TourCard({ t }: { t: typeof tourDates[number] }) {
           : 'bg-white border-neutral-200 hover:border-purple-300 hover:shadow-[0_8px_32px_rgba(124,58,237,0.08)]'
       )}
     >
-      {/* Image strip */}
-      <div className="relative h-40 overflow-hidden">
+      {/* Image strip — same height as article/interview cards */}
+      <div className="relative h-52 overflow-hidden">
         <Image
           src={t.image}
           alt={t.city}
@@ -231,7 +236,7 @@ function ArticleCard({ post }: { post: typeof articles[number] }) {
               {post.category}
             </span>
           </div>
-          <h3 className="font-bricolage font-bold text-neutral-900 text-lg leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2 flex-1">
+          <h3 className="font-bricolage font-bold text-neutral-900 text-[1.05rem] leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2 flex-1">
             {post.title}
           </h3>
           <p className="font-raleway text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4">
