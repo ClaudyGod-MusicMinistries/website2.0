@@ -157,7 +157,7 @@
   }
 
   body {
-    @apply bg-surface-base text-white font-bricolage antialiased;
+    @apply bg-white text-neutral-900 font-bricolage antialiased;
     min-height: 100dvh;
   }
 
@@ -218,7 +218,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-purple-light);
+    color: var(--color-purple);
   }
 
   /* Editorial divider line */
