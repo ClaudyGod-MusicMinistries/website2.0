@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import dynamic from 'next/dynamic';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Loader } from '@/components/shared/Loader';
 import './globals.css';
+
+const WelcomeModal   = dynamic(() => import('@/components/shared/WelcomeModal').then(m => m.WelcomeModal),   { ssr: false });
+const CookieConsent  = dynamic(() => import('@/components/shared/CookieConsent').then(m => m.CookieConsent), { ssr: false });
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
@@ -92,6 +96,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <WelcomeModal />
+        <CookieConsent />
       </body>
     </html>
   );

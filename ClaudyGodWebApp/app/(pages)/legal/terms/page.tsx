@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <LegalPage
+      active="terms"
       title="Terms of Service"
       lastUpdated="May 2025"
       intro="By accessing and using the ClaudyGod Music Ministries website, you accept and agree to be bound by the terms and conditions outlined below. Please read these terms carefully before using our services."
