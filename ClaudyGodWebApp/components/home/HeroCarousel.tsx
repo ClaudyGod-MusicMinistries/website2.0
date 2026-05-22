@@ -19,15 +19,26 @@ const iconMap: Record<string, IconType> = {
 
 const fadeVariants = {
   enter:  { opacity: 0 },
-  center: { opacity: 1, transition: { duration: 1.4, ease: [0.25, 0.1, 0.25, 1] } },
-  exit:   { opacity: 0, transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] } },
+  center: { opacity: 1, transition: { duration: 1.6, ease: [0.25, 0.1, 0.25, 1] } },
+  exit:   { opacity: 0, transition: { duration: 1.0, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
-const textVariants = {
-  hidden:  { opacity: 0, y: 20 },
+// Clip-path wipe reveal from bottom
+const revealVariants = {
+  hidden:  { clipPath: 'inset(0 0 100% 0)', opacity: 0 },
+  visible: (delay = 0) => ({
+    clipPath: 'inset(0 0 0% 0)',
+    opacity: 1,
+    transition: { duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
+
+// Simple fade-up for smaller elements
+const fadeUp = {
+  hidden:  { opacity: 0, y: 16 },
   visible: (delay = 0) => ({
     opacity: 1, y: 0,
-    transition: { duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] },
   }),
 };
 
@@ -83,17 +94,31 @@ export function HeroCarousel() {
               alt=""
               fill
               priority={current === 0}
-              className="object-cover object-center"
+              className="object-cover object-center scale-[1.02]"
               sizes="100vw"
             />
           )}
-          {/* Rich cinematic overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/40 via-[#080808]/20 to-[#080808]/90" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/80 via-[#080808]/30 to-transparent" />
+          {/* Rich cinematic overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/50 via-[#080808]/10 to-[#080808]/95" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/85 via-[#080808]/30 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Slide content — centered on mobile, bottom-left on desktop */}
+      {/* Ambient glow orbs — purely decorative */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -bottom-32 -left-24 w-[700px] h-[700px] bg-[radial-gradient(ellipse_at_center,rgba(109,40,217,0.18)_0%,transparent_70%)]"
+        />
+        <motion.div
+          animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+          className="absolute -top-20 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(201,168,76,0.08)_0%,transparent_70%)]"
+        />
+      </div>
+
+      {/* Slide content */}
       <div className="absolute inset-0 flex flex-col justify-center md:justify-end pt-20 pb-20 md:pt-0 md:pb-28">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
           <AnimatePresence mode="wait">
@@ -104,7 +129,7 @@ export function HeroCarousel() {
         </div>
       </div>
 
-      {/* Dot indicators — replaces progress bars */}
+      {/* Dot indicators */}
       <div className="absolute bottom-9 left-0 right-0 pointer-events-none">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center gap-2">
           {heroSlides.map((s, i) => (
@@ -137,21 +162,26 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
     return (
       <>
         <motion.span
-          custom={0} variants={textVariants} initial="hidden" animate="visible"
+          custom={0} variants={fadeUp} initial="hidden" animate="visible"
           className="label-eyebrow block mb-5"
         >
           Scripture
         </motion.span>
-        <motion.blockquote
-          custom={0.15} variants={textVariants} initial="hidden" animate="visible"
-          className="font-raleway text-white text-xl md:text-2xl lg:text-3xl leading-relaxed tracking-wide max-w-xl"
-        >
-          &ldquo;{content.quote}&rdquo;
-        </motion.blockquote>
+
+        {/* Clip-reveal blockquote using AbrilFatface */}
+        <div className="overflow-hidden">
+          <motion.blockquote
+            custom={0.1} variants={revealVariants} initial="hidden" animate="visible"
+            className="font-abril text-white text-2xl md:text-3xl lg:text-4xl leading-[1.3] tracking-wide max-w-xl"
+          >
+            &ldquo;{content.quote}&rdquo;
+          </motion.blockquote>
+        </div>
+
         {content.reference && (
           <motion.p
-            custom={0.35} variants={textVariants} initial="hidden" animate="visible"
-            className="mt-5 font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-gold-400/70"
+            custom={0.45} variants={fadeUp} initial="hidden" animate="visible"
+            className="mt-5 font-worksans text-[0.6rem] tracking-[0.22em] uppercase text-gold-400/70"
           >
             {content.reference}
           </motion.p>
@@ -164,39 +194,59 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
     return (
       <>
         <motion.div
-          custom={0} variants={textVariants} initial="hidden" animate="visible"
-          className="flex items-center gap-3 mb-6"
+          custom={0} variants={fadeUp} initial="hidden" animate="visible"
+          className="flex items-center gap-3 mb-7"
         >
-          <span className="block w-8 h-px bg-gold-500 opacity-70" />
+          <span className="block w-10 h-px bg-gold-500/80" />
           <span className="label-eyebrow">ClaudyGod Music Ministries</span>
         </motion.div>
-        <motion.h1
-          custom={0.15} variants={textVariants} initial="hidden" animate="visible"
-          className="font-bricolage font-extrabold text-white text-5xl md:text-6xl lg:text-[4rem] leading-[1.04] tracking-tight"
-        >
-          Worship.<br />
-          <em className="not-italic text-gold-300/90">Music.</em>{' '}
-          Ministry.
-        </motion.h1>
+
+        {/* Main display headline — AbrilFatface for maximum impact */}
+        <div className="overflow-hidden mb-1">
+          <motion.h1
+            custom={0.1} variants={revealVariants} initial="hidden" animate="visible"
+            className="font-abril text-white text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight"
+          >
+            Worship.
+          </motion.h1>
+        </div>
+        <div className="overflow-hidden mb-1">
+          <motion.p
+            custom={0.22} variants={revealVariants} initial="hidden" animate="visible"
+            className="font-abril text-gold-300/95 text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight"
+          >
+            Music.
+          </motion.p>
+        </div>
+        <div className="overflow-hidden mb-7">
+          <motion.p
+            custom={0.34} variants={revealVariants} initial="hidden" animate="visible"
+            className="font-abril text-purple-300/90 text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight"
+          >
+            Ministry.
+          </motion.p>
+        </div>
+
         <motion.p
-          custom={0.3} variants={textVariants} initial="hidden" animate="visible"
-          className="mt-5 font-raleway text-neutral-400 text-sm md:text-base leading-relaxed max-w-md font-light"
+          custom={0.52} variants={fadeUp} initial="hidden" animate="visible"
+          className="font-raleway text-neutral-300 text-sm md:text-base leading-relaxed max-w-md mb-8"
         >
           Spirit-filled gospel music from Minister ClaudyGod — spreading the love of God through worship and song.
         </motion.p>
+
         <motion.div
-          custom={0.45} variants={textVariants} initial="hidden" animate="visible"
-          className="mt-8 flex items-center gap-5"
+          custom={0.65} variants={fadeUp} initial="hidden" animate="visible"
+          className="flex items-center flex-wrap gap-4"
         >
           <Link
             href="/bookings"
-            className="font-worksans text-[0.62rem] tracking-[0.22em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-8 h-11 inline-flex items-center rounded-xl transition-all duration-300"
+            className="font-worksans text-[0.62rem] tracking-[0.22em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-8 h-12 inline-flex items-center rounded-xl transition-all duration-300 shadow-[0_4px_20px_rgba(109,40,217,0.5)] hover:shadow-[0_6px_28px_rgba(109,40,217,0.6)]"
           >
             Book Now
           </Link>
           <Link
             href="/music"
-            className="font-worksans text-[0.62rem] tracking-[0.22em] uppercase text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
+            className="font-worksans text-[0.62rem] tracking-[0.22em] uppercase text-white/70 hover:text-white border border-white/20 hover:border-white/50 px-8 h-12 inline-flex items-center rounded-xl transition-all duration-300 backdrop-blur-sm gap-2 group"
           >
             Listen Now
             <span className="text-gold-400 transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -210,22 +260,26 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
     return (
       <>
         <motion.div
-          custom={0} variants={textVariants} initial="hidden" animate="visible"
-          className="flex items-center gap-3 mb-5"
+          custom={0} variants={fadeUp} initial="hidden" animate="visible"
+          className="flex items-center gap-3 mb-6"
         >
-          <span className="block w-8 h-px bg-gold-500 opacity-70" />
+          <span className="block w-10 h-px bg-gold-500/80" />
           <span className="label-eyebrow">Now Streaming</span>
         </motion.div>
+
         {content.listenText && (
-          <motion.h2
-            custom={0.15} variants={textVariants} initial="hidden" animate="visible"
-            className="font-bricolage font-bold text-white text-3xl md:text-4xl leading-snug tracking-wide mb-7"
-          >
-            {content.listenText}
-          </motion.h2>
+          <div className="overflow-hidden mb-8">
+            <motion.h2
+              custom={0.1} variants={revealVariants} initial="hidden" animate="visible"
+              className="font-abril text-white text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight"
+            >
+              {content.listenText}
+            </motion.h2>
+          </div>
         )}
+
         <motion.div
-          custom={0.3} variants={textVariants} initial="hidden" animate="visible"
+          custom={0.35} variants={fadeUp} initial="hidden" animate="visible"
           className="flex flex-wrap gap-2.5"
         >
           {content.streamingPlatforms.map((platform) => {
@@ -236,7 +290,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
                 href={platform.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 h-9 border border-white/15 hover:border-gold-500/50 text-white/70 hover:text-white font-worksans text-[0.58rem] tracking-[0.15em] uppercase transition-all duration-300 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-5 h-10 border border-white/15 hover:border-gold-500/60 text-white/70 hover:text-white font-worksans text-[0.58rem] tracking-[0.15em] uppercase transition-all duration-300 backdrop-blur-sm rounded-xl"
               >
                 <Icon className="h-3 w-3 shrink-0" />
                 {platform.name}
