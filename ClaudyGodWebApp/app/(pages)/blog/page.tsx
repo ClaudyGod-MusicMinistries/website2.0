@@ -230,6 +230,7 @@ export default function BlogPage() {
         title="News & Updates"
         subtitle="New releases, media interviews, and upcoming tour events from ClaudyGod Music Ministries."
         backgroundImage="/mum1.jpg"
+        objectPosition="center top"
       />
 
       <section className="bg-cream-100 section-py">

@@ -2,27 +2,13 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, CheckCircle2, Music, Globe, Users, ShieldCheck, Copy, Check } from 'lucide-react';
+import { Heart, CheckCircle2, ShieldCheck, Copy, Check } from 'lucide-react';
 import { usePaystackPayment } from 'react-paystack';
 import { cn } from '@/utils/cn';
+import { ministryStats, donationTiers } from '@/data/ministryStats';
 
 const PAYSTACK_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? '';
-
-const presets = [
-  { value: 10,  label: '$10',  note: 'Produces a worship session' },
-  { value: 25,  label: '$25',  note: 'Funds outreach materials' },
-  { value: 50,  label: '$50',  note: 'Sponsors a ministry tour stop' },
-  { value: 100, label: '$100', note: 'Supports full album production' },
-  { value: 250, label: '$250', note: 'Covers a live concert event' },
-  { value: 500, label: '$500', note: 'Funds a ministry campaign' },
-];
-
-const stats = [
-  { icon: Globe,  number: '20+', label: 'Years of Ministry' },
-  { icon: Music,  number: '7',   label: 'Albums Produced' },
-  { icon: Users,  number: '50+', label: 'Nations Reached' },
-  { icon: Heart,  number: '∞',   label: 'Lives Touched' },
-];
+const presets = donationTiers;
 
 const fadeUp = {
   hidden:  { opacity: 0, y: 20 },
@@ -135,7 +121,7 @@ export function DonateClient() {
         initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}
         className="grid grid-cols-2 md:grid-cols-4 gap-px mb-14 rounded-2xl overflow-hidden bg-white/10"
       >
-        {stats.map(({ icon: Icon, number, label }, i) => (
+        {ministryStats.map(({ icon: Icon, stat, label }, i) => (
           <motion.div
             key={label}
             custom={i * 0.08}
@@ -145,7 +131,7 @@ export function DonateClient() {
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
               <Icon className="h-5 w-5 text-purple-200" />
             </div>
-            <p className="font-abril text-white text-4xl md:text-5xl leading-none">{number}</p>
+            <p className="font-abril text-white text-4xl md:text-5xl leading-none">{stat}</p>
             <p className="font-worksans text-xs tracking-[0.18em] uppercase text-purple-200">{label}</p>
           </motion.div>
         ))}

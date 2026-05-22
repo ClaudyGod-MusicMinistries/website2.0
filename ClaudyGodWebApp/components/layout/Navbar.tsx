@@ -94,8 +94,14 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop right: Cart + Book Now */}
+          {/* Desktop right: Help + Cart + Book Now */}
           <div className="hidden lg:flex items-center gap-4 shrink-0">
+            <Link
+              href="/contact"
+              className={cn(linkBase, 'opacity-70 hover:opacity-100 transition-opacity duration-200', linkColor)}
+            >
+              Help
+            </Link>
             <CartIcon />
             {bookingLink && (
               <Link

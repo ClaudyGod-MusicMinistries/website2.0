@@ -19,6 +19,7 @@ export default function AboutPage() {
         title="Minister, Artist & Worshipper"
         subtitle="A Nigerian gospel music minister whose God-breathed songs have touched lives across the world."
         backgroundImage="/aboutUs.webp"
+        objectPosition="center top"
       />
       <BiographySection />
       <AlbumTimeline />

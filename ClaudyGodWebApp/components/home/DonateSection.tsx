@@ -3,21 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Heart, Music, Globe, Users } from 'lucide-react';
+import { Heart } from 'lucide-react';
+import { ministryStats, donationTiers } from '@/data/ministryStats';
 
-const impacts = [
-  { icon: Music,  stat: '7+',      label: 'Albums Released' },
-  { icon: Globe,  stat: '20+',     label: 'Years of Ministry' },
-  { icon: Users,  stat: '10,000+', label: 'Lives Touched' },
-  { icon: Heart,  stat: '100%',    label: 'Spirit-Filled' },
-];
-
-const amounts = [
-  { value: 10,  label: '$10' },
-  { value: 25,  label: '$25' },
-  { value: 50,  label: '$50' },
-  { value: 100, label: '$100' },
-];
+const amounts = donationTiers.slice(0, 4);
 
 const fadeUp = {
   hidden:  { opacity: 0, y: 24 },
@@ -88,7 +77,7 @@ export function DonateSection() {
               custom={0.4} variants={fadeUp}
               className="grid grid-cols-2 gap-4"
             >
-              {impacts.map(({ icon: Icon, stat, label }) => (
+              {ministryStats.map(({ icon: Icon, stat, label }) => (
                 <div
                   key={label}
                   className="flex items-start gap-3.5 p-4 rounded-xl bg-white/[0.04] border border-white/[0.06]"

@@ -22,6 +22,7 @@ export default function DonatePage() {
         title="Support the Ministry"
         subtitle="Your generosity helps spread the gospel through music — every gift makes a difference."
         backgroundImage="/manBack.jpg"
+        objectPosition="center top"
       />
 
       <section className="bg-cream-100 section-py">
