@@ -90,18 +90,22 @@ export function HeroCarousel() {
               src={(slide.imageUrlDesktop ?? slide.imageUrl)!}
               alt=""
               fill
-              priority={current === 0}
+              priority={current <= 1}
               className="object-cover"
               style={{ objectPosition: slide.objectPosition ?? 'center center' }}
               sizes="100vw"
             />
           )}
 
-          {/* Subtle top vignette (navbar readability only) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
+          {/* Top vignette — navbar readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
 
-          {/* Left vignette — text zone only (left 60%), fades out right */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+          {/* Left gradient — stronger for CTA slide (portrait image sits right) */}
+          <div className={`absolute inset-0 ${
+            slide.type === 'cta'
+              ? 'bg-gradient-to-r from-black/85 via-black/50 to-black/10'
+              : 'bg-gradient-to-r from-black/70 via-black/30 to-transparent'
+          }`} />
 
           {/* Bottom gradient — text anchor */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
