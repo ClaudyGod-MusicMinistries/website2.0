@@ -3,8 +3,15 @@ import { PageHero } from '@/components/shared/PageHero';
 import { BookingForm } from '@/components/bookings/BookingForm';
 
 export const metadata: Metadata = {
-  title: 'Bookings — ClaudyGod Music Ministries',
-  description: 'Book Minister ClaudyGod for your church service, conference, concert, or special event.',
+  title: 'Book ClaudyGod — Event Booking & Ministry Engagements',
+  description: 'Book Minister ClaudyGod for your church service, gospel concert, conference, or special ministry event. Available across Nigeria and internationally.',
+  keywords: ['book ClaudyGod', 'gospel concert booking', 'Nigerian gospel artist booking', 'ministry event', 'church booking Nigeria', 'worship event'],
+  openGraph: {
+    title: 'Book ClaudyGod for Your Event',
+    description: 'Book Minister ClaudyGod for church services, concerts, and ministry engagements.',
+    url: '/bookings',
+  },
+  alternates: { canonical: 'https://claudygod.com/bookings' },
 };
 
 export default function BookingsPage() {

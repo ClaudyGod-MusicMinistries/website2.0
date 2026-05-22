@@ -49,10 +49,41 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
+// ─── JSON-LD Structured Data ────────────────────────────────────────────────
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  name: 'ClaudyGod Music Ministries',
+  url: 'https://claudygod.com',
+  image: 'https://claudygod.com/ClaudySocial.jpg',
+  description:
+    'ClaudyGod is a Nigerian gospel music artist, minister, and worship leader with over 20 years in ministry and 7 studio albums. Known for Spirit-filled worship that transforms lives.',
+  genre: ['Gospel', 'Christian Music', 'Worship', 'Contemporary Gospel'],
+  foundingDate: '2003',
+  areaServed: { '@type': 'Country', name: 'Nigeria' },
+  sameAs: [
+    'https://www.facebook.com/ClaudyGod/',
+    'https://www.instagram.com/singerclaudygod/',
+    'https://twitter.com/claudygod',
+    'https://www.tiktok.com/@claudygod',
+    'https://open.spotify.com/artist/claudygod',
+    'https://music.apple.com/artist/claudygod',
+    'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
+    'https://www.deezer.com/us/album/695949191',
+    'https://music.amazon.com/albums/B0DSM7QGLF',
+  ],
+};
+
 // ─── Root layout ────────────────────────────────────────────────────────────
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="font-bricolage bg-surface-base text-white antialiased min-h-dvh">
         <Navbar />
         <main className="min-h-dvh">
