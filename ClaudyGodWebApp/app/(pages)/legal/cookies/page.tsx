@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 export default function CookiesPage() {
   return (
     <LegalPage
+      active="cookies"
       title="Cookie Policy"
       lastUpdated="May 2025"
       intro="This Cookie Policy explains how ClaudyGod Music Ministries uses cookies and similar tracking technologies on our website. By continuing to use our website, you consent to our use of cookies as described in this policy."
