@@ -7,6 +7,7 @@ import { MusicHighlight }  from '@/components/home/MusicHighlight';
 import { PagesExplorer }   from '@/components/home/PagesExplorer';
 import { StorePreview }    from '@/components/home/StorePreview';
 import { DonateSection }   from '@/components/home/DonateSection';
+import { MinistryStats }   from '@/components/home/MinistryStats';
 import { AppDownload }     from '@/components/home/AppDownload';
 import { NewsletterBanner } from '@/components/home/NewsletterBanner';
 import { AnimateOnView }   from '@/components/shared/AnimateOnView';
@@ -32,6 +33,7 @@ export default function Home() {
     <>
       <HeroCarousel />
       <BibleVerse />
+      <MinistryStats />
       <AnimateOnView><LatestRelease /></AnimateOnView>
       <AnimateOnView><FeaturedVideos /></AnimateOnView>
       <AnimateOnView><MusicHighlight /></AnimateOnView>
