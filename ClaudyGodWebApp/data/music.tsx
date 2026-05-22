@@ -12,6 +12,7 @@ export const securedMusicPlatforms: MusicPlatform[] = [
     textColor: 'text-white',
     verified: true,
     safeRedirect: true,
+    brandColor: '#1DB954',
   },
   {
     name: 'Apple Music',
@@ -21,6 +22,7 @@ export const securedMusicPlatforms: MusicPlatform[] = [
     textColor: 'text-white',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FC3C44',
   },
   {
     name: 'YouTube',
@@ -30,6 +32,7 @@ export const securedMusicPlatforms: MusicPlatform[] = [
     textColor: 'text-white',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FF0000',
   },
   {
     name: 'Deezer',
@@ -39,6 +42,7 @@ export const securedMusicPlatforms: MusicPlatform[] = [
     textColor: 'text-black',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FEAA2D',
   },
   {
     name: 'Amazon Music',
@@ -48,6 +52,7 @@ export const securedMusicPlatforms: MusicPlatform[] = [
     textColor: 'text-black',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FF9900',
   },
 ];
 
@@ -60,6 +65,7 @@ export const latestReleasePlatforms: MusicPlatform[] = [
     textColor: 'text-white',
     verified: true,
     safeRedirect: true,
+    brandColor: '#1DB954',
   },
   {
     name: 'Apple Music',
@@ -69,6 +75,7 @@ export const latestReleasePlatforms: MusicPlatform[] = [
     textColor: 'text-white',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FC3C44',
   },
   {
     name: 'YouTube',
@@ -78,6 +85,7 @@ export const latestReleasePlatforms: MusicPlatform[] = [
     textColor: 'text-white',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FF0000',
   },
   {
     name: 'Deezer',
@@ -87,6 +95,7 @@ export const latestReleasePlatforms: MusicPlatform[] = [
     textColor: 'text-black',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FEAA2D',
   },
   {
     name: 'Amazon Music',
@@ -96,6 +105,7 @@ export const latestReleasePlatforms: MusicPlatform[] = [
     textColor: 'text-black',
     verified: true,
     safeRedirect: true,
+    brandColor: '#FF9900',
   },
 ];
 

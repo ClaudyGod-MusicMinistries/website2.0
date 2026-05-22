@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { albums } from '@/data/music';
 import { FaSpotify, FaApple, FaYoutube } from 'react-icons/fa6';
+import { platformColors } from '@/utils/platformColors';
 
 const platformIcons = {
   spotify: FaSpotify,
@@ -18,7 +19,7 @@ export function AlbumTimeline() {
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <h2 className="font-raleway font-extralight text-white text-4xl md:text-5xl tracking-tight leading-tight mb-16">
+        <h2 className="font-raleway font-extralight text-white text-3xl md:text-4xl tracking-tight leading-tight mb-16">
           Albums & Releases
         </h2>
 
@@ -73,7 +74,8 @@ export function AlbumTimeline() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label={key}
-                                    className="text-neutral-700 hover:text-gold-400 transition-colors duration-300"
+                                    style={{ '--brand': platformColors[key] } as React.CSSProperties}
+                                    className="text-neutral-700 hover:text-[var(--brand)] transition-colors duration-300"
                                   >
                                     <Icon className="h-3.5 w-3.5" />
                                   </a>

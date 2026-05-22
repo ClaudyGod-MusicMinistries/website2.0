@@ -8,6 +8,7 @@ export interface MusicPlatform {
   textColor: string;
   verified: boolean;
   safeRedirect: boolean;
+  brandColor?: string;
 }
 
 export interface Album {

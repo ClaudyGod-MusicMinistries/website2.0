@@ -47,7 +47,7 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
           <button
             onClick={handleAdd}
-            className="flex items-center gap-2 h-8 px-4 border border-white/10 hover:border-gold-500/50 text-neutral-500 hover:text-gold-400 font-worksans text-[0.5rem] tracking-[0.15em] uppercase transition-all duration-300"
+            className="flex items-center gap-2 h-8 px-4 border border-white/10 hover:border-purple-500/50 text-neutral-500 hover:text-purple-400 font-worksans text-[0.5rem] tracking-[0.15em] uppercase transition-all duration-300"
           >
             <ShoppingBag className="h-3 w-3" />
             Add

@@ -109,9 +109,15 @@
 /* ─── CSS custom properties ───────────────────────────────────────────────── */
 :root {
   /* Colours */
-  --color-gold:         #C9A84C;
-  --color-gold-light:   #E8C96A;
-  --color-gold-dark:    #8B6914;
+  --color-gold:           #C9A84C;
+  --color-gold-light:     #E8C96A;
+  --color-gold-dark:      #8B6914;
+  --color-purple:         #7C3AED;
+  --color-purple-light:   #A78BFA;
+  --color-purple-dark:    #5B21B6;
+  --color-cream:          #F5F0E8;
+  --color-accent-primary: #7C3AED;
+  --color-accent-secondary: #C9A84C;
   --color-bg:           #080808;
   --color-surface:      #0E0E0E;
   --color-elevated:     #161616;
@@ -212,7 +218,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-gold);
+    color: var(--color-purple-light);
   }
 
   /* Editorial divider line */
