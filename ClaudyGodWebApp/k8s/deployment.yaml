@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: claudygod-web
+  namespace: claudygod
+  labels:
+    app: claudygod-web
+    tier: frontend
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: claudygod-web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0       # Zero-downtime deploys
+  template:
+    metadata:
+      labels:
+        app: claudygod-web
+        tier: frontend
+    spec:
+      # ── Security ─────────────────────────────────────────────────────────
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+
+      # ── Topology spread — one pod per node ───────────────────────────────
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: claudygod-web
+
+      containers:
+        - name: web
+          image: claudygod-web:latest       # Override with registry path in CI
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+
+          # ── Environment ────────────────────────────────────────────────
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: NEXT_TELEMETRY_DISABLED
+              value: "1"
+            - name: PORT
+              value: "3000"
+            - name: HOSTNAME
+              value: "0.0.0.0"
+            - name: NEXT_PUBLIC_SITE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: claudygod-config
+                  key: SITE_URL
+            - name: NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: claudygod-secrets
+                  key: PAYSTACK_PUBLIC_KEY
+            - name: PAYSTACK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: claudygod-secrets
+                  key: PAYSTACK_SECRET_KEY
+
+          # ── Probes ─────────────────────────────────────────────────────
+          startupProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            failureThreshold: 30
+            periodSeconds: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+
+          # ── Resources ──────────────────────────────────────────────────
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          # ── Security context ───────────────────────────────────────────
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+# ── ConfigMap ─────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: claudygod-config
+  namespace: claudygod
+data:
+  SITE_URL: "https://claudygod.com"
