@@ -93,14 +93,14 @@ export const heroSlides: HeroSlide[] = [
   {
     id: 2,
     imageUrl: '/aboutUs.webp',
-    objectPosition: 'center center',
+    objectPosition: 'right top',
     type: 'cta',
     content: {},
   },
   {
     id: 3,
     imageUrl: '/resize_abt.webp',
-    objectPosition: 'center 20%',
+    objectPosition: 'center top',
     type: 'music',
     content: {
       listenText: 'Experience the Divine Melody',
