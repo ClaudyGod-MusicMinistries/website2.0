@@ -70,20 +70,19 @@ export function BiographySection() {
               ))}
             </div>
 
-            {/* Stat row */}
-            <div className="mt-12 pt-10 border-t border-black/[0.07] grid grid-cols-3 gap-6">
+            {/* Ministry pillars */}
+            <div className="mt-12 pt-10 border-t border-black/[0.07] grid grid-cols-1 gap-5">
               {[
-                { number: '7', label: 'Albums Released' },
-                { number: '2003', label: 'Called to Ministry' },
-                { number: '∞', label: 'Lives Touched' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p className="font-bricolage font-bold text-gold-400 text-2xl md:text-3xl tracking-tight">
-                    {stat.number}
-                  </p>
-                  <p className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-500 mt-1">
-                    {stat.label}
-                  </p>
+                { title: 'Spirit-Led Worship',   body: 'Every song written and recorded in prayer — music that opens heaven.' },
+                { title: 'Gospel Outreach',       body: 'Concerts, community events, and digital platforms carrying the Word.' },
+                { title: 'Discipleship & Growth', body: 'Teaching believers to walk deeper in faith through the Word.' },
+              ].map(({ title, body }) => (
+                <div key={title} className="flex items-start gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
+                  <div>
+                    <p className="font-bricolage font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
+                    <p className="font-raleway text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                  </div>
                 </div>
               ))}
             </div>

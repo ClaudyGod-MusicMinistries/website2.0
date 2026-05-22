@@ -73,7 +73,7 @@ export function NewsletterBanner() {
               ))}
             </ul>
 
-            <p className="mt-8 font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-neutral-700">
+            <p className="mt-8 font-worksans text-xs text-neutral-500">
               Unsubscribe at any time. We respect your inbox.
             </p>
           </motion.div>
@@ -116,7 +116,7 @@ export function NewsletterBanner() {
                     </div>
                     <div>
                       <p className="font-bricolage font-semibold text-white text-base">Subscribe to the newsletter</p>
-                      <p className="font-worksans text-[0.48rem] tracking-[0.12em] uppercase text-neutral-600 mt-0.5">Free · No spam · Cancel anytime</p>
+                      <p className="font-worksans text-xs text-neutral-500 mt-0.5">Free · No spam · Cancel anytime</p>
                     </div>
                   </div>
 
