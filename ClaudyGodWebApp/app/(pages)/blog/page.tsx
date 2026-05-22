@@ -119,7 +119,7 @@ function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPla
       </div>
       <div className="p-5">
         <p className="font-worksans text-[0.55rem] tracking-[0.12em] uppercase text-gold-400/80 mb-1.5">{v.channel}</p>
-        <p className="font-raleway font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
+        <p className="font-bricolage font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
           {v.title}
         </p>
         <div className="flex items-center gap-3">
@@ -167,7 +167,7 @@ function TourCard({ t }: { t: typeof tourDates[number] }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
         {/* Date badge */}
         <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg min-w-[52px]">
-          <p className="font-raleway font-bold text-neutral-900 text-lg leading-none">{day}</p>
+          <p className="font-bricolage font-bold text-neutral-900 text-lg leading-none">{day}</p>
           <p className="font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
         </div>
         {past && (
@@ -180,7 +180,7 @@ function TourCard({ t }: { t: typeof tourDates[number] }) {
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <p className="font-raleway font-bold text-neutral-900 text-lg leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
+            <p className="font-bricolage font-bold text-neutral-900 text-lg leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
               {t.city}
             </p>
             <p className="flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mb-2">
@@ -231,7 +231,7 @@ function ArticleCard({ post }: { post: typeof articles[number] }) {
               {post.category}
             </span>
           </div>
-          <h3 className="font-raleway font-bold text-neutral-900 text-lg leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2 flex-1">
+          <h3 className="font-bricolage font-bold text-neutral-900 text-lg leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2 flex-1">
             {post.title}
           </h3>
           <p className="font-raleway text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4">
@@ -298,7 +298,7 @@ export default function BlogPage() {
                 {activeTab === 'All' && (
                   <div className="flex items-center gap-4 mb-8">
                     <Newspaper className="h-5 w-5 text-purple-600" />
-                    <h2 className="font-raleway font-bold text-neutral-900 text-2xl">Latest Articles</h2>
+                    <h2 className="font-bricolage font-bold text-neutral-900 text-2xl">Latest Articles</h2>
                   </div>
                 )}
                 <motion.div
@@ -320,7 +320,7 @@ export default function BlogPage() {
                 {activeTab === 'All' && (
                   <div className="flex items-center gap-4 mb-8">
                     <Mic2 className="h-5 w-5 text-purple-600" />
-                    <h2 className="font-raleway font-bold text-neutral-900 text-2xl">Media Interviews</h2>
+                    <h2 className="font-bricolage font-bold text-neutral-900 text-2xl">Media Interviews</h2>
                   </div>
                 )}
                 <motion.div
@@ -344,7 +344,7 @@ export default function BlogPage() {
                 {activeTab === 'All' && (
                   <div className="flex items-center gap-4 mb-8">
                     <CalendarDays className="h-5 w-5 text-purple-600" />
-                    <h2 className="font-raleway font-bold text-neutral-900 text-2xl">Events & Tours</h2>
+                    <h2 className="font-bricolage font-bold text-neutral-900 text-2xl">Events & Tours</h2>
                   </div>
                 )}
                 <motion.div

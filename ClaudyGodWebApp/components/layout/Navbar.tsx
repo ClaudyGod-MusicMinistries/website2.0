@@ -73,7 +73,7 @@ export function Navbar() {
               'hidden sm:flex flex-col gap-0.5 transition-colors duration-300',
               scrolled ? 'text-neutral-800' : 'text-white/95'
             )}>
-              <span className="font-raleway font-semibold text-sm tracking-tight leading-none">ClaudyGod</span>
+              <span className="font-bricolage font-semibold text-sm tracking-tight leading-none">ClaudyGod</span>
               <span className="font-worksans text-[0.52rem] tracking-[0.2em] uppercase opacity-55 leading-none mt-0.5">Music Ministries</span>
             </div>
           </Link>
@@ -164,7 +164,7 @@ export function Navbar() {
               </div>
               <span className="w-px h-8 bg-white/15 shrink-0" />
               <div className="flex flex-col gap-0.5 text-white">
-                <span className="font-raleway font-semibold text-sm tracking-tight leading-none">ClaudyGod</span>
+                <span className="font-bricolage font-semibold text-sm tracking-tight leading-none">ClaudyGod</span>
                 <span className="font-worksans text-[0.5rem] tracking-[0.2em] uppercase opacity-50 leading-none mt-0.5">Music Ministries</span>
               </div>
             </div>
@@ -186,7 +186,7 @@ export function Navbar() {
                   <Link
                     href={item.href}
                     className={cn(
-                      'block py-3.5 font-raleway font-normal text-2xl tracking-wide transition-colors duration-200 border-b border-white/[0.05]',
+                      'block py-3.5 font-bricolage font-semibold text-2xl tracking-wide transition-colors duration-200 border-b border-white/[0.05]',
                       pathname === item.href ? 'text-gold-400' : 'text-white/70 hover:text-white'
                     )}
                   >

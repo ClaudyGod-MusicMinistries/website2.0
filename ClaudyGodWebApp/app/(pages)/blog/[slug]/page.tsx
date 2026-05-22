@@ -68,7 +68,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center">
           <span className="text-2xl">📄</span>
         </div>
-        <p className="font-raleway font-bold text-neutral-900 text-2xl tracking-tight">Post not found</p>
+        <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">Post not found</p>
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 font-worksans text-xs tracking-[0.15em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-6 h-10 rounded-xl transition-colors"
@@ -106,7 +106,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <Clock className="h-3 w-3" />{post.readTime}
             </span>
           </div>
-          <h1 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.08] mb-6">
+          <h1 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.08] mb-6">
             {post.title}
           </h1>
           <div className="w-12 h-0.5 bg-amber-400 opacity-70" />

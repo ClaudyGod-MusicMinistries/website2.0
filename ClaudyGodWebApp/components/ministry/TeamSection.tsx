@@ -26,7 +26,7 @@ export function TeamSection() {
                 <p className="font-worksans text-[0.62rem] tracking-[0.2em] uppercase text-purple-600 mb-1">
                   {member.role}
                 </p>
-                <p className="font-raleway font-bold text-neutral-900 text-lg leading-tight mb-2">
+                <p className="font-bricolage font-bold text-neutral-900 text-lg leading-tight mb-2">
                   {member.name}
                 </p>
                 <p className="font-raleway text-neutral-500 text-sm leading-relaxed font-light italic">

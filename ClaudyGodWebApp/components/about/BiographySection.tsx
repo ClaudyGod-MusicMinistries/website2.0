@@ -14,7 +14,7 @@ export function BiographySection() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Biography</span>
             </div>
-            <h2 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
               Called to Worship
             </h2>
             <div className="space-y-5">
@@ -59,7 +59,7 @@ export function BiographySection() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Ministry</span>
             </div>
-            <h2 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
               Spreading God&apos;s Love
             </h2>
             <div className="space-y-5">
@@ -78,7 +78,7 @@ export function BiographySection() {
                 { number: '∞', label: 'Lives Touched' },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-raleway font-medium text-gold-400 text-2xl md:text-3xl tracking-tight">
+                  <p className="font-bricolage font-bold text-gold-400 text-2xl md:text-3xl tracking-tight">
                     {stat.number}
                   </p>
                   <p className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-500 mt-1">

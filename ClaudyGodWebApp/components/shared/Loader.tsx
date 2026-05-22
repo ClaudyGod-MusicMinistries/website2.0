@@ -79,7 +79,7 @@ export function Loader() {
 
             {/* Brand name */}
             <div className="text-center">
-              <p className="font-raleway font-semibold text-white text-xl tracking-wide">
+              <p className="font-bricolage font-semibold text-white text-xl tracking-wide">
                 ClaudyGod
               </p>
               <p className="font-worksans text-[0.6rem] tracking-[0.28em] uppercase text-neutral-500 mt-1">

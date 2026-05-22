@@ -144,7 +144,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         </motion.span>
         <motion.blockquote
           custom={0.15} variants={textVariants} initial="hidden" animate="visible"
-          className="font-raleway font-normal text-white text-xl md:text-2xl lg:text-3xl leading-relaxed tracking-wide max-w-xl"
+          className="font-raleway text-white text-xl md:text-2xl lg:text-3xl leading-relaxed tracking-wide max-w-xl"
         >
           &ldquo;{content.quote}&rdquo;
         </motion.blockquote>
@@ -172,7 +172,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         </motion.div>
         <motion.h1
           custom={0.15} variants={textVariants} initial="hidden" animate="visible"
-          className="font-raleway font-medium text-white text-5xl md:text-6xl lg:text-[4rem] leading-[1.04] tracking-tight"
+          className="font-bricolage font-extrabold text-white text-5xl md:text-6xl lg:text-[4rem] leading-[1.04] tracking-tight"
         >
           Worship.<br />
           <em className="not-italic text-gold-300/90">Music.</em>{' '}
@@ -219,7 +219,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         {content.listenText && (
           <motion.h2
             custom={0.15} variants={textVariants} initial="hidden" animate="visible"
-            className="font-raleway font-normal text-white text-3xl md:text-4xl leading-snug tracking-wide mb-7"
+            className="font-bricolage font-bold text-white text-3xl md:text-4xl leading-snug tracking-wide mb-7"
           >
             {content.listenText}
           </motion.h2>

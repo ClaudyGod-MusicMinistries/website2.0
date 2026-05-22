@@ -20,7 +20,7 @@ export function LegalPage({ title, lastUpdated, intro, sections }: LegalPageProp
             <span className="rule-gold" />
             <span className="label-eyebrow">Legal</span>
           </div>
-          <h1 className="font-raleway font-bold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight mb-4">
+          <h1 className="font-bricolage font-bold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight mb-4">
             {title}
           </h1>
           <p className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-400">
@@ -37,7 +37,7 @@ export function LegalPage({ title, lastUpdated, intro, sections }: LegalPageProp
         <div className="space-y-10">
           {sections.map((s, i) => (
             <div key={i} className="border-b border-black/[0.05] pb-10 last:border-0">
-              <h2 className="font-raleway font-bold text-neutral-900 text-xl tracking-tight mb-3">
+              <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-3">
                 {s.heading}
               </h2>
               <p className="font-raleway text-neutral-500 text-base leading-[1.85]">

@@ -10,7 +10,7 @@ export function StreamingPlatforms() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Available On</span>
             </div>
-            <p className="font-raleway font-bold text-neutral-900 text-2xl tracking-tight">
+            <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">
               All Major Platforms
             </p>
           </div>

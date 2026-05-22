@@ -25,7 +25,7 @@ export function TeachingsGrid() {
             <span className="rule-gold" />
             <span className="label-eyebrow">Teachings & Podcasts</span>
           </div>
-          <h2 className="font-raleway font-bold text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-12">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-12">
             Ministry Content
           </h2>
 

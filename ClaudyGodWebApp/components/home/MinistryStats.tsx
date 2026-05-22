@@ -64,7 +64,7 @@ export function MinistryStats() {
                 transition: `opacity 0.6s ease ${i * 0.12}s, transform 0.6s ease ${i * 0.12}s`,
               }}
             >
-              <p className="font-raleway font-medium text-neutral-900 text-4xl md:text-5xl tracking-tight leading-none mb-2">
+              <p className="font-bricolage font-extrabold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-none mb-2">
                 <CountUp target={stat.value} suffix={stat.suffix} active={isInView} />
               </p>
               <p className="font-worksans text-[0.6rem] tracking-[0.2em] uppercase text-purple-600 mb-1.5">

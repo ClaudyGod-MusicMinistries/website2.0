@@ -63,7 +63,7 @@ export function PagesExplorer() {
             <span className="rule-gold" />
             <span className="label-eyebrow">Explore</span>
           </div>
-          <h2 className="font-raleway font-bold text-neutral-900 text-4xl md:text-5xl tracking-tight">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-4xl md:text-5xl tracking-tight">
             Everything You&apos;ll Find Here
           </h2>
         </div>
@@ -96,7 +96,7 @@ export function PagesExplorer() {
                 </span>
 
                 {/* Title */}
-                <h3 className="font-raleway font-bold text-neutral-900 text-xl leading-snug mb-3 group-hover:text-purple-700 transition-colors duration-300">
+                <h3 className="font-bricolage font-bold text-neutral-900 text-xl leading-snug mb-3 group-hover:text-purple-700 transition-colors duration-300">
                   {s.title}
                 </h3>
 
