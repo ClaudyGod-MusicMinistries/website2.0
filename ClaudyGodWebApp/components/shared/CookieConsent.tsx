@@ -95,7 +95,7 @@ function PrefRow({
 export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
   const [showModal,  setShowModal]  = useState(false);
-  const [prefs, setPrefs] = useState<Omit<CookiePreferences, 'essential' | 'timestamp'>>({
+  const [prefs, setPrefs] = useState<Omit<CookiePreferences, 'essential' | 'ts'>>({
     analytics:  true,
     functional: true,
     marketing:  false,

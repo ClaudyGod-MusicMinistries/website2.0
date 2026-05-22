@@ -1,0 +1,55 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: claudygod-ingress
+  namespace: claudygod
+  annotations:
+    # cert-manager — auto-provision Let's Encrypt TLS
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx ingress controller
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    # Cache static assets at the ingress layer
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      location ~* \.(js|css|woff2?|png|webp|jpg|jpeg|svg|ico)$ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+      }
+    # Security headers
+    nginx.ingress.kubernetes.io/server-snippet: |
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+      add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - claudygod.com
+        - www.claudygod.com
+      secretName: claudygod-tls
+  rules:
+    # www redirect → apex
+    - host: www.claudygod.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: claudygod-web
+                port:
+                  number: 80
+    # Apex domain
+    - host: claudygod.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: claudygod-web
+                port:
+                  number: 80

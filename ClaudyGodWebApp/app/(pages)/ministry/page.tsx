@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
+import { VolunteersSection } from '@/components/ministry/VolunteersSection';
 
 export const metadata: Metadata = {
   title: 'ClaudyGod Ministry — Teachings, Gallery & Team',
@@ -40,6 +41,7 @@ export default function MinistryPage() {
       <AnimateOnView><TeachingsGrid /></AnimateOnView>
       <AnimateOnView delay={0.1}><GallerySection /></AnimateOnView>
       <AnimateOnView delay={0.1}><TeamSection /></AnimateOnView>
+      <AnimateOnView delay={0.1}><VolunteersSection /></AnimateOnView>
     </>
   );
 }
