@@ -19,7 +19,7 @@ export function AlbumTimeline() {
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <h2 className="font-raleway font-normal text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-16">
+        <h2 className="font-raleway font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-16">
           Albums & Releases
         </h2>
 

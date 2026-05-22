@@ -14,6 +14,13 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://claudygod.com/bookings' },
 };
 
+const steps = [
+  { step: '01', title: 'Submit Request',  body: 'Fill out the booking form with your event details.' },
+  { step: '02', title: 'Review & Confirm', body: 'Our team reviews your request and contacts you within 3–5 business days.' },
+  { step: '03', title: 'Agreement',        body: 'A booking agreement is shared and signed before the event is confirmed.' },
+  { step: '04', title: 'Preparation',      body: 'We coordinate logistics, sound requirements, and set list details.' },
+];
+
 export default function BookingsPage() {
   return (
     <>
@@ -23,11 +30,13 @@ export default function BookingsPage() {
         subtitle="Fill out the form below and our team will contact you within 3–5 business days to confirm details."
         backgroundImage="/tour_1.jpg"
       />
-      <section className="bg-[#080808] section-py">
+
+      <section className="bg-cream-100 section-py">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+
             {/* Form */}
-            <div>
+            <div className="bg-white rounded-2xl shadow-[0_4px_32px_rgba(0,0,0,0.07)] border border-black/[0.04] p-8 md:p-10">
               <div className="flex items-center gap-4 mb-8">
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Booking Request</span>
@@ -35,28 +44,43 @@ export default function BookingsPage() {
               <BookingForm />
             </div>
 
-            {/* Info */}
-            <div className="lg:pt-14">
-              <h3 className="font-raleway font-extralight text-white text-2xl tracking-tight leading-snug mb-6">
+            {/* Steps */}
+            <div className="lg:pt-4">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="rule-gold" />
+                <span className="label-eyebrow">How It Works</span>
+              </div>
+              <h3 className="font-raleway font-bold text-neutral-900 text-2xl md:text-3xl tracking-tight leading-snug mb-10">
                 What to Expect
               </h3>
-              <div className="space-y-6">
-                {[
-                  { step: '01', title: 'Submit Request', body: 'Fill out the booking form with your event details.' },
-                  { step: '02', title: 'Review & Confirm', body: 'Our team reviews your request and contacts you within 3–5 business days.' },
-                  { step: '03', title: 'Agreement', body: 'A booking agreement is shared and signed before the event is confirmed.' },
-                  { step: '04', title: 'Preparation', body: 'We coordinate logistics, sound requirements, and set list details.' },
-                ].map((item) => (
-                  <div key={item.step} className="flex gap-5 items-start border-b border-white/[0.04] pb-6">
-                    <span className="font-worksans text-[0.48rem] tracking-[0.18em] text-gold-400/50 mt-1 shrink-0">
-                      {item.step}
-                    </span>
-                    <div>
-                      <p className="font-raleway font-light text-white text-sm mb-1">{item.title}</p>
-                      <p className="font-raleway text-neutral-600 text-xs font-light leading-relaxed">{item.body}</p>
+              <div className="space-y-0">
+                {steps.map((item, i) => (
+                  <div key={item.step} className="flex gap-5 items-start pb-8 relative">
+                    {/* Connector line */}
+                    {i < steps.length - 1 && (
+                      <span className="absolute left-5 top-10 bottom-0 w-px bg-neutral-200" />
+                    )}
+                    <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center shrink-0 z-10">
+                      <span className="font-worksans text-[0.55rem] tracking-[0.15em] text-white font-semibold">{item.step}</span>
+                    </div>
+                    <div className="pt-1.5">
+                      <p className="font-raleway font-bold text-neutral-900 text-base mb-1">{item.title}</p>
+                      <p className="font-raleway text-neutral-500 text-sm leading-relaxed">{item.body}</p>
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Contact card */}
+              <div className="mt-6 bg-white rounded-2xl border border-neutral-200 p-6">
+                <p className="font-worksans text-xs tracking-[0.12em] uppercase text-neutral-400 mb-1">Questions?</p>
+                <p className="font-raleway font-bold text-neutral-900 text-lg mb-3">Contact Us Directly</p>
+                <a
+                  href="mailto:claudygodministries@gmail.com"
+                  className="font-raleway text-purple-600 hover:text-purple-800 text-sm transition-colors"
+                >
+                  claudygodministries@gmail.com
+                </a>
               </div>
             </div>
           </div>

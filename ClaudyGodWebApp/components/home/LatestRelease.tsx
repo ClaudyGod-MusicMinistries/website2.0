@@ -31,7 +31,7 @@ export function LatestRelease() {
 
           {/* Content */}
           <div>
-            <h2 className="font-raleway font-normal text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-3">
+            <h2 className="font-raleway font-bold text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-3">
               {latest.title}
             </h2>
             <p className="font-worksans text-[0.6rem] tracking-[0.22em] uppercase text-gold-500/80 mb-10">
