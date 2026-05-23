@@ -70,7 +70,7 @@ export function CrossPromo() {
                 </div>
 
                 <p className="font-worksans text-[0.55rem] tracking-[0.2em] uppercase text-gold-400/80 mb-2">{eyebrow}</p>
-                <h3 className="font-raleway font-normal text-white text-xl leading-snug mb-3 group-hover:text-purple-200 transition-colors duration-300">
+                <h3 className="font-bricolage font-bold text-white text-xl leading-snug mb-3 group-hover:text-purple-200 transition-colors duration-300">
                   {title}
                 </h3>
                 <p className="font-raleway text-neutral-400 text-sm leading-relaxed flex-1 mb-6">

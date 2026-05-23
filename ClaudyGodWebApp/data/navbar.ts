@@ -1,4 +1,4 @@
-import type { LucideIcon } from 'lucide-react';
+import type { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react';
 import {
   Home,
   User,
@@ -13,10 +13,14 @@ import {
   HandCoins,
 } from 'lucide-react';
 
+export type NavIcon = ForwardRefExoticComponent<
+  Omit<SVGProps<SVGSVGElement>, 'ref'> & { title?: string; titleId?: string } & RefAttributes<SVGSVGElement>
+>;
+
 export interface NavItem {
   href:  string;
   label: string;
-  icon:  LucideIcon;
+  icon:  NavIcon;
 }
 
 export const navigationItems: NavItem[] = [

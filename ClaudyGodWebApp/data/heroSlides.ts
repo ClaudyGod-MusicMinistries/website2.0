@@ -7,6 +7,7 @@ export interface HeroSlide {
   imageUrl?: string;
   imageUrlMobile?: string;
   imageUrlDesktop?: string;
+  objectPosition?: string;
   type: 'quote' | 'form' | 'streaming' | 'cta' | 'music';
   content?: {
     quote?: string;
@@ -82,6 +83,7 @@ export const heroSlides: HeroSlide[] = [
     id: 1,
     imageUrlMobile: '/tour_1.jpg',
     imageUrlDesktop: '/tour_1.jpg',
+    objectPosition: 'center 30%',
     type: 'quote',
     content: {
       quote: 'Enter Into His Gates With Thanksgiving And Into His Courts With Praise; Be Thankful Unto Him, and Bless His Name.',
@@ -91,28 +93,31 @@ export const heroSlides: HeroSlide[] = [
   {
     id: 2,
     imageUrl: '/aboutUs.webp',
+    objectPosition: 'right top',
     type: 'cta',
     content: {},
   },
   {
     id: 3,
-    imageUrl: '/resize_abt.webp',
+    imageUrl: '/manBack.jpg',
+    objectPosition: 'center 15%',
     type: 'music',
     content: {
       listenText: 'Experience the Divine Melody',
       streamingPlatforms: [
-        { name: 'Spotify', iconName: 'FaSpotify', url: 'https://open.spotify.com/album/2MY5xlrYfuvKXaYfdB5v2A' },
-        { name: 'Apple Music', iconName: 'FaApple', url: 'https://music.apple.com/ng/album/very-glorious/1789665669' },
-        { name: 'YouTube', iconName: 'FaYoutube', url: 'https://youtube.com/@claudygodministries' },
-        { name: 'Deezer', iconName: 'FaDeezer', url: 'https://www.deezer.com/us/album/695949191' },
-        { name: 'Pandora', iconName: 'FaMusic', url: 'https://found.ee/58RtlR' },
-        { name: 'Amazon', iconName: 'FaAmazon', url: 'https://music.amazon.com/albums/B0DSM7QGLF' },
+        { name: 'Spotify',     iconName: 'FaSpotify', url: 'https://open.spotify.com/album/2MY5xlrYfuvKXaYfdB5v2A' },
+        { name: 'Apple Music', iconName: 'FaApple',   url: 'https://music.apple.com/ng/album/very-glorious/1789665669' },
+        { name: 'YouTube',     iconName: 'FaYoutube', url: 'https://youtube.com/@claudygodministries' },
+        { name: 'Deezer',      iconName: 'FaDeezer',  url: 'https://www.deezer.com/us/album/695949191' },
+        { name: 'Pandora',     iconName: 'FaMusic',   url: 'https://found.ee/58RtlR' },
+        { name: 'Amazon',      iconName: 'FaAmazon',  url: 'https://music.amazon.com/albums/B0DSM7QGLF' },
       ],
     },
   },
   {
     id: 4,
     imageUrl: '/manBack.jpg',
+    objectPosition: 'center 15%',
     type: 'quote',
     content: {
       quote: 'Praise the Lord Most High',

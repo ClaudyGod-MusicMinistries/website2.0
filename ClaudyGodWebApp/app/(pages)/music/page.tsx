@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
 import { StreamingPlatforms } from '@/components/music/StreamingPlatforms';
+import { MusicPlayer } from '@/components/music/MusicPlayer';
 import { CrossPromo } from '@/components/shared/CrossPromo';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
@@ -26,9 +27,11 @@ export default function MusicPage() {
         eyebrow="Music"
         title="Worship That Transforms"
         subtitle="Seven albums of spirit-filled gospel music — available everywhere you stream."
-        backgroundImage="/resize_abt.webp"
+        backgroundImage="/tour_1.jpg"
+        objectPosition="center 30%"
       />
       <StreamingPlatforms />
+      <MusicPlayer />
       <AnimateOnView><AlbumGrid /></AnimateOnView>
       <CrossPromo />
     </>

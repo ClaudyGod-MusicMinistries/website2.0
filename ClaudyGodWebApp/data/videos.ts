@@ -5,6 +5,7 @@ export type VideoType = {
   category: 'Music Videos' | 'Visualizers' | 'Live Sessions' | 'Christmas';
   description: string;
   date: string;
+  duration?: string;
 };
 
 export const videos: VideoType[] = [

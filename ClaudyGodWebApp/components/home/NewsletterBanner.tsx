@@ -53,7 +53,7 @@ export function NewsletterBanner() {
               <span className="label-eyebrow">Stay Connected</span>
             </div>
 
-            <h2 className="font-raleway font-medium text-white text-3xl md:text-4xl lg:text-[2.6rem] leading-[1.12] tracking-tight mb-5">
+            <h2 className="font-bricolage font-extrabold text-white text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] tracking-tight mb-5">
               Join the Ministry<br />
               <span className="text-purple-300">Community.</span>
             </h2>
@@ -73,7 +73,7 @@ export function NewsletterBanner() {
               ))}
             </ul>
 
-            <p className="mt-8 font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-neutral-700">
+            <p className="mt-8 font-worksans text-xs text-neutral-500">
               Unsubscribe at any time. We respect your inbox.
             </p>
           </motion.div>
@@ -100,7 +100,7 @@ export function NewsletterBanner() {
                     <CheckCircle2 className="h-6 w-6 text-gold-400" />
                   </div>
                   <div>
-                    <p className="font-raleway font-medium text-white text-xl mb-1">
+                    <p className="font-bricolage font-bold text-white text-xl mb-1">
                       You&apos;re in. Welcome!
                     </p>
                     <p className="font-raleway text-neutral-500 text-sm leading-relaxed">
@@ -115,8 +115,8 @@ export function NewsletterBanner() {
                       <Mail className="h-4 w-4 text-purple-400" />
                     </div>
                     <div>
-                      <p className="font-raleway font-normal text-white text-base">Subscribe to the newsletter</p>
-                      <p className="font-worksans text-[0.48rem] tracking-[0.12em] uppercase text-neutral-600 mt-0.5">Free · No spam · Cancel anytime</p>
+                      <p className="font-bricolage font-semibold text-white text-base">Subscribe to the newsletter</p>
+                      <p className="font-worksans text-xs text-neutral-500 mt-0.5">Free · No spam · Cancel anytime</p>
                     </div>
                   </div>
 

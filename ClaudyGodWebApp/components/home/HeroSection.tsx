@@ -52,7 +52,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="font-raleway font-extralight text-white text-5xl md:text-6xl tracking-tight leading-[1.04] max-w-2xl"
+          className="font-bricolage font-extrabold text-white text-5xl md:text-6xl tracking-tight leading-[1.04] max-w-2xl"
         >
           Worship.{' '}
           <em className="not-italic text-gold-400">Music.</em>{' '}

@@ -13,7 +13,7 @@ export function AppDownload() {
           <span className="block w-8 h-px bg-gold-500 opacity-60" />
         </div>
 
-        <h2 className="font-raleway font-medium text-white text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight leading-[1.1] mb-4">
+        <h2 className="font-bricolage font-bold text-white text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight leading-[1.1] mb-4">
           Worship on the Go
         </h2>
         <p className="font-raleway text-neutral-400 text-base leading-relaxed max-w-md mx-auto mb-10 font-light">
@@ -35,7 +35,7 @@ export function AppDownload() {
               <p className="font-worksans text-[0.45rem] tracking-[0.1em] uppercase opacity-70 leading-none mb-0.5">
                 Download on the
               </p>
-              <p className="font-raleway font-semibold text-sm leading-none">
+              <p className="font-bricolage font-semibold text-sm leading-none">
                 App Store
               </p>
             </div>
@@ -64,15 +64,15 @@ export function AppDownload() {
               <p className="font-worksans text-[0.45rem] tracking-[0.1em] uppercase opacity-70 leading-none mb-0.5">
                 Get it on
               </p>
-              <p className="font-raleway font-semibold text-sm leading-none">
+              <p className="font-bricolage font-semibold text-sm leading-none">
                 Google Play
               </p>
             </div>
           </a>
         </div>
 
-        <p className="mt-8 font-worksans text-[0.48rem] tracking-[0.15em] uppercase text-neutral-700">
-          Free to download · iOS & Android
+        <p className="mt-8 font-worksans text-xs tracking-[0.12em] text-neutral-400">
+          Free to download &nbsp;·&nbsp; iOS &amp; Android
         </p>
       </div>
     </section>

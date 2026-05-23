@@ -30,7 +30,7 @@ export function ContactForm() {
     return (
       <div className="flex flex-col gap-3 py-12">
         <CheckCircle2 className="h-5 w-5 text-gold-400" />
-        <p className="font-raleway font-light text-neutral-900 text-xl leading-snug">
+        <p className="font-bricolage font-bold text-neutral-900 text-xl leading-snug">
           Message received.
         </p>
         <p className="font-raleway text-neutral-500 text-sm font-light">
@@ -58,7 +58,7 @@ export function ContactForm() {
             {...register('name')}
             type="text"
             placeholder="Your full name"
-            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
+            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
           />
           {errors.name && (
             <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -74,7 +74,7 @@ export function ContactForm() {
             {...register('email')}
             type="email"
             placeholder="your@email.com"
-            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
+            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
           />
           {errors.email && (
             <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -93,7 +93,7 @@ export function ContactForm() {
           {...register('phone')}
           type="tel"
           placeholder="+1 (555) 000-0000"
-          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
+          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
         />
         {errors.phone && (
           <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -111,7 +111,7 @@ export function ContactForm() {
           {...register('subject')}
           type="text"
           placeholder="What is this about?"
-          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300"
+          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
         />
       </div>
 
@@ -124,7 +124,7 @@ export function ContactForm() {
           {...register('message')}
           rows={5}
           placeholder="Write your message here…"
-          className="w-full px-4 py-3 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none"
+          className="w-full px-4 py-3 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none rounded-xl"
         />
         {errors.message && (
           <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -142,7 +142,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="h-11 px-8 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300"
+        className="h-11 px-8 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300 rounded-xl"
       >
         {isSubmitting ? 'Sending…' : 'Send Message'}
       </button>

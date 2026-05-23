@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <LegalPage
+      active="privacy"
       title="Privacy Policy"
       lastUpdated="May 2025"
       intro="ClaudyGod Music Ministries ('we', 'us', or 'our') is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or interact with our services."

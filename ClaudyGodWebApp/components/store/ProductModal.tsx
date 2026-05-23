@@ -78,7 +78,7 @@ export function ProductModal({ product, onClose }: Props) {
                   </p>
 
                   {/* Name */}
-                  <h2 className="font-raleway font-normal text-white text-xl leading-snug tracking-tight mb-3">
+                  <h2 className="font-bricolage font-bold text-white text-xl leading-snug tracking-tight mb-3">
                     {product.name}
                   </h2>
 
@@ -117,7 +117,7 @@ export function ProductModal({ product, onClose }: Props) {
 
                   <div className="mt-auto">
                     {/* Price */}
-                    <p className="font-raleway font-normal text-white text-2xl tracking-tight mb-4">
+                    <p className="font-bricolage font-bold text-white text-2xl tracking-tight mb-4">
                       {formatPrice(product.price)}
                     </p>
 

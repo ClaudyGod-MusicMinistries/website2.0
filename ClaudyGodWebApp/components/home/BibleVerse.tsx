@@ -4,7 +4,7 @@ export function BibleVerse() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="max-w-2xl mx-auto text-center">
           <span className="block w-8 h-px bg-gold-500 opacity-60 mx-auto mb-10" />
-          <blockquote className="font-raleway font-light text-neutral-700 text-2xl md:text-3xl lg:text-[2rem] leading-[1.6] tracking-tight">
+          <blockquote className="font-raleway text-neutral-700 text-2xl md:text-3xl lg:text-[2rem] leading-[1.6] tracking-tight">
             &ldquo;Let everything that has breath praise the Lord.&rdquo;
           </blockquote>
           <p className="mt-7 font-worksans text-[0.58rem] tracking-[0.28em] uppercase text-gold-500">

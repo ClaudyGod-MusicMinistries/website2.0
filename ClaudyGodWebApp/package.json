@@ -3,20 +3,29 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev":        "next dev",
-    "build":      "next build",
-    "start":      "next start -p 3000",
-    "lint":       "next lint",
-    "lint:fix":   "next lint --fix",
-    "format":     "prettier --write .",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
     "type-check": "tsc --noEmit",
-    "test":       "echo 'No tests configured yet'",
-    "prepare":    "simple-git-hooks"
+    "test": "echo 'No tests configured yet'",
+    "prepare": "simple-git-hooks"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",
     "commit-msg": "npx --no-install commitlint --edit $1",
-    "pre-push":   "npm run type-check"
+    "pre-push": "npm run type-check"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix --max-warnings=0",
+      "prettier --write"
+    ],
+    "*.{css,json,md,yaml,yml}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -29,6 +38,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",
     "react-icons": "^5.2.1",
+    "react-paystack": "^6.0.0",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.4.0",

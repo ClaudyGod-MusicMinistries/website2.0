@@ -1,0 +1,484 @@
+'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { post } from '@/utils/apiClient';
+import { tourDates } from '@/data/news';
+
+/* ── Validation ─────────────────────────────────────────── */
+const schema = z.object({
+  name:    z.string().min(2, 'Please enter your full name'),
+  email:   z.string().email('Please enter a valid email'),
+  phone:   z.string().optional(),
+  eventId: z.number(),
+  notes:   z.string().max(500).optional(),
+});
+type FormData = z.infer<typeof schema>;
+
+/* ── Helpers ─────────────────────────────────────────────── */
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return {
+    day:  d.toLocaleDateString('en-GB',  { day: '2-digit' }),
+    mon:  d.toLocaleDateString('en-GB',  { month: 'short' }).toUpperCase(),
+    full: d.toLocaleDateString('en-US',  { year: 'numeric', month: 'long', day: 'numeric' }),
+    past: d < new Date(),
+  };
+}
+
+/* ── Featured highlight card ─────────────────────────────── */
+function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
+  const { day, mon, full, past } = formatDate(event.date);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
+      className="relative overflow-hidden rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.14)] group"
+    >
+      {/* Background image */}
+      <div className="relative h-[420px] md:h-[520px]">
+        <Image
+          src={event.image}
+          alt={event.city}
+          fill
+          className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
+      </div>
+
+      {/* Featured badge */}
+      <div className="absolute top-6 left-6">
+        <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black font-worksans text-[0.58rem] tracking-[0.18em] uppercase px-4 py-1.5 rounded-full font-semibold shadow-lg">
+          <Star className="h-3 w-3 fill-current" />
+          Featured Event
+        </span>
+      </div>
+
+      {past && (
+        <div className="absolute top-6 right-6">
+          <span className="bg-black/60 text-white/60 font-worksans text-[0.52rem] tracking-[0.14em] uppercase px-3 py-1.5 rounded-full backdrop-blur-sm">
+            Past Event
+          </span>
+        </div>
+      )}
+
+      {/* Content overlay */}
+      <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            {/* Date chip */}
+            <div className="inline-flex items-center gap-3 mb-4">
+              <div className="bg-white rounded-xl px-4 py-2 text-center shadow-lg">
+                <p className="font-bricolage font-bold text-neutral-900 text-2xl leading-none">{day}</p>
+                <p className="font-worksans text-[0.48rem] tracking-[0.16em] uppercase text-purple-600 mt-0.5">{mon}</p>
+              </div>
+              <div>
+                <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-white/60 mb-0.5">{full}</p>
+                <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-gold-400 flex items-center gap-1">
+                  <Clock className="h-3 w-3" />{event.time}
+                </p>
+              </div>
+            </div>
+
+            <h3 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-2">
+              {event.city}
+            </h3>
+            <p className="flex items-center gap-1.5 font-raleway text-white/70 text-sm">
+              <MapPin className="h-3.5 w-3.5 shrink-0 text-gold-400" />
+              {event.venue}, {event.state ?? ''}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3 shrink-0">
+            {!past && event.ticketUrl !== '#' && (
+              <a
+                href={event.ticketUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-black font-semibold px-7 h-11 rounded-xl transition-all duration-300 shadow-lg"
+              >
+                Get Tickets <ExternalLink className="h-3 w-3" />
+              </a>
+            )}
+            <a
+              href="#register"
+              className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white px-7 h-11 rounded-xl transition-all duration-300"
+            >
+              Register Interest
+            </a>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Compact tour date card ──────────────────────────────── */
+function TourCard({ event, index }: { event: (typeof tourDates)[0]; index: number }) {
+  const { day, mon, full, past } = formatDate(event.date);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+      className="group relative overflow-hidden rounded-2xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(124,58,237,0.08)] transition-all duration-300"
+    >
+      <div className="relative h-40 overflow-hidden">
+        <Image
+          src={event.image}
+          alt={event.city}
+          fill
+          className="object-cover group-hover:scale-[1.05] transition-transform duration-500"
+          sizes="(max-width:768px) 100vw, 50vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-black/5" />
+        <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg">
+          <p className="font-bricolage font-bold text-neutral-900 text-xl leading-none">{day}</p>
+          <p className="font-worksans text-[0.48rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
+        </div>
+        {past && (
+          <span className="absolute top-4 right-4 font-worksans text-[0.5rem] tracking-[0.14em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">
+            Past Event
+          </span>
+        )}
+      </div>
+
+      <div className="p-5">
+        <h3 className="font-bricolage font-bold text-neutral-900 text-lg mb-1 group-hover:text-purple-700 transition-colors duration-300">
+          {event.city}
+        </h3>
+        <p className="flex items-center gap-1.5 font-worksans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mb-2">
+          <MapPin className="h-3 w-3 shrink-0" />{event.venue}
+        </p>
+        <div className="flex items-center gap-4 mb-4">
+          <span className="flex items-center gap-1.5 font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
+            <Calendar className="h-3 w-3" />{full}
+          </span>
+          <span className="flex items-center gap-1.5 font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
+            <Clock className="h-3 w-3" />{event.time}
+          </span>
+        </div>
+        <div className="flex gap-2.5">
+          {!past && event.ticketUrl !== '#' && (
+            <a
+              href={event.ticketUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.16em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-5 h-9 rounded-xl transition-all duration-300"
+            >
+              Tickets <ExternalLink className="h-3 w-3" />
+            </a>
+          )}
+          <a
+            href="#register"
+            className="inline-flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.16em] uppercase border border-neutral-300 hover:border-purple-400 text-neutral-600 hover:text-purple-700 px-5 h-9 rounded-xl transition-all duration-300"
+          >
+            Register
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Registration form ───────────────────────────────────── */
+function RegistrationForm() {
+  const upcoming = tourDates.filter((e) => new Date(e.date) >= new Date());
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [selectedEvent, setSelectedEvent] = useState<number>(upcoming[0]?.id ?? tourDates[0].id);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { eventId: selectedEvent },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      await post('/events/register', { ...data, eventId: selectedEvent });
+      setFormStatus('success');
+      reset();
+    } catch {
+      setFormStatus('error');
+    }
+  };
+
+  const inputCls =
+    'w-full h-11 px-4 border border-neutral-200 rounded-xl font-raleway text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
+  const errCls = 'mt-1 font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+
+  return (
+    <div id="register" className="bg-[#0d0b1a] rounded-3xl overflow-hidden">
+      {/* Header */}
+      <div className="relative px-8 pt-10 pb-8 border-b border-white/[0.06]">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.2)_0%,transparent_65%)] pointer-events-none" />
+        <div className="relative">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-8 h-8 rounded-full bg-gold-500/15 border border-gold-500/20 flex items-center justify-center">
+              <Mic2 className="h-3.5 w-3.5 text-gold-400" />
+            </div>
+            <span className="label-eyebrow text-gold-400/80">Event Registration</span>
+          </div>
+          <h3 className="font-bricolage font-bold text-white text-2xl md:text-3xl tracking-tight mb-2">
+            Register for a Tour Date
+          </h3>
+          <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-md">
+            Express your interest in attending an upcoming event. We&apos;ll send you updates, reminders, and exclusive information directly to your inbox.
+          </p>
+
+          {/* Stats row */}
+          <div className="mt-6 flex flex-wrap gap-6">
+            {[
+              { icon: Users, label: 'Community members' },
+              { icon: MapPin, label: `${upcoming.length} upcoming event${upcoming.length !== 1 ? 's' : ''}` },
+              { icon: CheckCircle2, label: 'Free to register' },
+            ].map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-2">
+                <Icon className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                <span className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-500">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Form / Success */}
+      <div className="px-8 py-8">
+        <AnimatePresence mode="wait">
+          {formStatus === 'success' ? (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-col items-center text-center gap-5 py-8"
+            >
+              <div className="w-16 h-16 rounded-full bg-gold-500/10 border border-gold-500/20 flex items-center justify-center">
+                <CheckCircle2 className="h-7 w-7 text-gold-400" />
+              </div>
+              <div>
+                <p className="font-bricolage font-bold text-white text-xl mb-2">You&apos;re Registered!</p>
+                <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-sm">
+                  Thank you for registering. Check your inbox — we&apos;ll send event details, reminders, and any exclusive updates.
+                </p>
+              </div>
+              <button
+                onClick={() => setFormStatus('idle')}
+                className="font-worksans text-[0.6rem] tracking-[0.16em] uppercase text-purple-400 hover:text-purple-300 transition-colors duration-300"
+              >
+                Register for another event
+              </button>
+            </motion.div>
+          ) : (
+            <motion.form
+              key="form"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+              className="space-y-4"
+            >
+              {/* Event selector */}
+              {upcoming.length > 0 && (
+                <div>
+                  <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
+                    Select Event
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {upcoming.map((event) => {
+                      const { full } = formatDate(event.date);
+                      const isSelected = selectedEvent === event.id;
+                      return (
+                        <button
+                          key={event.id}
+                          type="button"
+                          onClick={() => setSelectedEvent(event.id)}
+                          className={`text-left px-4 py-3 rounded-xl border transition-all duration-300 ${
+                            isSelected
+                              ? 'border-purple-500/60 bg-purple-600/10 ring-1 ring-purple-500/30'
+                              : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                          }`}
+                        >
+                          <p className={`font-bricolage font-semibold text-sm ${isSelected ? 'text-white' : 'text-neutral-300'}`}>
+                            {event.city}
+                          </p>
+                          <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
+                            {full} · {event.time}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <input {...register('name')} placeholder="Full name" className={inputCls} />
+                  {errors.name && <p className={errCls}>{errors.name.message}</p>}
+                </div>
+                <div>
+                  <input {...register('email')} type="email" placeholder="Email address" className={inputCls} />
+                  {errors.email && <p className={errCls}>{errors.email.message}</p>}
+                </div>
+              </div>
+
+              <div>
+                <input {...register('phone')} type="tel" placeholder="Phone number (optional)" className={inputCls} />
+              </div>
+
+              <div>
+                <textarea
+                  {...register('notes')}
+                  placeholder="Any questions or special requirements? (optional)"
+                  rows={3}
+                  className={`${inputCls} h-auto py-3 resize-none`}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-11 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+              >
+                {isSubmitting ? 'Registering…' : (
+                  <>Register My Spot <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span></>
+                )}
+              </button>
+
+              {formStatus === 'error' && (
+                <p className="text-center font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
+                  Something went wrong. Please try again.
+                </p>
+              )}
+
+              <p className="text-center font-raleway text-xs text-neutral-600">
+                Registration is free and non-binding. Ticket information will be sent separately.
+              </p>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main exported section ───────────────────────────────── */
+export function EventsSection() {
+  const upcoming = tourDates.filter((e) => new Date(e.date) >= new Date());
+  const past     = tourDates.filter((e) => new Date(e.date) <  new Date());
+  const featured = upcoming[0] ?? tourDates[0];
+
+  return (
+    <div className="space-y-0">
+      {/* Tour Highlights — featured event */}
+      <section className="bg-white section-py">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="flex items-center gap-4 mb-4">
+            <span className="rule-gold" />
+            <span className="label-eyebrow">Tour Highlights</span>
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight">
+              2025 Ministry Tour
+            </h2>
+            {upcoming.length > 0 && (
+              <p className="font-raleway text-neutral-500 text-sm">
+                {upcoming.length} upcoming event{upcoming.length !== 1 ? 's' : ''} remaining
+              </p>
+            )}
+          </div>
+
+          {/* Featured card */}
+          <div className="mb-10">
+            <FeaturedEventCard event={featured} />
+          </div>
+
+          {/* All tour dates grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {tourDates.map((event, i) => (
+              <TourCard key={event.id} event={event} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Registration portal */}
+      <section className="bg-cream-100 section-py border-t border-black/[0.05]">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+
+            {/* Left: context */}
+            <div className="lg:pt-2">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="rule-gold" />
+                <span className="label-eyebrow">Join the Tour</span>
+              </div>
+              <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-6">
+                Be Part of Every Moment
+              </h2>
+              <p className="font-raleway text-neutral-600 text-base leading-[1.85] mb-8">
+                Register your interest for upcoming tour events. Get early notifications, exclusive updates, and spiritual preparation guides delivered straight to your inbox before each event.
+              </p>
+
+              <div className="space-y-5">
+                {[
+                  { title: 'Early Notifications',  body: 'Be the first to know about ticket releases, venue changes, and special announcements.' },
+                  { title: 'Event Reminders',       body: 'Automated reminders 7 days and 24 hours before each event you register for.' },
+                  { title: 'Exclusive Content',     body: 'Pre-event worship guides and post-event highlights sent directly to registrants.' },
+                ].map(({ title, body }) => (
+                  <div key={title} className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
+                    <div>
+                      <p className="font-bricolage font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
+                      <p className="font-raleway text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {past.length > 0 && (
+                <div className="mt-10 pt-8 border-t border-black/[0.06]">
+                  <p className="font-worksans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 mb-4">
+                    Past Events
+                  </p>
+                  <div className="space-y-2">
+                    {past.map((event) => {
+                      const { full } = formatDate(event.date);
+                      return (
+                        <div key={event.id} className="flex items-center justify-between py-2 border-b border-black/[0.05]">
+                          <span className="font-bricolage font-semibold text-neutral-600 text-sm">{event.city}</span>
+                          <span className="font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">{full}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Right: form */}
+            <div>
+              <RegistrationForm />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
