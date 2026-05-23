@@ -5,7 +5,7 @@ export function ContactInfo() {
   return (
     <div className="lg:pt-2">
       <div className="mb-10">
-        <p className="font-raleway font-light text-neutral-900 text-2xl tracking-tight leading-snug mb-4">
+        <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight leading-snug mb-4">
           Let&apos;s Connect
         </p>
         <p className="font-raleway text-neutral-500 text-sm leading-relaxed font-light">

@@ -39,7 +39,7 @@ export function AlbumGrid() {
 
               <div className="p-7">
                 {/* Title */}
-                <p className="font-raleway font-semibold text-neutral-900 text-xl md:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                <p className="font-bricolage font-semibold text-neutral-900 text-xl md:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
                   {album.title}
                 </p>
                 <p className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-6">

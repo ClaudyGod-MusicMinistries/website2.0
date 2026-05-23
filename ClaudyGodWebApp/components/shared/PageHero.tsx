@@ -6,14 +6,22 @@ interface PageHeroProps {
   subtitle?: string;
   eyebrow?: string;
   backgroundImage?: string;
+  /**
+   * CSS object-position. Defaults to 'center top' (safe for portrait images).
+   * Pass 'center center' for landscape images.
+   */
+  objectPosition?: string;
   className?: string;
 }
 
-export function PageHero({ title, subtitle, eyebrow, backgroundImage, className }: PageHeroProps) {
+export function PageHero({
+  title, subtitle, eyebrow, backgroundImage,
+  objectPosition = 'center top', className,
+}: PageHeroProps) {
   return (
     <div
       className={cn(
-        'relative w-full min-h-[60vh] flex items-end pb-20 md:pb-24 pt-[var(--navbar-height)]',
+        'relative w-full min-h-[65vh] md:min-h-[72vh] flex items-end pb-20 md:pb-28 pt-[var(--navbar-height)]',
         className
       )}
     >
@@ -25,17 +33,26 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
             alt=""
             fill
             priority
-            className="object-cover object-center"
+            className="object-cover"
+            style={{ objectPosition }}
             sizes="100vw"
           />
-          {/* Stronger gradient overlay for legibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/85" />
+          {/* Strong bottom fade for text legibility over any image */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/20 to-black/92" />
+          {/* Left gradient — text always readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
+          {/* Purple brand tint */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/35 via-transparent to-transparent" />
         </>
       ) : (
         <div className="absolute inset-0 bg-[#0a0914]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(124,58,237,0.15)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_100%,rgba(124,58,237,0.20)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(201,168,76,0.06)_0%,transparent_70%)]" />
         </div>
       )}
+
+      {/* Gold bottom line */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -45,7 +62,7 @@ export function PageHero({ title, subtitle, eyebrow, backgroundImage, className 
             <span className="label-eyebrow text-white/70">{eyebrow}</span>
           </div>
         )}
-        <h1 className="font-raleway font-normal text-white text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] max-w-3xl">
+        <h1 className="font-bricolage font-extrabold text-white text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] max-w-3xl">
           {title}
         </h1>
         {subtitle && (

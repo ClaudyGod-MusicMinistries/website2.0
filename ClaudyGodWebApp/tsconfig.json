@@ -13,8 +13,7 @@
     "jsx": "preserve",
     "incremental": true,
     "plugins": [{ "name": "next" }],
-    "ignoreDeprecations": "5.0",
-    "baseUrl": ".",
+"baseUrl": ".",
     "paths": {
       "@/*":            ["./*"],
       "@/components/*": ["./components/*"],
