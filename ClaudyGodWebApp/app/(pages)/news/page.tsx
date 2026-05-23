@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
+import { fetchEvents } from '@/lib/backendFetch';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -18,7 +19,9 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://claudygod.com/news' },
 };
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const events = await fetchEvents();
+
   return (
     <>
       <PageHero
@@ -29,8 +32,8 @@ export default function NewsPage() {
         objectPosition="center center"
       />
 
-      {/* Events & Tours — highlights + registration portal */}
-      <EventsSection />
+      {/* Events & Tours — highlights + reservation portal */}
+      <EventsSection events={events} />
 
       {/* New releases */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">

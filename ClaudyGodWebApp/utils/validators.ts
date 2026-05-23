@@ -45,13 +45,12 @@ export type ContactInput = z.infer<typeof contactSchema>;
 // ─── Newsletter subscription ──────────────────────────────────────────────
 
 export const newsletterSchema = z.object({
+  name: z
+    .string({ required_error: 'Name is required' })
+    .min(2, 'Name must be at least 2 characters')
+    .max(100)
+    .trim(),
   email,
-  firstName: z
-    .string()
-    .min(1, 'First name is required')
-    .max(50)
-    .trim()
-    .optional(),
 });
 
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
@@ -99,10 +98,10 @@ export const bookingSchema = z.object({
     .max(100)
     .trim(),
   eventDetails: z
-    .string()
+    .string({ required_error: 'Event details are required' })
+    .min(10, 'Please describe your event (minimum 10 characters)')
     .max(2000, 'Event details must be under 2000 characters')
-    .trim()
-    .optional(),
+    .trim(),
   eventDate: z
     .string({ required_error: 'Event date is required' })
     .regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),

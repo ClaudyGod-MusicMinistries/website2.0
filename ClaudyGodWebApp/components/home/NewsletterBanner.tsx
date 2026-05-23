@@ -21,7 +21,7 @@ export function NewsletterBanner() {
 
   const onSubmit = async (data: NewsletterInput) => {
     try {
-      await post('/newsletter', data);
+      await post('/subscribers', { name: data.name, email: data.email });
       setStatus('success');
       reset();
     } catch {
@@ -121,6 +121,19 @@ export function NewsletterBanner() {
                   </div>
 
                   <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3">
+                    <div>
+                      <input
+                        {...register('name')}
+                        type="text"
+                        placeholder="Your name"
+                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
+                      />
+                      {errors.name && (
+                        <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
+                          {errors.name.message}
+                        </p>
+                      )}
+                    </div>
                     <div>
                       <input
                         {...register('email')}

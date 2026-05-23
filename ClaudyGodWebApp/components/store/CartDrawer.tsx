@@ -131,18 +131,19 @@ export function CartDrawer() {
                   </p>
                 </div>
                 <Link
-                  href="/store/cart"
+                  href="/store/checkout"
                   onClick={closeCart}
-                  className="block w-full h-11 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center"
+                  className="block w-full h-11 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300 flex items-center justify-center rounded-xl"
                 >
                   Checkout
                 </Link>
-                <button
+                <Link
+                  href="/store/cart"
                   onClick={closeCart}
-                  className="w-full font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-400 transition-colors"
+                  className="block w-full font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-neutral-600 hover:text-neutral-400 transition-colors text-center"
                 >
-                  Continue Shopping
-                </button>
+                  View Cart
+                </Link>
               </div>
             )}
           </motion.div>

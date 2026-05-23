@@ -5,10 +5,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2 } from 'lucide-react';
 import { contactSchema, type ContactInput } from '@/utils/validators';
-import { post } from '@/utils/apiClient';
+import { post, BackendError } from '@/utils/apiClient';
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
   const {
     register,
     handleSubmit,
@@ -17,11 +18,19 @@ export function ContactForm() {
   } = useForm<ContactInput>({ resolver: zodResolver(contactSchema) });
 
   const onSubmit = async (data: ContactInput) => {
+    setApiErrors([]);
     try {
-      await post('/contact', data);
+      await post('/contacts', {
+        name: data.name,
+        email: data.email,
+        message: data.message,
+      });
       setStatus('success');
       reset();
-    } catch {
+    } catch (err) {
+      if (err instanceof BackendError && err.errors.length > 0) {
+        setApiErrors(err.errors);
+      }
       setStatus('error');
     }
   };
@@ -134,9 +143,13 @@ export function ContactForm() {
       </div>
 
       {status === 'error' && (
-        <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
-          Something went wrong. Please try again.
-        </p>
+        <div className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80 space-y-1">
+          {apiErrors.length > 0 ? (
+            apiErrors.map((e, i) => <p key={i}>{e}</p>)
+          ) : (
+            <p>Something went wrong. Please try again.</p>
+          )}
+        </div>
       )}
 
       <button

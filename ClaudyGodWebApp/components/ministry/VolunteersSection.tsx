@@ -5,43 +5,71 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Mic2, Camera, Megaphone, BookOpen, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Mic2, Camera, ShieldCheck, Users, CheckCircle2, ChevronRight, Mic } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { post, BackendError } from '@/utils/apiClient';
+import type { VolunteerRole } from '@/types/api';
 
-// ─── Schema ───────────────────────────────────────────────────────────────────
+// ─── Schema (mirrors backend VolunteerRole enum + required fields) ─────────
 
 const schema = z.object({
-  name:  z.string().min(2, 'Enter your full name'),
-  email: z.string().email('Enter a valid email'),
-  role:  z.string().min(1, 'Select an area of service'),
+  firstName: z.string().min(2, 'First name is required').max(50).trim(),
+  lastName:  z.string().min(2, 'Last name is required').max(50).trim(),
+  email:     z.string().email('Enter a valid email').toLowerCase().trim(),
+  role:      z.enum(['BackupSinger', 'Protocol', 'Media', 'Security', 'Vocalist', 'Others'] as const, {
+    errorMap: () => ({ message: 'Please select an area of service' }),
+  }),
+  reason: z
+    .string({ required_error: 'Please share why you want to volunteer' })
+    .min(20, 'Please share a bit more (minimum 20 characters)')
+    .max(2000)
+    .trim(),
 });
+
 type FormData = z.infer<typeof schema>;
 
-// ─── Roles ────────────────────────────────────────────────────────────────────
+// ─── Role definitions (map to backend VolunteerRole enum) ─────────────────
 
-const roles = [
-  { id: 'worship',  icon: Mic2,      label: 'Worship Team',  desc: 'Singers & instrumentalists' },
-  { id: 'media',    icon: Camera,    label: 'Media & Tech',  desc: 'Video, audio & photography' },
-  { id: 'outreach', icon: Megaphone, label: 'Outreach',      desc: 'Missions & evangelism' },
-  { id: 'teaching', icon: BookOpen,  label: 'Teaching',      desc: 'Bible study & discipleship' },
-] as const;
+const roles: { id: VolunteerRole; icon: React.FC<{ className?: string }>; label: string; desc: string }[] = [
+  { id: 'Vocalist',    icon: Mic,        label: 'Worship / Vocals', desc: 'Lead & worship singers' },
+  { id: 'BackupSinger', icon: Mic2,      label: 'Backup Vocals',    desc: 'Harmony & background singers' },
+  { id: 'Media',       icon: Camera,     label: 'Media & Tech',     desc: 'Video, audio & photography' },
+  { id: 'Protocol',    icon: Users,      label: 'Protocol Team',    desc: 'Ushers & hospitality' },
+  { id: 'Security',    icon: ShieldCheck, label: 'Security',        desc: 'Safety & crowd management' },
+  { id: 'Others',      icon: ChevronRight, label: 'Other',          desc: 'Any other area of service' },
+];
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─── Component ────────────────────────────────────────────────────────────
 
 export function VolunteersSection() {
-  const [done, setDone] = useState(false);
-  const [selected, setSelected] = useState('');
+  const [done, setDone]           = useState(false);
+  const [selected, setSelected]   = useState<VolunteerRole | ''>('');
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
 
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } =
     useForm<FormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 800));
-    void data;
-    setDone(true);
+    setApiErrors([]);
+    try {
+      await post('/volunteers', {
+        firstName: data.firstName,
+        lastName:  data.lastName,
+        email:     data.email,
+        role:      data.role,
+        reason:    data.reason,
+      });
+      setDone(true);
+    } catch (err) {
+      if (err instanceof BackendError && err.errors.length > 0) {
+        setApiErrors(err.errors);
+      } else {
+        setApiErrors(['Something went wrong. Please try again.']);
+      }
+    }
   };
 
-  const pick = (id: string) => {
+  const pick = (id: VolunteerRole) => {
     setSelected(id);
     setValue('role', id, { shouldValidate: true });
   };
@@ -120,7 +148,7 @@ export function VolunteersSection() {
                   <div>
                     <p className="font-bricolage font-bold text-white text-lg mb-1">Welcome to the Team!</p>
                     <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-xs">
-                      We&apos;ll be in touch within 3–5 business days with next steps.
+                      We&apos;ll review your application and be in touch within 3–5 business days.
                     </p>
                   </div>
                   <p className="font-worksans text-[0.52rem] tracking-[0.18em] uppercase text-gold-400">
@@ -140,26 +168,79 @@ export function VolunteersSection() {
                     <p className="font-raleway text-neutral-500 text-xs">Select a role, then fill in your details.</p>
                   </div>
 
-                  {[
-                    { id: 'v-name',  label: 'Full Name *', type: 'text',  reg: 'name',  placeholder: 'Your full name',     err: errors.name?.message  },
-                    { id: 'v-email', label: 'Email *',     type: 'email', reg: 'email', placeholder: 'your@email.com',     err: errors.email?.message },
-                  ].map(({ id, label, type, reg, placeholder, err }) => (
-                    <div key={id} className="flex flex-col gap-1.5">
-                      <label htmlFor={id} className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
-                        {label}
+                  {/* Name row */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                        First Name *
                       </label>
                       <input
-                        id={id}
-                        type={type}
-                        placeholder={placeholder}
-                        {...register(reg as 'name' | 'email')}
+                        type="text"
+                        placeholder="First"
+                        {...register('firstName')}
                         className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                       />
-                      {err && <p className="font-worksans text-[0.58rem] text-red-400">{err}</p>}
+                      {errors.firstName && (
+                        <p className="font-worksans text-[0.58rem] text-red-400">{errors.firstName.message}</p>
+                      )}
                     </div>
-                  ))}
+                    <div className="flex flex-col gap-1.5">
+                      <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                        Last Name *
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Last"
+                        {...register('lastName')}
+                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                      />
+                      {errors.lastName && (
+                        <p className="font-worksans text-[0.58rem] text-red-400">{errors.lastName.message}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      {...register('email')}
+                      className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                    />
+                    {errors.email && (
+                      <p className="font-worksans text-[0.58rem] text-red-400">{errors.email.message}</p>
+                    )}
+                  </div>
+
+                  {/* Reason */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                      Why do you want to volunteer? *
+                    </label>
+                    <textarea
+                      rows={4}
+                      placeholder="Share your passion, gifting, and why you'd like to serve…"
+                      {...register('reason')}
+                      className="px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200 resize-none"
+                    />
+                    {errors.reason && (
+                      <p className="font-worksans text-[0.58rem] text-red-400">{errors.reason.message}</p>
+                    )}
+                  </div>
 
                   <input type="hidden" {...register('role')} />
+
+                  {apiErrors.length > 0 && (
+                    <div className="space-y-1">
+                      {apiErrors.map((e, i) => (
+                        <p key={i} className="font-worksans text-[0.58rem] text-red-400">{e}</p>
+                      ))}
+                    </div>
+                  )}
 
                   <button
                     type="submit"
