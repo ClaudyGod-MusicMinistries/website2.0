@@ -140,9 +140,12 @@ export default function CartPage() {
                 <p className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-500">Total</p>
                 <p className="font-bricolage font-bold text-neutral-900 text-xl">{formatPrice(total)}</p>
               </div>
-              <button className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-worksans text-xs font-semibold tracking-[0.12em] uppercase rounded-xl transition-all duration-300 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]">
+              <Link
+                href="/store/checkout"
+                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-worksans text-xs font-semibold tracking-[0.12em] uppercase rounded-xl transition-all duration-300 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)] flex items-center justify-center"
+              >
                 Proceed to Checkout
-              </button>
+              </Link>
               <Link
                 href="/store"
                 className="mt-3 w-full h-11 border border-neutral-200 hover:border-purple-300 text-neutral-500 hover:text-purple-600 font-worksans text-xs tracking-[0.12em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2"

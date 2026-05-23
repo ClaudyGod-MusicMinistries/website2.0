@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
 import { bookingSchema, type BookingInput } from '@/utils/validators';
 import { cn } from '@/utils/cn';
-import { post } from '@/utils/apiClient';
+import { post, BackendError } from '@/utils/apiClient';
 
 const steps = ['Contact', 'Event', 'Location'] as const;
 
@@ -26,6 +26,14 @@ const countryOptions = [
   { value: 'NG', label: 'Nigeria' },
   { value: 'GH', label: 'Ghana' },
 ];
+
+const countryNames: Record<string, string> = {
+  US: 'United States',
+  CA: 'Canada',
+  UK: 'United Kingdom',
+  NG: 'Nigeria',
+  GH: 'Ghana',
+};
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -58,6 +66,7 @@ const textareaClass =
 export function BookingForm() {
   const [step, setStep]           = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [apiErrors, setApiErrors] = useState<string[]>([]);
 
   const {
     register,
@@ -78,11 +87,32 @@ export function BookingForm() {
   };
 
   const onSubmit = async (data: BookingInput) => {
+    setApiErrors([]);
     try {
-      await post('/bookings', data);
+      await post('/bookings', {
+        firstName:    data.firstName,
+        lastName:     data.lastName,
+        email:        data.email,
+        phone:        data.phone,
+        countryCode:  data.country,
+        organization: data.organization,
+        orgType:      data.orgType,
+        eventType:    data.eventType,
+        eventDetails: data.eventDetails,
+        eventDate:    new Date(data.eventDate).toISOString(),
+        addressLine1: data.address1,
+        addressLine2: data.address2,
+        city:         data.city,
+        state:        data.state,
+        zipCode:      data.zipCode,
+        country:      countryNames[data.country] ?? data.country,
+        agreeTerms:   data.agreeTerms,
+      });
       setSubmitted(true);
-    } catch {
-      // error handled in UI below
+    } catch (err) {
+      if (err instanceof BackendError && err.errors.length > 0) {
+        setApiErrors(err.errors);
+      }
     }
   };
 
@@ -277,6 +307,14 @@ export function BookingForm() {
             </label>
             <FieldError message={errors.agreeTerms?.message} />
           </div>
+        </div>
+      )}
+
+      {apiErrors.length > 0 && (
+        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+          {apiErrors.map((e, i) => (
+            <p key={i} className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-red-500">{e}</p>
+          ))}
         </div>
       )}
 
