@@ -131,8 +131,18 @@ export const albums = [
     },
   },
   {
+    title: 'We Would Reign',
+    image: '/MusicBanner5.webp',
+    links: {
+      spotify: 'https://open.spotify.com/search/we%20would%20reign%20claudygod',
+      youtube: 'https://www.youtube.com/@claudygodministries',
+      apple: 'https://music.apple.com/search?term=claudygod',
+      deezer: 'https://www.deezer.com/search/claudygod',
+    },
+  },
+  {
     title: 'Lover of my Soul',
-    image: '/CD1.png',
+    image: '/MusicBanner1.webp',
     links: {
       spotify: 'https://open.spotify.com/album/1QtuBqSvCerflLbHTiniCI',
       youtube: 'https://youtu.be/ivj5gVeTCJQ?si=AXXbrP8SllDc4FeV',
@@ -142,7 +152,7 @@ export const albums = [
   },
   {
     title: 'King of Heavens',
-    image: '/tour_1.jpg',
+    image: '/MusicBanner6.webp',
     links: {
       spotify: 'https://open.spotify.com/track/6Q07B7YUlHjtbI8KMoBfMy?si=b27d98de60ed41be',
       youtube: 'https://youtu.be/W_Gfia-R3Ec?si=KQP_0DQ6UjZjSm7x',
