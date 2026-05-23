@@ -5,6 +5,7 @@ export interface ApiResponse<T = unknown> {
   message: string;
   data: T | null;
   errors: string[];
+  fieldErrors: Record<string, string[]>;
 }
 
 export interface PaginatedResult<T> {

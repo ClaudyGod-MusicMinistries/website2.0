@@ -11,6 +11,7 @@ export class BackendError extends Error {
     message: string,
     public readonly statusCode: number,
     public readonly errors: string[] = [],
+    public readonly fieldErrors: Record<string, string[]> = {},
   ) {
     super(message);
     this.name = 'BackendError';
@@ -33,6 +34,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
       body.message || `Request failed (${res.status})`,
       res.status,
       body.errors ?? [],
+      body.fieldErrors ?? {},
     );
   }
 

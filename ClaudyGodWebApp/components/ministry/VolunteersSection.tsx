@@ -2,31 +2,19 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Mic2, Camera, ShieldCheck, Users, CheckCircle2, ChevronRight, Mic } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { post, BackendError } from '@/utils/apiClient';
 import type { VolunteerRole } from '@/types/api';
 
-// ─── Schema (mirrors backend VolunteerRole enum + required fields) ─────────
-
-const schema = z.object({
-  firstName: z.string().min(2, 'First name is required').max(50).trim(),
-  lastName:  z.string().min(2, 'Last name is required').max(50).trim(),
-  email:     z.string().email('Enter a valid email').toLowerCase().trim(),
-  role:      z.enum(['BackupSinger', 'Protocol', 'Media', 'Security', 'Vocalist', 'Others'] as const, {
-    errorMap: () => ({ message: 'Please select an area of service' }),
-  }),
-  reason: z
-    .string({ required_error: 'Please share why you want to volunteer' })
-    .min(20, 'Please share a bit more (minimum 20 characters)')
-    .max(2000)
-    .trim(),
-});
-
-type FormData = z.infer<typeof schema>;
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: VolunteerRole;
+  reason: string;
+}
 
 // ─── Role definitions (map to backend VolunteerRole enum) ─────────────────
 
@@ -42,15 +30,15 @@ const roles: { id: VolunteerRole; icon: React.FC<{ className?: string }>; label:
 // ─── Component ────────────────────────────────────────────────────────────
 
 export function VolunteersSection() {
-  const [done, setDone]           = useState(false);
-  const [selected, setSelected]   = useState<VolunteerRole | ''>('');
-  const [apiErrors, setApiErrors] = useState<string[]>([]);
+  const [done, setDone]       = useState(false);
+  const [selected, setSelected] = useState<VolunteerRole | ''>('');
+  const [apiError, setApiError] = useState('');
 
-  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } =
-    useForm<FormData>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, setError, setValue, formState: { errors, isSubmitting } } =
+    useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    setApiErrors([]);
+    setApiError('');
     try {
       await post('/volunteers', {
         firstName: data.firstName,
@@ -61,10 +49,15 @@ export function VolunteersSection() {
       });
       setDone(true);
     } catch (err) {
-      if (err instanceof BackendError && err.errors.length > 0) {
-        setApiErrors(err.errors);
+      if (err instanceof BackendError) {
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          setError(field as keyof FormData, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
       } else {
-        setApiErrors(['Something went wrong. Please try again.']);
+        setApiError('Something went wrong. Please try again.');
       }
     }
   };
@@ -234,12 +227,8 @@ export function VolunteersSection() {
 
                   <input type="hidden" {...register('role')} />
 
-                  {apiErrors.length > 0 && (
-                    <div className="space-y-1">
-                      {apiErrors.map((e, i) => (
-                        <p key={i} className="font-worksans text-[0.58rem] text-red-400">{e}</p>
-                      ))}
-                    </div>
+                  {apiError && (
+                    <p className="font-worksans text-[0.58rem] text-red-400">{apiError}</p>
                   )}
 
                   <button

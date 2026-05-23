@@ -5,21 +5,17 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { post, BackendError } from '@/utils/apiClient';
 import type { EventShape } from '@/lib/backendFetch';
 
-/* ── Ticket reservation schema (matches backend ReserveTicketRequest) ────── */
-const ticketSchema = z.object({
-  firstName: z.string().min(2, 'First name is required').max(100).trim(),
-  lastName:  z.string().min(2, 'Last name is required').max(100).trim(),
-  email:     z.string().email('Enter a valid email').toLowerCase().trim(),
-  phone:     z.string().min(7, 'Phone number is required').max(30).trim(),
-  quantity:  z.number().int().min(1).max(10),
-  eventId:   z.string().uuid('Select an event'),
-});
-type TicketFormData = z.infer<typeof ticketSchema>;
+interface TicketFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  quantity: number;
+  eventId: string;
+}
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 function formatDate(dateStr: string) {
@@ -201,23 +197,21 @@ function TicketForm({ events }: { events: EventShape[] }) {
   const upcoming   = events.filter((e) => !formatDate(e.date).past);
   const backendEvt = upcoming.filter((e) => isUUID(e.id));
 
-  const [formStatus, setFormStatus]           = useState<'idle' | 'success' | 'error'>('idle');
-  const [selectedId, setSelectedId]           = useState<string>(backendEvt[0]?.id ?? upcoming[0]?.id ?? '');
+  const [formStatus, setFormStatus]             = useState<'idle' | 'success' | 'error'>('idle');
+  const [selectedId, setSelectedId]             = useState<string>(backendEvt[0]?.id ?? upcoming[0]?.id ?? '');
   const [confirmationCode, setConfirmationCode] = useState('');
-  const [apiErrors, setApiErrors]             = useState<string[]>([]);
+  const [apiError, setApiError]                 = useState('');
 
   const {
     register,
     handleSubmit,
+    setError,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<TicketFormData>({
-    resolver: zodResolver(ticketSchema),
-    defaultValues: { quantity: 1, eventId: selectedId },
-  });
+  } = useForm<TicketFormData>({ defaultValues: { quantity: 1, eventId: selectedId } });
 
   const onSubmit = async (data: TicketFormData) => {
-    setApiErrors([]);
+    setApiError('');
     try {
       const result = await post<{ confirmationCode: string }>('/tickets', {
         eventId:   selectedId,
@@ -231,8 +225,15 @@ function TicketForm({ events }: { events: EventShape[] }) {
       setFormStatus('success');
       reset();
     } catch (err) {
-      if (err instanceof BackendError && err.errors.length > 0) {
-        setApiErrors(err.errors);
+      if (err instanceof BackendError) {
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          setError(field as keyof TicketFormData, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
+      } else {
+        setApiError('Something went wrong. Please try again.');
       }
       setFormStatus('error');
     }
@@ -405,17 +406,9 @@ function TicketForm({ events }: { events: EventShape[] }) {
                 {errors.quantity && <p className={errCls}>{errors.quantity.message}</p>}
               </div>
 
-              {apiErrors.length > 0 && (
-                <div className="space-y-1">
-                  {apiErrors.map((e, i) => (
-                    <p key={i} className={errCls}>{e}</p>
-                  ))}
-                </div>
-              )}
-
-              {formStatus === 'error' && apiErrors.length === 0 && (
+              {apiError && (
                 <p className="text-center font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
-                  Something went wrong. Please try again.
+                  {apiError}
                 </p>
               )}
 
