@@ -15,39 +15,41 @@ const platformIconMap = {
 export function AlbumGrid() {
   return (
     <section className="bg-cream-100 section-py">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="flex items-center gap-4 mb-14">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="flex items-center gap-4 mb-10 sm:mb-14">
           <span className="rule-gold" />
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
           {albums.map((album, i) => (
-            <div key={album.title} className="group bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
-              {/* Album art */}
-              <div className="relative aspect-square overflow-hidden">
+            <div key={album.title} className="group flex flex-col h-full bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
+              {/* Album art container */}
+              <div className="relative w-full aspect-square overflow-hidden bg-neutral-100">
                 <Image
                   src={album.image}
                   alt={album.title}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   priority={i === 0}
+                  quality={90}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
 
-              <div className="p-7">
+              {/* Album info */}
+              <div className="flex-1 flex flex-col p-5 sm:p-6 lg:p-7">
                 {/* Title */}
-                <p className="font-bricolage font-semibold text-neutral-900 text-xl md:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                <p className="font-bricolage font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
                   {album.title}
                 </p>
-                <p className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-6">
+                <p className="font-worksans text-[0.55rem] sm:text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5 sm:mb-6">
                   Full Album
                 </p>
 
                 {/* Platform links */}
-                <div className="flex items-center gap-2.5 flex-wrap">
+                <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap mb-auto">
                   {(Object.entries(album.links) as [keyof typeof platformIconMap, string][])
                     .filter(([key]) => key in platformIconMap)
                     .map(([key, url]) => {
@@ -69,12 +71,12 @@ export function AlbumGrid() {
                 </div>
 
                 {/* Stream CTA */}
-                <div className="mt-6 pt-5 border-t border-black/[0.06]">
+                <div className="mt-5 sm:mt-6 pt-5 sm:pt-5 border-t border-black/[0.06]">
                   <a
                     href={album.links.spotify || album.links.youtube || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
+                    className="inline-flex items-center gap-2 font-worksans text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
                   >
                     Stream Now
                     <span className="transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>
