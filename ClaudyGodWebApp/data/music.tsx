@@ -111,6 +111,26 @@ export const latestReleasePlatforms: MusicPlatform[] = [
 
 export const albums = [
   {
+    title: 'You Are Our Everything',
+    image: '/CoverArt.webp',
+    links: {
+      spotify: 'https://open.spotify.com/album/1zCT0YUVggnzkZJK5VP0yd',
+      youtube: 'https://www.youtube.com/watch?v=fK_tCBcnqGs&list=OLAK5uy_nO6i6o85ojjKvu8QQlrV0keV4M_T7PPe4',
+      apple: 'https://music.apple.com/ng/album/you-are-our-everything-single/1803827230',
+      deezer: 'https://www.deezer.com/us/album/695949191',
+    },
+  },
+  {
+    title: 'Very Glorious',
+    image: '/veryGlorious.jpg',
+    links: {
+      spotify: 'https://open.spotify.com/track/4Y59X6LBT2FZQbkcQAa2AQ?si=90ee973a0546426c',
+      youtube: 'https://youtu.be/F36AiXSSADQ?si=yA2Y0mXeZtIYosy3',
+      apple: 'https://music.apple.com/ng/song/very-glorious/1789665670',
+      deezer: 'https://link.deezer.com/s/30nBb5QPKuvysqFk399wN',
+    },
+  },
+  {
     title: 'Lover of my Soul',
     image: '/CD1.png',
     links: {
@@ -118,16 +138,6 @@ export const albums = [
       youtube: 'https://youtu.be/ivj5gVeTCJQ?si=AXXbrP8SllDc4FeV',
       apple: 'https://music.apple.com/ng/album/lover-of-my-soul/1701236800',
       deezer: 'https://link.deezer.com/s/30nBesnOQ9vP09F3MEDqb',
-    },
-  },
-  {
-    title: 'Very Glorious',
-    image: '/resize_abt.webp',
-    links: {
-      spotify: 'https://open.spotify.com/track/4Y59X6LBT2FZQbkcQAa2AQ?si=90ee973a0546426c',
-      youtube: 'https://youtu.be/F36AiXSSADQ?si=yA2Y0mXeZtIYosy3',
-      apple: 'https://music.apple.com/ng/song/very-glorious/1789665670',
-      deezer: 'https://link.deezer.com/s/30nBb5QPKuvysqFk399wN',
     },
   },
   {
