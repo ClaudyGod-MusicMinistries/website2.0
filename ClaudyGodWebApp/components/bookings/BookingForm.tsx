@@ -2,11 +2,28 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
-import { bookingSchema, type BookingInput } from '@/utils/validators';
 import { cn } from '@/utils/cn';
 import { post, BackendError } from '@/utils/apiClient';
+
+interface BookingInput {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  organization: string;
+  orgType: string;
+  eventType: string;
+  eventDate: string;
+  eventDetails?: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zipCode?: string;
+  country: string;
+  agreeTerms: boolean;
+}
 
 const steps = ['Contact', 'Event', 'Location'] as const;
 
@@ -66,14 +83,15 @@ const textareaClass =
 export function BookingForm() {
   const [step, setStep]           = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [apiErrors, setApiErrors] = useState<string[]>([]);
+  const [apiError, setApiError]   = useState('');
 
   const {
     register,
     handleSubmit,
+    setError,
     trigger,
     formState: { errors, isSubmitting },
-  } = useForm<BookingInput>({ resolver: zodResolver(bookingSchema), mode: 'onTouched' });
+  } = useForm<BookingInput>({ mode: 'onTouched' });
 
   const stepFields: (keyof BookingInput)[][] = [
     ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'],
@@ -87,7 +105,7 @@ export function BookingForm() {
   };
 
   const onSubmit = async (data: BookingInput) => {
-    setApiErrors([]);
+    setApiError('');
     try {
       await post('/bookings', {
         firstName:    data.firstName,
@@ -110,8 +128,25 @@ export function BookingForm() {
       });
       setSubmitted(true);
     } catch (err) {
-      if (err instanceof BackendError && err.errors.length > 0) {
-        setApiErrors(err.errors);
+      if (err instanceof BackendError) {
+        // Map backend field errors — some fields use different names between form and backend
+        const fieldMap: Record<string, keyof BookingInput> = {
+          addressLine1: 'address1',
+          addressLine2: 'address2',
+          countryCode: 'country',
+        };
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          const mapped = (fieldMap[field] ?? field) as keyof BookingInput;
+          setError(mapped, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
+        // Jump back to step 0 if contact-step fields have errors
+        const step0Fields = ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'];
+        if (Object.keys(err.fieldErrors).some(f => step0Fields.includes(f))) setStep(0);
+      } else {
+        setApiError('Something went wrong. Please try again.');
       }
     }
   };
@@ -310,11 +345,9 @@ export function BookingForm() {
         </div>
       )}
 
-      {apiErrors.length > 0 && (
+      {apiError && (
         <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-          {apiErrors.map((e, i) => (
-            <p key={i} className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-red-500">{e}</p>
-          ))}
+          <p className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-red-500">{apiError}</p>
         </div>
       )}
 

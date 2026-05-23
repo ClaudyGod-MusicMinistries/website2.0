@@ -2,23 +2,31 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2 } from 'lucide-react';
-import { contactSchema, type ContactInput } from '@/utils/validators';
 import { post, BackendError } from '@/utils/apiClient';
+
+interface FormData {
+  name: string;
+  email: string;
+  phone?: string;
+  subject?: string;
+  message: string;
+}
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [apiErrors, setApiErrors] = useState<string[]>([]);
+  const [apiError, setApiError] = useState('');
+
   const {
     register,
     handleSubmit,
+    setError,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<ContactInput>({ resolver: zodResolver(contactSchema) });
+  } = useForm<FormData>();
 
-  const onSubmit = async (data: ContactInput) => {
-    setApiErrors([]);
+  const onSubmit = async (data: FormData) => {
+    setApiError('');
     try {
       await post('/contacts', {
         name: data.name,
@@ -28,8 +36,16 @@ export function ContactForm() {
       setStatus('success');
       reset();
     } catch (err) {
-      if (err instanceof BackendError && err.errors.length > 0) {
-        setApiErrors(err.errors);
+      if (err instanceof BackendError) {
+        // Map field-level errors from backend directly to form fields
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          setError(field as keyof FormData, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
+      } else {
+        setApiError('Something went wrong. Please try again.');
       }
       setStatus('error');
     }
@@ -57,7 +73,6 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      {/* Name + Email row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-600 block mb-2">
@@ -93,10 +108,9 @@ export function ContactForm() {
         </div>
       </div>
 
-      {/* Phone */}
       <div>
         <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
-          Phone <span className="text-neutral-700">(optional)</span>
+          Phone <span className="text-neutral-400">(optional)</span>
         </label>
         <input
           {...register('phone')}
@@ -104,17 +118,11 @@ export function ContactForm() {
           placeholder="+1 (555) 000-0000"
           className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
         />
-        {errors.phone && (
-          <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
-            {errors.phone.message}
-          </p>
-        )}
       </div>
 
-      {/* Subject */}
       <div>
         <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
-          Subject <span className="text-neutral-700">(optional)</span>
+          Subject <span className="text-neutral-400">(optional)</span>
         </label>
         <input
           {...register('subject')}
@@ -124,7 +132,6 @@ export function ContactForm() {
         />
       </div>
 
-      {/* Message */}
       <div>
         <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
           Message
@@ -142,14 +149,10 @@ export function ContactForm() {
         )}
       </div>
 
-      {status === 'error' && (
-        <div className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80 space-y-1">
-          {apiErrors.length > 0 ? (
-            apiErrors.map((e, i) => <p key={i}>{e}</p>)
-          ) : (
-            <p>Something went wrong. Please try again.</p>
-          )}
-        </div>
+      {apiError && (
+        <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
+          {apiError}
+        </p>
       )}
 
       <button

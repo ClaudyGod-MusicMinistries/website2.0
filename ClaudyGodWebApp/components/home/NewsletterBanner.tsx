@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Mail, Music, Bell, Users } from 'lucide-react';
-import { newsletterSchema, type NewsletterInput } from '@/utils/validators';
-import { post } from '@/utils/apiClient';
+import { post, BackendError } from '@/utils/apiClient';
+
+interface NewsletterInput {
+  name: string;
+  email: string;
+}
 
 const benefits = [
   { icon: Music,  text: 'New worship songs & releases' },
@@ -16,15 +19,27 @@ const benefits = [
 
 export function NewsletterBanner() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
-    useForm<NewsletterInput>({ resolver: zodResolver(newsletterSchema) });
+  const [apiError, setApiError] = useState('');
+  const { register, handleSubmit, setError, reset, formState: { errors, isSubmitting } } =
+    useForm<NewsletterInput>();
 
   const onSubmit = async (data: NewsletterInput) => {
+    setApiError('');
     try {
       await post('/subscribers', { name: data.name, email: data.email });
       setStatus('success');
       reset();
-    } catch {
+    } catch (err) {
+      if (err instanceof BackendError) {
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          setError(field as keyof NewsletterInput, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
+      } else {
+        setApiError('Something went wrong. Please try again.');
+      }
       setStatus('error');
     }
   };
@@ -163,9 +178,9 @@ export function NewsletterBanner() {
                       )}
                     </button>
 
-                    {status === 'error' && (
+                    {apiError && (
                       <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
-                        Something went wrong. Please try again.
+                        {apiError}
                       </p>
                     )}
                   </form>
