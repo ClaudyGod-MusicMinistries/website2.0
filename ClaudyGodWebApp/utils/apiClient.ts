@@ -1,7 +1,7 @@
 import type { ApiResponse } from '@/types/api';
 
-// All calls hit /api/* (Next.js proxy routes), which forward to the .NET backend.
-// The backend URL (API_BASE_URL) is kept server-side only — never exposed to the browser.
+// All calls go through /api/* (Next.js server-side proxy routes).
+// The backend URL (API_BASE_URL) is server-side only — never exposed to the browser.
 const BASE = '/api';
 
 // ─── Error class ────────────────────────────────────────────────────────────
@@ -18,7 +18,78 @@ export class BackendError extends Error {
   }
 }
 
-// ─── Core fetch helpers ─────────────────────────────────────────────────────
+// ─── In-memory access token store ───────────────────────────────────────────
+// Access token lives only in JS memory — never localStorage/sessionStorage.
+// Refresh token lives in an HTTP-only cookie set by the server.
+
+let _accessToken: string | null = null;
+let _tokenExpiry: number | null = null; // unix ms
+
+export function setAccessToken(token: string, expiresAt: string | Date) {
+  _accessToken = token;
+  _tokenExpiry = new Date(expiresAt).getTime();
+}
+
+export function clearAccessToken() {
+  _accessToken = null;
+  _tokenExpiry = null;
+}
+
+export function getAccessToken(): string | null {
+  if (!_accessToken || !_tokenExpiry) return null;
+  // Treat token as expired 30s before actual expiry to avoid race conditions
+  if (Date.now() >= _tokenExpiry - 30_000) return null;
+  return _accessToken;
+}
+
+export function isAuthenticated(): boolean {
+  return getAccessToken() !== null;
+}
+
+// ─── Auto-refresh logic ──────────────────────────────────────────────────────
+
+let _refreshPromise: Promise<string> | null = null;
+
+async function refreshToken(): Promise<string> {
+  if (_refreshPromise) return _refreshPromise;
+
+  _refreshPromise = (async () => {
+    const res = await fetch(`${BASE}/auth/refresh`, {
+      method: 'POST',
+      credentials: 'include', // send the HTTP-only refresh cookie
+      headers: { Accept: 'application/json' },
+    });
+
+    const body = (await res.json()) as ApiResponse<{ accessToken: string; accessTokenExpiresAt: string }>;
+
+    if (!res.ok || !body.success || !body.data) {
+      clearAccessToken();
+      throw new BackendError(
+        body.message || 'Session expired. Please log in again.',
+        res.status,
+      );
+    }
+
+    setAccessToken(body.data.accessToken, body.data.accessTokenExpiresAt);
+    return body.data.accessToken;
+  })().finally(() => { _refreshPromise = null; });
+
+  return _refreshPromise;
+}
+
+// Returns a valid access token, refreshing silently if needed.
+async function resolveToken(): Promise<string | null> {
+  const token = getAccessToken();
+  if (token) return token;
+
+  try {
+    return await refreshToken();
+  } catch {
+    return null;
+  }
+}
+
+// ─── Core fetch helpers ──────────────────────────────────────────────────────
 
 async function handleResponse<T>(res: Response): Promise<T> {
   let body: ApiResponse<T>;
@@ -41,9 +112,16 @@ async function handleResponse<T>(res: Response): Promise<T> {
   return body.data as T;
 }
 
+function authHeaders(token: string | null): Record<string, string> {
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+// ─── Public API ──────────────────────────────────────────────────────────────
+
 export async function get<T = unknown>(
   path: string,
   params?: Record<string, string | number | undefined>,
+  authenticated = false,
 ): Promise<T> {
   let url = `${BASE}${path}`;
   if (params) {
@@ -55,39 +133,91 @@ export async function get<T = unknown>(
     if (qs) url += `?${qs}`;
   }
 
+  const token = authenticated ? await resolveToken() : null;
+
   const res = await fetch(url, {
     method: 'GET',
-    headers: { Accept: 'application/json' },
-    next: { revalidate: 0 }, // always fresh — adjust per-route if needed
+    credentials: 'include',
+    headers: { Accept: 'application/json', ...authHeaders(token) },
+    next: { revalidate: 0 },
   });
 
   return handleResponse<T>(res);
 }
 
-export async function post<T = unknown>(path: string, body: unknown): Promise<T> {
+export async function post<T = unknown>(
+  path: string,
+  body: unknown,
+  authenticated = false,
+): Promise<T> {
+  const token = authenticated ? await resolveToken() : null;
+
   const res = await fetch(`${BASE}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...authHeaders(token),
+    },
     body: JSON.stringify(body),
   });
 
   return handleResponse<T>(res);
 }
 
-export async function put<T = unknown>(path: string, body: unknown): Promise<T> {
+export async function put<T = unknown>(
+  path: string,
+  body: unknown,
+  authenticated = false,
+): Promise<T> {
+  const token = authenticated ? await resolveToken() : null;
+
   const res = await fetch(`${BASE}${path}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...authHeaders(token),
+    },
     body: JSON.stringify(body),
   });
 
   return handleResponse<T>(res);
 }
 
-export async function del<T = unknown>(path: string): Promise<T> {
+export async function patch<T = unknown>(
+  path: string,
+  body: unknown,
+  authenticated = false,
+): Promise<T> {
+  const token = authenticated ? await resolveToken() : null;
+
+  const res = await fetch(`${BASE}${path}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...authHeaders(token),
+    },
+    body: JSON.stringify(body),
+  });
+
+  return handleResponse<T>(res);
+}
+
+export async function del<T = unknown>(
+  path: string,
+  authenticated = false,
+): Promise<T> {
+  const token = authenticated ? await resolveToken() : null;
+
   const res = await fetch(`${BASE}${path}`, {
     method: 'DELETE',
-    headers: { Accept: 'application/json' },
+    credentials: 'include',
+    headers: { Accept: 'application/json', ...authHeaders(token) },
   });
 
   return handleResponse<T>(res);

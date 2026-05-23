@@ -23,7 +23,13 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
     );
   }
   const data = await upstream.json();
-  return NextResponse.json(data, { status: upstream.status });
+  const res = NextResponse.json(data, { status: upstream.status });
+
+  // Relay Set-Cookie so HTTP-only auth cookies reach the browser
+  const setCookie = upstream.headers.get('set-cookie');
+  if (setCookie) res.headers.set('set-cookie', setCookie);
+
+  return res;
 }
 
 async function proxyWithBody(
@@ -35,12 +41,14 @@ async function proxyWithBody(
   try {
     const body = await req.json();
     const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
+    const cookieHeader = req.headers.get('cookie');
     const upstream = await fetch(backendUrl, {
       method,
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         ...authHeader(req),
+        ...(cookieHeader ? { Cookie: cookieHeader } : {}),
       },
       body: JSON.stringify(body),
     });

@@ -189,6 +189,26 @@ export const socialPlatforms = [
 
 export const galleryCategories = [
   {
+    title: 'Tour Photos',
+    description: 'Memorable moments from our worship tours and ministry events across different cities and venues.',
+    images: [
+      '/Tour_Ph_1.webp',
+      '/Tour_Ph_2.webp',
+      '/Tour_Ph_3.webp',
+      '/Tour_ph_4.webp',
+      '/Tour_Ph_5.webp',
+      '/Tour_ph_6.webp',
+      '/Tour_Ph_7.webp',
+      '/Tour_Ph_8.webp',
+      '/Tour_Ph_9.webp',
+      '/Tour_Ph_10.webp',
+      '/Tour_Ph_11.webp',
+      '/Tour_Ph_12.webp',
+      '/Tour_Ph_13.webp',
+      '/Tour_Ph_14.webp',
+    ],
+  },
+  {
     title: 'ClaudyGod with Students',
     description: 'Engaging with the next generation of worshippers in universities and youth gatherings across Port Harcourt.',
     images: [
