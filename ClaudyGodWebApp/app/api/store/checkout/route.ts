@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -35,9 +36,7 @@ const schema = z.object({
 });
 
 function generateOrderId(): string {
-  const ts   = Date.now().toString(36).toUpperCase();
-  const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-  return `CGM-${ts}-${rand}`;
+  return `CGM-${randomBytes(8).toString('hex').toUpperCase()}`;
 }
 
 export async function POST(req: NextRequest) {
@@ -47,9 +46,38 @@ export async function POST(req: NextRequest) {
 
     const orderId = generateOrderId();
 
-    // TODO: persist order to database
-    // TODO: trigger confirmation email via SendGrid / Resend
-    // TODO: verify Paystack payment ref if paymentMethod === 'paystack'
+    // Verify Paystack payment before acknowledging the order
+    if (data.paymentMethod === 'paystack' && data.paystackRef) {
+      const secretKey = process.env.PAYSTACK_SECRET_KEY;
+      if (!secretKey) {
+        return NextResponse.json(
+          { success: false, message: 'Payment service not configured' },
+          { status: 503 },
+        );
+      }
+
+      const verifyRes = await fetch(
+        `https://api.paystack.co/transaction/verify/${encodeURIComponent(data.paystackRef)}`,
+        { headers: { Authorization: `Bearer ${secretKey}` } },
+      );
+      const verifyData = await verifyRes.json();
+
+      if (!verifyData.status || verifyData.data?.status !== 'success') {
+        return NextResponse.json(
+          { success: false, message: 'Payment verification failed. Please contact support.' },
+          { status: 402 },
+        );
+      }
+
+      const paidAmount = verifyData.data.amount / 100;
+      if (Math.abs(paidAmount - data.total) > 0.01) {
+        console.error(`[checkout] Amount mismatch: paid ${paidAmount}, expected ${data.total}`);
+        return NextResponse.json(
+          { success: false, message: 'Payment amount does not match order total.' },
+          { status: 400 },
+        );
+      }
+    }
 
     return NextResponse.json(
       {
@@ -58,12 +86,16 @@ export async function POST(req: NextRequest) {
         message: 'Order received successfully',
         estimatedDelivery: data.shippingMethod === 'express' ? '3-5 business days' : '7-14 business days',
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return NextResponse.json({ success: false, errors: err.issues }, { status: 422 });
+      return NextResponse.json(
+        { success: false, message: 'Invalid order data', errors: err.issues },
+        { status: 422 },
+      );
     }
+    console.error('[store/checkout]', err);
     return NextResponse.json({ success: false, message: 'Internal error' }, { status: 500 });
   }
 }
