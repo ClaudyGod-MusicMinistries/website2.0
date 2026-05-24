@@ -1,30 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
+import { type NextRequest } from 'next/server';
+import { proxyPost } from '@/utils/backendProxy';
 
-const schema = z.object({
-  name:    z.string().min(2).max(100),
-  email:   z.string().email(),
-  phone:   z.string().optional(),
-  eventId: z.number().int().positive(),
-  city:    z.string().min(2).max(80),
-  notes:   z.string().max(500).optional(),
-});
-
+// Forwards ticket reservation to the .NET backend: POST /api/v1.0/tickets
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const data = schema.parse(body);
-
-    // TODO: persist to database / send confirmation email when backend is wired
-
-    return NextResponse.json(
-      { success: true, message: 'Registration received', data },
-      { status: 201 }
-    );
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      return NextResponse.json({ success: false, errors: err.issues }, { status: 422 });
-    }
-    return NextResponse.json({ success: false, message: 'Internal error' }, { status: 500 });
-  }
+  return proxyPost(req, '/tickets');
 }

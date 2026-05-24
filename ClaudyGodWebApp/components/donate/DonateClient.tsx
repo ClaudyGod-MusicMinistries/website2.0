@@ -75,7 +75,8 @@ export function DonateClient() {
 
   const handlePay = () => {
     if (!validate()) return;
-    const reference = `CGM-${Date.now()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    const bytes = crypto.getRandomValues(new Uint8Array(8));
+    const reference = `CGM-${Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
 
     // Paystack expects amount in subunits (kobo for NGN, cents for USD/GBP/EUR)
     const amountInSubunits = Math.round(finalAmount * 100);

@@ -27,13 +27,15 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
       onClick={onViewDetails}
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-cream-100">
+      <div className="relative w-full aspect-square overflow-hidden bg-cream-100">
         <Image
           src={product.image}
           alt={product.name}
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-          sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          quality={90}
+          priority={false}
         />
         {/* Quick view overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
