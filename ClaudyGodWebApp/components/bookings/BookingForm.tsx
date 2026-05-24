@@ -2,11 +2,28 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
-import { bookingSchema, type BookingInput } from '@/utils/validators';
 import { cn } from '@/utils/cn';
-import { post } from '@/utils/apiClient';
+import { post, BackendError } from '@/utils/apiClient';
+
+interface BookingInput {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  organization: string;
+  orgType: string;
+  eventType: string;
+  eventDate: string;
+  eventDetails?: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zipCode?: string;
+  country: string;
+  agreeTerms: boolean;
+}
 
 const steps = ['Contact', 'Event', 'Location'] as const;
 
@@ -26,6 +43,14 @@ const countryOptions = [
   { value: 'NG', label: 'Nigeria' },
   { value: 'GH', label: 'Ghana' },
 ];
+
+const countryNames: Record<string, string> = {
+  US: 'United States',
+  CA: 'Canada',
+  UK: 'United Kingdom',
+  NG: 'Nigeria',
+  GH: 'Ghana',
+};
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
@@ -58,13 +83,15 @@ const textareaClass =
 export function BookingForm() {
   const [step, setStep]           = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [apiError, setApiError]   = useState('');
 
   const {
     register,
     handleSubmit,
+    setError,
     trigger,
     formState: { errors, isSubmitting },
-  } = useForm<BookingInput>({ resolver: zodResolver(bookingSchema), mode: 'onTouched' });
+  } = useForm<BookingInput>({ mode: 'onTouched' });
 
   const stepFields: (keyof BookingInput)[][] = [
     ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'],
@@ -78,11 +105,49 @@ export function BookingForm() {
   };
 
   const onSubmit = async (data: BookingInput) => {
+    setApiError('');
     try {
-      await post('/bookings', data);
+      await post('/bookings', {
+        firstName:    data.firstName,
+        lastName:     data.lastName,
+        email:        data.email,
+        phone:        data.phone,
+        countryCode:  data.country,
+        organization: data.organization,
+        orgType:      data.orgType,
+        eventType:    data.eventType,
+        eventDetails: data.eventDetails,
+        eventDate:    new Date(data.eventDate).toISOString(),
+        addressLine1: data.address1,
+        addressLine2: data.address2,
+        city:         data.city,
+        state:        data.state,
+        zipCode:      data.zipCode,
+        country:      countryNames[data.country] ?? data.country,
+        agreeTerms:   data.agreeTerms,
+      });
       setSubmitted(true);
-    } catch {
-      // error handled in UI below
+    } catch (err) {
+      if (err instanceof BackendError) {
+        // Map backend field errors — some fields use different names between form and backend
+        const fieldMap: Record<string, keyof BookingInput> = {
+          addressLine1: 'address1',
+          addressLine2: 'address2',
+          countryCode: 'country',
+        };
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          const mapped = (fieldMap[field] ?? field) as keyof BookingInput;
+          setError(mapped, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
+        // Jump back to step 0 if contact-step fields have errors
+        const step0Fields = ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'];
+        if (Object.keys(err.fieldErrors).some(f => step0Fields.includes(f))) setStep(0);
+      } else {
+        setApiError('Something went wrong. Please try again.');
+      }
     }
   };
 
@@ -277,6 +342,12 @@ export function BookingForm() {
             </label>
             <FieldError message={errors.agreeTerms?.message} />
           </div>
+        </div>
+      )}
+
+      {apiError && (
+        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+          <p className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-red-500">{apiError}</p>
         </div>
       )}
 

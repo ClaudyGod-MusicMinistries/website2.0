@@ -3,24 +3,21 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2 } from 'lucide-react';
+import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { post } from '@/utils/apiClient';
-import { tourDates } from '@/data/news';
+import { post, BackendError } from '@/utils/apiClient';
+import type { EventShape } from '@/lib/backendFetch';
 
-/* ── Validation ─────────────────────────────────────────── */
-const schema = z.object({
-  name:    z.string().min(2, 'Please enter your full name'),
-  email:   z.string().email('Please enter a valid email'),
-  phone:   z.string().optional(),
-  eventId: z.number(),
-  notes:   z.string().max(500).optional(),
-});
-type FormData = z.infer<typeof schema>;
+interface TicketFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  quantity: number;
+  eventId: string;
+}
 
-/* ── Helpers ─────────────────────────────────────────────── */
+/* ── Helpers ─────────────────────────────────────────────────────────────── */
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
   return {
@@ -31,8 +28,12 @@ function formatDate(dateStr: string) {
   };
 }
 
-/* ── Featured highlight card ─────────────────────────────── */
-function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
+function isUUID(id: string) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+}
+
+/* ── Featured highlight card ─────────────────────────────────────────────── */
+function FeaturedEventCard({ event }: { event: EventShape }) {
   const { day, mon, full, past } = formatDate(event.date);
   return (
     <motion.div
@@ -42,11 +43,10 @@ function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
       transition={{ duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
       className="relative overflow-hidden rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.14)] group"
     >
-      {/* Background image */}
       <div className="relative h-[420px] md:h-[520px]">
         <Image
           src={event.image}
-          alt={event.city}
+          alt={event.title}
           fill
           className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
           sizes="100vw"
@@ -55,7 +55,6 @@ function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
       </div>
 
-      {/* Featured badge */}
       <div className="absolute top-6 left-6">
         <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black font-worksans text-[0.58rem] tracking-[0.18em] uppercase px-4 py-1.5 rounded-full font-semibold shadow-lg">
           <Star className="h-3 w-3 fill-current" />
@@ -71,11 +70,9 @@ function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
         </div>
       )}
 
-      {/* Content overlay */}
       <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            {/* Date chip */}
             <div className="inline-flex items-center gap-3 mb-4">
               <div className="bg-white rounded-xl px-4 py-2 text-center shadow-lg">
                 <p className="font-bricolage font-bold text-neutral-900 text-2xl leading-none">{day}</p>
@@ -90,11 +87,11 @@ function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
             </div>
 
             <h3 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-2">
-              {event.city}
+              {event.title}
             </h3>
             <p className="flex items-center gap-1.5 font-raleway text-white/70 text-sm">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-gold-400" />
-              {event.venue}, {event.state ?? ''}
+              {event.venue}
             </p>
           </div>
 
@@ -109,12 +106,14 @@ function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
                 Get Tickets <ExternalLink className="h-3 w-3" />
               </a>
             )}
-            <a
-              href="#register"
-              className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white px-7 h-11 rounded-xl transition-all duration-300"
-            >
-              Register Interest
-            </a>
+            {!past && isUUID(event.id) && (
+              <a
+                href="#register"
+                className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white px-7 h-11 rounded-xl transition-all duration-300"
+              >
+                Reserve Ticket
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -122,8 +121,8 @@ function FeaturedEventCard({ event }: { event: (typeof tourDates)[0] }) {
   );
 }
 
-/* ── Compact tour date card ──────────────────────────────── */
-function TourCard({ event, index }: { event: (typeof tourDates)[0]; index: number }) {
+/* ── Compact tour date card ───────────────────────────────────────────────── */
+function TourCard({ event, index }: { event: EventShape; index: number }) {
   const { day, mon, full, past } = formatDate(event.date);
   return (
     <motion.div
@@ -136,7 +135,7 @@ function TourCard({ event, index }: { event: (typeof tourDates)[0]; index: numbe
       <div className="relative h-40 overflow-hidden">
         <Image
           src={event.image}
-          alt={event.city}
+          alt={event.title}
           fill
           className="object-cover group-hover:scale-[1.05] transition-transform duration-500"
           sizes="(max-width:768px) 100vw, 50vw"
@@ -148,14 +147,14 @@ function TourCard({ event, index }: { event: (typeof tourDates)[0]; index: numbe
         </div>
         {past && (
           <span className="absolute top-4 right-4 font-worksans text-[0.5rem] tracking-[0.14em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">
-            Past Event
+            Past
           </span>
         )}
       </div>
 
       <div className="p-5">
         <h3 className="font-bricolage font-bold text-neutral-900 text-lg mb-1 group-hover:text-purple-700 transition-colors duration-300">
-          {event.city}
+          {event.title}
         </h3>
         <p className="flex items-center gap-1.5 font-worksans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mb-2">
           <MapPin className="h-3 w-3 shrink-0" />{event.venue}
@@ -179,40 +178,63 @@ function TourCard({ event, index }: { event: (typeof tourDates)[0]; index: numbe
               Tickets <ExternalLink className="h-3 w-3" />
             </a>
           )}
-          <a
-            href="#register"
-            className="inline-flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.16em] uppercase border border-neutral-300 hover:border-purple-400 text-neutral-600 hover:text-purple-700 px-5 h-9 rounded-xl transition-all duration-300"
-          >
-            Register
-          </a>
+          {!past && isUUID(event.id) && (
+            <a
+              href="#register"
+              className="inline-flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.16em] uppercase border border-neutral-300 hover:border-purple-400 text-neutral-600 hover:text-purple-700 px-5 h-9 rounded-xl transition-all duration-300"
+            >
+              Reserve
+            </a>
+          )}
         </div>
       </div>
     </motion.div>
   );
 }
 
-/* ── Registration form ───────────────────────────────────── */
-function RegistrationForm() {
-  const upcoming = tourDates.filter((e) => new Date(e.date) >= new Date());
-  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [selectedEvent, setSelectedEvent] = useState<number>(upcoming[0]?.id ?? tourDates[0].id);
+/* ── Ticket reservation form ─────────────────────────────────────────────── */
+function TicketForm({ events }: { events: EventShape[] }) {
+  const upcoming   = events.filter((e) => !formatDate(e.date).past);
+  const backendEvt = upcoming.filter((e) => isUUID(e.id));
+
+  const [formStatus, setFormStatus]             = useState<'idle' | 'success' | 'error'>('idle');
+  const [selectedId, setSelectedId]             = useState<string>(backendEvt[0]?.id ?? upcoming[0]?.id ?? '');
+  const [confirmationCode, setConfirmationCode] = useState('');
+  const [apiError, setApiError]                 = useState('');
 
   const {
     register,
     handleSubmit,
+    setError,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: { eventId: selectedEvent },
-  });
+  } = useForm<TicketFormData>({ defaultValues: { quantity: 1, eventId: selectedId } });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: TicketFormData) => {
+    setApiError('');
     try {
-      await post('/events/register', { ...data, eventId: selectedEvent });
+      const result = await post<{ confirmationCode: string }>('/tickets', {
+        eventId:   selectedId,
+        firstName: data.firstName,
+        lastName:  data.lastName,
+        email:     data.email,
+        phone:     data.phone,
+        quantity:  data.quantity,
+      });
+      setConfirmationCode(result.confirmationCode ?? '');
       setFormStatus('success');
       reset();
-    } catch {
+    } catch (err) {
+      if (err instanceof BackendError) {
+        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+          setError(field as keyof TicketFormData, { message: messages[0] });
+        });
+        if (Object.keys(err.fieldErrors).length === 0) {
+          setApiError(err.message || 'Something went wrong. Please try again.');
+        }
+      } else {
+        setApiError('Something went wrong. Please try again.');
+      }
       setFormStatus('error');
     }
   };
@@ -220,6 +242,9 @@ function RegistrationForm() {
   const inputCls =
     'w-full h-11 px-4 border border-neutral-200 rounded-xl font-raleway text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
   const errCls = 'mt-1 font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+
+  // If no backend events exist yet, show a simple "coming soon" panel
+  const hasBackendEvents = backendEvt.length > 0;
 
   return (
     <div id="register" className="bg-[#0d0b1a] rounded-3xl overflow-hidden">
@@ -231,21 +256,24 @@ function RegistrationForm() {
             <div className="w-8 h-8 rounded-full bg-gold-500/15 border border-gold-500/20 flex items-center justify-center">
               <Mic2 className="h-3.5 w-3.5 text-gold-400" />
             </div>
-            <span className="label-eyebrow text-gold-400/80">Event Registration</span>
+            <span className="label-eyebrow text-gold-400/80">
+              {hasBackendEvents ? 'Reserve Your Ticket' : 'Event Registration'}
+            </span>
           </div>
           <h3 className="font-bricolage font-bold text-white text-2xl md:text-3xl tracking-tight mb-2">
-            Register for a Tour Date
+            {hasBackendEvents ? 'Secure Your Spot' : 'Register for a Tour Date'}
           </h3>
           <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-md">
-            Express your interest in attending an upcoming event. We&apos;ll send you updates, reminders, and exclusive information directly to your inbox.
+            {hasBackendEvents
+              ? 'Reserve your ticket now. A confirmation code will be sent to your email.'
+              : "Express your interest and we'll send you updates, reminders, and exclusive information."}
           </p>
 
-          {/* Stats row */}
           <div className="mt-6 flex flex-wrap gap-6">
             {[
-              { icon: Users, label: 'Community members' },
-              { icon: MapPin, label: `${upcoming.length} upcoming event${upcoming.length !== 1 ? 's' : ''}` },
-              { icon: CheckCircle2, label: 'Free to register' },
+              { icon: Users,       label: `${upcoming.length} upcoming event${upcoming.length !== 1 ? 's' : ''}` },
+              { icon: CheckCircle2, label: hasBackendEvents ? 'Instant confirmation' : 'Free to register' },
+              { icon: Ticket,      label: hasBackendEvents ? `${backendEvt[0]?.availableSeats ?? 0} seats left` : 'Email updates included' },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2">
                 <Icon className="h-3.5 w-3.5 text-purple-400 shrink-0" />
@@ -273,15 +301,21 @@ function RegistrationForm() {
               </div>
               <div>
                 <p className="font-bricolage font-bold text-white text-xl mb-2">You&apos;re Registered!</p>
+                {confirmationCode && (
+                  <div className="mt-3 mb-4 px-6 py-3 bg-purple-600/10 border border-purple-500/20 rounded-xl">
+                    <p className="font-worksans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-1">Confirmation Code</p>
+                    <p className="font-bricolage font-bold text-white text-lg tracking-widest">{confirmationCode}</p>
+                  </div>
+                )}
                 <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-sm">
-                  Thank you for registering. Check your inbox — we&apos;ll send event details, reminders, and any exclusive updates.
+                  Check your inbox — we&apos;ve sent your ticket details and confirmation.
                 </p>
               </div>
               <button
-                onClick={() => setFormStatus('idle')}
+                onClick={() => { setFormStatus('idle'); setConfirmationCode(''); }}
                 className="font-worksans text-[0.6rem] tracking-[0.16em] uppercase text-purple-400 hover:text-purple-300 transition-colors duration-300"
               >
-                Register for another event
+                Reserve another ticket
               </button>
             </motion.div>
           ) : (
@@ -297,17 +331,17 @@ function RegistrationForm() {
               {upcoming.length > 0 && (
                 <div>
                   <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
-                    Select Event
+                    Select Event *
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {upcoming.map((event) => {
                       const { full } = formatDate(event.date);
-                      const isSelected = selectedEvent === event.id;
+                      const isSelected = selectedId === event.id;
                       return (
                         <button
                           key={event.id}
                           type="button"
-                          onClick={() => setSelectedEvent(event.id)}
+                          onClick={() => setSelectedId(event.id)}
                           className={`text-left px-4 py-3 rounded-xl border transition-all duration-300 ${
                             isSelected
                               ? 'border-purple-500/60 bg-purple-600/10 ring-1 ring-purple-500/30'
@@ -315,60 +349,86 @@ function RegistrationForm() {
                           }`}
                         >
                           <p className={`font-bricolage font-semibold text-sm ${isSelected ? 'text-white' : 'text-neutral-300'}`}>
-                            {event.city}
+                            {event.title}
                           </p>
                           <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
                             {full} · {event.time}
                           </p>
+                          {event.availableSeats > 0 && (
+                            <p className="font-worksans text-[0.5rem] tracking-[0.1em] uppercase text-purple-400 mt-1">
+                              {event.availableSeats} seats left
+                            </p>
+                          )}
                         </button>
                       );
                     })}
                   </div>
+                  {errors.eventId && <p className={errCls}>{errors.eventId.message}</p>}
+                  <input type="hidden" {...register('eventId')} value={selectedId} />
                 </div>
               )}
 
+              {/* Name row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <input {...register('name')} placeholder="Full name" className={inputCls} />
-                  {errors.name && <p className={errCls}>{errors.name.message}</p>}
+                  <input {...register('firstName')} placeholder="First name" className={inputCls} />
+                  {errors.firstName && <p className={errCls}>{errors.firstName.message}</p>}
                 </div>
                 <div>
-                  <input {...register('email')} type="email" placeholder="Email address" className={inputCls} />
-                  {errors.email && <p className={errCls}>{errors.email.message}</p>}
+                  <input {...register('lastName')} placeholder="Last name" className={inputCls} />
+                  {errors.lastName && <p className={errCls}>{errors.lastName.message}</p>}
                 </div>
               </div>
 
               <div>
-                <input {...register('phone')} type="tel" placeholder="Phone number (optional)" className={inputCls} />
+                <input {...register('email')} type="email" placeholder="Email address" className={inputCls} />
+                {errors.email && <p className={errCls}>{errors.email.message}</p>}
               </div>
 
               <div>
-                <textarea
-                  {...register('notes')}
-                  placeholder="Any questions or special requirements? (optional)"
-                  rows={3}
-                  className={`${inputCls} h-auto py-3 resize-none`}
-                />
+                <input {...register('phone')} type="tel" placeholder="Phone number" className={inputCls} />
+                {errors.phone && <p className={errCls}>{errors.phone.message}</p>}
               </div>
+
+              {/* Quantity */}
+              <div>
+                <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
+                  Tickets (1–10)
+                </label>
+                <input
+                  {...register('quantity', { valueAsNumber: true })}
+                  type="number"
+                  min={1}
+                  max={10}
+                  defaultValue={1}
+                  className={`${inputCls} w-28`}
+                />
+                {errors.quantity && <p className={errCls}>{errors.quantity.message}</p>}
+              </div>
+
+              {apiError && (
+                <p className="text-center font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
+                  {apiError}
+                </p>
+              )}
 
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full h-11 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
               >
-                {isSubmitting ? 'Registering…' : (
-                  <>Register My Spot <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span></>
+                {isSubmitting ? 'Processing…' : (
+                  <>
+                    {hasBackendEvents ? 'Reserve Ticket' : 'Register My Spot'}
+                    <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                  </>
                 )}
               </button>
 
-              {formStatus === 'error' && (
-                <p className="text-center font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
-                  Something went wrong. Please try again.
-                </p>
-              )}
-
               <p className="text-center font-raleway text-xs text-neutral-600">
-                Registration is free and non-binding. Ticket information will be sent separately.
+                {hasBackendEvents
+                  ? 'A confirmation email will be sent immediately after reserving.'
+                  : 'Registration is free and non-binding. Ticket information will be sent separately.'}
               </p>
             </motion.form>
           )}
@@ -378,11 +438,13 @@ function RegistrationForm() {
   );
 }
 
-/* ── Main exported section ───────────────────────────────── */
-export function EventsSection() {
-  const upcoming = tourDates.filter((e) => new Date(e.date) >= new Date());
-  const past     = tourDates.filter((e) => new Date(e.date) <  new Date());
-  const featured = upcoming[0] ?? tourDates[0];
+/* ── Main exported section ────────────────────────────────────────────────── */
+export function EventsSection({ events }: { events: EventShape[] }) {
+  const upcoming = events.filter((e) => !formatDate(e.date).past);
+  const past     = events.filter((e) => formatDate(e.date).past);
+  const featured = upcoming[0] ?? events[0];
+
+  if (!featured) return null;
 
   return (
     <div className="space-y-0">
@@ -404,21 +466,19 @@ export function EventsSection() {
             )}
           </div>
 
-          {/* Featured card */}
           <div className="mb-10">
             <FeaturedEventCard event={featured} />
           </div>
 
-          {/* All tour dates grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {tourDates.map((event, i) => (
+            {events.map((event, i) => (
               <TourCard key={event.id} event={event} index={i} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Registration portal */}
+      {/* Registration / Ticket reservation portal */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -433,14 +493,14 @@ export function EventsSection() {
                 Be Part of Every Moment
               </h2>
               <p className="font-raleway text-neutral-600 text-base leading-[1.85] mb-8">
-                Register your interest for upcoming tour events. Get early notifications, exclusive updates, and spiritual preparation guides delivered straight to your inbox before each event.
+                Register for upcoming ministry events. Get instant confirmation, early notifications, and spiritual preparation guides delivered to your inbox.
               </p>
 
               <div className="space-y-5">
                 {[
-                  { title: 'Early Notifications',  body: 'Be the first to know about ticket releases, venue changes, and special announcements.' },
-                  { title: 'Event Reminders',       body: 'Automated reminders 7 days and 24 hours before each event you register for.' },
-                  { title: 'Exclusive Content',     body: 'Pre-event worship guides and post-event highlights sent directly to registrants.' },
+                  { title: 'Instant Confirmation',  body: 'Receive a unique confirmation code for each ticket reserved.' },
+                  { title: 'Event Reminders',        body: 'Automated reminders 7 days and 24 hours before the event.' },
+                  { title: 'Exclusive Content',      body: 'Pre-event worship guides sent directly to registered attendees.' },
                 ].map(({ title, body }) => (
                   <div key={title} className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
@@ -462,7 +522,7 @@ export function EventsSection() {
                       const { full } = formatDate(event.date);
                       return (
                         <div key={event.id} className="flex items-center justify-between py-2 border-b border-black/[0.05]">
-                          <span className="font-bricolage font-semibold text-neutral-600 text-sm">{event.city}</span>
+                          <span className="font-bricolage font-semibold text-neutral-600 text-sm">{event.title}</span>
                           <span className="font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">{full}</span>
                         </div>
                       );
@@ -474,7 +534,7 @@ export function EventsSection() {
 
             {/* Right: form */}
             <div>
-              <RegistrationForm />
+              <TicketForm events={events} />
             </div>
           </div>
         </div>

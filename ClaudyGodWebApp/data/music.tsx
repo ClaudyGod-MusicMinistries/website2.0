@@ -111,18 +111,18 @@ export const latestReleasePlatforms: MusicPlatform[] = [
 
 export const albums = [
   {
-    title: 'Lover of my Soul',
-    image: '/CD1.png',
+    title: 'You Are Our Everything',
+    image: '/CoverArt.webp',
     links: {
-      spotify: 'https://open.spotify.com/album/1QtuBqSvCerflLbHTiniCI',
-      youtube: 'https://youtu.be/ivj5gVeTCJQ?si=AXXbrP8SllDc4FeV',
-      apple: 'https://music.apple.com/ng/album/lover-of-my-soul/1701236800',
-      deezer: 'https://link.deezer.com/s/30nBesnOQ9vP09F3MEDqb',
+      spotify: 'https://open.spotify.com/album/1zCT0YUVggnzkZJK5VP0yd',
+      youtube: 'https://www.youtube.com/watch?v=fK_tCBcnqGs&list=OLAK5uy_nO6i6o85ojjKvu8QQlrV0keV4M_T7PPe4',
+      apple: 'https://music.apple.com/ng/album/you-are-our-everything-single/1803827230',
+      deezer: 'https://www.deezer.com/us/album/695949191',
     },
   },
   {
     title: 'Very Glorious',
-    image: '/resize_abt.webp',
+    image: '/veryGlorious.jpg',
     links: {
       spotify: 'https://open.spotify.com/track/4Y59X6LBT2FZQbkcQAa2AQ?si=90ee973a0546426c',
       youtube: 'https://youtu.be/F36AiXSSADQ?si=yA2Y0mXeZtIYosy3',
@@ -131,8 +131,28 @@ export const albums = [
     },
   },
   {
+    title: 'We Would Reign',
+    image: '/MusicBanner5.webp',
+    links: {
+      spotify: 'https://open.spotify.com/search/we%20would%20reign%20claudygod',
+      youtube: 'https://www.youtube.com/@claudygodministries',
+      apple: 'https://music.apple.com/search?term=claudygod',
+      deezer: 'https://www.deezer.com/search/claudygod',
+    },
+  },
+  {
+    title: 'Lover of my Soul',
+    image: '/MusicBanner1.webp',
+    links: {
+      spotify: 'https://open.spotify.com/album/1QtuBqSvCerflLbHTiniCI',
+      youtube: 'https://youtu.be/ivj5gVeTCJQ?si=AXXbrP8SllDc4FeV',
+      apple: 'https://music.apple.com/ng/album/lover-of-my-soul/1701236800',
+      deezer: 'https://link.deezer.com/s/30nBesnOQ9vP09F3MEDqb',
+    },
+  },
+  {
     title: 'King of Heavens',
-    image: '/tour_1.jpg',
+    image: '/MusicBanner6.webp',
     links: {
       spotify: 'https://open.spotify.com/track/6Q07B7YUlHjtbI8KMoBfMy?si=b27d98de60ed41be',
       youtube: 'https://youtu.be/W_Gfia-R3Ec?si=KQP_0DQ6UjZjSm7x',
@@ -188,6 +208,26 @@ export const socialPlatforms = [
 ];
 
 export const galleryCategories = [
+  {
+    title: 'Tour Photos',
+    description: 'Memorable moments from our worship tours and ministry events across different cities and venues.',
+    images: [
+      '/Tour_Ph_1.webp',
+      '/Tour_Ph_2.webp',
+      '/Tour_Ph_3.webp',
+      '/Tour_ph_4.webp',
+      '/Tour_Ph_5.webp',
+      '/Tour_ph_6.webp',
+      '/Tour_Ph_7.webp',
+      '/Tour_Ph_8.webp',
+      '/Tour_Ph_9.webp',
+      '/Tour_Ph_10.webp',
+      '/Tour_Ph_11.webp',
+      '/Tour_Ph_12.webp',
+      '/Tour_Ph_13.webp',
+      '/Tour_Ph_14.webp',
+    ],
+  },
   {
     title: 'ClaudyGod with Students',
     description: 'Engaging with the next generation of worshippers in universities and youth gatherings across Port Harcourt.',
