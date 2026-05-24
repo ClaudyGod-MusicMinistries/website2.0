@@ -3,39 +3,63 @@ import { teamMembers } from '@/data/music';
 
 export function TeamSection() {
   return (
-    <section className="bg-white section-py border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="flex items-center gap-4 mb-14">
-          <span className="rule-gold" />
-          <span className="label-eyebrow">The Team</span>
+    <section className="bg-cream-100 section-py border-t border-black/[0.05]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+
+        {/* Header */}
+        <div className="flex items-end justify-between gap-4 mb-10 sm:mb-14">
+          <div>
+            <div className="flex items-center gap-4 mb-3">
+              <span className="rule-gold" />
+              <span className="label-eyebrow">The Team</span>
+            </div>
+            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
+              Our Ministry Team
+            </h2>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="group bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] overflow-hidden transition-shadow duration-300 border border-black/[0.04]">
-              <div className="relative aspect-[4/3] overflow-hidden">
+        {/* Team Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-5">
+          {teamMembers.map((member, idx) => (
+            <div
+              key={member.id}
+              className="group flex flex-col h-full overflow-hidden rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] transition-all duration-500 border border-black/[0.04] hover:border-purple-300/30"
+            >
+              {/* Image Container */}
+              <div className="relative w-full aspect-square overflow-hidden bg-neutral-100">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  className="object-cover object-top transition-all duration-500 group-hover:scale-105"
-                  sizes="(max-width:768px) 100vw, (max-width:1024px) 50vw, 33vw"
+                  className="object-cover object-center transition-all duration-700 group-hover:scale-110"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  quality={90}
+                  priority={idx === 0}
                 />
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <div className="p-6">
-                <p className="font-worksans text-[0.62rem] tracking-[0.2em] uppercase text-purple-600 mb-1">
-                  {member.role}
-                </p>
-                <p className="font-bricolage font-bold text-neutral-900 text-lg leading-tight mb-2">
-                  {member.name}
-                </p>
-                <p className="font-raleway text-neutral-500 text-sm leading-relaxed font-light italic">
+
+              {/* Info */}
+              <div className="flex-1 flex flex-col justify-between p-5 sm:p-6">
+                <div>
+                  <p className="font-worksans text-[0.55rem] sm:text-[0.6rem] tracking-[0.2em] uppercase text-purple-600 mb-2 font-semibold">
+                    {member.role}
+                  </p>
+                  <p className="font-bricolage font-semibold text-neutral-900 text-base sm:text-lg leading-snug mb-3 group-hover:text-purple-700 transition-colors duration-300">
+                    {member.name}
+                  </p>
+                </div>
+
+                <p className="font-raleway text-neutral-600 text-xs sm:text-sm leading-relaxed">
                   {member.description}
                 </p>
               </div>
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
