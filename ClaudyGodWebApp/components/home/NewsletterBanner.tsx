@@ -53,8 +53,8 @@ export function NewsletterBanner() {
       {/* Top accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 md:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20 md:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 md:gap-14 lg:gap-24 items-center">
 
           {/* Left — copy */}
           <motion.div
@@ -62,13 +62,14 @@ export function NewsletterBanner() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            className="w-full"
           >
             <div className="flex items-center gap-4 mb-6">
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Stay Connected</span>
             </div>
 
-            <h2 className="font-bricolage font-extrabold text-white text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] tracking-tight mb-5">
+            <h2 className="font-bricolage font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] tracking-tight mb-4 sm:mb-5">
               Join the Ministry<br />
               <span className="text-purple-300">Community.</span>
             </h2>
@@ -77,7 +78,7 @@ export function NewsletterBanner() {
               Straight to your inbox — no noise, no spam. Just worship, ministry, and the love of God.
             </p>
 
-            <ul className="space-y-3.5">
+            <ul className="space-y-3 sm:space-y-3.5">
               {benefits.map(({ icon: Icon, text }) => (
                 <li key={text} className="flex items-center gap-3">
                   <span className="flex-shrink-0 w-7 h-7 rounded-full bg-purple-600/20 border border-purple-500/20 flex items-center justify-center">
@@ -99,7 +100,7 @@ export function NewsletterBanner() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
-            className="lg:pl-8 lg:border-l lg:border-white/[0.06]"
+            className="w-full lg:pl-8 lg:border-l lg:border-white/[0.06]"
           >
             <AnimatePresence mode="wait">
               {status === 'success' ? (
