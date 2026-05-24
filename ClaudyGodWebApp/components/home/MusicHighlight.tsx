@@ -7,20 +7,7 @@ const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: 
 
 export function MusicHighlight() {
   return (
-    <section className="relative section-py border-t border-black/[0.05] overflow-hidden">
-      {/* Background image with overlay */}
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="/Bg_13.webp"
-          alt="Background"
-          fill
-          className="object-cover object-center"
-          quality={85}
-          priority={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-cream-100/98 via-cream-100/95 to-cream-100/98" />
-      </div>
-
+    <section className="bg-cream-100 section-py border-t border-black/[0.05]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-4 mb-10 sm:mb-14">
@@ -42,7 +29,7 @@ export function MusicHighlight() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-          {albums.map((album, idx) => (
+          {albums.slice(0, 3).map((album, idx) => (
             <div key={album.title} className="group flex flex-col h-full">
               {/* Album Art Container */}
               <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.10)] bg-neutral-100">
