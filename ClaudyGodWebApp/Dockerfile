@@ -1,52 +1,85 @@
-# ─── Stage 1: Dependencies ────────────────────────────────────────────────────
-FROM node:20-alpine AS deps
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
+################################################################################
+#                      CLAUDYGODWEBAPP - PRODUCTION BUILD                       #
+#                         Multi-stage optimized build                           #
+################################################################################
 
-COPY package.json package-lock.json ./
-RUN npm ci --frozen-lockfile
+# Build stage
+FROM node:18-alpine AS builder
 
-# ─── Stage 2: Build ───────────────────────────────────────────────────────────
-FROM node:20-alpine AS builder
-WORKDIR /app
+WORKDIR /build
 
-COPY --from=deps /app/node_modules ./node_modules
+# Install build dependencies
+RUN apk add --no-cache python3 make g++
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --frozen-lockfile --only=production && \
+    npm cache clean --force
+
+# Copy source code
 COPY . .
 
-# Build-time env vars (non-secret public vars only)
-ARG NEXT_PUBLIC_SITE_URL=https://claudygod.com
-ARG NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=""
+# Build application
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
+ARG NODE_ENV=production
 
-ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-ENV NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=$NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} \
+    NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL} \
+    NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=${NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY} \
+    NODE_ENV=${NODE_ENV} \
+    NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
-# ─── Stage 3: Production runner ───────────────────────────────────────────────
-FROM node:20-alpine AS runner
+################################################################################
+#                           Runtime stage                                       #
+################################################################################
+
+FROM node:18-alpine
+
+LABEL org.opencontainers.image.title="ClaudyGod Web Application"
+LABEL org.opencontainers.image.description="Official website for ClaudyGod Music Ministries"
+LABEL org.opencontainers.image.vendor="ClaudyGod Music Ministries"
+LABEL org.opencontainers.image.source="https://github.com/claudygod-musicministries/ClaudyGodWebApp"
+
 WORKDIR /app
 
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+# Install runtime dependencies only
+RUN apk add --no-cache \
+    dumb-init \
+    wget \
+    && rm -rf /var/cache/apk/*
 
-# Least-privilege user
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser  --system --uid 1001 nextjs
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
 
-# Copy only what Next.js standalone output needs
-COPY --from=builder /app/public                          ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static     ./.next/static
+# Copy built application from builder
+COPY --from=builder --chown=nextjs:nodejs /build/public ./public
+COPY --from=builder --chown=nextjs:nodejs /build/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /build/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /build/package.json ./package.json
 
+# Switch to non-root user
 USER nextjs
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD wget -qO- http://localhost:${PORT:-3000}/ >/dev/null 2>&1 || exit 1
+
+# Environment variables (can be overridden at runtime)
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    PORT=3000
+
 EXPOSE 3000
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/healthz || exit 1
+# Use dumb-init to properly handle signals
+ENTRYPOINT ["/sbin/dumb-init", "--"]
 
-CMD ["node", "server.js"]
+# Start Next.js server
+CMD ["node_modules/.bin/next", "start", "-p", "3000"]
