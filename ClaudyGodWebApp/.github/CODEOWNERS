@@ -1,0 +1,28 @@
+# ClaudyGod Web App - Code Ownership & Review Requirements
+
+# Default reviewers for all files
+* @peter4tech
+
+# Components and features
+/components/home/ @peter4tech
+/components/music/ @peter4tech
+/components/ministry/ @peter4tech
+/components/store/ @peter4tech
+/components/shared/ @peter4tech
+
+# Styling and design tokens
+/styles/ @peter4tech
+/tailwind.config.ts @peter4tech
+
+# Configuration and build
+/next.config.js @peter4tech
+/tsconfig.json @peter4tech
+/package.json @peter4tech
+
+# Docker and infrastructure
+Dockerfile @peter4tech
+docker-compose.yml @peter4tech
+.github/workflows/ @peter4tech
+
+# Environment and secrets (require explicit review)
+.env* @peter4tech
