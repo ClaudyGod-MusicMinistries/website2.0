@@ -81,30 +81,43 @@ jobs:
 
             cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found${NC}"; exit 1; }
 
-            # Create clean .env file from GitHub Secrets
-            echo -e "${YELLOW}→ Creating clean .env configuration...${NC}"
+            # CRITICAL: Fix or remove corrupted .env file BEFORE anything else
+            echo -e "${YELLOW}→ Checking .env file integrity...${NC}"
             if [ -f ".env" ]; then
-              cp .env ".env.backup.$(date +%Y%m%d_%H%M%S)"
-              echo -e "${GREEN}✓ Backup created${NC}"
+              if ! bash -n ".env" 2>/dev/null; then
+                echo -e "${RED}⚠️  .env file has syntax errors, backing up and recreating...${NC}"
+                cp ".env" ".env.corrupted.$(date +%Y%m%d_%H%M%S)"
+                rm -f ".env"
+              else
+                echo -e "${GREEN}✓ .env syntax OK, backing up...${NC}"
+                cp ".env" ".env.backup.$(date +%Y%m%d_%H%M%S)"
+              fi
             fi
 
+            # Create clean .env file with valid syntax
+            echo -e "${YELLOW}→ Creating clean .env configuration...${NC}"
             cat > .env << 'ENVFILE'
 NODE_ENV=production
-NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://claudygod.com' }}
-NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL || 'https://api.claudygod.com' }}
-NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=${{ secrets.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || 'pk_live_key_here' }}
-PAYSTACK_SECRET_KEY=${{ secrets.PAYSTACK_SECRET_KEY || 'sk_live_key_here' }}
+NEXT_PUBLIC_SITE_URL=https://claudygod.com
+NEXT_PUBLIC_API_URL=https://api.claudygod.com
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_key_placeholder
+PAYSTACK_SECRET_KEY=sk_live_key_placeholder
 ENVFILE
 
-            # Validate .env syntax
+            # Validate .env syntax strictly
             echo -e "${YELLOW}→ Validating .env syntax...${NC}"
-            if bash -n .env 2>&1; then
-              echo -e "${GREEN}✓ .env syntax is valid${NC}"
-            else
-              echo -e "${RED}✗ .env syntax error${NC}"
+            if ! bash -n .env 2>&1; then
+              echo -e "${RED}✗ .env syntax error - critical failure${NC}"
+              echo "File contents:"
               cat .env
               exit 1
             fi
+            echo -e "${GREEN}✓ .env syntax is valid${NC}"
+            echo ""
+
+            # Show .env for verification
+            echo -e "${YELLOW}→ Environment configuration:${NC}"
+            cat .env
             echo ""
 
             # Authenticate with GHCR
