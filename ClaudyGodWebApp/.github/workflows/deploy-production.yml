@@ -81,6 +81,32 @@ jobs:
 
             cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found${NC}"; exit 1; }
 
+            # Create clean .env file from GitHub Secrets
+            echo -e "${YELLOW}→ Creating clean .env configuration...${NC}"
+            if [ -f ".env" ]; then
+              cp .env ".env.backup.$(date +%Y%m%d_%H%M%S)"
+              echo -e "${GREEN}✓ Backup created${NC}"
+            fi
+
+            cat > .env << 'ENVFILE'
+NODE_ENV=production
+NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://claudygod.com' }}
+NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL || 'https://api.claudygod.com' }}
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=${{ secrets.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || 'pk_live_key_here' }}
+PAYSTACK_SECRET_KEY=${{ secrets.PAYSTACK_SECRET_KEY || 'sk_live_key_here' }}
+ENVFILE
+
+            # Validate .env syntax
+            echo -e "${YELLOW}→ Validating .env syntax...${NC}"
+            if bash -n .env 2>&1; then
+              echo -e "${GREEN}✓ .env syntax is valid${NC}"
+            else
+              echo -e "${RED}✗ .env syntax error${NC}"
+              cat .env
+              exit 1
+            fi
+            echo ""
+
             # Authenticate with GHCR
             echo -e "${YELLOW}→ Authenticating with GitHub Container Registry...${NC}"
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin >/dev/null 2>&1
