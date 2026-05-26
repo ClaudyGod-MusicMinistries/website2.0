@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
-import { DonateClient } from '@/components/donate/DonateClient';
+
+const DonateClient = dynamic(() => import('@/components/donate/DonateClient'), { ssr: false });
 
 export const metadata: Metadata = {
   title: 'Donate — Support ClaudyGod Music Ministries',
