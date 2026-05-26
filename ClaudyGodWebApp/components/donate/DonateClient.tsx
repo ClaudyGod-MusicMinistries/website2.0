@@ -35,7 +35,7 @@ function InputField({
   );
 }
 
-export function DonateClient() {
+export default function DonateClient() {
   const [currency,  setCurrency]  = useState<SupportedCurrency>(defaultCurrency);
   const [amount,    setAmount]    = useState<number>(currencyPresets[defaultCurrency].amounts[2]);
   const [custom,    setCustom]    = useState('');
