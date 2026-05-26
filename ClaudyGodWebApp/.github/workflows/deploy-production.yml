@@ -48,13 +48,35 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         id: deploy
+        env:
+          FRONTEND_IMAGE: ${{ secrets.FRONTEND_IMAGE || format('{0}/{1}:{2}', env.REGISTRY, env.IMAGE_NAME, steps.tag.outputs.tag) }}
+          BACKEND_IMAGE: ${{ secrets.BACKEND_IMAGE }}
+          SUPABASE_CONNECTION_STRING: ${{ secrets.SUPABASE_CONNECTION_STRING }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          JWT_KEY: ${{ secrets.JWT_KEY }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+          EMAIL_SMTP_HOST: ${{ secrets.EMAIL_SMTP_HOST }}
+          EMAIL_SMTP_USERNAME: ${{ secrets.EMAIL_SMTP_USERNAME }}
+          EMAIL_SMTP_PASSWORD: ${{ secrets.EMAIL_SMTP_PASSWORD }}
+          EMAIL_FROM_ADDRESS: ${{ secrets.EMAIL_FROM_ADDRESS }}
+          EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
+          EMAIL_ADMIN: ${{ secrets.EMAIL_ADMIN }}
+          PAYSTACK_SECRET_KEY: ${{ secrets.PAYSTACK_SECRET_KEY }}
+          NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL }}
+          DOMAIN: ${{ secrets.DOMAIN }}
+          API_DOMAIN: ${{ secrets.API_DOMAIN }}
+          GRAFANA_DOMAIN: ${{ secrets.GRAFANA_DOMAIN }}
+          GRAFANA_ADMIN_PASSWORD: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+          ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           timeout: 300s
-          envs: REGISTRY,IMAGE_NAME,TAG
+          envs: REGISTRY,IMAGE_NAME,TAG,FRONTEND_IMAGE,BACKEND_IMAGE,SUPABASE_CONNECTION_STRING,REDIS_PASSWORD,JWT_KEY,ENCRYPTION_KEY,EMAIL_SMTP_HOST,EMAIL_SMTP_USERNAME,EMAIL_SMTP_PASSWORD,EMAIL_FROM_ADDRESS,EMAIL_FROM_NAME,EMAIL_ADMIN,PAYSTACK_SECRET_KEY,NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,ANTHROPIC_API_KEY,CLAUDE_MODEL,DOMAIN,API_DOMAIN,GRAFANA_DOMAIN,GRAFANA_ADMIN_PASSWORD,ACME_EMAIL
           script: |
             set -euo pipefail
 
@@ -70,60 +92,93 @@ jobs:
             IMAGE_NAME="${{ env.IMAGE_NAME }}"
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo -e "${YELLOW}ClaudyGod Web Application Deployment${NC}"
+            echo -e "${YELLOW}ClaudyGod Infrastructure Deployment${NC}"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo ""
             echo -e "${YELLOW}Configuration:${NC}"
-            echo "  • Image: $REGISTRY/$IMAGE_NAME:$TAG"
+            echo "  • Frontend Image: $REGISTRY/$IMAGE_NAME:$TAG"
             echo "  • Deploy Path: $DEPLOY_PATH"
             echo "  • Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo ""
 
             cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found${NC}"; exit 1; }
 
-            # CRITICAL: Validate .env file BEFORE anything else - PRESERVE if valid
-            echo -e "${YELLOW}→ Checking .env file integrity...${NC}"
-            if [ -f ".env" ]; then
-              # Check if .env has valid shell syntax
-              if bash -n ".env" 2>/dev/null; then
-                echo -e "${GREEN}✓ .env file syntax is valid - PRESERVING existing configuration${NC}"
-                cp ".env" ".env.backup.$(date +%Y%m%d_%H%M%S)"
-                echo -e "${GREEN}✓ Backup created for safety${NC}"
+            # ━━━ PRE-FLIGHT CHECKS ━━━
+            echo -e "${YELLOW}→ Running pre-flight checks...${NC}"
+
+            # Check .env exists
+            if [ ! -f ".env" ]; then
+              echo -e "${RED}✗ .env file not found${NC}"
+              exit 1
+            fi
+            echo -e "${GREEN}✓ .env file found${NC}"
+
+            # Check Docker
+            if ! command -v docker &> /dev/null; then
+              echo -e "${RED}✗ Docker not installed${NC}"
+              exit 1
+            fi
+            echo -e "${GREEN}✓ Docker + Compose v2 are running${NC}"
+
+            # Check traefik network
+            if ! docker network ls | grep -q traefik-public; then
+              echo -e "${RED}✗ traefik-public network not found${NC}"
+              exit 1
+            fi
+            echo -e "${GREEN}✓ traefik-public network exists${NC}"
+
+            # Validate .env syntax
+            echo -e "${YELLOW}→ Validating .env file syntax...${NC}"
+            if bash -n .env 2>/dev/null; then
+              echo -e "${GREEN}✓ .env file syntax is valid${NC}"
+              cp ".env" ".env.backup.$(date +%Y%m%d_%H%M%S)"
+              echo -e "${GREEN}✓ Backup created${NC}"
+            else
+              echo -e "${RED}✗ .env file has syntax errors${NC}"
+              exit 1
+            fi
+
+            # Validate required variables are set (not CHANGE_ME)
+            echo -e "${YELLOW}→ Validating environment variables...${NC}"
+            MISSING_VARS=0
+
+            check_var() {
+              local var=$1
+              local value=$(grep "^${var}=" .env | cut -d= -f2- || echo "")
+              if [ -z "$value" ] || [ "$value" = "CHANGE_ME" ] || [[ "$value" == *"CHANGE_ME"* ]]; then
+                echo -e "${RED}✗ $var is missing or still set to CHANGE_ME${NC}"
+                MISSING_VARS=$((MISSING_VARS + 1))
               else
-                echo -e "${RED}⚠️  .env file has syntax errors!${NC}"
-                echo -e "${YELLOW}→ Backing up corrupted file and creating replacement...${NC}"
-                cp ".env" ".env.corrupted.$(date +%Y%m%d_%H%M%S)"
-
-                # Create minimal .env - only frontend variables
-                # Preserve infrastructure variables if they exist
-                cat > .env << 'ENVFILE'
-# Frontend Configuration
-NODE_ENV=production
-NEXT_PUBLIC_SITE_URL=https://claudygod.com
-NEXT_PUBLIC_API_URL=https://api.claudygod.com
-NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_placeholder
-PAYSTACK_SECRET_KEY=sk_live_placeholder
-ENVFILE
-
-                echo -e "${YELLOW}Created clean .env with frontend defaults${NC}"
+                echo -e "${GREEN}✓ $var${NC}"
               fi
-            else
-              echo -e "${YELLOW}⚠️  No .env file found - using .env.production fallback${NC}"
-            fi
+            }
 
-            # Final validation BEFORE proceeding
-            echo -e "${YELLOW}→ Final .env validation...${NC}"
-            if [ -f ".env" ]; then
-              if ! bash -n .env 2>&1; then
-                echo -e "${RED}✗ CRITICAL: .env syntax error - cannot proceed${NC}"
-                echo "File contents:"
-                cat .env
-                exit 1
-              fi
-              echo -e "${GREEN}✓ .env syntax valid - proceeding with deployment${NC}"
-            else
-              echo -e "${GREEN}✓ Using .env.production fallback template${NC}"
+            check_var "DOMAIN"
+            check_var "API_DOMAIN"
+            check_var "BACKEND_IMAGE"
+            check_var "FRONTEND_IMAGE"
+            check_var "SUPABASE_CONNECTION_STRING"
+            check_var "REDIS_PASSWORD"
+            check_var "JWT_KEY"
+            check_var "ENCRYPTION_KEY"
+            check_var "EMAIL_SMTP_HOST"
+            check_var "EMAIL_SMTP_USERNAME"
+            check_var "EMAIL_SMTP_PASSWORD"
+            check_var "PAYSTACK_SECRET_KEY"
+            check_var "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY"
+            check_var "ANTHROPIC_API_KEY"
+            check_var "GRAFANA_ADMIN_PASSWORD"
+
+            if [ $MISSING_VARS -gt 0 ]; then
+              echo -e "${RED}✗ Fix the missing variables above before deploying.${NC}"
+              exit 1
             fi
+            echo ""
+
+            # Update FRONTEND_IMAGE in .env from GitHub Actions
+            echo -e "${YELLOW}→ Updating FRONTEND_IMAGE...${NC}"
+            sed -i "s|^FRONTEND_IMAGE=.*|FRONTEND_IMAGE=$REGISTRY/$IMAGE_NAME:$TAG|" .env
+            echo -e "${GREEN}✓ FRONTEND_IMAGE updated to: $REGISTRY/$IMAGE_NAME:$TAG${NC}"
             echo ""
 
             # Authenticate with GHCR
@@ -131,37 +186,32 @@ ENVFILE
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin >/dev/null 2>&1
             [ $? -eq 0 ] && echo -e "${GREEN}✓ Authenticated${NC}" || { echo -e "${RED}✗ Authentication failed${NC}"; exit 1; }
 
-            # Pull latest image
-            echo -e "${YELLOW}→ Pulling image from GHCR...${NC}"
+            # Pull latest images
+            echo -e "${YELLOW}→ Pulling images from GHCR...${NC}"
             FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$TAG"
             docker pull "$FULL_IMAGE" || { echo -e "${RED}✗ Failed to pull image${NC}"; exit 1; }
-            echo -e "${GREEN}✓ Image pulled successfully${NC}"
+            echo -e "${GREEN}✓ Frontend image pulled successfully${NC}"
 
             # Get image digest for verification
             IMAGE_DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
             echo "  • Image digest: $IMAGE_DIGEST"
             echo ""
 
-            # Set environment variable for docker-compose
-            export FRONTEND_IMAGE="$FULL_IMAGE"
-
-            # Stop old container gracefully
-            echo -e "${YELLOW}→ Stopping current web container...${NC}"
-            docker compose down web 2>/dev/null || true
+            # Deploy using docker-compose
+            echo -e "${YELLOW}→ Deploying services...${NC}"
+            docker compose -f docker/docker-compose.yml down web 2>/dev/null || true
             sleep 2
 
-            # Start new container
-            echo -e "${YELLOW}→ Starting new web container...${NC}"
-            docker compose up --no-deps --remove-orphans -d web || { echo -e "${RED}✗ Failed to start container${NC}"; exit 1; }
-            echo -e "${GREEN}✓ Container started${NC}"
+            docker compose -f docker/docker-compose.yml up -d web || { echo -e "${RED}✗ Failed to start web service${NC}"; exit 1; }
+            echo -e "${GREEN}✓ Web service started${NC}"
             echo ""
 
-            # Wait for container to be healthy
-            echo -e "${YELLOW}→ Waiting for container health check...${NC}"
+            # Wait for health check
+            echo -e "${YELLOW}→ Waiting for service health check...${NC}"
             HEALTH_CHECK_TRIES=0
             MAX_TRIES=30
             while [ $HEALTH_CHECK_TRIES -lt $MAX_TRIES ]; do
-              if docker compose exec -T web wget -qO- http://localhost:3000/ >/dev/null 2>&1; then
+              if docker compose -f docker/docker-compose.yml exec -T web wget -qO- http://localhost:3000/ >/dev/null 2>&1; then
                 echo -e "${GREEN}✓ Health check passed${NC}"
                 break
               fi
@@ -176,15 +226,15 @@ ENVFILE
             fi
             echo ""
 
-            # Prune old images to save disk space
+            # Cleanup
             echo -e "${YELLOW}→ Cleaning up old images...${NC}"
             docker image prune -f --filter "until=48h" >/dev/null
             echo -e "${GREEN}✓ Cleanup complete${NC}"
             echo ""
 
-            # Show deployment status
-            echo -e "${YELLOW}→ Current container status:${NC}"
-            docker compose ps web
+            # Status
+            echo -e "${YELLOW}→ Current service status:${NC}"
+            docker compose -f docker/docker-compose.yml ps
             echo ""
 
             echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
