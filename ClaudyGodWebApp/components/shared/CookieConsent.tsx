@@ -166,23 +166,27 @@ export function CookieConsent() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 shrink-0 flex-wrap">
-                  <button
-                    onClick={onReject}
-                    className="h-9 px-4 border border-neutral-200 hover:border-neutral-300 text-neutral-600 hover:text-neutral-900 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200"
-                  >
-                    Reject All
-                  </button>
-                  <button
-                    onClick={() => setShowModal(true)}
-                    className="h-9 px-4 border border-neutral-200 hover:border-purple-300 text-neutral-600 hover:text-purple-700 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200 flex items-center gap-1.5"
-                  >
-                    <Settings2 className="h-3 w-3" />
-                    Customize
-                  </button>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-auto md:shrink-0">
+                  {/* Reject + Customize side by side on mobile */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={onReject}
+                      className="flex-1 sm:flex-none h-9 px-4 border border-neutral-200 hover:border-neutral-300 text-neutral-600 hover:text-neutral-900 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200"
+                    >
+                      Reject All
+                    </button>
+                    <button
+                      onClick={() => setShowModal(true)}
+                      className="flex-1 sm:flex-none h-9 px-4 border border-neutral-200 hover:border-purple-300 text-neutral-600 hover:text-purple-700 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5"
+                    >
+                      <Settings2 className="h-3 w-3 shrink-0" />
+                      Customize
+                    </button>
+                  </div>
+                  {/* Accept All — full width on mobile, auto on sm+ */}
                   <button
                     onClick={onAcceptAll}
-                    className="h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
+                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
                   >
                     Accept All
                   </button>

@@ -96,6 +96,7 @@ function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPla
           src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
           alt={v.title}
           fill
+          unoptimized
           className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
         />
@@ -234,10 +235,10 @@ export default function BlogPage() {
       />
 
       <section className="bg-cream-100 section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
           {/* Tab navigation */}
-          <div className="flex flex-wrap gap-2.5 mb-12">
+          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-12 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
             {tabs.map((tab) => {
               const Icon = tabIcons[tab];
               return (
@@ -245,7 +246,7 @@ export default function BlogPage() {
                   key={tab}
                   onClick={() => setActiveTab(tab)}
                   className={cn(
-                    'inline-flex items-center gap-2 px-5 h-11 rounded-full font-worksans text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
+                    'inline-flex items-center gap-2 px-5 h-11 rounded-full font-worksans text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300 shrink-0',
                     activeTab === tab
                       ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
                       : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'

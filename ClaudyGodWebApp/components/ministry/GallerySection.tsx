@@ -104,7 +104,7 @@ export function GallerySection() {
         onKeyDown={onKeyDown}
         tabIndex={-1}
       >
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
           {/* Header */}
           <div className="flex items-center gap-4 mb-4">
@@ -130,14 +130,14 @@ export function GallerySection() {
           </div>
 
           {/* Category tabs */}
-          <div className="flex items-center gap-2 flex-wrap mb-10 pb-6 border-b border-black/[0.05]">
+          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-6 sm:mb-10 pb-4 sm:pb-6 border-b border-black/[0.05] -mx-4 px-4 sm:mx-0 sm:px-0">
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-5 py-2 rounded-full font-worksans text-[0.62rem] tracking-[0.14em] uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-5 py-2 rounded-full font-worksans text-[0.62rem] tracking-[0.14em] uppercase transition-all duration-300 ${
                     isActive
                       ? 'bg-neutral-900 text-white shadow-sm'
                       : 'bg-neutral-100 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700'
