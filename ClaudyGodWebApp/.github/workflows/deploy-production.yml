@@ -19,7 +19,7 @@ on:
 
 concurrency:
   group: deploy-production
-  cancel-in-progress: false
+  cancel-in-progress: true   # cancel any queued/running deploy when a newer one arrives
 
 env:
   REGISTRY: ghcr.io
@@ -38,6 +38,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Workflow version check
+        run: |
+          echo "✅ deploy-production.yml v3 — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "   Triggered by: ${{ github.event_name }}"
+          echo "   SHA: ${{ github.sha }}"
 
       - name: Determine image tag
         id: tag
