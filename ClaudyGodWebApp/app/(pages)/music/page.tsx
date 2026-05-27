@@ -27,8 +27,8 @@ export default function MusicPage() {
         eyebrow="Music"
         title="Worship That Transforms"
         subtitle="Seven albums of spirit-filled gospel music — available everywhere you stream."
-        backgroundImage="/tour_1.jpg"
-        objectPosition="center 30%"
+        backgroundImage="/Bg_13.webp"
+        objectPosition="center center"
       />
       <StreamingPlatforms />
       <MusicPlayer />
