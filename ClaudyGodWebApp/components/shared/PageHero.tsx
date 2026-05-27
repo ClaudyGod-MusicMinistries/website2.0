@@ -21,7 +21,7 @@ export function PageHero({
   return (
     <div
       className={cn(
-        'relative w-full min-h-[65vh] md:min-h-[72vh] flex items-end pb-20 md:pb-28 pt-[var(--navbar-height)]',
+        'relative w-full min-h-[48vh] sm:min-h-[55vh] md:min-h-[62vh] lg:min-h-[68vh] flex items-end pb-10 sm:pb-14 md:pb-20 lg:pb-24 pt-[var(--navbar-height)]',
         className
       )}
     >
@@ -55,18 +55,18 @@ export function PageHero({
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
         {eyebrow && (
-          <div className="flex items-center gap-4 mb-5">
+          <div className="flex items-center gap-3 mb-3 sm:mb-5">
             <span className="rule-gold" />
             <span className="label-eyebrow text-white/70">{eyebrow}</span>
           </div>
         )}
-        <h1 className="font-bricolage font-extrabold text-white text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.02] max-w-3xl">
+        <h1 className="font-bricolage font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-[1.05] max-w-3xl">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-6 font-raleway text-neutral-300 text-base md:text-lg leading-relaxed max-w-xl">
+          <p className="mt-3 sm:mt-5 font-raleway text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
             {subtitle}
           </p>
         )}

@@ -42,10 +42,10 @@ export function FeaturedVideos() {
         {/* Top gold accent */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
 
-        <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-20 md:py-28">
+        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-28">
 
           {/* Header */}
-          <div className="flex items-end justify-between mb-12">
+          <div className="flex items-end justify-between mb-8 sm:mb-12">
             <div>
               <div className="flex items-center gap-4 mb-3">
                 <span className="block w-8 h-px bg-gold-500 opacity-70" />
