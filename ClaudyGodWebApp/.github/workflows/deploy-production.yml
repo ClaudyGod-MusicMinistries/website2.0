@@ -1,242 +1,205 @@
-name: Deploy to Production
+name: Deploy Web → Production
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Build & Push to GHCR"]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Image tag to deploy (default: latest)'
+        description: "Image tag to deploy (default: latest)"
         required: false
-        default: 'latest'
+        default: "latest"
         type: string
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false   # never cancel an active deploy
 
 jobs:
   deploy:
-    name: Deploy → Production VPS
+    name: Deploy → VPS
     runs-on: ubuntu-latest
     environment: production
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Determine image tag
+      # ── Resolve image tag ──────────────────────────────────────────────────
+      - name: Resolve image tag
         id: tag
         run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             TAG="${{ github.event.inputs.tag || 'latest' }}"
           else
-            # On push to main, use commit SHA as tag
-            TAG="${{ github.sha }}"
+            TAG="${{ github.event.workflow_run.head_sha }}"
+            TAG="$(echo $TAG | cut -c1-7)"
+            TAG="${{ github.event.workflow_run.head_branch }}-${TAG}"
           fi
           echo "tag=$TAG" >> $GITHUB_OUTPUT
-          echo "Deploy tag: $TAG"
+          echo "Deploying tag: $TAG"
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
+      # ── SSH → VPS ──────────────────────────────────────────────────────────
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
-        id: deploy
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           timeout: 300s
-          envs: REGISTRY,IMAGE_NAME,TAG
           script: |
             set -euo pipefail
+            export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-            # Colors for output
-            GREEN='\033[0;32m'
-            RED='\033[0;31m'
-            YELLOW='\033[1;33m'
-            NC='\033[0m'
+            # ── colours ───────────────────────────────────────────────────────
+            G='\033[0;32m' Y='\033[1;33m' R='\033[0;31m' N='\033[0m'
+            ok()   { echo -e "${G}  ✓${N}  $*"; }
+            warn() { echo -e "${Y}  ⚠${N}  $*"; }
+            die()  { echo -e "${R}  ✗${N}  $*" >&2; exit 1; }
+            hdr()  { echo -e "\n${Y}━━ $* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${N}"; }
 
             DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH }}"
             TAG="${{ steps.tag.outputs.tag }}"
-            REGISTRY="${{ env.REGISTRY }}"
-            IMAGE_NAME="${{ env.IMAGE_NAME }}"
+            REGISTRY="ghcr.io"
+            IMAGE="ghcr.io/claudygod-musicministries/cgm-web"
 
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo -e "${YELLOW}ClaudyGod Infrastructure Deployment${NC}"
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo ""
-            echo -e "${YELLOW}Configuration:${NC}"
-            echo "  • Frontend Image: $REGISTRY/$IMAGE_NAME:$TAG"
-            echo "  • Deploy Path: $DEPLOY_PATH"
-            echo "  • Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            echo ""
+            echo -e "${Y}ClaudyGod — Web Deployment${N}"
+            echo "  Tag:  $TAG"
+            echo "  Path: $DEPLOY_PATH"
+            echo "  Time: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-            cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found${NC}"; exit 1; }
+            cd "$DEPLOY_PATH" || die "Deploy path not found: $DEPLOY_PATH"
+            [[ -f ".env" ]] || die ".env not found. Run: cp .env.example .env && fill in values."
 
-            # ━━━ PRE-FLIGHT CHECKS ━━━
-            echo -e "${YELLOW}→ Running pre-flight checks...${NC}"
+            # ── Source .env ───────────────────────────────────────────────────
+            set -a; source .env; set +a
 
-            # Check .env exists
-            if [ ! -f ".env" ]; then
-              echo -e "${RED}✗ .env file not found${NC}"
-              exit 1
-            fi
-            echo -e "${GREEN}✓ .env file found${NC}"
+            # ── Pre-flight: infrastructure ────────────────────────────────────
+            hdr "PRE-FLIGHT"
+            command -v docker &>/dev/null || die "Docker is not installed."
+            ok "Docker available: $(docker --version | cut -d' ' -f3 | tr -d ',')"
 
-            # Check Docker
-            if ! command -v docker &> /dev/null; then
-              echo -e "${RED}✗ Docker not installed${NC}"
-              exit 1
-            fi
-            echo -e "${GREEN}✓ Docker + Compose v2 are running${NC}"
+            docker network ls --format '{{.Name}}' | grep -q '^traefik-public$' \
+              || { warn "traefik-public network missing — creating."; docker network create traefik-public; }
+            ok "traefik-public network ready"
 
-            # Check traefik network
-            if ! docker network ls | grep -q traefik-public; then
-              echo -e "${RED}✗ traefik-public network not found${NC}"
-              exit 1
-            fi
-            echo -e "${GREEN}✓ traefik-public network exists${NC}"
+            # ── Pre-flight: required variables ────────────────────────────────
+            hdr "ENVIRONMENT VALIDATION"
+            FAILED=0
 
-            # Validate .env syntax
-            echo -e "${YELLOW}→ Validating .env file syntax...${NC}"
-            if bash -n .env 2>/dev/null; then
-              echo -e "${GREEN}✓ .env file syntax is valid${NC}"
-              cp ".env" ".env.backup.$(date +%Y%m%d_%H%M%S)"
-              echo -e "${GREEN}✓ Backup created${NC}"
-            else
-              echo -e "${RED}✗ .env file has syntax errors${NC}"
-              exit 1
-            fi
-
-            # Source .env to get values for validation
-            set +a
-            source .env
-            set -a
-
-            # Validate required variables are set (not CHANGE_ME)
-            echo -e "${YELLOW}→ Validating environment variables...${NC}"
-            MISSING_VARS=0
-
-            check_var() {
-              local var=$1
-              local value="${!var:-}"
-              if [ -z "$value" ] || [ "$value" = "CHANGE_ME" ] || [[ "$value" == *"CHANGE_ME"* ]]; then
-                echo -e "${RED}✗ $var is missing or still set to CHANGE_ME${NC}"
-                MISSING_VARS=$((MISSING_VARS + 1))
+            require() {
+              local v="$1" val="${!1:-}"
+              if [[ -z "$val" || "$val" == *"CHANGE_ME"* ]]; then
+                echo -e "${R}  ✗${N}  $v — not set"; FAILED=$((FAILED+1))
               else
-                echo -e "${GREEN}✓ $var${NC}"
+                ok "$v"
               fi
             }
 
-            check_var "DOMAIN"
-            check_var "API_DOMAIN"
-            check_var "BACKEND_IMAGE"
-            check_var "FRONTEND_IMAGE"
-            check_var "SUPABASE_CONNECTION_STRING"
-            check_var "REDIS_PASSWORD"
-            check_var "JWT_KEY"
-            check_var "ENCRYPTION_KEY"
-            check_var "EMAIL_SMTP_HOST"
-            check_var "EMAIL_SMTP_USERNAME"
-            check_var "EMAIL_SMTP_PASSWORD"
-            check_var "PAYSTACK_SECRET_KEY"
-            check_var "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY"
-            check_var "ANTHROPIC_API_KEY"
-            check_var "GRAFANA_ADMIN_PASSWORD"
-
-            if [ $MISSING_VARS -gt 0 ]; then
-              echo -e "${RED}✗ Fix the missing variables above before deploying.${NC}"
-              exit 1
-            fi
-            echo ""
-
-            # Update FRONTEND_IMAGE in .env from GitHub Actions
-            echo -e "${YELLOW}→ Updating FRONTEND_IMAGE in .env...${NC}"
-            sed -i "s|^FRONTEND_IMAGE=.*|FRONTEND_IMAGE=$REGISTRY/$IMAGE_NAME:$TAG|" .env
-            echo -e "${GREEN}✓ FRONTEND_IMAGE updated to: $REGISTRY/$IMAGE_NAME:$TAG${NC}"
-            echo ""
-
-            # Authenticate with GHCR
-            echo -e "${YELLOW}→ Authenticating with GitHub Container Registry...${NC}"
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin >/dev/null 2>&1
-            [ $? -eq 0 ] && echo -e "${GREEN}✓ Authenticated${NC}" || { echo -e "${RED}✗ Authentication failed${NC}"; exit 1; }
-
-            # Pull latest images
-            echo -e "${YELLOW}→ Pulling images from GHCR...${NC}"
-            FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$TAG"
-            docker pull "$FULL_IMAGE" || { echo -e "${RED}✗ Failed to pull image${NC}"; exit 1; }
-            echo -e "${GREEN}✓ Frontend image pulled successfully${NC}"
-
-            # Get image digest for verification
-            IMAGE_DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
-            echo "  • Image digest: $IMAGE_DIGEST"
-            echo ""
-
-            # Deploy using docker-compose
-            echo -e "${YELLOW}→ Deploying services...${NC}"
-            docker compose -f docker/docker-compose.yml down web 2>/dev/null || true
-            sleep 2
-
-            docker compose -f docker/docker-compose.yml up -d web || { echo -e "${RED}✗ Failed to start web service${NC}"; exit 1; }
-            echo -e "${GREEN}✓ Web service started${NC}"
-            echo ""
-
-            # Wait for health check
-            echo -e "${YELLOW}→ Waiting for service health check...${NC}"
-            HEALTH_CHECK_TRIES=0
-            MAX_TRIES=30
-            while [ $HEALTH_CHECK_TRIES -lt $MAX_TRIES ]; do
-              if docker compose -f docker/docker-compose.yml exec -T web wget -qO- http://localhost:3000/ >/dev/null 2>&1; then
-                echo -e "${GREEN}✓ Health check passed${NC}"
-                break
+            warn_if_missing() {
+              local v="$1" val="${!1:-}"
+              if [[ -z "$val" || "$val" == *"CHANGE_ME"* ]]; then
+                warn "$v — not configured (feature will be disabled)"
+              else
+                ok "$v"
               fi
-              HEALTH_CHECK_TRIES=$((HEALTH_CHECK_TRIES + 1))
-              echo "  • Attempt $HEALTH_CHECK_TRIES/$MAX_TRIES..."
-              sleep 2
-            done
+            }
 
-            if [ $HEALTH_CHECK_TRIES -ge $MAX_TRIES ]; then
-              echo -e "${RED}✗ Health check timeout${NC}"
-              exit 1
+            # Core infra — required; deploy will not proceed if any are missing
+            require DOMAIN
+            require API_DOMAIN
+            require POSTGRES_PASSWORD
+            require REDIS_PASSWORD
+            require JWT_KEY
+            require ENCRYPTION_KEY
+            require EMAIL_SMTP_USERNAME
+            require EMAIL_SMTP_PASSWORD
+
+            # Optional features — warn only, app still starts
+            warn_if_missing PAYSTACK_SECRET_KEY
+            warn_if_missing ANTHROPIC_API_KEY
+
+            [[ $FAILED -eq 0 ]] || die "$FAILED required variable(s) missing. Aborting."
+
+            # ── Authenticate → GHCR ───────────────────────────────────────────
+            hdr "GHCR LOGIN"
+            echo "${{ secrets.GITHUB_TOKEN }}" | \
+              docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin 2>&1 \
+              | grep -v "WARNING" || true
+            ok "Authenticated to GHCR"
+
+            # ── Update IMAGE_WEB in .env ──────────────────────────────────────
+            FULL_IMAGE="${IMAGE}:${TAG}"
+            if grep -q '^IMAGE_WEB=' .env; then
+              sed -i "s|^IMAGE_WEB=.*|IMAGE_WEB=${FULL_IMAGE}|" .env
+            else
+              echo "IMAGE_WEB=${FULL_IMAGE}" >> .env
             fi
-            echo ""
+            # Re-source to pick up new value
+            set -a; source .env; set +a
+            ok "IMAGE_WEB → ${FULL_IMAGE}"
 
-            # Cleanup
-            echo -e "${YELLOW}→ Cleaning up old images...${NC}"
+            # ── Pull image ────────────────────────────────────────────────────
+            hdr "IMAGE PULL"
+            docker pull "$FULL_IMAGE" || die "Failed to pull $FULL_IMAGE"
+            DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -c8-19)
+            ok "Pulled: $FULL_IMAGE (digest: $DIGEST)"
+
+            # ── Backup .env ───────────────────────────────────────────────────
+            cp .env ".env.bak.$(date +%Y%m%d_%H%M%S)"
+
+            # ── Deploy web service ────────────────────────────────────────────
+            hdr "DEPLOY"
+            COMPOSE="docker compose --env-file $DEPLOY_PATH/.env -f $DEPLOY_PATH/docker/docker-compose.yml"
+
+            $COMPOSE up -d --no-deps --remove-orphans --pull never web \
+              || die "Failed to start web service"
+            ok "Web container started"
+
+            # ── Health check ──────────────────────────────────────────────────
+            hdr "HEALTH CHECK"
+            MAX=24 ATTEMPTS=0 DELAY=5
+            until docker compose --env-file $DEPLOY_PATH/.env \
+                    -f $DEPLOY_PATH/docker/docker-compose.yml \
+                    exec -T web wget -qO- http://localhost:3000/api/healthz &>/dev/null; do
+              ATTEMPTS=$((ATTEMPTS+1))
+              [[ $ATTEMPTS -ge $MAX ]] && die "Health check timed out after $((MAX*DELAY))s"
+              echo "  … waiting ($ATTEMPTS/$MAX)"
+              sleep $DELAY
+            done
+            ok "Health check passed"
+
+            # ── Cleanup ───────────────────────────────────────────────────────
             docker image prune -f --filter "until=48h" >/dev/null
-            echo -e "${GREEN}✓ Cleanup complete${NC}"
+            ok "Old images pruned"
+
+            # ── Summary ───────────────────────────────────────────────────────
             echo ""
-
-            # Status
-            echo -e "${YELLOW}→ Current service status:${NC}"
-            docker compose -f docker/docker-compose.yml ps
+            $COMPOSE ps web
             echo ""
+            echo -e "${G}━━ DEPLOY COMPLETE — $(date -u +%Y-%m-%dT%H:%M:%SZ) ━━━━━━━━━━━━━━━━━━━${N}"
 
-            echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-            echo -e "${GREEN}✓ Deployment completed successfully${NC}"
-            echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-
-      - name: Verify deployment
+      # ── GitHub step summary ────────────────────────────────────────────────
+      - name: Step summary
         if: success()
         run: |
-          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Web App Deployed Successfully**" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Image**: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Time**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## ✅ Web Deployment Successful"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **Image** | \`ghcr.io/claudygod-musicministries/cgm-web:${{ steps.tag.outputs.tag }}\` |"
+            echo "| **Commit** | \`${{ github.sha }}\` |"
+            echo "| **Branch** | \`${{ github.ref_name }}\` |"
+            echo "| **Time** | $(date -u +%Y-%m-%dT%H:%M:%SZ) |"
+          } >> $GITHUB_STEP_SUMMARY
 
-      - name: Send Slack notification (Success)
+      # ── Slack — success ────────────────────────────────────────────────────
+      - name: Slack — success
         if: success()
         uses: slackapi/slack-github-action@v2
         continue-on-error: true
@@ -245,18 +208,17 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "✅ *ClaudyGod Web App — Deployed to Production*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• Branch: `${{ github.ref_name }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
-                  }
+              "blocks": [{
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "✅ *ClaudyGod Web — Deployed*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
                 }
-              ]
+              }]
             }
 
-      - name: Send Slack notification (Failure)
+      # ── Slack — failure ────────────────────────────────────────────────────
+      - name: Slack — failure
         if: failure()
         uses: slackapi/slack-github-action@v2
         continue-on-error: true
@@ -265,13 +227,11 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "❌ *ClaudyGod Web App — Deployment Failed*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
-                  }
+              "blocks": [{
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "❌ *ClaudyGod Web — Deploy Failed*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
                 }
-              ]
+              }]
             }
