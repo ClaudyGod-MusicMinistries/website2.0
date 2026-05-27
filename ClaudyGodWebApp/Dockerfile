@@ -51,7 +51,6 @@ WORKDIR /app
 
 # Install runtime dependencies only
 RUN apk add --no-cache \
-    dumb-init \
     wget \
     && rm -rf /var/cache/apk/*
 
@@ -79,8 +78,6 @@ ENV NODE_ENV=production \
 
 EXPOSE 3000
 
-# Use dumb-init to properly handle signals
-ENTRYPOINT ["/sbin/dumb-init", "--"]
-
 # Start Next.js server
+# Node.js handles signals properly without dumb-init
 CMD ["node_modules/.bin/next", "start", "-p", "3000"]
