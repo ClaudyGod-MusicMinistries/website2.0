@@ -24,7 +24,7 @@ export default function VideosPage() {
         eyebrow="Watch & Worship"
         title="Videos"
         subtitle="Music videos, live sessions, visualizers — a visual worship experience."
-        backgroundImage="/tour_1.jpg"
+        backgroundImage="/Tour_Ph_1.webp"
         objectPosition="center center"
       />
       <VideoGrid />
