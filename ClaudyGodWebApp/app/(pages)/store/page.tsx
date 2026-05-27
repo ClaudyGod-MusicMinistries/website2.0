@@ -29,8 +29,8 @@ export default function StorePage() {
         eyebrow="Store"
         title="Official Merchandise"
         subtitle="Music, apparel, and accessories — wear your worship."
-        backgroundImage="/manBack.jpg"
-        objectPosition="center 15%"
+        backgroundImage="/MusicBanner1.webp"
+        objectPosition="center center"
       />
       <AnimateOnView><ProductGrid /></AnimateOnView>
       <CartDrawer />

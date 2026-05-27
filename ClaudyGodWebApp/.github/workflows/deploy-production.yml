@@ -1,8 +1,14 @@
 name: Deploy to Production
 
 on:
-  push:
+  # Automatically deploy AFTER the build succeeds — prevents race condition
+  # where deploy runs before the image exists in GHCR.
+  workflow_run:
+    workflows: ["Build & Push to GHCR"]
+    types: [completed]
     branches: [main]
+
+  # Manual trigger — useful for rollbacks or forced redeploys.
   workflow_dispatch:
     inputs:
       tag:
@@ -10,6 +16,10 @@ on:
         required: false
         default: 'latest'
         type: string
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true   # cancel any queued/running deploy when a newer one arrives
 
 env:
   REGISTRY: ghcr.io
@@ -20,11 +30,20 @@ jobs:
     name: Deploy → Production VPS
     runs-on: ubuntu-latest
     environment: production
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    # For workflow_run events: only proceed when the build actually succeeded
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Workflow version check
+        run: |
+          echo "✅ deploy-production.yml v3 — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "   Triggered by: ${{ github.event_name }}"
+          echo "   SHA: ${{ github.sha }}"
 
       - name: Determine image tag
         id: tag
@@ -32,8 +51,8 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             TAG="${{ github.event.inputs.tag || 'latest' }}"
           else
-            # On push to main, use commit SHA as tag
-            TAG="${{ github.sha }}"
+            # workflow_run: build always tags 'latest' for main branch pushes
+            TAG="latest"
           fi
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "Deploy tag: $TAG"
@@ -58,7 +77,6 @@ jobs:
           script: |
             set -euo pipefail
 
-            # Colors for output
             GREEN='\033[0;32m'
             RED='\033[0;31m'
             YELLOW='\033[1;33m'
@@ -70,95 +88,204 @@ jobs:
             IMAGE_NAME="${{ env.IMAGE_NAME }}"
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo -e "${YELLOW}ClaudyGod Web Application Deployment${NC}"
+            echo -e "${YELLOW}ClaudyGod Infrastructure Deployment${NC}"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo ""
             echo -e "${YELLOW}Configuration:${NC}"
-            echo "  • Image: $REGISTRY/$IMAGE_NAME:$TAG"
+            echo "  • Frontend Image: $REGISTRY/$IMAGE_NAME:$TAG"
             echo "  • Deploy Path: $DEPLOY_PATH"
             echo "  • Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo ""
 
             cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found${NC}"; exit 1; }
 
-            # Authenticate with GHCR
-            echo -e "${YELLOW}→ Authenticating with GitHub Container Registry...${NC}"
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin >/dev/null 2>&1
-            [ $? -eq 0 ] && echo -e "${GREEN}✓ Authenticated${NC}" || { echo -e "${RED}✗ Authentication failed${NC}"; exit 1; }
+            # ━━━ PRE-FLIGHT CHECKS ━━━
+            echo "━━━ PRE-FLIGHT CHECKS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-            # Pull latest image
-            echo -e "${YELLOW}→ Pulling image from GHCR...${NC}"
-            FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$TAG"
-            docker pull "$FULL_IMAGE" || { echo -e "${RED}✗ Failed to pull image${NC}"; exit 1; }
-            echo -e "${GREEN}✓ Image pulled successfully${NC}"
+            [ -f ".env" ] && echo -e "${GREEN}✓  .env file found${NC}" \
+              || { echo -e "${RED}✗  .env not found — run: cp .env.example .env${NC}"; exit 1; }
 
-            # Get image digest for verification
-            IMAGE_DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
-            echo "  • Image digest: $IMAGE_DIGEST"
+            command -v docker &>/dev/null \
+              && echo -e "${GREEN}✓  Docker + Compose v2 are running${NC}" \
+              || { echo -e "${RED}✗  Docker not installed${NC}"; exit 1; }
+
+            if docker network ls --format '{{.Name}}' | grep -q '^traefik-public$'; then
+              echo -e "${GREEN}✓  traefik-public network exists${NC}"
+            else
+              echo -e "${YELLOW}⚠  traefik-public missing — creating${NC}"
+              docker network create traefik-public
+              echo -e "${GREEN}✓  traefik-public network created${NC}"
+            fi
+
+            # Safe .env loader — handles unquoted values with semicolons, spaces,
+            # and special characters that would break `source .env` in bash.
+            while IFS= read -r line || [ -n "$line" ]; do
+              # Skip blank lines and comments
+              [[ -z "${line// /}" || "${line:0:1}" == "#" ]] && continue
+              # Only process KEY=VALUE lines
+              [[ "$line" =~ ^[A-Za-z_][A-Za-z0-9_]*= ]] || continue
+              key="${line%%=*}"
+              value="${line#*=}"
+              # Strip surrounding double-quotes if present
+              [[ "$value" =~ ^\"(.*)\"$ ]] && value="${BASH_REMATCH[1]}"
+              export "$key"="$value"
+            done < .env
+
+            # ━━━ VARIABLE VALIDATION ━━━
+            echo -e "${YELLOW}→  Validating environment variables...${NC}"
+            MISSING_VARS=0
+
+            # Hard-required: deploy will not proceed if any of these are blank
+            check_required() {
+              local var=$1
+              local value="${!var:-}"
+              if [ -z "$value" ] || [[ "$value" == *"CHANGE_ME"* ]]; then
+                echo -e "  ${RED}✗  $var is missing or not configured${NC}"
+                MISSING_VARS=$((MISSING_VARS + 1))
+              else
+                echo -e "  ${GREEN}✓  $var${NC}"
+              fi
+            }
+
+            # Optional: empty value is fine — feature simply disabled at runtime
+            check_optional() {
+              local var=$1
+              local value="${!var:-}"
+              if [ -z "$value" ] || [[ "$value" == *"CHANGE_ME"* ]]; then
+                echo -e "  ${YELLOW}⚠  $var — not configured (feature disabled)${NC}"
+              else
+                echo -e "  ${GREEN}✓  $var${NC}"
+              fi
+            }
+
+            # ── Core infrastructure (required) ──────────────────────────────────────
+            check_required "DOMAIN"
+            check_required "API_DOMAIN"
+            check_required "BACKEND_IMAGE"
+            check_required "FRONTEND_IMAGE"
+            check_required "SUPABASE_CONNECTION_STRING"
+            check_required "REDIS_PASSWORD"
+            check_required "JWT_KEY"
+            check_required "ENCRYPTION_KEY"
+            check_required "EMAIL_SMTP_HOST"
+            check_required "EMAIL_SMTP_USERNAME"
+            check_required "EMAIL_SMTP_PASSWORD"
+            check_required "GRAFANA_ADMIN_PASSWORD"
+
+            # ── Optional features (warn only — does not block deploy) ────────────────
+            check_optional "PAYSTACK_SECRET_KEY"
+            check_optional "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY"
+            check_optional "ANTHROPIC_API_KEY"
+
+            if [ $MISSING_VARS -gt 0 ]; then
+              echo ""
+              echo -e "${RED}✗  $MISSING_VARS required variable(s) not configured. Aborting.${NC}"
+              exit 1
+            fi
+
             echo ""
 
-            # Set environment variable for docker-compose
-            export FRONTEND_IMAGE="$FULL_IMAGE"
-
-            # Stop old container gracefully
-            echo -e "${YELLOW}→ Stopping current web container...${NC}"
-            docker compose down web 2>/dev/null || true
-            sleep 2
-
-            # Start new container
-            echo -e "${YELLOW}→ Starting new web container...${NC}"
-            docker compose up --no-deps --remove-orphans -d web || { echo -e "${RED}✗ Failed to start container${NC}"; exit 1; }
-            echo -e "${GREEN}✓ Container started${NC}"
+            # ━━━ UPDATE FRONTEND IMAGE TAG ━━━
+            echo -e "${YELLOW}→  Updating FRONTEND_IMAGE in .env...${NC}"
+            sed -i "s|^FRONTEND_IMAGE=.*|FRONTEND_IMAGE=$REGISTRY/$IMAGE_NAME:$TAG|" .env
+            echo -e "${GREEN}✓  FRONTEND_IMAGE → $REGISTRY/$IMAGE_NAME:$TAG${NC}"
             echo ""
 
-            # Wait for container to be healthy
-            echo -e "${YELLOW}→ Waiting for container health check...${NC}"
-            HEALTH_CHECK_TRIES=0
-            MAX_TRIES=30
-            while [ $HEALTH_CHECK_TRIES -lt $MAX_TRIES ]; do
-              if docker compose exec -T web wget -qO- http://localhost:3000/ >/dev/null 2>&1; then
-                echo -e "${GREEN}✓ Health check passed${NC}"
+            # ━━━ AUTHENTICATE TO GHCR ━━━
+            echo -e "${YELLOW}→  Authenticating with GitHub Container Registry...${NC}"
+            # Retry up to 3 times — handles transient TLS/network blips
+            for attempt in 1 2 3; do
+              if echo "${{ secrets.GITHUB_TOKEN }}" | \
+                   docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin 2>&1; then
+                echo -e "${GREEN}✓  Authenticated${NC}"
                 break
               fi
-              HEALTH_CHECK_TRIES=$((HEALTH_CHECK_TRIES + 1))
-              echo "  • Attempt $HEALTH_CHECK_TRIES/$MAX_TRIES..."
+              if [ $attempt -lt 3 ]; then
+                echo -e "${YELLOW}  ⟳  Attempt $attempt failed — retrying in 10s...${NC}"
+                sleep 10
+              else
+                echo -e "${RED}✗  Authentication failed after 3 attempts${NC}"
+                echo "    Hint: check VPS outbound HTTPS connectivity — run: curl -v https://ghcr.io/v2/"
+                exit 1
+              fi
+            done
+
+            # ━━━ PULL IMAGE ━━━
+            echo -e "${YELLOW}→  Pulling images from GHCR...${NC}"
+            FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$TAG"
+            # Retry pull up to 3 times — large images can time out on first attempt
+            for attempt in 1 2 3; do
+              if docker pull "$FULL_IMAGE"; then
+                break
+              fi
+              if [ $attempt -lt 3 ]; then
+                echo -e "${YELLOW}  ⟳  Pull attempt $attempt failed — retrying in 15s...${NC}"
+                sleep 15
+              else
+                echo -e "${RED}✗  Failed to pull image after 3 attempts${NC}"
+                echo "    Image: $FULL_IMAGE"
+                echo "    Hint: run on VPS:  docker pull $FULL_IMAGE"
+                exit 1
+              fi
+            done
+            IMAGE_DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
+            echo -e "${GREEN}✓  Image pulled — digest: $IMAGE_DIGEST${NC}"
+            echo ""
+
+            # ━━━ BACKUP .env ━━━
+            cp .env ".env.bak.$(date +%Y%m%d_%H%M%S)"
+
+            # ━━━ DEPLOY ━━━
+            echo -e "${YELLOW}→  Deploying services...${NC}"
+            docker compose -f docker/docker-compose.yml down web 2>/dev/null || true
+            sleep 2
+            docker compose -f docker/docker-compose.yml up -d web \
+              || { echo -e "${RED}✗  Failed to start web service${NC}"; exit 1; }
+            echo -e "${GREEN}✓  Web service started${NC}"
+            echo ""
+
+            # ━━━ HEALTH CHECK ━━━
+            echo -e "${YELLOW}→  Waiting for service health check...${NC}"
+            ATTEMPTS=0; MAX=30
+            while [ $ATTEMPTS -lt $MAX ]; do
+              if docker compose -f docker/docker-compose.yml exec -T web \
+                   wget -qO- http://localhost:3000/api/healthz >/dev/null 2>&1; then
+                echo -e "${GREEN}✓  Health check passed${NC}"
+                break
+              fi
+              ATTEMPTS=$((ATTEMPTS + 1))
+              echo "  • Attempt $ATTEMPTS/$MAX..."
               sleep 2
             done
 
-            if [ $HEALTH_CHECK_TRIES -ge $MAX_TRIES ]; then
-              echo -e "${RED}✗ Health check timeout${NC}"
-              exit 1
+            if [ $ATTEMPTS -ge $MAX ]; then
+              echo -e "${RED}✗  Health check timeout${NC}"; exit 1
             fi
             echo ""
 
-            # Prune old images to save disk space
-            echo -e "${YELLOW}→ Cleaning up old images...${NC}"
+            # ━━━ CLEANUP ━━━
             docker image prune -f --filter "until=48h" >/dev/null
-            echo -e "${GREEN}✓ Cleanup complete${NC}"
-            echo ""
+            echo -e "${GREEN}✓  Old images pruned${NC}"
 
-            # Show deployment status
-            echo -e "${YELLOW}→ Current container status:${NC}"
-            docker compose ps web
+            # ━━━ STATUS ━━━
             echo ""
-
+            docker compose -f docker/docker-compose.yml ps
+            echo ""
             echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-            echo -e "${GREEN}✓ Deployment completed successfully${NC}"
+            echo -e "${GREEN}✓  Deployment completed — $(date -u +%Y-%m-%dT%H:%M:%SZ)${NC}"
             echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
-      - name: Verify deployment
+      - name: Step summary
         if: success()
         run: |
-          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Web App Deployed Successfully**" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Image**: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Time**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
 
-      - name: Send Slack notification (Success)
+      - name: Slack — success
         if: success()
         uses: slackapi/slack-github-action@v2
         continue-on-error: true
@@ -167,18 +294,16 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "✅ *ClaudyGod Web App — Deployed to Production*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• Branch: `${{ github.ref_name }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
-                  }
+              "blocks": [{
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "✅ *ClaudyGod Web App — Deployed to Production*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• Branch: `${{ github.ref_name }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
                 }
-              ]
+              }]
             }
 
-      - name: Send Slack notification (Failure)
+      - name: Slack — failure
         if: failure()
         uses: slackapi/slack-github-action@v2
         continue-on-error: true
@@ -187,13 +312,11 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "❌ *ClaudyGod Web App — Deployment Failed*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
-                  }
+              "blocks": [{
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "❌ *ClaudyGod Web App — Deployment Failed*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
                 }
-              ]
+              }]
             }

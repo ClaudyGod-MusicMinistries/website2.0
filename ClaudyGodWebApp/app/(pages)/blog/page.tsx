@@ -229,8 +229,8 @@ export default function BlogPage() {
         eyebrow="Blog & News"
         title="News & Updates"
         subtitle="New releases, media interviews, and upcoming tour events from ClaudyGod Music Ministries."
-        backgroundImage="/tour_1.jpg"
-        objectPosition="center 30%"
+        backgroundImage="/tour_3.jpg"
+        objectPosition="center center"
       />
 
       <section className="bg-cream-100 section-py">
