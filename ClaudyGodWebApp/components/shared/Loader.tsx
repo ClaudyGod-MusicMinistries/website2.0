@@ -233,7 +233,7 @@ export function Loader() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.9 }}
-            className="absolute bottom-6 sm:bottom-10 font-raleway italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center hidden xs:block sm:block"
+            className="absolute bottom-6 sm:bottom-10 font-raleway italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center [@media(max-height:500px)]:hidden"
           >
             &ldquo;Sing praises to God, sing praises; sing praises to our King, sing praises.&rdquo;
             <span className="block font-worksans not-italic text-[0.54rem] tracking-[0.16em] uppercase text-neutral-700/60 mt-1.5">
