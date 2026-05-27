@@ -136,7 +136,7 @@ jobs:
             GREEN='\033[0;32m'; RED='\033[0;31m'; YELLOW='\033[1;33m'; NC='\033[0m'
 
             DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH }}"
-            FULL_IMAGE="ghcr.io/${{ env.IMAGE_NAME }}:latest"
+            FULL_IMAGE="${{ env.IMAGE }}:latest"
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo -e "${YELLOW}ClaudyGod Web — Production Deploy${NC}"
