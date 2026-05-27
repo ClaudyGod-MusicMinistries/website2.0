@@ -70,7 +70,7 @@ export function FeaturedVideos() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4 mb-4"
+            className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-3 sm:gap-4 mb-3 sm:mb-4"
           >
             {/* Featured large card */}
             <motion.button
