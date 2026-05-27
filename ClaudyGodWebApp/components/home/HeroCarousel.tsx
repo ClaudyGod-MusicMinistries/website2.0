@@ -129,10 +129,10 @@ export function HeroCarousel() {
 
       {/* Slide content */}
       <div className={cn(
-        'absolute inset-0 flex flex-col pt-24 pb-24',
-        isMusic ? 'justify-center' : 'justify-end md:pb-32'
+        'absolute inset-0 flex flex-col pt-20 pb-16 sm:pb-20',
+        isMusic ? 'justify-center' : 'justify-end sm:pb-20 md:pb-28 lg:pb-32'
       )}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 w-full">
           <AnimatePresence mode="wait">
             <motion.div key={`content-${slide.id}`} className="max-w-2xl">
               <SlideContent slide={slide} />
@@ -142,8 +142,8 @@ export function HeroCarousel() {
       </div>
 
       {/* Dot indicators */}
-      <div className="absolute bottom-8 left-0 right-0 pointer-events-none">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center gap-2">
+      <div className="absolute bottom-5 sm:bottom-7 left-0 right-0 pointer-events-none">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center gap-2">
           {heroSlides.map((_, i) => (
             <button
               key={i}
@@ -244,7 +244,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden mb-1">
           <motion.h1
             custom={0.1} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-white text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight"
+            className="font-abril text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
           >
             Worship.
           </motion.h1>
@@ -252,7 +252,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden mb-1">
           <motion.p
             custom={0.22} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-gold-300/95 text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight"
+            className="font-abril text-gold-300/95 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
           >
             Music.
           </motion.p>
@@ -260,7 +260,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden mb-7">
           <motion.p
             custom={0.34} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-purple-300/90 text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.0] tracking-tight"
+            className="font-abril text-purple-300/90 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
           >
             Ministry.
           </motion.p>
@@ -279,13 +279,13 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         >
           <Link
             href="/bookings"
-            className="font-worksans text-[0.65rem] tracking-[0.2em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-8 h-12 inline-flex items-center rounded-xl transition-all duration-300 shadow-[0_4px_20px_rgba(109,40,217,0.5)] hover:shadow-[0_6px_28px_rgba(109,40,217,0.6)]"
+            className="font-worksans text-[0.62rem] tracking-[0.2em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-6 sm:px-8 h-10 sm:h-12 inline-flex items-center rounded-xl transition-all duration-300 shadow-[0_4px_20px_rgba(109,40,217,0.5)] hover:shadow-[0_6px_28px_rgba(109,40,217,0.6)]"
           >
             Book Now
           </Link>
           <Link
             href="/music"
-            className="font-worksans text-[0.65rem] tracking-[0.2em] uppercase text-white/80 hover:text-white border border-white/25 hover:border-white/60 px-8 h-12 inline-flex items-center rounded-xl transition-all duration-300 backdrop-blur-sm gap-2 group"
+            className="font-worksans text-[0.62rem] tracking-[0.2em] uppercase text-white/80 hover:text-white border border-white/25 hover:border-white/60 px-6 sm:px-8 h-10 sm:h-12 inline-flex items-center rounded-xl transition-all duration-300 backdrop-blur-sm gap-2 group"
           >
             Listen Now
             <span className="text-gold-400 transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -311,7 +311,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
           <div className="overflow-hidden mb-8">
             <motion.h2
               custom={0.1} variants={reveal} initial="hidden" animate="visible"
-              className="font-abril text-white text-4xl md:text-5xl lg:text-[3.8rem] leading-[1.1] tracking-tight"
+              className="font-abril text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[3.8rem] leading-[1.1] tracking-tight"
             >
               {content.listenText}
             </motion.h2>

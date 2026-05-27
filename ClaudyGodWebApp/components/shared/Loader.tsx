@@ -84,9 +84,9 @@ export function Loader() {
           {/* ── Background ambience ─────────────────────── */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {/* Deep purple core glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-purple-900/25 blur-[140px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(700px,130vw)] h-[min(700px,130vw)] rounded-full bg-purple-900/25 blur-[140px]" />
             {/* Gold soft glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[62%] w-[280px] h-[280px] rounded-full bg-gold-500/12 blur-[90px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[62%] w-[min(280px,70vw)] h-[min(280px,70vw)] rounded-full bg-gold-500/12 blur-[90px]" />
             {/* Subtle grid texture */}
             <div
               className="absolute inset-0 opacity-[0.025]"
@@ -97,13 +97,13 @@ export function Loader() {
             />
             {/* Animated ring 1 */}
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full border border-purple-700/15"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(420px,88vw)] h-[min(420px,88vw)] rounded-full border border-purple-700/15"
               animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.2, 0.5] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             />
             {/* Animated ring 2 */}
             <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-gold-500/8"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,120vw)] h-[min(600px,120vw)] rounded-full border border-gold-500/8"
               animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.1, 0.3] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
             />
@@ -115,7 +115,7 @@ export function Loader() {
           ))}
 
           {/* ── Centre content ───────────────────────────── */}
-          <div className="relative z-10 flex flex-col items-center gap-8">
+          <div className="relative z-10 flex flex-col items-center gap-5 sm:gap-8">
 
             {/* Logo with pulsing ring */}
             <motion.div
@@ -142,7 +142,7 @@ export function Loader() {
                 transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
               />
               {/* Logo image */}
-              <div className="relative w-24 h-24 rounded-full overflow-hidden ring-2 ring-gold-500/30 bg-white/6 shadow-[0_0_40px_rgba(201,168,76,0.2)]">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-gold-500/30 bg-white/6 shadow-[0_0_40px_rgba(201,168,76,0.2)]">
                 <Image
                   src="/ClaudyGoLogo.webp"
                   alt="ClaudyGod"
@@ -184,7 +184,7 @@ export function Loader() {
               initial={{ opacity: 0, scaleX: 0.4 }}
               animate={{ opacity: 1, scaleX: 1 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="w-56"
+              className="w-48 sm:w-56"
             >
               <div className="relative h-[3px] bg-white/[0.07] rounded-full overflow-hidden">
                 <motion.div
@@ -233,7 +233,7 @@ export function Loader() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.9 }}
-            className="absolute bottom-10 font-raleway italic text-neutral-600/80 text-[0.78rem] tracking-wide px-6 text-center"
+            className="absolute bottom-6 sm:bottom-10 font-raleway italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center hidden xs:block sm:block"
           >
             &ldquo;Sing praises to God, sing praises; sing praises to our King, sing praises.&rdquo;
             <span className="block font-worksans not-italic text-[0.54rem] tracking-[0.16em] uppercase text-neutral-700/60 mt-1.5">
