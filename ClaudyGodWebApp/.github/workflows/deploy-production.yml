@@ -1,8 +1,14 @@
 name: Deploy to Production
 
 on:
-  push:
+  # Automatically deploy AFTER the build succeeds — prevents race condition
+  # where deploy runs before the image exists in GHCR.
+  workflow_run:
+    workflows: ["Build & Push to GHCR"]
+    types: [completed]
     branches: [main]
+
+  # Manual trigger — useful for rollbacks or forced redeploys.
   workflow_dispatch:
     inputs:
       tag:
@@ -24,6 +30,10 @@ jobs:
     name: Deploy → Production VPS
     runs-on: ubuntu-latest
     environment: production
+    # For workflow_run events: only proceed when the build actually succeeded
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Checkout code
@@ -35,7 +45,8 @@ jobs:
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             TAG="${{ github.event.inputs.tag || 'latest' }}"
           else
-            TAG="${{ github.sha }}"
+            # workflow_run: build always tags 'latest' for main branch pushes
+            TAG="latest"
           fi
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "Deploy tag: $TAG"
@@ -164,14 +175,41 @@ jobs:
 
             # ━━━ AUTHENTICATE TO GHCR ━━━
             echo -e "${YELLOW}→  Authenticating with GitHub Container Registry...${NC}"
-            echo "${{ secrets.GITHUB_TOKEN }}" | \
-              docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin >/dev/null 2>&1
-            echo -e "${GREEN}✓  Authenticated${NC}"
+            # Retry up to 3 times — handles transient TLS/network blips
+            for attempt in 1 2 3; do
+              if echo "${{ secrets.GITHUB_TOKEN }}" | \
+                   docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin 2>&1; then
+                echo -e "${GREEN}✓  Authenticated${NC}"
+                break
+              fi
+              if [ $attempt -lt 3 ]; then
+                echo -e "${YELLOW}  ⟳  Attempt $attempt failed — retrying in 10s...${NC}"
+                sleep 10
+              else
+                echo -e "${RED}✗  Authentication failed after 3 attempts${NC}"
+                echo "    Hint: check VPS outbound HTTPS connectivity — run: curl -v https://ghcr.io/v2/"
+                exit 1
+              fi
+            done
 
             # ━━━ PULL IMAGE ━━━
             echo -e "${YELLOW}→  Pulling images from GHCR...${NC}"
             FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$TAG"
-            docker pull "$FULL_IMAGE" || { echo -e "${RED}✗  Failed to pull image${NC}"; exit 1; }
+            # Retry pull up to 3 times — large images can time out on first attempt
+            for attempt in 1 2 3; do
+              if docker pull "$FULL_IMAGE"; then
+                break
+              fi
+              if [ $attempt -lt 3 ]; then
+                echo -e "${YELLOW}  ⟳  Pull attempt $attempt failed — retrying in 15s...${NC}"
+                sleep 15
+              else
+                echo -e "${RED}✗  Failed to pull image after 3 attempts${NC}"
+                echo "    Image: $FULL_IMAGE"
+                echo "    Hint: run on VPS:  docker pull $FULL_IMAGE"
+                exit 1
+              fi
+            done
             IMAGE_DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
             echo -e "${GREEN}✓  Image pulled — digest: $IMAGE_DIGEST${NC}"
             echo ""
