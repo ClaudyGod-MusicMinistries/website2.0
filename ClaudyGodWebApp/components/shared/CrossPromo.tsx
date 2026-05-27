@@ -15,11 +15,11 @@ const promos = [
   },
   {
     icon: Smartphone,
-    eyebrow: 'Mobile App',
+    eyebrow: 'Stream Everywhere',
     title: 'Worship on the Go',
-    body: 'Download our mobile app for devotionals, teachings, and worship wherever you are.',
-    cta: 'Download App',
-    href: '/download',
+    body: 'Listen to all ClaudyGod music on Spotify, Apple Music, YouTube, Deezer, and all major platforms.',
+    cta: 'Stream Now',
+    href: '/music',
     image: '/ClaudySocial.jpg',
     accent: 'from-gold-500/15 to-transparent',
   },
@@ -38,7 +38,7 @@ const promos = [
 export function CrossPromo() {
   return (
     <section className="bg-white section-py border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex items-center gap-4 mb-10">
           <span className="rule-gold" />
           <span className="label-eyebrow">Explore More</span>
