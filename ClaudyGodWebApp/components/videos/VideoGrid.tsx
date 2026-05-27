@@ -166,6 +166,7 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
           src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
           alt={video.title}
           fill
+          unoptimized
           className="object-cover opacity-75 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.05]"
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
         />
