@@ -83,6 +83,7 @@ export function FeaturedVideos() {
                 src={featured.thumbnailUrl}
                 alt={featured.title}
                 fill
+                unoptimized
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.05] opacity-80 group-hover:opacity-100"
                 sizes="(max-width:1024px) 100vw, 65vw"
               />
@@ -127,6 +128,7 @@ export function FeaturedVideos() {
                       src={video.thumbnailUrl}
                       alt={video.title}
                       fill
+                      unoptimized
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.07] opacity-75 group-hover:opacity-100"
                       sizes="112px"
                     />
@@ -178,6 +180,7 @@ export function FeaturedVideos() {
                   src={video.thumbnailUrl}
                   alt={video.title}
                   fill
+                  unoptimized
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.07] opacity-70 group-hover:opacity-95"
                   sizes="(max-width:768px) 50vw, 25vw"
                 />

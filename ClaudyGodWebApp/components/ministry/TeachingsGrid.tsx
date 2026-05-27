@@ -60,6 +60,7 @@ export function TeachingsGrid() {
                     src={`https://img.youtube.com/vi/${teaching.youtubeId}/hqdefault.jpg`}
                     alt={teaching.title}
                     fill
+                    unoptimized
                     className="object-cover opacity-60 group-hover:opacity-85 transition-all duration-500 group-hover:scale-105"
                     sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
                   />
