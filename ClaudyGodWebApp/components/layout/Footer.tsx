@@ -84,8 +84,8 @@ export function Footer() {
       </div>
 
       {/* Main footer body */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 md:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-10 mb-14">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-10 sm:py-14 md:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-10 mb-10 lg:mb-14">
 
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-2">
