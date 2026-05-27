@@ -1,63 +1,121 @@
-name: Deploy to Production
+name: Build & Deploy → Production
 
 on:
-  # Automatically deploy AFTER the build succeeds — prevents race condition
-  # where deploy runs before the image exists in GHCR.
-  workflow_run:
-    workflows: ["Build & Push to GHCR"]
-    types: [completed]
+  push:
     branches: [main]
-
-  # Manual trigger — useful for rollbacks or forced redeploys.
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Image tag to deploy (default: latest)'
+      skip_build:
+        description: 'Skip build — deploy existing :latest image?'
         required: false
-        default: 'latest'
-        type: string
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 concurrency:
-  group: deploy-production
-  cancel-in-progress: true   # cancel any queued/running deploy when a newer one arrives
+  group: production
+  cancel-in-progress: true
 
 env:
   REGISTRY: ghcr.io
+  IMAGE: ghcr.io/claudygod-musicministries/cgm-web
   IMAGE_NAME: ${{ github.repository }}
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# JOB 1 — Build & push image to GHCR
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 jobs:
+  build:
+    name: Build & Push image
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_build != 'true'
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: image=moby/buildkit:latest
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-,format=short
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true
+          sbom: true
+          build-args: |
+            NODE_ENV=production
+            NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://claudygod.com' }}
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL || 'https://api.claudygod.com' }}
+            NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=${{ secrets.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || '' }}
+
+      - name: Build summary
+        if: always()
+        run: |
+          {
+            echo "## 🐳 Docker Build"
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **Image** | \`${{ env.IMAGE }}\` |"
+            echo "| **Tags** | \`${{ steps.meta.outputs.tags }}\` |"
+            echo "| **Digest** | \`${{ steps.build.outputs.digest }}\` |"
+          } >> $GITHUB_STEP_SUMMARY
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# JOB 2 — Deploy to VPS (always runs after build)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   deploy:
     name: Deploy → Production VPS
     runs-on: ubuntu-latest
+    needs: [build]
+    # Run if build succeeded, OR if build was skipped (skip_build=true)
+    if: always() && (needs.build.result == 'success' || needs.build.result == 'skipped')
     environment: production
-    # For workflow_run events: only proceed when the build actually succeeded
-    if: >
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Workflow version check
+      - name: Workflow info
         run: |
-          echo "✅ deploy-production.yml v3 — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "   Triggered by: ${{ github.event_name }}"
-          echo "   SHA: ${{ github.sha }}"
+          echo "✅ deploy-production.yml — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "   Event: ${{ github.event_name }}"
+          echo "   SHA:   ${{ github.sha }}"
+          echo "   Image: ${{ env.IMAGE }}:latest"
 
-      - name: Determine image tag
-        id: tag
-        run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            TAG="${{ github.event.inputs.tag || 'latest' }}"
-          else
-            # workflow_run: build always tags 'latest' for main branch pushes
-            TAG="latest"
-          fi
-          echo "tag=$TAG" >> $GITHUB_OUTPUT
-          echo "Deploy tag: $TAG"
-
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -66,156 +124,105 @@ jobs:
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
-        id: deploy
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           timeout: 300s
-          envs: REGISTRY,IMAGE_NAME,TAG
           script: |
             set -euo pipefail
 
-            GREEN='\033[0;32m'
-            RED='\033[0;31m'
-            YELLOW='\033[1;33m'
-            NC='\033[0m'
+            GREEN='\033[0;32m'; RED='\033[0;31m'; YELLOW='\033[1;33m'; NC='\033[0m'
 
             DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH }}"
-            TAG="${{ steps.tag.outputs.tag }}"
-            REGISTRY="${{ env.REGISTRY }}"
-            IMAGE_NAME="${{ env.IMAGE_NAME }}"
+            FULL_IMAGE="ghcr.io/${{ env.IMAGE_NAME }}:latest"
 
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo -e "${YELLOW}ClaudyGod Infrastructure Deployment${NC}"
+            echo -e "${YELLOW}ClaudyGod Web — Production Deploy${NC}"
+            echo "  Image: $FULL_IMAGE"
+            echo "  Path:  $DEPLOY_PATH"
+            echo "  Time:  $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            echo ""
-            echo -e "${YELLOW}Configuration:${NC}"
-            echo "  • Frontend Image: $REGISTRY/$IMAGE_NAME:$TAG"
-            echo "  • Deploy Path: $DEPLOY_PATH"
-            echo "  • Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            echo ""
 
-            cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found${NC}"; exit 1; }
+            cd "$DEPLOY_PATH" || { echo -e "${RED}✗ Deploy path not found: $DEPLOY_PATH${NC}"; exit 1; }
 
-            # ━━━ PRE-FLIGHT CHECKS ━━━
-            echo "━━━ PRE-FLIGHT CHECKS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-            [ -f ".env" ] && echo -e "${GREEN}✓  .env file found${NC}" \
-              || { echo -e "${RED}✗  .env not found — run: cp .env.example .env${NC}"; exit 1; }
+            [ -f ".env" ] \
+              && echo -e "${GREEN}✓  .env found${NC}" \
+              || { echo -e "${RED}✗  .env missing${NC}"; exit 1; }
 
             command -v docker &>/dev/null \
-              && echo -e "${GREEN}✓  Docker + Compose v2 are running${NC}" \
+              && echo -e "${GREEN}✓  Docker available${NC}" \
               || { echo -e "${RED}✗  Docker not installed${NC}"; exit 1; }
 
-            if docker network ls --format '{{.Name}}' | grep -q '^traefik-public$'; then
-              echo -e "${GREEN}✓  traefik-public network exists${NC}"
-            else
-              echo -e "${YELLOW}⚠  traefik-public missing — creating${NC}"
-              docker network create traefik-public
-              echo -e "${GREEN}✓  traefik-public network created${NC}"
-            fi
+            docker network ls --format '{{.Name}}' | grep -q '^traefik-public$' \
+              || docker network create traefik-public
 
-            # ━━━ UPDATE FRONTEND IMAGE TAG ━━━
-            echo -e "${YELLOW}→  Updating FRONTEND_IMAGE in .env...${NC}"
-            sed -i "s|^FRONTEND_IMAGE=.*|FRONTEND_IMAGE=$REGISTRY/$IMAGE_NAME:$TAG|" .env
-            echo -e "${GREEN}✓  FRONTEND_IMAGE → $REGISTRY/$IMAGE_NAME:$TAG${NC}"
-            echo ""
-
-            # ━━━ AUTHENTICATE TO GHCR ━━━
-            echo -e "${YELLOW}→  Authenticating with GitHub Container Registry...${NC}"
-            # Retry up to 3 times — handles transient TLS/network blips
+            # Authenticate to GHCR
             for attempt in 1 2 3; do
               if echo "${{ secrets.GITHUB_TOKEN }}" | \
-                   docker login "$REGISTRY" -u "${{ github.actor }}" --password-stdin 2>&1; then
-                echo -e "${GREEN}✓  Authenticated${NC}"
-                break
+                   docker login ghcr.io -u "${{ github.actor }}" --password-stdin 2>&1; then
+                echo -e "${GREEN}✓  GHCR authenticated${NC}"; break
               fi
-              if [ $attempt -lt 3 ]; then
-                echo -e "${YELLOW}  ⟳  Attempt $attempt failed — retrying in 10s...${NC}"
-                sleep 10
-              else
-                echo -e "${RED}✗  Authentication failed after 3 attempts${NC}"
-                echo "    Hint: check VPS outbound HTTPS connectivity — run: curl -v https://ghcr.io/v2/"
-                exit 1
-              fi
+              [ $attempt -lt 3 ] && sleep 10 || { echo -e "${RED}✗  Auth failed${NC}"; exit 1; }
             done
 
-            # ━━━ PULL IMAGE ━━━
-            echo -e "${YELLOW}→  Pulling images from GHCR...${NC}"
-            FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$TAG"
-            # Retry pull up to 3 times — large images can time out on first attempt
+            # Update image tag in .env
+            sed -i "s|^FRONTEND_IMAGE=.*|FRONTEND_IMAGE=$FULL_IMAGE|" .env
+            echo -e "${GREEN}✓  FRONTEND_IMAGE → $FULL_IMAGE${NC}"
+
+            # Pull new image
             for attempt in 1 2 3; do
-              if docker pull "$FULL_IMAGE"; then
-                break
-              fi
-              if [ $attempt -lt 3 ]; then
-                echo -e "${YELLOW}  ⟳  Pull attempt $attempt failed — retrying in 15s...${NC}"
-                sleep 15
-              else
-                echo -e "${RED}✗  Failed to pull image after 3 attempts${NC}"
-                echo "    Image: $FULL_IMAGE"
-                echo "    Hint: run on VPS:  docker pull $FULL_IMAGE"
-                exit 1
-              fi
+              docker pull "$FULL_IMAGE" && break
+              [ $attempt -lt 3 ] && sleep 15 || { echo -e "${RED}✗  Pull failed${NC}"; exit 1; }
             done
-            IMAGE_DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
-            echo -e "${GREEN}✓  Image pulled — digest: $IMAGE_DIGEST${NC}"
-            echo ""
+            DIGEST=$(docker inspect --format='{{.Id}}' "$FULL_IMAGE" | cut -d: -f2 | head -c 12)
+            echo -e "${GREEN}✓  Image pulled — $DIGEST${NC}"
 
-            # ━━━ BACKUP .env ━━━
+            # Backup .env
             cp .env ".env.bak.$(date +%Y%m%d_%H%M%S)"
 
-            # ━━━ DEPLOY ━━━
-            echo -e "${YELLOW}→  Deploying services...${NC}"
-            docker compose -f docker/docker-compose.yml down web 2>/dev/null || true
-            sleep 2
-            docker compose -f docker/docker-compose.yml up -d web \
-              || { echo -e "${RED}✗  Failed to start web service${NC}"; exit 1; }
-            echo -e "${GREEN}✓  Web service started${NC}"
-            echo ""
+            # Deploy
+            docker compose -f docker/docker-compose.yml up -d --no-deps --pull never web \
+              || { echo -e "${RED}✗  Failed to start web${NC}"; exit 1; }
+            echo -e "${GREEN}✓  web service started${NC}"
 
-            # ━━━ HEALTH CHECK ━━━
-            echo -e "${YELLOW}→  Waiting for service health check...${NC}"
-            ATTEMPTS=0; MAX=30
-            while [ $ATTEMPTS -lt $MAX ]; do
-              if docker compose -f docker/docker-compose.yml exec -T web \
-                   wget -qO- http://localhost:3000/api/healthz >/dev/null 2>&1; then
-                echo -e "${GREEN}✓  Health check passed${NC}"
-                break
-              fi
+            # Health check
+            ATTEMPTS=0
+            while [ $ATTEMPTS -lt 30 ]; do
+              docker compose -f docker/docker-compose.yml exec -T web \
+                wget -qO- http://localhost:3000/api/healthz >/dev/null 2>&1 \
+                && { echo -e "${GREEN}✓  Health check passed${NC}"; break; }
               ATTEMPTS=$((ATTEMPTS + 1))
-              echo "  • Attempt $ATTEMPTS/$MAX..."
+              echo "  • $ATTEMPTS/30..."
               sleep 2
             done
+            [ $ATTEMPTS -ge 30 ] && { echo -e "${RED}✗  Health check timeout${NC}"; exit 1; }
 
-            if [ $ATTEMPTS -ge $MAX ]; then
-              echo -e "${RED}✗  Health check timeout${NC}"; exit 1
-            fi
-            echo ""
-
-            # ━━━ CLEANUP ━━━
+            # Cleanup old images
             docker image prune -f --filter "until=48h" >/dev/null
             echo -e "${GREEN}✓  Old images pruned${NC}"
 
-            # ━━━ STATUS ━━━
             echo ""
             docker compose -f docker/docker-compose.yml ps
             echo ""
             echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-            echo -e "${GREEN}✓  Deployment completed — $(date -u +%Y-%m-%dT%H:%M:%SZ)${NC}"
+            echo -e "${GREEN}✓  Deployed — $(date -u +%Y-%m-%dT%H:%M:%SZ)${NC}"
             echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
       - name: Step summary
         if: success()
         run: |
-          echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Image**: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Branch**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Time**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## ✅ Deployed to Production"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| **Image** | \`${{ env.IMAGE }}:latest\` |"
+            echo "| **Commit** | \`${{ github.sha }}\` |"
+            echo "| **Branch** | \`${{ github.ref_name }}\` |"
+            echo "| **Time** | $(date -u +%Y-%m-%dT%H:%M:%SZ) |"
+          } >> $GITHUB_STEP_SUMMARY
 
       - name: Slack — success
         if: success()
@@ -230,7 +237,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "✅ *ClaudyGod Web App — Deployed to Production*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• Branch: `${{ github.ref_name }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
+                  "text": "✅ *ClaudyGod Web — Deployed to Production*\n• Image: `${{ env.IMAGE }}:latest`\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
                 }
               }]
             }
@@ -248,7 +255,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "❌ *ClaudyGod Web App — Deployment Failed*\n• Tag: `${{ steps.tag.outputs.tag }}`\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
+                  "text": "❌ *ClaudyGod Web — Deploy Failed*\n• Commit: `${{ github.sha }}`\n• <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>"
                 }
               }]
             }

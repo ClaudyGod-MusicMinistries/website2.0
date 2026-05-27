@@ -1,10 +1,8 @@
 name: Build & Push to GHCR
 
 on:
-  push:
-    branches: [main]
-    tags:
-      - "v*.*.*"
+  # Manual trigger only — for testing builds without deploying.
+  # Production deploys are handled by deploy-production.yml (push to main).
   workflow_dispatch:
     inputs:
       push_image:
