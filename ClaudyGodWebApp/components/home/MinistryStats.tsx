@@ -34,7 +34,7 @@ const pillars = [
 export function MinistryStats() {
   return (
     <section className="bg-cream-100 border-t border-b border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-14 md:py-20">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-10 sm:py-14 md:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0 lg:divide-x lg:divide-black/[0.06]">
           {pillars.map(({ icon: Icon, title, body, accent, bg }) => (
             <div key={title} className="flex flex-col gap-3 lg:px-10 first:lg:pl-0 last:lg:pr-0">

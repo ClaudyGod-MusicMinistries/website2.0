@@ -53,8 +53,8 @@ export function NewsletterBanner() {
       {/* Top accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20 md:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 md:gap-14 lg:gap-24 items-center">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
 
           {/* Left — copy */}
           <motion.div
@@ -69,12 +69,12 @@ export function NewsletterBanner() {
               <span className="label-eyebrow">Stay Connected</span>
             </div>
 
-            <h2 className="font-bricolage font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] tracking-tight mb-4 sm:mb-5">
+            <h2 className="font-bricolage font-extrabold text-white text-2xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] tracking-tight mb-3 sm:mb-5">
               Join the Ministry<br />
               <span className="text-purple-300">Community.</span>
             </h2>
 
-            <p className="font-raleway text-neutral-400 text-base leading-relaxed mb-8 max-w-sm">
+            <p className="font-raleway text-neutral-400 text-sm sm:text-base leading-relaxed mb-5 sm:mb-8 max-w-sm">
               Straight to your inbox — no noise, no spam. Just worship, ministry, and the love of God.
             </p>
 
@@ -167,7 +167,7 @@ export function NewsletterBanner() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.14em] sm:tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group whitespace-nowrap"
                     >
                       {isSubmitting ? (
                         'Subscribing…'
