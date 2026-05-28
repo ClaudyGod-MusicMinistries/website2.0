@@ -176,6 +176,7 @@ export function GallerySection() {
                         src={img.src}
                         alt={`${img.label} — photo ${i + 1}`}
                         fill
+                        unoptimized
                         className="object-cover transition-all duration-500 group-hover:scale-[1.06]"
                         sizes="(max-width:768px) 50vw, (max-width:1024px) 33vw, 25vw"
                       />
@@ -265,6 +266,7 @@ export function GallerySection() {
                       src={activeImage.src}
                       alt={activeImage.label}
                       fill
+                      unoptimized
                       className="object-contain"
                       sizes="90vw"
                       priority
@@ -290,7 +292,7 @@ export function GallerySection() {
                           isActive ? 'ring-gold-400 opacity-100' : 'ring-transparent opacity-40 hover:opacity-70'
                         }`}
                       >
-                        <Image src={img.src} alt="" fill className="object-cover" sizes="48px" />
+                        <Image src={img.src} alt="" fill unoptimized className="object-cover" sizes="48px" />
                       </button>
                     );
                   })}

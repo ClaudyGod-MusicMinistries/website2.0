@@ -32,8 +32,8 @@ export function DonateSection() {
       {/* Gold top line */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-500/60 to-transparent" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-20 md:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
 
           {/* Left — copy + impact list */}
           <motion.div
@@ -48,14 +48,14 @@ export function DonateSection() {
 
             <div className="overflow-hidden mb-2">
               <motion.h2 custom={0.1} variants={fadeUp}
-                className="font-abril text-white text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
+                className="font-abril text-white text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
               >
                 Partner With
               </motion.h2>
             </div>
-            <div className="overflow-hidden mb-8">
+            <div className="overflow-hidden mb-6 sm:mb-8">
               <motion.h2 custom={0.2} variants={fadeUp}
-                className="font-abril text-gold-300/90 text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
+                className="font-abril text-gold-300/90 text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
               >
                 the Ministry.
               </motion.h2>
@@ -99,7 +99,7 @@ export function DonateSection() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-2xl overflow-hidden p-8 md:p-10 backdrop-blur-sm">
+            <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-2xl overflow-hidden p-5 sm:p-8 md:p-10 backdrop-blur-sm">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse_at_top_right,rgba(201,168,76,0.07)_0%,transparent_70%)] pointer-events-none" />
 
               <div className="flex items-center gap-4 mb-8">
