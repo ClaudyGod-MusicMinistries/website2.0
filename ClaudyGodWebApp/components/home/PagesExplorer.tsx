@@ -55,15 +55,15 @@ const sections = [
 export function PagesExplorer() {
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
         {/* Section header */}
-        <div className="mb-14">
+        <div className="mb-8 sm:mb-12 lg:mb-14">
           <div className="flex items-center gap-4 mb-4">
             <span className="rule-gold" />
             <span className="label-eyebrow">Explore</span>
           </div>
-          <h2 className="font-bricolage font-bold text-neutral-900 text-4xl md:text-5xl tracking-tight">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
             Everything You&apos;ll Find Here
           </h2>
         </div>
@@ -89,7 +89,7 @@ export function PagesExplorer() {
               </div>
 
               {/* Card body */}
-              <div className="flex-1 flex flex-col p-7">
+              <div className="flex-1 flex flex-col p-5 sm:p-7">
                 {/* Eyebrow */}
                 <span className="font-worksans text-[0.52rem] tracking-[0.22em] uppercase text-purple-600 mb-3 block">
                   {s.eyebrow}
@@ -101,7 +101,7 @@ export function PagesExplorer() {
                 </h3>
 
                 {/* Description */}
-                <p className="font-raleway text-neutral-500 text-sm leading-relaxed flex-1 mb-7">
+                <p className="font-raleway text-neutral-500 text-sm leading-relaxed flex-1 mb-5 sm:mb-7">
                   {s.description}
                 </p>
 
