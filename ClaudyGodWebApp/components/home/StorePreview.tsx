@@ -8,25 +8,25 @@ export function StorePreview() {
 
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-14">
           <div>
             <div className="flex items-center gap-4 mb-3">
               <span className="rule-gold" />
               <span className="label-eyebrow">Merchandise</span>
             </div>
-            <h2 className="font-bricolage font-bold text-neutral-900 text-4xl md:text-5xl tracking-tight">
+            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
               Official Store
             </h2>
-            <p className="mt-3 font-raleway text-neutral-500 text-base font-light max-w-md leading-relaxed">
+            <p className="mt-2 sm:mt-3 font-raleway text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
               Music, apparel, and accessories — wear your faith, carry the anointing.
             </p>
           </div>
           <Link
             href="/store"
-            className="hidden sm:inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-7 h-11 transition-all duration-300 shrink-0"
+            className="hidden sm:inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 shrink-0"
           >
             Browse All
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -53,7 +53,7 @@ export function StorePreview() {
               </div>
 
               {/* Info */}
-              <div className="p-5 flex flex-col gap-1.5 border-t border-black/[0.05]">
+              <div className="p-3.5 sm:p-5 flex flex-col gap-1 sm:gap-1.5 border-t border-black/[0.05]">
                 <p className="font-worksans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
                   {product.category}
                 </p>
@@ -69,10 +69,10 @@ export function StorePreview() {
         </div>
 
         {/* CTA row */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/store"
-            className="inline-flex items-center gap-3 font-worksans text-xs tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-10 h-12 transition-all duration-300 group"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 font-worksans text-xs tracking-[0.16em] sm:tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 sm:px-10 h-11 sm:h-12 rounded-xl transition-all duration-300 group"
           >
             Visit Official Store
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
