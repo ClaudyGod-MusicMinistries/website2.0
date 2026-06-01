@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
+
+// Warn at startup if using the insecure default — visible in container logs
+if (!process.env.API_BASE_URL) {
+  console.warn('[backendProxy] API_BASE_URL is not set — falling back to http://localhost:8080. Set API_BASE_URL=http://api:8080 in the container environment.');
+}
 const API_PREFIX = '/api/v1.0';
 
 type ProxyOptions = {
@@ -55,9 +60,10 @@ async function proxyWithBody(
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    console.error(`[proxy ${method}]`, err);
+    const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+    console.error(`[proxy ${method} ${backendUrl}]`, message);
     return NextResponse.json(
-      { success: false, message, data: null, errors: [message] },
+      { success: false, message: `Backend unreachable (${backendUrl}): ${message}`, data: null, errors: [message] },
       { status: 502 },
     );
   }
@@ -103,7 +109,7 @@ export async function proxyGet(
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    console.error('[proxy GET]', err);
+    console.error(`[proxy GET ${API_BASE}${API_PREFIX}${backendResource}]`, message);
     return NextResponse.json(
       { success: false, message, data: null, errors: [message] },
       { status: 502 },
@@ -125,7 +131,7 @@ export async function proxyDelete(
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    console.error('[proxy DELETE]', err);
+    console.error(`[proxy DELETE ${API_BASE}${API_PREFIX}${backendResource}]`, message);
     return NextResponse.json(
       { success: false, message, data: null, errors: [message] },
       { status: 502 },
