@@ -1,4 +1,4 @@
-export type CountryCode = 'US' | 'CA' | 'UK' | 'NG';
+export type CountryCode = 'US' | 'CA' | 'UK' | 'NG' | 'AU' | 'DE' | 'FR' | 'IN' | 'ZA';
 
 export type BookingFormData = {
   eventDate: string;
