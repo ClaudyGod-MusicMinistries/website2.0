@@ -41,7 +41,11 @@ const countryOptions = [
   { value: 'CA', label: 'Canada' },
   { value: 'UK', label: 'United Kingdom' },
   { value: 'NG', label: 'Nigeria' },
-  { value: 'GH', label: 'Ghana' },
+  { value: 'AU', label: 'Australia' },
+  { value: 'ZA', label: 'South Africa' },
+  { value: 'DE', label: 'Germany' },
+  { value: 'FR', label: 'France' },
+  { value: 'IN', label: 'India' },
 ];
 
 const countryNames: Record<string, string> = {
@@ -49,7 +53,11 @@ const countryNames: Record<string, string> = {
   CA: 'Canada',
   UK: 'United Kingdom',
   NG: 'Nigeria',
-  GH: 'Ghana',
+  AU: 'Australia',
+  ZA: 'South Africa',
+  DE: 'Germany',
+  FR: 'France',
+  IN: 'India',
 };
 
 function FieldError({ message }: { message?: string }) {
@@ -91,7 +99,12 @@ export function BookingForm() {
     setError,
     trigger,
     formState: { errors, isSubmitting },
-  } = useForm<BookingInput>({ mode: 'onTouched' });
+  } = useForm<BookingInput>({
+    mode: 'onTouched',
+    defaultValues: {
+      agreeTerms: false,
+    }
+  });
 
   const stepFields: (keyof BookingInput)[][] = [
     ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'],
@@ -213,34 +226,34 @@ export function BookingForm() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <Label required>First Name</Label>
-              <input {...register('firstName')} placeholder="First name" className={inputClass} />
+              <input {...register('firstName', { required: 'First name is required' })} placeholder="First name" className={inputClass} />
               <FieldError message={errors.firstName?.message} />
             </div>
             <div>
               <Label required>Last Name</Label>
-              <input {...register('lastName')} placeholder="Last name" className={inputClass} />
+              <input {...register('lastName', { required: 'Last name is required' })} placeholder="Last name" className={inputClass} />
               <FieldError message={errors.lastName?.message} />
             </div>
           </div>
           <div>
             <Label required>Email Address</Label>
-            <input {...register('email')} type="email" placeholder="your@email.com" className={inputClass} />
+            <input {...register('email', { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' } })} type="email" placeholder="your@email.com" className={inputClass} />
             <FieldError message={errors.email?.message} />
           </div>
           <div>
-            <Label>Phone Number</Label>
-            <input {...register('phone')} type="tel" placeholder="+1 (555) 000-0000" className={inputClass} />
+            <Label required>Phone Number</Label>
+            <input {...register('phone', { required: 'Phone number is required' })} type="tel" placeholder="+1 (555) 000-0000" className={inputClass} />
             <FieldError message={errors.phone?.message} />
           </div>
           <div>
             <Label required>Organization / Church Name</Label>
-            <input {...register('organization')} placeholder="Organization name" className={inputClass} />
+            <input {...register('organization', { required: 'Organization name is required' })} placeholder="Organization name" className={inputClass} />
             <FieldError message={errors.organization?.message} />
           </div>
           <div>
             <Label required>Organization Type</Label>
             <div className="relative">
-              <select {...register('orgType')} defaultValue="" className={selectClass}>
+              <select {...register('orgType', { required: 'Organization type is required' })} defaultValue="" className={selectClass}>
                 <option value="" disabled>Select organization type…</option>
                 {orgTypeOptions.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
@@ -258,12 +271,12 @@ export function BookingForm() {
         <div className="space-y-5">
           <div>
             <Label required>Event Type</Label>
-            <input {...register('eventType')} placeholder="e.g. Sunday service, Concert, Conference…" className={inputClass} />
+            <input {...register('eventType', { required: 'Event type is required' })} placeholder="e.g. Sunday service, Concert, Conference…" className={inputClass} />
             <FieldError message={errors.eventType?.message} />
           </div>
           <div>
             <Label required>Event Date</Label>
-            <input {...register('eventDate')} type="date" className={inputClass} />
+            <input {...register('eventDate', { required: 'Event date is required' })} type="date" className={inputClass} />
             <FieldError message={errors.eventDate?.message} />
           </div>
           <div>
@@ -284,7 +297,7 @@ export function BookingForm() {
         <div className="space-y-5">
           <div>
             <Label required>Address Line 1</Label>
-            <input {...register('address1')} placeholder="Street address" className={inputClass} />
+            <input {...register('address1', { required: 'Address is required' })} placeholder="Street address" className={inputClass} />
             <FieldError message={errors.address1?.message} />
           </div>
           <div>
@@ -294,25 +307,25 @@ export function BookingForm() {
           <div className="grid grid-cols-2 gap-5">
             <div>
               <Label required>City</Label>
-              <input {...register('city')} placeholder="City" className={inputClass} />
+              <input {...register('city', { required: 'City is required' })} placeholder="City" className={inputClass} />
               <FieldError message={errors.city?.message} />
             </div>
             <div>
               <Label required>State / Province</Label>
-              <input {...register('state')} placeholder="State" className={inputClass} />
+              <input {...register('state', { required: 'State is required' })} placeholder="State" className={inputClass} />
               <FieldError message={errors.state?.message} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-5">
             <div>
               <Label required>Zip / Postal Code</Label>
-              <input {...register('zipCode')} placeholder="00000" className={inputClass} />
+              <input {...register('zipCode', { required: 'Zip code is required' })} placeholder="00000" className={inputClass} />
               <FieldError message={errors.zipCode?.message} />
             </div>
             <div>
               <Label required>Country</Label>
               <div className="relative">
-                <select {...register('country')} defaultValue="" className={selectClass}>
+                <select {...register('country', { required: 'Country is required' })} defaultValue="" className={selectClass}>
                   <option value="" disabled>Select country…</option>
                   {countryOptions.map((c) => (
                     <option key={c.value} value={c.value}>{c.label}</option>
@@ -328,7 +341,7 @@ export function BookingForm() {
           <div className="pt-1">
             <label className="flex items-start gap-3 cursor-pointer group">
               <input
-                {...register('agreeTerms')}
+                {...register('agreeTerms', { required: 'You must agree to the terms' })}
                 type="checkbox"
                 className="mt-0.5 w-4 h-4 accent-purple-600 cursor-pointer flex-shrink-0"
               />
