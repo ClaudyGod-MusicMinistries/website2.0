@@ -2,12 +2,16 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // Try to reach the backend API
     const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
+    
+    // Use AbortController for timeout instead of fetch timeout option
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
     const backendResponse = await fetch(`${apiBaseUrl}/healthz`, {
       method: 'GET',
-      timeout: 5000,
-    });
+      signal: controller.signal,
+    }).finally(() => clearTimeout(timeout));
 
     if (!backendResponse.ok) {
       return NextResponse.json(
