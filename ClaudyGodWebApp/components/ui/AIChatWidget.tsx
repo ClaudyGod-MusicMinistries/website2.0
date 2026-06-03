@@ -18,13 +18,13 @@ type Message = {
 type Mode = 'chat' | 'prayer';
 
 const WELCOME: Record<Mode, string> = {
-  chat: "Hi! I'm the ClaudyGod Ministry Assistant. How can I help you today? You can ask me about the music, upcoming events, bookings, or anything about the ministry.",
-  prayer: "Welcome to the Prayer Corner. Share what's on your heart and I'll pray with you. Your request will be held in confidence.",
+  chat: "Hey there! 👋 Welcome to ClaudyGod Music Ministries! I'm your AI Assistant and I'm here to help.\n\n✨ I can help you with:\n🎵 Music & Albums\n📅 Events & Bookings\n🎁 Store & Merchandise\n💝 Donations\n🙌 Volunteering\n📱 Anything else!\n\nWhat can I help you with today? 😊",
+  prayer: "Welcome to the Prayer Corner 🙏\n\nThis is a sacred space where you can share what's on your heart. I'm here to listen and pray with you.\n\nYour prayer requests are held in complete confidence. Feel free to open up about anything—whether it's praise, concerns, or intercession.\n\nWhat's on your heart today?",
 };
 
 const PLACEHOLDER: Record<Mode, string> = {
-  chat:   'Ask about music, events, or bookings…',
-  prayer: 'Share your prayer request…',
+  chat:   'Ask me anything... Tell me about bookings, events, music, or anything else! 😊',
+  prayer: 'Share what\'s on your heart... I\'m listening 🙏',
 };
 
 const ENDPOINT: Record<Mode, string> = {
