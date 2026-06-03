@@ -14,63 +14,221 @@ const chatSchema = z.object({
     .optional(),
 });
 
-// Fallback responses for when backend is unavailable
+// Smart conversational responses with direct links
 const FALLBACK_RESPONSES: Record<string, string> = {
-  'music': `🎵 ClaudyGod has 7 incredible gospel albums available on all streaming platforms. Our latest releases include "Very Glorious" and "You Are Our Everything". You can stream all albums on Spotify, Apple Music, YouTube Music, and more. Would you like recommendations on where to start?`,
-  'booking': `📅 You can book Minister ClaudyGod for events, concerts, and ministry engagements. Visit our bookings page to check availability, view pricing, and submit a booking request. Our team typically responds within 24-48 hours.`,
-  'event': `🎪 We have upcoming events, concerts, and ministry tours scheduled throughout the year. Visit the Events page to see upcoming, ongoing, and completed events. You can register for events directly from there.`,
-  'donate': `💝 Your financial support helps spread the gospel through music and ministry. Visit our Donate page to make a secure contribution. All donations are tax-deductible and go directly to ministry work.`,
-  'volunteer': `🙌 We're always looking for passionate volunteers! Visit the Volunteer page to apply. We have roles in Media, Music, Ushering, Security, and more. Our team reviews applications within 3-5 business days.`,
-  'store': `🛍️ Visit our Store to purchase merchandise, music CDs, DVDs, and digital products. We also offer exclusive items and signed merchandise. Free shipping available on orders over certain amounts.`,
-  'help': `👋 I can help you with:
-• 🎵 Music & Albums
-• 📅 Events & Bookings
-• 🎁 Store & Donations
-• 🙌 Volunteering
-• 📱 Website Navigation
+  'music': `🎵 Oh, you're interested in our music! That's wonderful!
 
-What would you like to know more about?`,
+ClaudyGod has released **7 beautiful gospel albums** filled with spirit-filled worship and ministry. Our latest works include:
+- **"Very Glorious"**
+- **"You Are Our Everything"**
+
+You can stream all our music on:
+🎧 [Listen on Spotify](https://open.spotify.com/artist/claudygod)
+🎵 [Apple Music](https://music.apple.com/artist/claudygod)
+📺 [YouTube Music](https://music.youtube.com/search?q=claudygod)
+
+Or visit our **[Music Page](/music)** to explore all albums with beautiful artwork and descriptions.
+
+Which album would you like to hear more about? 😊`,
+
+  'booking': `📅 Great! I'd love to help you book Minister ClaudyGod!
+
+For **events, concerts, and ministry engagements**, we have a dedicated booking system:
+
+👉 **[Go to Bookings Page](/bookings)** to:
+✅ Check availability for your desired dates
+✅ View pricing and package options
+✅ See testimonials from previous events
+✅ Submit a booking request
+
+Our amazing team will get back to you within **24-48 hours** with all the details and next steps.
+
+What type of event are you planning? We'd love to be part of it! 🎤`,
+
+  'event': `🎪 We have some amazing events coming up!
+
+Visit our **[Events Page](/events)** to explore:
+✅ **Upcoming Events** - Register for future concerts and ministry tours
+✅ **Ongoing Events** - See what's happening right now
+✅ **Completed Events** - View highlights and past ministry moments
+
+Each event page includes:
+📸 Photo galleries
+🎥 Video highlights
+📍 Location & time details
+🎟️ Registration links
+
+What kind of event interests you most? I can help you find the perfect one! 🙌`,
+
+  'donate': `💝 Thank you so much for your generous heart! Your support truly makes a difference.
+
+Your donations help us:
+✨ Spread the gospel through music
+🎵 Support ministry outreach programs
+🙏 Reach more lives globally
+🤝 Help communities in need
+
+**[Make a Donation Today](/donate)** - 100% secure and tax-deductible
+
+We're deeply grateful for every contribution, no matter the size. Each gift is a blessing that extends our ministry's reach.
+
+Is there anything else you'd like to know about our work? 🙏`,
+
+  'volunteer': `🙌 That's incredible! We always need passionate volunteers like you!
+
+We have exciting roles in:
+📹 **Media** - Video production, photography, live streaming
+🎵 **Music** - Singing, instruments, worship leading
+👋 **Protocol** - Guest relations, ushering, hospitality
+🛡️ **Security** - Event security, safety management
+✨ **And More** - Your unique talents matter!
+
+👉 **[Apply to Volunteer](/volunteer)** - Quick 5-minute application
+
+Our team reviews applications within **3-5 business days** and will reach out with opportunities that match your skills and passion.
+
+What area speaks to your heart? 💪`,
+
+  'store': `🛍️ Oh, you want to check out our store! Awesome!
+
+Visit our **[Online Store](/store)** to browse:
+🎵 **Music** - Albums, EPs, and exclusive recordings
+📀 **Physical Merchandise** - CDs, DVDs, vinyl
+👕 **Branded Items** - Apparel and accessories
+✨ **Exclusive** - Limited edition and signed items
+
+**Free shipping** on select orders!
+
+👉 **[Shop Now](/store)**
+
+Is there something specific you're looking for? I'd love to help! 🎁`,
+
+  'help': `👋 Hey there! I'm so glad you're here!
+
+I'm your **ClaudyGod Assistant** and I'm here to help with anything you need:
+
+🎵 **Music & Albums** - Stream, purchase, or learn about our music
+📅 **Events & Bookings** - Find upcoming events or book Minister ClaudyGod
+🎁 **Store** - Browse exclusive merchandise and products
+💝 **Donations** - Support our ministry
+🙌 **Volunteering** - Join our amazing team
+📱 **Navigation** - Help finding anything on the site
+
+**What can I help you with today?** Just ask me anything! 😊`,
 };
 
 function getFallbackResponse(message: string): string {
   const lowerMessage = message.toLowerCase();
 
-  // Check for keywords
+  // Greeting responses
+  if (
+    lowerMessage.includes('hello') ||
+    lowerMessage.includes('hi ') ||
+    lowerMessage.includes('hey') ||
+    lowerMessage.includes('greet')
+  ) {
+    return `Hey there! 👋 Welcome to ClaudyGod Music Ministries! I'm so happy you're here.
+
+How can I help you today? Whether you want to explore our music, attend an event, volunteer, or just chat about ministry, I'm here for you! 😊`;
+  }
+
+  if (
+    lowerMessage.includes('thank') ||
+    lowerMessage.includes('thanks') ||
+    lowerMessage.includes('appreciate')
+  ) {
+    return `You're so welcome! 💝 That's very kind of you to say. We're truly grateful for your interest and support of our ministry.
+
+Is there anything else I can help you with today? 🙏`;
+  }
+
+  // Music keywords
   if (
     lowerMessage.includes('music') ||
     lowerMessage.includes('album') ||
     lowerMessage.includes('song') ||
-    lowerMessage.includes('stream')
+    lowerMessage.includes('stream') ||
+    lowerMessage.includes('listen') ||
+    lowerMessage.includes('spotify')
   ) {
     return FALLBACK_RESPONSES.music;
   }
+
+  // Booking keywords
   if (
     lowerMessage.includes('booking') ||
     lowerMessage.includes('book') ||
-    lowerMessage.includes('event') ||
-    lowerMessage.includes('concert')
+    lowerMessage.includes('hire') ||
+    lowerMessage.includes('concert') ||
+    lowerMessage.includes('performance') ||
+    lowerMessage.includes('event for')
   ) {
     return FALLBACK_RESPONSES.booking;
   }
-  if (lowerMessage.includes('event')) {
+
+  // Event keywords
+  if (
+    lowerMessage.includes('upcoming') ||
+    lowerMessage.includes('register') ||
+    lowerMessage.includes('attend event') ||
+    lowerMessage.includes('tour')
+  ) {
     return FALLBACK_RESPONSES.event;
   }
+
+  // Donation keywords
   if (
     lowerMessage.includes('donat') ||
     lowerMessage.includes('giving') ||
-    lowerMessage.includes('support')
+    lowerMessage.includes('support') ||
+    lowerMessage.includes('contribute')
   ) {
     return FALLBACK_RESPONSES.donate;
   }
-  if (lowerMessage.includes('volunt')) {
+
+  // Volunteer keywords
+  if (
+    lowerMessage.includes('volunt') ||
+    lowerMessage.includes('volunteer') ||
+    lowerMessage.includes('join') ||
+    lowerMessage.includes('help')
+  ) {
     return FALLBACK_RESPONSES.volunteer;
   }
-  if (lowerMessage.includes('store') || lowerMessage.includes('shop')) {
+
+  // Store keywords
+  if (
+    lowerMessage.includes('store') ||
+    lowerMessage.includes('shop') ||
+    lowerMessage.includes('buy') ||
+    lowerMessage.includes('merchandise') ||
+    lowerMessage.includes('purchase')
+  ) {
     return FALLBACK_RESPONSES.store;
   }
 
-  // Default helpful response
-  return `I'm here to help! I can answer questions about our music, upcoming events, booking Minister ClaudyGod, volunteering, donations, and more. What would you like to know?`;
+  // Help request
+  if (
+    lowerMessage.includes('help') ||
+    lowerMessage.includes('assist') ||
+    lowerMessage.includes('what can') ||
+    lowerMessage.includes('can you')
+  ) {
+    return FALLBACK_RESPONSES.help;
+  }
+
+  // Default conversational response
+  return `That's a great question! 😊 I'd love to help you with that.
+
+Here are some things I can assist with:
+🎵 **Music & Albums** - Tell me more about our releases
+📅 **Events & Bookings** - Looking to attend or book an event?
+🎁 **Store** - Browse our products
+💝 **Donations** - Support our ministry
+🙌 **Volunteering** - Join our team
+📱 **Navigation** - Help finding anything on the site
+
+Feel free to ask me anything about these topics, or let me know if there's something specific I can help with! 💙`;
 }
 
 /**
