@@ -6,6 +6,10 @@ import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { post, BackendError } from '@/utils/apiClient';
 import { PhoneInput } from '@/components/ui/PhoneInput';
+import { ErrorModal } from '@/components/ui/ErrorModal';
+import { SuccessModal } from '@/components/ui/SuccessModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { getUserFriendlyError } from '@/utils/errorMessages';
 
 interface BookingInput {
   firstName: string;
@@ -92,7 +96,8 @@ const textareaClass =
 export function BookingForm() {
   const [step, setStep]           = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [apiError, setApiError]   = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const { error, showError, closeError } = useErrorHandler();
 
   const {
     register,
@@ -120,7 +125,6 @@ export function BookingForm() {
   };
 
   const onSubmit = async (data: BookingInput) => {
-    setApiError('');
     try {
       await post('/bookings', {
         firstName:    data.firstName,
@@ -141,50 +145,48 @@ export function BookingForm() {
         country:      countryNames[data.country] ?? data.country,
         agreeTerms:   data.agreeTerms,
       });
-      setSubmitted(true);
+      setShowSuccessModal(true);
     } catch (err) {
       if (err instanceof BackendError) {
-        // Map backend field errors — some fields use different names between form and backend
-        const fieldMap: Record<string, keyof BookingInput> = {
-          addressLine1: 'address1',
-          addressLine2: 'address2',
-          countryCode: 'country',
-        };
-        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
-          const mapped = (fieldMap[field] ?? field) as keyof BookingInput;
-          setError(mapped, { message: messages[0] });
-        });
-        if (Object.keys(err.fieldErrors).length === 0) {
-          setApiError(err.message || 'Something went wrong. Please try again.');
+        if (Object.keys(err.fieldErrors).length > 0) {
+          // Field-level validation errors
+          const fieldMap: Record<string, keyof BookingInput> = {
+            addressLine1: 'address1',
+            addressLine2: 'address2',
+            countryCode: 'country',
+          };
+          const fieldErrors: Record<string, string> = {};
+          Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+            const mapped = (fieldMap[field] ?? field) as keyof BookingInput;
+            setError(mapped, { message: messages[0] });
+            fieldErrors[mapped] = messages[0];
+          });
+          showError('Please Check Your Information', 'We found some issues with your booking request. Please review and try again.', fieldErrors);
+          const step0Fields = ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'];
+          if (Object.keys(err.fieldErrors).some(f => step0Fields.includes(f))) setStep(0);
+        } else {
+          showError('Unable to Submit Booking', getUserFriendlyError(err));
         }
-        // Jump back to step 0 if contact-step fields have errors
-        const step0Fields = ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'];
-        if (Object.keys(err.fieldErrors).some(f => step0Fields.includes(f))) setStep(0);
       } else {
-        setApiError('Something went wrong. Please try again.');
+        showError('Connection Problem', getUserFriendlyError(err));
       }
     }
   };
 
-  if (submitted) {
-    return (
-      <div className="flex flex-col items-center gap-5 py-16 text-center">
-        <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-          <CheckCircle2 className="h-8 w-8 text-green-600" />
-        </div>
-        <div>
-          <p className="font-bricolage font-bold text-neutral-900 text-2xl mb-2">
-            Request Received!
-          </p>
-          <p className="font-raleway text-neutral-500 text-base leading-relaxed max-w-sm">
-            Thank you for reaching out. Our team will review your request and contact you within 3–5 business days.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
+    <>
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        title="Booking Request Received!"
+        message="Thank you for reaching out. Our team will review your request and contact you within 3–5 business days. Check your email for confirmation."
+        onClose={() => {
+          setShowSuccessModal(false);
+          setStep(0);
+        }}
+        autoClose={0}
+      />
+
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
       {/* Step indicator */}
@@ -372,11 +374,13 @@ export function BookingForm() {
         </div>
       )}
 
-      {apiError && (
-        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-          <p className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-red-500">{apiError}</p>
-        </div>
-      )}
+      {/* Error Modal */}
+      <ErrorModal
+        isOpen={error?.isOpen ?? false}
+        title={error?.title}
+        message={error?.message ?? ''}
+        onClose={closeError}
+      />
 
       {/* Navigation buttons */}
       <div className="flex items-center justify-between mt-10 pt-6 border-t border-neutral-100 gap-4">
@@ -413,5 +417,6 @@ export function BookingForm() {
         )}
       </div>
     </form>
+    </>
   );
 }
