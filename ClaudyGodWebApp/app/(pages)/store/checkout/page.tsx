@@ -124,7 +124,7 @@ function StepBar({ current }: { current: number }) {
 }
 
 /* ── Shared input styling ───────────────────────────────── */
-const inputCls = 'w-full h-11 px-4 border border-neutral-200 rounded-xl font-raleway text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
+const inputCls = 'w-full h-11 px-4 border border-neutral-200 rounded-xl font-roboto text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
 const labelCls = 'block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 mb-1.5';
 const errCls   = 'mt-1 font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
 
@@ -159,7 +159,7 @@ function OrderSummary({
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-raleway font-medium text-neutral-900 text-xs leading-snug line-clamp-2">{item.name}</p>
+              <p className="font-roboto font-medium text-neutral-900 text-xs leading-snug line-clamp-2">{item.name}</p>
               <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5 capitalize">{item.category}</p>
             </div>
             <p className="font-bricolage font-semibold text-neutral-800 text-sm shrink-0">
@@ -172,12 +172,12 @@ function OrderSummary({
       {/* Totals */}
       <div className="px-6 py-4 border-t border-neutral-100 space-y-2.5">
         <div className="flex justify-between">
-          <span className="font-raleway text-neutral-500 text-sm">Subtotal</span>
-          <span className="font-raleway font-medium text-neutral-800 text-sm">{formatPrice(subtotal)}</span>
+          <span className="font-roboto text-neutral-500 text-sm">Subtotal</span>
+          <span className="font-roboto font-medium text-neutral-800 text-sm">{formatPrice(subtotal)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="font-raleway text-neutral-500 text-sm">Shipping</span>
-          <span className="font-raleway font-medium text-neutral-800 text-sm">
+          <span className="font-roboto text-neutral-500 text-sm">Shipping</span>
+          <span className="font-roboto font-medium text-neutral-800 text-sm">
             {shippingMethod ? formatPrice(shippingCost) : '—'}
           </span>
         </div>
@@ -216,7 +216,7 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
     <form onSubmit={handleSubmit(onNext)} className="space-y-6">
       <div>
         <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Contact Information</h2>
-        <p className="font-raleway text-neutral-500 text-sm">We&apos;ll use this to send your order confirmation and shipping updates.</p>
+        <p className="font-roboto text-neutral-500 text-sm">We&apos;ll use this to send your order confirmation and shipping updates.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -302,7 +302,7 @@ function StepShipping({
     <div className="space-y-6">
       <div>
         <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Shipping Method</h2>
-        <p className="font-raleway text-neutral-500 text-sm">Choose how you&apos;d like your order delivered.</p>
+        <p className="font-roboto text-neutral-500 text-sm">Choose how you&apos;d like your order delivered.</p>
       </div>
 
       <div className="space-y-3">
@@ -387,7 +387,7 @@ function StepPayment({
     <div className="space-y-6">
       <div>
         <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Payment Method</h2>
-        <p className="font-raleway text-neutral-500 text-sm">Select how you&apos;d like to pay. Your transaction is fully encrypted.</p>
+        <p className="font-roboto text-neutral-500 text-sm">Select how you&apos;d like to pay. Your transaction is fully encrypted.</p>
       </div>
 
       <div className="space-y-3">
@@ -438,7 +438,7 @@ function StepPayment({
                 <div className="mt-4 pt-4 border-t border-purple-200">
                   <div className="flex items-start gap-2">
                     <Shield className="h-3.5 w-3.5 text-purple-500 shrink-0 mt-0.5" />
-                    <p className="font-raleway text-xs text-purple-600 leading-relaxed">
+                    <p className="font-roboto text-xs text-purple-600 leading-relaxed">
                       You&apos;ll be redirected to Paystack&apos;s secure payment gateway to complete your purchase. Supports cards, bank transfer, and USSD.
                     </p>
                   </div>
@@ -446,7 +446,7 @@ function StepPayment({
               )}
               {isActive && !method.live && (
                 <div className="mt-4 pt-4 border-t border-neutral-200">
-                  <p className="font-raleway text-xs text-neutral-400">
+                  <p className="font-roboto text-xs text-neutral-400">
                     This payment method is coming soon. Please choose Paystack to complete your order.
                   </p>
                 </div>
@@ -511,14 +511,14 @@ function StepReview({
     <div className="space-y-5">
       <div>
         <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Review Your Order</h2>
-        <p className="font-raleway text-neutral-500 text-sm">Check everything before placing your order.</p>
+        <p className="font-roboto text-neutral-500 text-sm">Check everything before placing your order.</p>
       </div>
 
       {/* Contact info */}
       <Section title="Delivery To">
         <p className="font-bricolage font-semibold text-neutral-900 text-sm">{contact.fullName}</p>
-        <p className="font-raleway text-neutral-500 text-sm mt-0.5">{contact.email} · {contact.phone}</p>
-        <p className="font-raleway text-neutral-500 text-sm mt-0.5">
+        <p className="font-roboto text-neutral-500 text-sm mt-0.5">{contact.email} · {contact.phone}</p>
+        <p className="font-roboto text-neutral-500 text-sm mt-0.5">
           {contact.address}, {contact.city}, {contact.state}, {contact.country}
           {contact.postalCode ? ` ${contact.postalCode}` : ''}
         </p>
@@ -551,7 +551,7 @@ function StepReview({
               <div className="relative w-10 h-10 flex-shrink-0 rounded-lg overflow-hidden bg-white ring-1 ring-black/[0.05]">
                 <Image src={item.image} alt={item.name} fill className="object-cover" sizes="40px" />
               </div>
-              <p className="font-raleway text-neutral-700 text-sm flex-1 line-clamp-1">{item.name}</p>
+              <p className="font-roboto text-neutral-700 text-sm flex-1 line-clamp-1">{item.name}</p>
               <p className="font-worksans text-[0.58rem] tracking-[0.08em] text-neutral-400">×{item.quantity}</p>
               <p className="font-bricolage font-semibold text-neutral-900 text-sm">{formatPrice(item.price * item.quantity)}</p>
             </div>
@@ -563,7 +563,7 @@ function StepReview({
       <div className="flex justify-between items-center p-5 bg-neutral-900 rounded-2xl">
         <div>
           <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-0.5">Order Total</p>
-          <p className="font-raleway text-neutral-400 text-xs">incl. {formatPrice(shippingCost)} shipping</p>
+          <p className="font-roboto text-neutral-400 text-xs">incl. {formatPrice(shippingCost)} shipping</p>
         </div>
         <p className="font-bricolage font-bold text-white text-2xl">{formatPrice(total)}</p>
       </div>
@@ -586,7 +586,7 @@ function StepReview({
         </button>
       </div>
 
-      <p className="text-center font-raleway text-xs text-neutral-400">
+      <p className="text-center font-roboto text-xs text-neutral-400">
         By placing your order, you agree to our{' '}
         <Link href="/legal/terms" className="underline hover:text-purple-600 transition-colors">Terms of Service</Link>
         {' '}and{' '}
@@ -616,7 +616,7 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
       </motion.div>
 
       <h2 className="font-bricolage font-bold text-neutral-900 text-3xl tracking-tight mb-2">Order Confirmed!</h2>
-      <p className="font-raleway text-neutral-500 text-base mb-6 max-w-sm mx-auto leading-relaxed">
+      <p className="font-roboto text-neutral-500 text-base mb-6 max-w-sm mx-auto leading-relaxed">
         Thank you for your purchase. A confirmation has been sent to <strong className="text-neutral-700">{email}</strong>.
       </p>
 
@@ -634,7 +634,7 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
           <div key={title} className="flex flex-col items-center gap-1.5 p-4 bg-neutral-50 rounded-xl">
             <Icon className="h-5 w-5 text-purple-500 mb-1" />
             <p className="font-bricolage font-semibold text-neutral-800 text-xs">{title}</p>
-            <p className="font-raleway text-neutral-400 text-xs text-center">{sub}</p>
+            <p className="font-roboto text-neutral-400 text-xs text-center">{sub}</p>
           </div>
         ))}
       </div>
@@ -733,7 +733,7 @@ export default function CheckoutPage() {
             </Link>
             <div>
               <h1 className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">Checkout</h1>
-              <p className="font-raleway text-neutral-400 text-xs mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''} in your order</p>
+              <p className="font-roboto text-neutral-400 text-xs mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''} in your order</p>
             </div>
           </div>
           <Link href="/store" className="hidden sm:flex items-center gap-2 font-worksans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 hover:text-purple-600 transition-colors">

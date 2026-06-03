@@ -72,7 +72,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
             exit={{ height: 0, opacity: 0, transition: { duration: 0.2 } }}
             className="overflow-hidden"
           >
-            <p className="font-raleway text-neutral-400 text-xs leading-relaxed pb-3.5">{a}</p>
+            <p className="font-roboto text-neutral-400 text-xs leading-relaxed pb-3.5">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>

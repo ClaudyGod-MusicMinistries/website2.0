@@ -114,7 +114,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         <div className="space-y-6">
           {post.content.split('\n\n').map((paragraph, i) => (
-            <p key={i} className="font-raleway text-neutral-600 text-base md:text-lg leading-[1.9]">
+            <p key={i} className="font-roboto text-neutral-600 text-base md:text-lg leading-[1.9]">
               {paragraph}
             </p>
           ))}

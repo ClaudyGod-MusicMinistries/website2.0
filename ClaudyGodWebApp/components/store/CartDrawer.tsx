@@ -57,7 +57,7 @@ export function CartDrawer() {
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
                   <ShoppingBag className="h-8 w-8 text-neutral-800" />
-                  <p className="font-raleway text-neutral-600 text-sm font-light">
+                  <p className="font-roboto text-neutral-600 text-sm font-light">
                     Your cart is empty.
                   </p>
                   <button
@@ -81,10 +81,10 @@ export function CartDrawer() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-raleway text-sm text-white font-light leading-snug mb-1 truncate">
+                        <p className="font-roboto text-sm text-white font-light leading-snug mb-1 truncate">
                           {item.name}
                         </p>
-                        <p className="font-raleway text-xs text-neutral-600 font-light mb-2">
+                        <p className="font-roboto text-xs text-neutral-600 font-light mb-2">
                           {formatPrice(item.price)}
                         </p>
                         {/* Qty stepper */}
@@ -126,7 +126,7 @@ export function CartDrawer() {
                   <p className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-500">
                     Total
                   </p>
-                  <p className="font-raleway font-light text-white text-lg">
+                  <p className="font-roboto font-light text-white text-lg">
                     {formatPrice(total)}
                   </p>
                 </div>

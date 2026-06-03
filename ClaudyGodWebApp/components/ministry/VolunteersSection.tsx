@@ -87,7 +87,7 @@ export function VolunteersSection() {
             <h2 className="font-bricolage font-extrabold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-4">
               Serve With the Ministry
             </h2>
-            <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-sm mb-8">
+            <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-sm mb-8">
               Every gift matters. Join a team of passionate believers advancing the Kingdom
               through music, media, and community outreach.
             </p>
@@ -114,7 +114,7 @@ export function VolunteersSection() {
                     <p className={cn('font-bricolage font-semibold text-sm', active ? 'text-white' : 'text-white/65')}>
                       {label}
                     </p>
-                    <p className="font-raleway text-neutral-600 text-xs">{desc}</p>
+                    <p className="font-roboto text-neutral-600 text-xs">{desc}</p>
                   </button>
                 );
               })}
@@ -140,7 +140,7 @@ export function VolunteersSection() {
                   </div>
                   <div>
                     <p className="font-bricolage font-bold text-white text-lg mb-1">Welcome to the Team!</p>
-                    <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-xs">
+                    <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-xs">
                       We&apos;ll review your application and be in touch within 3–5 business days.
                     </p>
                   </div>
@@ -158,7 +158,7 @@ export function VolunteersSection() {
                 >
                   <div>
                     <p className="font-bricolage font-bold text-white text-base mb-1">Volunteer Interest</p>
-                    <p className="font-raleway text-neutral-500 text-xs">Select a role, then fill in your details.</p>
+                    <p className="font-roboto text-neutral-500 text-xs">Select a role, then fill in your details.</p>
                   </div>
 
                   {/* Name row */}
@@ -171,7 +171,7 @@ export function VolunteersSection() {
                         type="text"
                         placeholder="First"
                         {...register('firstName')}
-                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                       />
                       {errors.firstName && (
                         <p className="font-worksans text-[0.58rem] text-red-400">{errors.firstName.message}</p>
@@ -185,7 +185,7 @@ export function VolunteersSection() {
                         type="text"
                         placeholder="Last"
                         {...register('lastName')}
-                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                       />
                       {errors.lastName && (
                         <p className="font-worksans text-[0.58rem] text-red-400">{errors.lastName.message}</p>
@@ -202,7 +202,7 @@ export function VolunteersSection() {
                       type="email"
                       placeholder="your@email.com"
                       {...register('email')}
-                      className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                      className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                     />
                     {errors.email && (
                       <p className="font-worksans text-[0.58rem] text-red-400">{errors.email.message}</p>
@@ -218,7 +218,7 @@ export function VolunteersSection() {
                       rows={4}
                       placeholder="Share your passion, gifting, and why you'd like to serve…"
                       {...register('reason')}
-                      className="px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-raleway text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200 resize-none"
+                      className="px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200 resize-none"
                     />
                     {errors.reason && (
                       <p className="font-worksans text-[0.58rem] text-red-400">{errors.reason.message}</p>

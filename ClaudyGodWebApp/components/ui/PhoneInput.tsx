@@ -174,7 +174,7 @@ export function PhoneInput({
           onChange={(e) => setLocal(e.target.value)}
           onBlur={onBlur}
           placeholder={placeholder}
-          className="flex-1 min-w-0 px-3 bg-transparent font-raleway text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+          className="flex-1 min-w-0 px-3 bg-transparent font-roboto text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
         />
       </div>
 
@@ -196,7 +196,7 @@ export function PhoneInput({
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Escape') { setOpen(false); setSearch(''); } }}
                 placeholder="Search country or code…"
-                className="flex-1 min-w-0 bg-transparent font-raleway text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+                className="flex-1 min-w-0 bg-transparent font-roboto text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
               />
             </div>
           </div>
@@ -208,7 +208,7 @@ export function PhoneInput({
             className="max-h-64 overflow-y-auto py-1 overscroll-contain"
           >
             {filtered.length === 0 ? (
-              <li className="px-4 py-4 text-sm text-neutral-400 font-raleway text-center">
+              <li className="px-4 py-4 text-sm text-neutral-400 font-roboto text-center">
                 No match for &ldquo;{search}&rdquo;
               </li>
             ) : (
@@ -231,7 +231,7 @@ export function PhoneInput({
                       <span className="text-xl leading-none select-none shrink-0" aria-hidden>
                         {emojiFlag(c.code)}
                       </span>
-                      <span className="flex-1 min-w-0 font-raleway text-sm text-neutral-800 truncate">
+                      <span className="flex-1 min-w-0 font-roboto text-sm text-neutral-800 truncate">
                         {c.name}
                       </span>
                       <span className="font-mono text-xs text-neutral-400 shrink-0">

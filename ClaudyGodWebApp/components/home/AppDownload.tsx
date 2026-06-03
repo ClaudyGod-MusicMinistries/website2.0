@@ -16,7 +16,7 @@ export function AppDownload() {
         <h2 className="font-bricolage font-bold text-white text-2xl sm:text-3xl md:text-4xl lg:text-[2.5rem] tracking-tight leading-[1.1] mb-3 sm:mb-4">
           Worship on the Go
         </h2>
-        <p className="font-raleway text-neutral-400 text-sm sm:text-base leading-relaxed max-w-md mx-auto mb-7 sm:mb-10 font-light">
+        <p className="font-roboto text-neutral-400 text-sm sm:text-base leading-relaxed max-w-md mx-auto mb-7 sm:mb-10 font-light">
           Download the ClaudyGod app — access music, devotionals, teachings, and live events anywhere, any time.
         </p>
 

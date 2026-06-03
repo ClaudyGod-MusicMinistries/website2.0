@@ -20,7 +20,7 @@ export function StorePreview() {
             <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
               Official Store
             </h2>
-            <p className="mt-2 sm:mt-3 font-raleway text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
+            <p className="mt-2 sm:mt-3 font-roboto text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
               Music, apparel, and accessories — wear your faith, carry the anointing.
             </p>
           </div>
@@ -57,7 +57,7 @@ export function StorePreview() {
                 <p className="font-worksans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
                   {product.category}
                 </p>
-                <p className="font-raleway font-normal text-neutral-800 text-sm leading-snug group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+                <p className="font-roboto font-normal text-neutral-800 text-sm leading-snug group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
                   {product.name}
                 </p>
                 <p className="font-bricolage text-neutral-900 text-base font-semibold mt-1">

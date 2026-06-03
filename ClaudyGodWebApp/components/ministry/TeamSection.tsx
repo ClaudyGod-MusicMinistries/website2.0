@@ -62,7 +62,7 @@ export function TeamSection() {
               <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
                 Ministry Gallery
               </h2>
-              <p className="mt-2 font-raleway text-neutral-500 text-sm leading-relaxed max-w-md">
+              <p className="mt-2 font-roboto text-neutral-500 text-sm leading-relaxed max-w-md">
                 The dedicated people behind the mission — serving with purpose, faith, and joy.
               </p>
             </div>

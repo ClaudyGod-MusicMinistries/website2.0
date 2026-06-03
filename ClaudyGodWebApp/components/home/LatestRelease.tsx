@@ -42,7 +42,7 @@ export function LatestRelease() {
               Latest Album — Available Everywhere
             </p>
 
-            <p className="font-raleway text-neutral-600 text-base sm:text-lg leading-relaxed max-w-sm mb-8 sm:mb-10">
+            <p className="font-roboto text-neutral-600 text-base sm:text-lg leading-relaxed max-w-sm mb-8 sm:mb-10">
               Experience worship that transforms — available now on all major streaming platforms.
             </p>
 

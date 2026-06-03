@@ -74,7 +74,7 @@ export function NewsletterBanner() {
               <span className="text-purple-300">Community.</span>
             </h2>
 
-            <p className="font-raleway text-neutral-400 text-sm sm:text-base leading-relaxed mb-5 sm:mb-8 max-w-sm">
+            <p className="font-roboto text-neutral-400 text-sm sm:text-base leading-relaxed mb-5 sm:mb-8 max-w-sm">
               Straight to your inbox — no noise, no spam. Just worship, ministry, and the love of God.
             </p>
 
@@ -84,7 +84,7 @@ export function NewsletterBanner() {
                   <span className="flex-shrink-0 w-7 h-7 rounded-full bg-purple-600/20 border border-purple-500/20 flex items-center justify-center">
                     <Icon className="h-3 w-3 text-purple-400" />
                   </span>
-                  <span className="font-raleway text-neutral-400 text-sm">{text}</span>
+                  <span className="font-roboto text-neutral-400 text-sm">{text}</span>
                 </li>
               ))}
             </ul>
@@ -119,7 +119,7 @@ export function NewsletterBanner() {
                     <p className="font-bricolage font-bold text-white text-xl mb-1">
                       You&apos;re in. Welcome!
                     </p>
-                    <p className="font-raleway text-neutral-500 text-sm leading-relaxed">
+                    <p className="font-roboto text-neutral-500 text-sm leading-relaxed">
                       Thank you for joining the ministry community. Expect worship, updates, and encouragement in your inbox.
                     </p>
                   </div>
@@ -142,7 +142,7 @@ export function NewsletterBanner() {
                         {...register('name')}
                         type="text"
                         placeholder="Your name"
-                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
+                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
                       />
                       {errors.name && (
                         <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -155,7 +155,7 @@ export function NewsletterBanner() {
                         {...register('email')}
                         type="email"
                         placeholder="your@email.com"
-                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
+                        className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
                       />
                       {errors.email && (
                         <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
