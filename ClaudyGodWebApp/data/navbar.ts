@@ -34,6 +34,7 @@ export const navigationItems: NavItem[] = [
   { href: '/ministry', label: 'Ministry',  icon: Heart        },
   { href: '/news',     label: 'News',      icon: Newspaper    },
   { href: '/store',    label: 'Store',     icon: ShoppingBag  },
+  { href: '/help',     label: 'Help',      icon: Mail         },
   { href: '/contact',  label: 'Contact',   icon: Mail         },
   { href: '/donate',   label: 'Donate',    icon: HandCoins    },
 ];
