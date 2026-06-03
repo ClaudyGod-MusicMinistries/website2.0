@@ -62,7 +62,7 @@ export function SuccessModal({
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="font-raleway text-sm text-neutral-700 leading-relaxed">{message}</p>
+          <p className="font-roboto text-sm text-neutral-700 leading-relaxed">{message}</p>
         </div>
 
         {/* Actions */}
@@ -71,7 +71,7 @@ export function SuccessModal({
             <>
               <button
                 onClick={handleClose}
-                className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-raleway font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
+                className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-roboto font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
               >
                 Done
               </button>
@@ -80,7 +80,7 @@ export function SuccessModal({
                   action.onClick();
                   handleClose();
                 }}
-                className="flex-1 px-4 py-2.5 bg-green-600 text-white font-raleway font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
+                className="flex-1 px-4 py-2.5 bg-green-600 text-white font-roboto font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
               >
                 {action.label}
               </button>
@@ -88,7 +88,7 @@ export function SuccessModal({
           ) : (
             <button
               onClick={handleClose}
-              className="w-full px-4 py-2.5 bg-green-600 text-white font-raleway font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
+              className="w-full px-4 py-2.5 bg-green-600 text-white font-roboto font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
             >
               Continue
             </button>

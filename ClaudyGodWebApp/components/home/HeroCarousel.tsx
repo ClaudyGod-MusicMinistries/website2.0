@@ -268,7 +268,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
 
         <motion.p
           custom={0.52} variants={fadeUp} initial="hidden" animate="visible"
-          className="font-raleway text-neutral-300 text-sm md:text-base leading-relaxed max-w-md mb-8"
+          className="font-roboto text-neutral-300 text-sm md:text-base leading-relaxed max-w-md mb-8"
         >
           Spirit-filled gospel music from Minister ClaudyGod — spreading the love of God through worship and song.
         </motion.p>

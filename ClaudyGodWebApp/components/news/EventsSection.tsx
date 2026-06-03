@@ -89,7 +89,7 @@ function FeaturedEventCard({ event }: { event: EventShape }) {
             <h3 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-2">
               {event.title}
             </h3>
-            <p className="flex items-center gap-1.5 font-raleway text-white/70 text-sm">
+            <p className="flex items-center gap-1.5 font-roboto text-white/70 text-sm">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-gold-400" />
               {event.venue}
             </p>
@@ -240,7 +240,7 @@ function TicketForm({ events }: { events: EventShape[] }) {
   };
 
   const inputCls =
-    'w-full h-11 px-4 border border-neutral-200 rounded-xl font-raleway text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
+    'w-full h-11 px-4 border border-neutral-200 rounded-xl font-roboto text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
   const errCls = 'mt-1 font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
 
   // If no backend events exist yet, show a simple "coming soon" panel
@@ -263,7 +263,7 @@ function TicketForm({ events }: { events: EventShape[] }) {
           <h3 className="font-bricolage font-bold text-white text-2xl md:text-3xl tracking-tight mb-2">
             {hasBackendEvents ? 'Secure Your Spot' : 'Register for a Tour Date'}
           </h3>
-          <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-md">
+          <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-md">
             {hasBackendEvents
               ? 'Reserve your ticket now. A confirmation code will be sent to your email.'
               : "Express your interest and we'll send you updates, reminders, and exclusive information."}
@@ -307,7 +307,7 @@ function TicketForm({ events }: { events: EventShape[] }) {
                     <p className="font-bricolage font-bold text-white text-lg tracking-widest">{confirmationCode}</p>
                   </div>
                 )}
-                <p className="font-raleway text-neutral-400 text-sm leading-relaxed max-w-sm">
+                <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-sm">
                   Check your inbox — we&apos;ve sent your ticket details and confirmation.
                 </p>
               </div>
@@ -425,7 +425,7 @@ function TicketForm({ events }: { events: EventShape[] }) {
                 )}
               </button>
 
-              <p className="text-center font-raleway text-xs text-neutral-600">
+              <p className="text-center font-roboto text-xs text-neutral-600">
                 {hasBackendEvents
                   ? 'A confirmation email will be sent immediately after reserving.'
                   : 'Registration is free and non-binding. Ticket information will be sent separately.'}
@@ -460,7 +460,7 @@ export function EventsSection({ events }: { events: EventShape[] }) {
               2025 Ministry Tour
             </h2>
             {upcoming.length > 0 && (
-              <p className="font-raleway text-neutral-500 text-sm">
+              <p className="font-roboto text-neutral-500 text-sm">
                 {upcoming.length} upcoming event{upcoming.length !== 1 ? 's' : ''} remaining
               </p>
             )}
@@ -492,7 +492,7 @@ export function EventsSection({ events }: { events: EventShape[] }) {
               <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-6">
                 Be Part of Every Moment
               </h2>
-              <p className="font-raleway text-neutral-600 text-base leading-[1.85] mb-8">
+              <p className="font-roboto text-neutral-600 text-base leading-[1.85] mb-8">
                 Register for upcoming ministry events. Get instant confirmation, early notifications, and spiritual preparation guides delivered to your inbox.
               </p>
 
@@ -506,7 +506,7 @@ export function EventsSection({ events }: { events: EventShape[] }) {
                     <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
                     <div>
                       <p className="font-bricolage font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
-                      <p className="font-raleway text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                      <p className="font-roboto text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
                     </div>
                   </div>
                 ))}

@@ -60,8 +60,8 @@ function Toast({ id, type, title, message, duration = 5000, onClose }: ToastProp
       <div className={`${bgColor} border rounded-lg shadow-lg p-4 flex items-start gap-3 min-w-80`}>
         <Icon className={`w-5 h-5 ${iconColor} flex-shrink-0 mt-0.5`} />
         <div className="flex-1">
-          <h3 className={`font-raleway font-semibold text-sm ${textColor}`}>{title}</h3>
-          {message && <p className={`font-raleway text-xs ${textColor} opacity-90 mt-1`}>{message}</p>}
+          <h3 className={`font-roboto font-semibold text-sm ${textColor}`}>{title}</h3>
+          {message && <p className={`font-roboto text-xs ${textColor} opacity-90 mt-1`}>{message}</p>}
         </div>
         <button
           onClick={() => {

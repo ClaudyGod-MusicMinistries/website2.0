@@ -157,7 +157,7 @@ function Card({ s, priority }: { s: Section; priority?: boolean }) {
             - Non-featured mobile/tablet: visible (line-clamped)
             - Non-featured desktop: hidden, slides up on hover */}
         <p className={cn(
-          'font-raleway text-white/70 leading-relaxed',
+          'font-roboto text-white/70 leading-relaxed',
           s.featured
             ? 'text-xs sm:text-sm mt-1.5 sm:mt-2 max-w-xs sm:max-w-sm lg:max-w-md line-clamp-3 sm:line-clamp-none'
             : [
@@ -215,7 +215,7 @@ export function PagesExplorer() {
               Explore the Ministry
             </h2>
           </div>
-          <p className="font-raleway text-neutral-500 text-sm leading-relaxed sm:text-right sm:max-w-[220px] lg:max-w-xs">
+          <p className="font-roboto text-neutral-500 text-sm leading-relaxed sm:text-right sm:max-w-[220px] lg:max-w-xs">
             Music, ministry, worship, and community — all in one place.
           </p>
         </div>

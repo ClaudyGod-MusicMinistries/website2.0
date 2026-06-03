@@ -44,7 +44,7 @@ export function MinistryStats() {
               <p className="font-bricolage font-bold text-neutral-900 text-[0.92rem] leading-snug">
                 {title}
               </p>
-              <p className="font-raleway text-neutral-500 text-xs leading-relaxed">
+              <p className="font-roboto text-neutral-500 text-xs leading-relaxed">
                 {body}
               </p>
             </div>

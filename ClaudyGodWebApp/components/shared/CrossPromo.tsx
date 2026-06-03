@@ -73,7 +73,7 @@ export function CrossPromo() {
                 <h3 className="font-bricolage font-bold text-white text-xl leading-snug mb-3 group-hover:text-purple-200 transition-colors duration-300">
                   {title}
                 </h3>
-                <p className="font-raleway text-neutral-400 text-sm leading-relaxed flex-1 mb-6">
+                <p className="font-roboto text-neutral-400 text-sm leading-relaxed flex-1 mb-6">
                   {body}
                 </p>
 

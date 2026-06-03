@@ -81,7 +81,7 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
 
               {intro && (
                 <div className="px-8 py-8 border-b border-neutral-100 bg-neutral-50/50">
-                  <p className="font-raleway text-neutral-600 text-base leading-[1.85]">{intro}</p>
+                  <p className="font-roboto text-neutral-600 text-base leading-[1.85]">{intro}</p>
                 </div>
               )}
 
@@ -91,14 +91,14 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
                     <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-3">
                       {s.heading}
                     </h2>
-                    <p className="font-raleway text-neutral-500 text-base leading-[1.85]">{s.body}</p>
+                    <p className="font-roboto text-neutral-500 text-base leading-[1.85]">{s.body}</p>
                   </div>
                 ))}
               </div>
 
               {/* Footer note */}
               <div className="px-8 py-6 bg-neutral-50 border-t border-neutral-100">
-                <p className="font-raleway text-neutral-400 text-sm">
+                <p className="font-roboto text-neutral-400 text-sm">
                   Questions about our legal policies?{' '}
                   <Link href="/contact" className="text-purple-600 hover:underline underline-offset-2 transition-colors">
                     Contact us

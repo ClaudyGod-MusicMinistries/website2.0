@@ -74,7 +74,7 @@ export function TeachingsGrid() {
                   </span>
                 </div>
                 <div className="p-4 border-t border-white/[0.06]">
-                  <p className="font-raleway text-base text-neutral-300 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
+                  <p className="font-roboto text-base text-neutral-300 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
                     {teaching.title}
                   </p>
                 </div>

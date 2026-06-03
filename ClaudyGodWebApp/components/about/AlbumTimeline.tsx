@@ -166,7 +166,7 @@ export function AlbumTimeline() {
                         <p className="font-bricolage font-bold text-neutral-800 text-xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
                           {album.title}
                         </p>
-                        <p className="font-raleway text-neutral-500 text-sm leading-relaxed mb-4">
+                        <p className="font-roboto text-neutral-500 text-sm leading-relaxed mb-4">
                           Available on all platforms
                         </p>
                         <div className="flex items-center gap-2.5">

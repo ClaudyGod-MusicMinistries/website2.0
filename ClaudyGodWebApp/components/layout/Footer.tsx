@@ -107,7 +107,7 @@ export function Footer() {
               </div>
             </Link>
 
-            <p className="font-raleway text-neutral-400 text-sm leading-[1.8] max-w-xs mb-8">
+            <p className="font-roboto text-neutral-400 text-sm leading-[1.8] max-w-xs mb-8">
               Spirit-filled gospel music, ministry, and worship — spreading the love of God to the ends of the earth.
             </p>
 
@@ -150,7 +150,7 @@ export function Footer() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="font-raleway text-sm text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
+                        className="font-roboto text-sm text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
                       >
                         <span className="w-0 group-hover:w-3 h-px bg-gold-500/60 transition-all duration-300 overflow-hidden flex-shrink-0" />
                         {item.label}

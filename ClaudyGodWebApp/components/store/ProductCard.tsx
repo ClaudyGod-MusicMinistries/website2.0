@@ -69,10 +69,10 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
           </div>
         )}
 
-        <p className="font-raleway font-medium text-neutral-900 text-base leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+        <p className="font-roboto font-medium text-neutral-900 text-base leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
           {product.name}
         </p>
-        <p className="font-raleway text-neutral-400 text-xs leading-relaxed mb-4 flex-1">
+        <p className="font-roboto text-neutral-400 text-xs leading-relaxed mb-4 flex-1">
           {product.description}
         </p>
 

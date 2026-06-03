@@ -101,14 +101,14 @@ export function ProductModal({ product, onClose }: Props) {
                   <div className="h-px bg-white/[0.06] mb-5" />
 
                   {/* Description */}
-                  <p className="font-raleway text-neutral-500 text-sm font-light leading-relaxed mb-6">
+                  <p className="font-roboto text-neutral-500 text-sm font-light leading-relaxed mb-6">
                     {product.description}
                   </p>
 
                   {/* Benefits */}
                   <ul className="space-y-2 mb-8">
                     {['Premium quality materials', 'Official ClaudyGod merchandise', 'Ships worldwide'].map((b) => (
-                      <li key={b} className="flex items-center gap-2.5 font-raleway text-xs text-neutral-600">
+                      <li key={b} className="flex items-center gap-2.5 font-roboto text-xs text-neutral-600">
                         <span className="w-1 h-1 rounded-full bg-gold-500/60 flex-shrink-0" />
                         {b}
                       </li>

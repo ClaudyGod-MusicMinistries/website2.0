@@ -90,7 +90,7 @@ export function ContactForm() {
             })}
             type="text"
             placeholder="Your full name"
-            className={`w-full h-11 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl ${
+            className={`w-full h-11 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl ${
               errors.name ? 'border-red-400 bg-red-50' : 'border-neutral-200'
             }`}
           />
@@ -114,7 +114,7 @@ export function ContactForm() {
             })}
             type="email"
             placeholder="your@email.com"
-            className={`w-full h-11 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl ${
+            className={`w-full h-11 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl ${
               errors.email ? 'border-red-400 bg-red-50' : 'border-neutral-200'
             }`}
           />
@@ -152,7 +152,7 @@ export function ContactForm() {
           {...register('subject')}
           type="text"
           placeholder="What is this about?"
-          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
+          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
         />
       </div>
 
@@ -168,7 +168,7 @@ export function ContactForm() {
           })}
           rows={5}
           placeholder="Write your message here…"
-          className={`w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none rounded-xl ${
+          className={`w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none rounded-xl ${
             errors.message ? 'border-red-400 bg-red-50' : 'border-neutral-200'
           }`}
         />
