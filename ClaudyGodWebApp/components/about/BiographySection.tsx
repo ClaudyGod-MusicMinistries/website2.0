@@ -45,7 +45,7 @@ export function BiographySection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           <div className="relative aspect-[4/5] w-full max-w-sm lg:max-w-none order-2 lg:order-1">
             <Image
-              src="/aboutUs.webp"
+              src="/ClaudySocial.jpg"
               alt="Minister ClaudyGod worship"
               fill
               className="object-cover object-top"

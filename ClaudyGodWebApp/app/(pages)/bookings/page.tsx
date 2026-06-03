@@ -1,18 +1,62 @@
 import type { Metadata } from 'next';
-import { PageHero } from '@/components/shared/PageHero';
+import { PageHero }    from '@/components/shared/PageHero';
 import { BookingForm } from '@/components/bookings/BookingForm';
+import { breadcrumb, service, faqPage } from '@/utils/jsonLd';
 
 export const metadata: Metadata = {
-  title: 'Book ClaudyGod — Event Booking & Ministry Engagements',
-  description: 'Book Minister ClaudyGod for your church service, gospel concert, conference, or special ministry event. Available across Nigeria and internationally.',
-  keywords: ['book ClaudyGod', 'gospel concert booking', 'Nigerian gospel artist booking', 'ministry event', 'church booking Nigeria', 'worship event'],
+  title: 'Book ClaudyGod — Gospel Artist & Minister for Church & Events',
+  description:
+    'Book Minister ClaudyGod for your church service, gospel concert, university event, conference, or special ministry engagement. Available across Nigeria and internationally. Submit a booking request today.',
+  keywords: [
+    'book ClaudyGod', 'hire gospel artist Nigeria', 'book gospel minister Nigeria',
+    'gospel concert booking Nigeria', 'book ClaudyGod church event',
+    'Nigerian gospel artist booking fee', 'book worship leader Nigeria',
+    'gospel minister for hire', 'ClaudyGod event booking',
+    'book gospel singer for conference', 'gospel evangelist booking',
+    'ClaudyGod booking contact', 'gospel concert organizer Nigeria',
+    'book Nigerian gospel artist UK', 'Christian event speaker Nigeria',
+  ],
   openGraph: {
-    title: 'Book ClaudyGod for Your Event',
-    description: 'Book Minister ClaudyGod for church services, concerts, and ministry engagements.',
-    url: '/bookings',
+    title:       'Book Minister ClaudyGod for Your Gospel Event',
+    description: 'Church services, gospel concerts, conferences & campus events — book Minister ClaudyGod for a Spirit-filled experience. Response within 3–5 business days.',
+    url:         '/bookings',
+    images: [{ url: '/Tour_Ph_2.webp', width: 1920, height: 1080, alt: 'Book ClaudyGod for Events' }],
+  },
+  twitter: {
+    card:        'summary_large_image',
+    title:       'Book Minister ClaudyGod for Your Event',
+    description: 'Church services, concerts & conferences — book ClaudyGod for your next gospel event.',
+    images:      ['/Tour_Ph_2.webp'],
   },
   alternates: { canonical: 'https://claudygod.com/bookings' },
 };
+
+const schemas = [
+  breadcrumb([{ name: 'Bookings', href: '/bookings' }]),
+  service(),
+  faqPage([
+    {
+      question: 'How do I book Minister ClaudyGod for an event?',
+      answer:   'Fill out our online booking request form with your event details. Our team will respond within 3–5 business days to discuss availability and logistics.',
+    },
+    {
+      question: 'What types of events does ClaudyGod minister at?',
+      answer:   'ClaudyGod ministers at church services, gospel concerts, university & campus events, Christian conferences, evangelistic crusades, prayer gatherings, and private ministry events.',
+    },
+    {
+      question: 'Is ClaudyGod available for international events?',
+      answer:   'Yes. ClaudyGod is available for events across Nigeria and internationally, including the UK, US, and other countries. Contact us via the booking form for international enquiries.',
+    },
+    {
+      question: 'How far in advance should I book?',
+      answer:   'We recommend booking at least 4–6 weeks in advance for local events and 3 months for international engagements to allow proper preparation and logistics.',
+    },
+    {
+      question: 'What happens after I submit a booking request?',
+      answer:   'Our team reviews your submission and contacts you within 3–5 business days. We then discuss details, agree on logistics, and send a formal booking agreement to confirm the event.',
+    },
+  ]),
+];
 
 const steps = [
   { step: '01', title: 'Submit Request',  body: 'Fill out the booking form with your event details.' },
@@ -24,6 +68,13 @@ const steps = [
 export default function BookingsPage() {
   return (
     <>
+      {schemas.map((s, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+        />
+      ))}
       <PageHero
         eyebrow="Bookings"
         title="Book ClaudyGod"

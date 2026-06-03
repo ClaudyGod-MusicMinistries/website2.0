@@ -5,6 +5,7 @@ import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
 import { fetchEvents } from '@/lib/backendFetch';
+import { breadcrumb, event as eventSchema } from '@/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -12,18 +13,48 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export const metadata: Metadata = {
-  title: 'News & Tour Dates — ClaudyGod Music Ministries',
-  description: 'Latest news, upcoming tour dates in Nigeria and beyond, new releases, and ministry updates from Minister ClaudyGod.',
-  keywords: ['ClaudyGod tour dates', 'gospel concerts Nigeria 2025', 'ClaudyGod news', 'Port Harcourt gospel concert'],
-  openGraph: { title: 'ClaudyGod News & Tour Dates', description: 'Tour dates, new releases, and ministry updates.', url: '/news' },
+  title: 'News, Tour Dates & New Releases — ClaudyGod Music Ministries',
+  description:
+    'Stay updated with ClaudyGod — upcoming gospel concerts and tour dates in Nigeria and the UK, new album releases, media interviews, and ministry announcements. Never miss a ClaudyGod event.',
+  keywords: [
+    'ClaudyGod tour dates 2025', 'gospel concerts Nigeria 2025',
+    'ClaudyGod news', 'ClaudyGod new release 2025',
+    'gospel concert Port Harcourt', 'gospel concert Lagos 2025',
+    'ClaudyGod Aba concert', 'ClaudyGod Imo concert',
+    'Nigerian gospel tour 2025', 'gospel music events Nigeria',
+    'ClaudyGod media interview', 'ClaudyGod ministry update',
+    'gospel artist tour Nigeria', 'Christian concert Nigeria 2025',
+  ],
+  openGraph: {
+    title:       'ClaudyGod News, Tour Dates & New Releases',
+    description: 'Upcoming gospel concerts across Nigeria, new music releases, and ministry updates from Minister ClaudyGod.',
+    url:         '/news',
+    images: [{ url: '/tour_3.jpg', width: 1920, height: 1080, alt: 'ClaudyGod Tour Dates & News' }],
+  },
+  twitter: {
+    card:  'summary_large_image',
+    title: 'ClaudyGod News & Tour Dates 2025',
+    images:['/tour_3.jpg'],
+  },
   alternates: { canonical: 'https://claudygod.com/news' },
 };
 
 export default async function NewsPage() {
   const events = await fetchEvents();
 
+  const schemas = [
+    breadcrumb([{ name: 'News & Tours', href: '/news' }]),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Port Harcourt', startDate: '2025-07-12T17:00:00+01:00', location: 'University of Port Harcourt Auditorium', city: 'Port Harcourt', country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Lagos',         startDate: '2025-08-02T18:00:00+01:00', location: 'Tafawa Balewa Square',                    city: 'Lagos',         country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Aba',           startDate: '2025-08-16T17:00:00+01:00', location: 'Enyimba Cultural Centre',                  city: 'Aba',           country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Imo',           startDate: '2025-09-06T17:00:00+01:00', location: 'Imo State University',                     city: 'Imo',           country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
+  ];
+
   return (
     <>
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+      ))}
       <PageHero
         eyebrow="News & Updates"
         title="What's Happening"

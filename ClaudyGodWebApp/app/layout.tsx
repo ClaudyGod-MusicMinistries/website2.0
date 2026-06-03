@@ -1,83 +1,109 @@
 import type { Metadata, Viewport } from 'next';
 import dynamic from 'next/dynamic';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
-import { Loader } from '@/components/shared/Loader';
+import { Navbar }  from '@/components/layout/Navbar';
+import { Footer }  from '@/components/layout/Footer';
+import { Loader }  from '@/components/shared/Loader';
+import { musicGroup, webSite, person } from '@/utils/jsonLd';
 import './globals.css';
 
-const WelcomeModal   = dynamic(() => import('@/components/shared/WelcomeModal').then(m => m.WelcomeModal),   { ssr: false });
-const CookieConsent  = dynamic(() => import('@/components/shared/CookieConsent').then(m => m.CookieConsent), { ssr: false });
-const ChatWidget     = dynamic(() => import('@/components/shared/ChatWidget').then(m => m.ChatWidget),       { ssr: false });
-const AIChatWidget   = dynamic(() => import('@/components/ui/AIChatWidget').then(m => m.AIChatWidget),      { ssr: false });
+const WelcomeModal  = dynamic(() => import('@/components/shared/WelcomeModal').then(m => m.WelcomeModal),  { ssr: false });
+const CookieConsent = dynamic(() => import('@/components/shared/CookieConsent').then(m => m.CookieConsent),{ ssr: false });
+const AIChatWidget  = dynamic(() => import('@/components/ui/AIChatWidget').then(m => m.AIChatWidget),     { ssr: false });
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
-  themeColor:    '#080808',
-  width:         'device-width',
-  initialScale:  1,
-  maximumScale:  5,
+  themeColor:   '#080808',
+  width:        'device-width',
+  initialScale: 1,
+  maximumScale: 5,
 };
 
-// ─── Metadata ──────────────────────────────────────────────────────────────
+// ─── Root Metadata ──────────────────────────────────────────────────────────
 export const metadata: Metadata = {
   metadataBase: new URL('https://claudygod.com'),
+
   title: {
     template: '%s | ClaudyGod Music Ministries',
-    default:  'ClaudyGod Music Ministries',
+    default:  'ClaudyGod Music Ministries — Gospel Artist, Minister & Worship Leader',
   },
+
   description:
-    'Official website of ClaudyGod — Gospel music artist, minister, and worship leader spreading the love of God through music.',
+    'Official website of Minister ClaudyGod — Nigerian gospel music artist, worship leader, and evangelist. Stream 7 albums, watch worship videos, book for events, and follow the ministry.',
+
   keywords: [
-    'ClaudyGod',
-    'gospel music',
-    'Christian music',
-    'worship',
-    'ministry',
-    'Nigerian gospel',
+    'ClaudyGod', 'Minister ClaudyGod', 'ClaudyGod Music Ministries',
+    'Nigerian gospel artist', 'gospel music Nigeria', 'Christian music Nigeria',
+    'worship leader Port Harcourt', 'gospel singer Nigeria',
+    'Very Glorious ClaudyGod', 'You Are Our Everything ClaudyGod',
+    'gospel album 2024 Nigeria', 'gospel concert Nigeria',
+    'book gospel artist Nigeria', 'Nigerian worship songs',
+    'gospel music streaming', 'ClaudyGod Spotify', 'ClaudyGod YouTube',
+    'spirit filled worship', 'gospel ministry Nigeria',
   ],
-  authors:   [{ name: 'ClaudyGod Music Ministries' }],
+
+  authors:   [{ name: 'ClaudyGod Music Ministries', url: 'https://claudygod.com' }],
   creator:   'ClaudyGod Music Ministries',
   publisher: 'ClaudyGod Music Ministries',
+  category:  'Music',
+
   openGraph: {
-    type:      'website',
-    siteName:  'ClaudyGod Music Ministries',
-    locale:    'en_US',
-    images:    [{ url: '/ClaudySocial.jpg', width: 1200, height: 630 }],
+    type:        'website',
+    siteName:    'ClaudyGod Music Ministries',
+    locale:      'en_US',
+    url:         'https://claudygod.com',
+    title:       'ClaudyGod Music Ministries — Gospel Artist & Worship Leader',
+    description: 'Spirit-filled gospel music, ministry, and worship from Minister ClaudyGod — spreading the love of God to the ends of the earth.',
+    images: [{
+      url:    '/ClaudySocial.jpg',
+      width:  1200,
+      height: 630,
+      alt:    'ClaudyGod Music Ministries',
+      type:   'image/jpeg',
+    }],
   },
+
   twitter: {
-    card:   'summary_large_image',
-    images: ['/ClaudySocial.jpg'],
+    card:        'summary_large_image',
+    site:        '@claudygod',
+    creator:     '@claudygod',
+    title:       'ClaudyGod Music Ministries',
+    description: 'Spirit-filled gospel music, ministry, and worship from Minister ClaudyGod.',
+    images:      [{ url: '/ClaudySocial.jpg', alt: 'ClaudyGod Music Ministries' }],
   },
+
   robots: {
-    index:  true,
-    follow: true,
-    googleBot: { index: true, follow: true },
+    index:     true,
+    follow:    true,
+    nocache:   false,
+    googleBot: {
+      index:               true,
+      follow:              true,
+      noimageindex:        false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet':       -1,
+    },
   },
+
+  alternates: {
+    canonical: 'https://claudygod.com',
+  },
+
   manifest: '/manifest.json',
+
+  verification: {
+    google: 'uRQ-mtCDzE4I0xSrGiOFM-EiBW9ylzZwBdfOgcURaaQ',
+    other:  { 'msvalidate.01': 'CDC0BA45440A0A1BB38769D83C132EBB' },
+  },
 };
 
-// ─── JSON-LD Structured Data ────────────────────────────────────────────────
-const jsonLd = {
+// ─── JSON-LD Graph — multiple schemas bundled ──────────────────────────────
+const jsonLdGraph = {
   '@context': 'https://schema.org',
-  '@type': 'MusicGroup',
-  name: 'ClaudyGod Music Ministries',
-  url: 'https://claudygod.com',
-  image: 'https://claudygod.com/ClaudySocial.jpg',
-  description:
-    'ClaudyGod is a Nigerian gospel music artist, minister, and worship leader with over 20 years in ministry and 7 studio albums. Known for Spirit-filled worship that transforms lives.',
-  genre: ['Gospel', 'Christian Music', 'Worship', 'Contemporary Gospel'],
-  foundingDate: '2003',
-  areaServed: { '@type': 'Country', name: 'Nigeria' },
-  sameAs: [
-    'https://www.facebook.com/ClaudyGod/',
-    'https://www.instagram.com/singerclaudygod/',
-    'https://twitter.com/claudygod',
-    'https://www.tiktok.com/@claudygod',
-    'https://open.spotify.com/artist/claudygod',
-    'https://music.apple.com/artist/claudygod',
-    'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
-    'https://www.deezer.com/us/album/695949191',
-    'https://music.amazon.com/albums/B0DSM7QGLF',
+  '@graph': [
+    webSite(),
+    musicGroup(),
+    person(),
   ],
 };
 
@@ -86,10 +112,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* ── Structured data ── */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdGraph) }}
         />
+
+        {/* ── DNS preconnects for faster external resource loading ── */}
+        <link rel="preconnect" href="https://img.youtube.com" />
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://open.spotify.com" />
+        <link rel="dns-prefetch" href="https://music.apple.com" />
       </head>
       <body className="font-bricolage bg-surface-base text-white antialiased min-h-dvh">
         <Loader />
