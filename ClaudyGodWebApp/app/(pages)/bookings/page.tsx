@@ -66,7 +66,7 @@ export default function BookingsPage() {
                     </div>
                     <div className="pt-1.5">
                       <p className="font-bricolage font-bold text-neutral-900 text-base mb-1">{item.title}</p>
-                      <p className="font-raleway text-neutral-500 text-sm leading-relaxed">{item.body}</p>
+                      <p className="font-roboto text-neutral-500 text-sm leading-relaxed">{item.body}</p>
                     </div>
                   </div>
                 ))}
@@ -78,7 +78,7 @@ export default function BookingsPage() {
                 <p className="font-bricolage font-bold text-neutral-900 text-lg mb-3">Contact Us Directly</p>
                 <a
                   href="mailto:claudygodministries@gmail.com"
-                  className="font-raleway text-purple-600 hover:text-purple-800 text-sm transition-colors"
+                  className="font-roboto text-purple-600 hover:text-purple-800 text-sm transition-colors"
                 >
                   claudygodministries@gmail.com
                 </a>

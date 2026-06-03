@@ -29,7 +29,7 @@ export function LoadingSpinner({ size = 'md', text }: LoadingSpinnerProps) {
           />
         </svg>
       </div>
-      {text && <p className="font-raleway text-sm text-neutral-600">{text}</p>}
+      {text && <p className="font-roboto text-sm text-neutral-600">{text}</p>}
     </div>
   );
 }

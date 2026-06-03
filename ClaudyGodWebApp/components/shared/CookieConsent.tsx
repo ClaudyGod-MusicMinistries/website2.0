@@ -79,7 +79,7 @@ function PrefRow({
           <p className="font-bricolage font-semibold text-neutral-900 text-sm">{title}</p>
           <Toggle checked={checked} onChange={onChange} disabled={disabled} />
         </div>
-        <p className="font-raleway text-neutral-500 text-xs leading-relaxed mt-1">{description}</p>
+        <p className="font-roboto text-neutral-500 text-xs leading-relaxed mt-1">{description}</p>
         {disabled && (
           <span className="inline-block mt-1 font-worksans text-[0.5rem] tracking-[0.14em] uppercase text-purple-500 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full">
             Always Active
@@ -156,7 +156,7 @@ export function CookieConsent() {
                     <p className="font-bricolage font-bold text-neutral-900 text-sm mb-0.5">
                       We use cookies to enhance your experience
                     </p>
-                    <p className="font-raleway text-neutral-500 text-xs leading-relaxed">
+                    <p className="font-roboto text-neutral-500 text-xs leading-relaxed">
                       We use essential cookies to make our site work, and optional cookies to improve your experience and analyse traffic.{' '}
                       <Link href="/legal/cookies" className="text-purple-600 hover:underline underline-offset-2">
                         Learn more
@@ -284,7 +284,7 @@ export function CookieConsent() {
               </div>
 
               <div className="px-6 pb-4 text-center">
-                <p className="font-raleway text-neutral-400 text-xs">
+                <p className="font-roboto text-neutral-400 text-xs">
                   Read our{' '}
                   <Link href="/legal/cookies" className="text-purple-600 hover:underline underline-offset-2">Cookie Policy</Link>
                   {' '}and{' '}

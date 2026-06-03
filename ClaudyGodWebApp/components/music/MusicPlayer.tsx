@@ -57,7 +57,7 @@ export function MusicPlayer() {
             <h2 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight">
               Music Player
             </h2>
-            <p className="font-raleway text-neutral-500 text-sm mt-2">
+            <p className="font-roboto text-neutral-500 text-sm mt-2">
               Select any track below to stream it instantly
             </p>
           </div>
@@ -182,7 +182,7 @@ export function MusicPlayer() {
 
                     <div className="flex-1 min-w-0">
                       <p className={cn(
-                        'font-raleway font-medium text-sm truncate transition-colors duration-200',
+                        'font-roboto font-medium text-sm truncate transition-colors duration-200',
                         activeId === track.id ? 'text-purple-300' : 'text-neutral-300 group-hover:text-white'
                       )}>
                         {track.title}

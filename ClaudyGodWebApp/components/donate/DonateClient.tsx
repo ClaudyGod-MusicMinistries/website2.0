@@ -148,7 +148,7 @@ export default function DonateClient() {
         </motion.h2>
 
         <motion.p custom={0.2} variants={fadeUp}
-          className="font-raleway text-neutral-500 text-base leading-relaxed mb-10"
+          className="font-roboto text-neutral-500 text-base leading-relaxed mb-10"
         >
           ClaudyGod Music Ministries spreads the love of God through spirit-filled music, teachings, and
           community outreach. Your donation funds music production, ministry tours, and free worship events
@@ -183,7 +183,7 @@ export default function DonateClient() {
                 {symbol}{tier.toLocaleString()}
               </span>
               <span className="w-px h-8 bg-neutral-200 shrink-0" />
-              <span className="font-raleway text-neutral-500 text-sm leading-snug">{note}</span>
+              <span className="font-roboto text-neutral-500 text-sm leading-snug">{note}</span>
               {amount === tier && !custom && (
                 <span className="ml-auto shrink-0 w-2 h-2 rounded-full bg-purple-500" />
               )}
@@ -192,7 +192,7 @@ export default function DonateClient() {
         </motion.div>
 
         <motion.blockquote custom={0.5} variants={fadeUp}
-          className="mt-10 font-raleway italic text-neutral-500 text-sm leading-relaxed border-l-2 border-gold-500/40 pl-5"
+          className="mt-10 font-roboto italic text-neutral-500 text-sm leading-relaxed border-l-2 border-gold-500/40 pl-5"
         >
           &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together and
           running over, will be poured into your lap.&rdquo;
@@ -281,7 +281,7 @@ export default function DonateClient() {
 
                 <div>
                   <h3 className="font-bricolage font-extrabold text-neutral-900 text-3xl mb-2">Thank You!</h3>
-                  <p className="font-raleway text-neutral-500 text-base leading-relaxed max-w-xs">
+                  <p className="font-roboto text-neutral-500 text-base leading-relaxed max-w-xs">
                     Your gift of{' '}
                     <strong className="font-bricolage font-bold text-purple-600 text-lg">
                       {txCurrency}{txAmount.toLocaleString()}
@@ -354,7 +354,7 @@ export default function DonateClient() {
                         setAmount(0);
                         setErrors((er) => ({ ...er, amount: '' }));
                       }}
-                      className="w-full h-12 pl-9 pr-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                      className="w-full h-12 pl-9 pr-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                     />
                   </div>
                   {errors.amount && (
@@ -387,7 +387,7 @@ export default function DonateClient() {
                     placeholder="Full name"
                     value={name}
                     onChange={(e) => { setName(e.target.value); setErrors((er) => ({ ...er, name: '' })); }}
-                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                   />
                 </InputField>
 
@@ -399,14 +399,14 @@ export default function DonateClient() {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setErrors((er) => ({ ...er, email: '' })); }}
-                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                   />
                 </InputField>
 
                 {/* Message */}
                 <div>
                   <label htmlFor="donor-message" className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
-                    Message <span className="font-raleway font-normal text-neutral-400 text-sm">(optional)</span>
+                    Message <span className="font-roboto font-normal text-neutral-400 text-sm">(optional)</span>
                   </label>
                   <textarea
                     id="donor-message"
@@ -414,7 +414,7 @@ export default function DonateClient() {
                     placeholder="Leave a word of encouragement…"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none"
                   />
                 </div>
 
@@ -433,7 +433,7 @@ export default function DonateClient() {
                 {/* Trust line */}
                 <div className="flex items-center justify-center gap-2 pt-1">
                   <ShieldCheck className="h-4 w-4 text-neutral-400" />
-                  <p className="font-raleway text-neutral-400 text-xs text-center">
+                  <p className="font-roboto text-neutral-400 text-xs text-center">
                     Secured by Paystack · NGN, USD, GBP, EUR, GHS &amp; ZAR supported
                   </p>
                 </div>
