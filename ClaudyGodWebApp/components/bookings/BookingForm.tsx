@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { post, BackendError } from '@/utils/apiClient';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 
 interface BookingInput {
   firstName: string;
@@ -98,6 +99,7 @@ export function BookingForm() {
     handleSubmit,
     setError,
     trigger,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<BookingInput>({
     mode: 'onTouched',
@@ -242,17 +244,18 @@ export function BookingForm() {
           </div>
           <div>
             <Label required>Phone Number</Label>
-            <input
-              {...register('phone', {
-                required: 'Phone number is required',
-                pattern: {
-                  value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-                  message: 'Please enter a valid phone number (e.g., +1 (555) 000-0000)'
-                }
-              })}
-              type="tel"
-              placeholder="+1 (555) 000-0000"
-              className={inputClass}
+            <Controller
+              name="phone"
+              control={control}
+              rules={{ required: 'Phone number is required' }}
+              render={({ field }) => (
+                <PhoneInput
+                  value={field.value ?? ''}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  error={errors.phone?.message}
+                />
+              )}
             />
             <FieldError message={errors.phone?.message} />
           </div>
