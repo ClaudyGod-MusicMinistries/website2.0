@@ -8,6 +8,7 @@ import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
 import { getCookie, setCookie } from '@/utils/cookies';
 
 const SESSION_KEY = 'cgm_welcome';
+const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
 
 const backdrop = {
   hidden:  { opacity: 0 },
@@ -27,14 +28,18 @@ export function WelcomeModal() {
   const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
+    // Check if user has already seen modal within the last 12 hours
     if (getCookie(SESSION_KEY)) return;
-    const t = setTimeout(() => setOpen(true), 1800);
+
+    // Show modal after 3 seconds for new users
+    const t = setTimeout(() => setOpen(true), 3000);
     return () => clearTimeout(t);
   }, []);
 
   const close = useCallback(() => {
     setOpen(false);
-    setCookie(SESSION_KEY, '1');
+    // Set cookie to expire in 12 hours
+    setCookie(SESSION_KEY, '1', { expires: WELCOME_COOKIE_DAYS });
   }, []);
 
   useEffect(() => {
