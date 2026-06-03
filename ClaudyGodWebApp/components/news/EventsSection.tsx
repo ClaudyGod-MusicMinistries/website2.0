@@ -7,7 +7,10 @@ import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2,
 import { useForm, Controller } from 'react-hook-form';
 import { post, BackendError } from '@/utils/apiClient';
 import { PhoneInput } from '@/components/ui/PhoneInput';
-import type { EventShape } from '@/lib/backendFetch';
+import { useEvents } from '@/hooks/useEvents';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import type { Event } from '@/lib/api/types';
 
 interface TicketFormData {
   firstName: string;
@@ -34,7 +37,7 @@ function isUUID(id: string) {
 }
 
 /* ── Featured highlight card ─────────────────────────────────────────────── */
-function FeaturedEventCard({ event }: { event: EventShape }) {
+function FeaturedEventCard({ event }: { event: Event }) {
   const { day, mon, full, past } = formatDate(event.date);
   return (
     <motion.div
@@ -123,7 +126,7 @@ function FeaturedEventCard({ event }: { event: EventShape }) {
 }
 
 /* ── Compact tour date card ───────────────────────────────────────────────── */
-function TourCard({ event, index }: { event: EventShape; index: number }) {
+function TourCard({ event, index }: { event: Event; index: number }) {
   const { day, mon, full, past } = formatDate(event.date);
   return (
     <motion.div
@@ -194,7 +197,7 @@ function TourCard({ event, index }: { event: EventShape; index: number }) {
 }
 
 /* ── Ticket reservation form ─────────────────────────────────────────────── */
-function TicketForm({ events }: { events: EventShape[] }) {
+function TicketForm({ events }: { events: Event[] }) {
   const upcoming   = events.filter((e) => !formatDate(e.date).past);
   const backendEvt = upcoming.filter((e) => isUUID(e.id));
 
@@ -356,7 +359,7 @@ function TicketForm({ events }: { events: EventShape[] }) {
                           <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
                             {full} · {event.time}
                           </p>
-                          {event.availableSeats > 0 && (
+                          {event.availableSeats && event.availableSeats > 0 && (
                             <p className="font-worksans text-[0.5rem] tracking-[0.1em] uppercase text-purple-400 mt-1">
                               {event.availableSeats} seats left
                             </p>
@@ -455,18 +458,48 @@ function TicketForm({ events }: { events: EventShape[] }) {
 }
 
 /* ── Main exported section ────────────────────────────────────────────────── */
-export function EventsSection({ events }: { events: EventShape[] }) {
+export function EventsSection() {
+  const { events, loading, error, refetch } = useEvents();
+
+  if (loading) {
+    return (
+      <div className="py-20 px-4">
+        <LoadingSpinner size="lg" text="Loading ministry events..." />
+      </div>
+    );
+  }
+
+  if (error || !events || events.length === 0) {
+    return (
+      <div className="py-20 px-4">
+        <ErrorMessage
+          message={error || "No events available at this time. Please check back soon."}
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
+
   const upcoming = events.filter((e) => !formatDate(e.date).past);
   const past     = events.filter((e) => formatDate(e.date).past);
   const featured = upcoming[0] ?? events[0];
 
-  if (!featured) return null;
+  if (!featured) {
+    return (
+      <div className="py-20 px-4">
+        <ErrorMessage
+          message="No events available. Please try again later."
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-0">
       {/* Tour Highlights — featured event */}
       <section className="bg-white section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center gap-4 mb-4">
             <span className="rule-gold" />
             <span className="label-eyebrow">Tour Highlights</span>
@@ -486,7 +519,7 @@ export function EventsSection({ events }: { events: EventShape[] }) {
             <FeaturedEventCard event={featured} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {events.map((event, i) => (
               <TourCard key={event.id} event={event} index={i} />
             ))}
@@ -496,7 +529,7 @@ export function EventsSection({ events }: { events: EventShape[] }) {
 
       {/* Registration / Ticket reservation portal */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
 
             {/* Left: context */}
