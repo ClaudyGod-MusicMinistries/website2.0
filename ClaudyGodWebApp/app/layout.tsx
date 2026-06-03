@@ -91,10 +91,9 @@ export const metadata: Metadata = {
 
   manifest: '/manifest.json',
 
-  // Verification codes — add real values in GitHub secrets / .env
   verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION ?? '',
-    other:  { 'msvalidate.01': process.env.BING_SITE_VERIFICATION ?? '' },
+    google: 'uRQ-mtCDzE4I0xSrGiOFM-EiBW9ylzZwBdfOgcURaaQ',
+    other:  { 'msvalidate.01': 'CDC0BA45440A0A1BB38769D83C132EBB' },
   },
 };
 
