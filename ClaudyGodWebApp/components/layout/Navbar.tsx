@@ -11,10 +11,10 @@ import { cn } from '@/utils/cn';
 import { CartIcon } from '@/components/store/CartIcon';
 
 // Items shown in the desktop horizontal bar
-const PRIMARY_NAV = ['About', 'Music', 'Videos', 'Ministry', 'Blog', 'News', 'Store', 'Contact'];
+const PRIMARY_NAV = ['About', 'Music', 'Videos', 'Events', 'Ministry', 'Blog', 'News', 'Store', 'Contact'];
 
 // On tablet (md) we show a reduced set so they fit without overflow
-const TABLET_NAV = ['About', 'Music', 'Videos', 'Ministry', 'Blog', 'Contact'];
+const TABLET_NAV = ['About', 'Music', 'Videos', 'Events', 'Ministry', 'Blog', 'Contact'];
 
 export function Navbar() {
   const pathname   = usePathname();
