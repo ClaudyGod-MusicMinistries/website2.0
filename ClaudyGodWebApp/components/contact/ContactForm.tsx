@@ -5,6 +5,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { CheckCircle2 } from 'lucide-react';
 import { post, BackendError } from '@/utils/apiClient';
 import { PhoneInput } from '@/components/ui/PhoneInput';
+import { ErrorModal } from '@/components/ui/ErrorModal';
+import { SuccessModal } from '@/components/ui/SuccessModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { getUserFriendlyError } from '@/utils/errorMessages';
 
 interface FormData {
   name: string;
@@ -15,8 +19,8 @@ interface FormData {
 }
 
 export function ContactForm() {
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [apiError, setApiError] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const { error, showError, closeError } = useErrorHandler();
 
   const {
     register,
@@ -28,52 +32,41 @@ export function ContactForm() {
   } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    setApiError('');
     try {
       await post('/contacts', {
         name: data.name,
         email: data.email,
         message: data.message,
       });
-      setStatus('success');
+      setShowSuccess(true);
       reset();
     } catch (err) {
       if (err instanceof BackendError) {
-        // Map field-level errors from backend directly to form fields
-        Object.entries(err.fieldErrors).forEach(([field, messages]) => {
-          setError(field as keyof FormData, { message: messages[0] });
-        });
-        if (Object.keys(err.fieldErrors).length === 0) {
-          setApiError(err.message || 'Something went wrong. Please try again.');
+        if (Object.keys(err.fieldErrors).length > 0) {
+          Object.entries(err.fieldErrors).forEach(([field, messages]) => {
+            setError(field as keyof FormData, { message: messages[0] });
+          });
+          showError('Please Check Your Information', 'We found some issues with your message. Please review and try again.');
+        } else {
+          showError('Unable to Send Message', getUserFriendlyError(err));
         }
       } else {
-        setApiError('Something went wrong. Please try again.');
+        showError('Connection Problem', getUserFriendlyError(err));
       }
-      setStatus('error');
     }
   };
 
-  if (status === 'success') {
-    return (
-      <div className="flex flex-col gap-3 py-12">
-        <CheckCircle2 className="h-5 w-5 text-gold-400" />
-        <p className="font-bricolage font-bold text-neutral-900 text-xl leading-snug">
-          Message received.
-        </p>
-        <p className="font-raleway text-neutral-500 text-sm font-light">
-          Thank you for reaching out. We&apos;ll be in touch shortly.
-        </p>
-        <button
-          onClick={() => setStatus('idle')}
-          className="mt-4 font-worksans text-[0.55rem] tracking-[0.2em] uppercase text-neutral-500 hover:text-purple-600 transition-colors duration-300 w-fit border-b border-neutral-200 hover:border-purple-400 pb-px"
-        >
-          Send another message
-        </button>
-      </div>
-    );
-  }
-
   return (
+    <>
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccess}
+        title="Message Received!"
+        message="Thank you for reaching out. We've received your message and our team will get back to you shortly."
+        onClose={() => setShowSuccess(false)}
+        autoClose={5000}
+      />
+
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
@@ -157,11 +150,13 @@ export function ContactForm() {
         )}
       </div>
 
-      {apiError && (
-        <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
-          {apiError}
-        </p>
-      )}
+      {/* Error Modal */}
+      <ErrorModal
+        isOpen={error?.isOpen ?? false}
+        title={error?.title}
+        message={error?.message ?? ''}
+        onClose={closeError}
+      />
 
       <button
         type="submit"
@@ -171,5 +166,6 @@ export function ContactForm() {
         {isSubmitting ? 'Sending…' : 'Send Message'}
       </button>
     </form>
+    </>
   );
 }
