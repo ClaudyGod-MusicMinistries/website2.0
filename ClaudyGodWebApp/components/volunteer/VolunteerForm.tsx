@@ -231,7 +231,7 @@ export function VolunteerForm() {
             className="mt-1 w-4 h-4 rounded border-neutral-300 text-purple-600 cursor-pointer"
           />
           <label htmlFor="agreeTerms" className="text-sm text-neutral-700">
-            I agree to volunteer and abide by the ministry's guidelines and code of conduct
+            I agree to volunteer and abide by the ministry&apos;s guidelines and code of conduct
             <span className="text-purple-500 ml-1">*</span>
           </label>
         </div>

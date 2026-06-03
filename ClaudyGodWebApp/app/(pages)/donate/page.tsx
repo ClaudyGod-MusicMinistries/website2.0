@@ -5,13 +5,28 @@ import { PageHero } from '@/components/shared/PageHero';
 const DonateClient = dynamic(() => import('@/components/donate/DonateClient'), { ssr: false });
 
 export const metadata: Metadata = {
-  title: 'Donate — Support ClaudyGod Music Ministries',
-  description: 'Partner with ClaudyGod Music Ministries through your generous donation. Help fund gospel music production, ministry tours, and outreach events worldwide.',
-  keywords: ['donate ClaudyGod', 'support gospel ministry', 'Christian ministry donation', 'gospel music support', 'ministry partner Nigeria'],
+  title: 'Donate — Partner with ClaudyGod Music Ministries',
+  description:
+    'Support ClaudyGod Music Ministries with a generous donation. Your gift funds gospel music production, ministry tours across Nigeria and beyond, community outreach, and discipleship programmes.',
+  keywords: [
+    'donate ClaudyGod', 'support ClaudyGod ministry',
+    'gospel ministry donation Nigeria', 'Christian ministry partner',
+    'support gospel music Nigeria', 'give to gospel ministry',
+    'ClaudyGod ministry partner', 'support Nigerian gospel artist',
+    'gospel music production support', 'ministry outreach donation',
+    'Christian giving Nigeria', 'support worship ministry',
+    'sow into gospel ministry', 'faith giving Nigeria',
+  ],
   openGraph: {
-    title: 'Support ClaudyGod Ministry — Give Today',
-    description: 'Your gift helps spread the gospel through music, ministry tours, and outreach events.',
-    url: '/donate',
+    title:       'Donate — Partner with ClaudyGod Music Ministries',
+    description: 'Your generosity funds gospel music, ministry tours, and outreach. Partner with ClaudyGod Music Ministries today.',
+    url:         '/donate',
+    images: [{ url: '/ClaudySocial.jpg', width: 1200, height: 630, alt: 'Support ClaudyGod Ministry' }],
+  },
+  twitter: {
+    card:  'summary_large_image',
+    title: 'Donate — Support ClaudyGod Music Ministries',
+    images:['/ClaudySocial.jpg'],
   },
   alternates: { canonical: 'https://claudygod.com/donate' },
 };

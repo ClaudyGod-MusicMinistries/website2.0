@@ -1,15 +1,34 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { PageHero } from '@/components/shared/PageHero';
-import { GridSkeleton } from '@/components/shared/GridSkeleton';
-import { AnimateOnView } from '@/components/shared/AnimateOnView';
-import { VolunteersSection } from '@/components/ministry/VolunteersSection';
+import { PageHero }         from '@/components/shared/PageHero';
+import { GridSkeleton }     from '@/components/shared/GridSkeleton';
+import { AnimateOnView }    from '@/components/shared/AnimateOnView';
+import { VolunteersSection }from '@/components/ministry/VolunteersSection';
+import { breadcrumb, organization } from '@/utils/jsonLd';
 
 export const metadata: Metadata = {
-  title: 'ClaudyGod Ministry — Teachings, Gallery & Team',
-  description: 'Explore the ministry of ClaudyGod — live teachings, podcast episodes, ministry gallery, and the dedicated team spreading the gospel.',
-  keywords: ['ClaudyGod ministry', 'gospel teachings', 'CGM podcast', 'ministry gallery', 'Christian ministry Nigeria'],
-  openGraph: { title: 'ClaudyGod Ministry', description: 'Teachings, gallery, and the team behind the mission.', url: '/ministry' },
+  title: 'ClaudyGod Ministry — Teachings, Podcast, Gallery & Outreach',
+  description:
+    'Explore ClaudyGod Music Ministries — Spirit-filled teachings, CGM Podcast episodes, worship gallery, community outreach, and the dedicated team spreading the gospel across Nigeria and beyond.',
+  keywords: [
+    'ClaudyGod ministry', 'CGM podcast', 'gospel teachings Nigeria',
+    'ClaudyGod live teaching', 'Christian podcast Nigeria',
+    'ministry gallery ClaudyGod', 'gospel outreach Nigeria',
+    'ClaudyGod discipleship', 'Christian ministry Port Harcourt',
+    'spirit filled teachings', 'Nigerian gospel church ministry',
+    'ClaudyGod community outreach', 'ClaudyGod music ministry gallery',
+  ],
+  openGraph: {
+    title:       'ClaudyGod Ministry — Teachings, Gallery & Outreach',
+    description: 'Spirit-filled teachings, CGM Podcast, worship gallery, and gospel outreach — the full scope of ClaudyGod Music Ministries.',
+    url:         '/ministry',
+    images: [{ url: '/manBack.jpg', width: 1920, height: 1280, alt: 'ClaudyGod Ministry' }],
+  },
+  twitter: {
+    card:  'summary_large_image',
+    title: 'ClaudyGod Ministry — Teachings & Outreach',
+    images:['/manBack.jpg'],
+  },
   alternates: { canonical: 'https://claudygod.com/ministry' },
 };
 
@@ -28,9 +47,17 @@ const TeamSection = dynamic(
   { loading: () => <GridSkeleton cols={4} rows={1} /> }
 );
 
+const schemas = [
+  breadcrumb([{ name: 'Ministry', href: '/ministry' }]),
+  organization(),
+];
+
 export default function MinistryPage() {
   return (
     <>
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+      ))}
       <PageHero
         eyebrow="Ministry"
         title="Beyond the Music"

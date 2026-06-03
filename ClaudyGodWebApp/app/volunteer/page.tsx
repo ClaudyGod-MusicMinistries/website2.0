@@ -77,7 +77,7 @@ export default function VolunteerPage() {
             <div>
               <h3 className="font-bricolage font-semibold text-lg mb-2">Find Purpose</h3>
               <p className="font-raleway text-neutral-300">
-                Be part of something greater and make a difference in people's lives.
+                Be part of something greater and make a difference in people&apos;s lives.
               </p>
             </div>
           </div>
