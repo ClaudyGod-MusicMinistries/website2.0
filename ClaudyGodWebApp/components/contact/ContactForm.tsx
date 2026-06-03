@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { CheckCircle2 } from 'lucide-react';
 import { post, BackendError } from '@/utils/apiClient';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 
 interface FormData {
   name: string;
@@ -22,6 +23,7 @@ export function ContactForm() {
     handleSubmit,
     setError,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
@@ -112,11 +114,17 @@ export function ContactForm() {
         <label className="font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-neutral-600 block mb-2">
           Phone <span className="text-neutral-400">(optional)</span>
         </label>
-        <input
-          {...register('phone')}
-          type="tel"
-          placeholder="+1 (555) 000-0000"
-          className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field }) => (
+            <PhoneInput
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              placeholder="800 000 0000"
+            />
+          )}
         />
       </div>
 
