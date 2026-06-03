@@ -26,7 +26,7 @@ export function StorePreview() {
           </div>
           <Link
             href="/store"
-            className="hidden sm:inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 shrink-0"
+            className="hidden sm:inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 shrink-0 group"
           >
             Browse All
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -39,7 +39,7 @@ export function StorePreview() {
             <Link
               key={product.id}
               href="/store"
-              className="group bg-white overflow-hidden flex flex-col shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] transition-shadow duration-300"
+              className="group bg-white overflow-hidden flex flex-col rounded-xl sm:rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] transition-all duration-300 hover:-translate-y-0.5"
             >
               {/* Image */}
               <div className="relative aspect-square overflow-hidden bg-cream-100">
@@ -53,7 +53,7 @@ export function StorePreview() {
               </div>
 
               {/* Info */}
-              <div className="p-3.5 sm:p-5 flex flex-col gap-1 sm:gap-1.5 border-t border-black/[0.05]">
+              <div className="p-3 sm:p-4 lg:p-5 flex flex-col gap-1 sm:gap-1.5 border-t border-black/[0.05]">
                 <p className="font-worksans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
                   {product.category}
                 </p>
@@ -69,13 +69,19 @@ export function StorePreview() {
         </div>
 
         {/* CTA row */}
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/store"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 font-worksans text-xs tracking-[0.16em] sm:tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 sm:px-10 h-11 sm:h-12 rounded-xl transition-all duration-300 group"
+            className="inline-flex items-center justify-center gap-2.5 font-worksans text-[0.65rem] sm:text-xs tracking-[0.18em] sm:tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-6 sm:px-10 h-11 sm:h-12 rounded-xl transition-all duration-300 group"
           >
             Visit Official Store
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </Link>
+          <Link
+            href="/store"
+            className="sm:hidden inline-flex items-center justify-center gap-2 font-worksans text-[0.65rem] tracking-[0.18em] uppercase border border-neutral-300 text-neutral-600 h-11 rounded-xl transition-all duration-300"
+          >
+            Browse All Products
           </Link>
         </div>
       </div>
