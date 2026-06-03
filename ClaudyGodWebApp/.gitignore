@@ -29,3 +29,7 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Archived Documentation (Internal Use Only)
+docs/_archived/
+!docs/_archived/.gitkeep

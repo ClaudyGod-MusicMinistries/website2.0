@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
-import { fetchEvents } from '@/lib/backendFetch';
 import { breadcrumb, event as eventSchema } from '@/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
@@ -40,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewsPage() {
-  const events = await fetchEvents();
+  
 
   const schemas = [
     breadcrumb([{ name: 'News & Tours', href: '/news' }]),
@@ -64,7 +63,7 @@ export default async function NewsPage() {
       />
 
       {/* Events & Tours — highlights + reservation portal */}
-      <EventsSection events={events} />
+      <EventsSection />
 
       {/* New releases */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">
