@@ -1,30 +1,24 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+  // Web container health — always returns 200 if Next.js is alive.
+  // Backend connectivity is reported separately but never fails this check.
+  let backend: 'healthy' | 'degraded' | 'unreachable' = 'unknown' as 'unreachable';
+
   try {
-    const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
-    
-    // Use AbortController for timeout instead of fetch timeout option
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
-
-    const backendResponse = await fetch(`${apiBaseUrl}/healthz`, {
-      method: 'GET',
-      signal: controller.signal,
-    }).finally(() => clearTimeout(timeout));
-
-    if (!backendResponse.ok) {
-      return NextResponse.json(
-        { status: 'unhealthy', reason: 'backend_unavailable' },
-        { status: 503 }
-      );
-    }
-
-    return NextResponse.json({ status: 'healthy', timestamp: new Date().toISOString() });
-  } catch (error) {
-    return NextResponse.json(
-      { status: 'unhealthy', reason: error instanceof Error ? error.message : 'unknown_error' },
-      { status: 503 }
-    );
+    const apiBase = process.env.API_BASE_URL ?? 'http://api:8080';
+    const ctrl    = new AbortController();
+    const timer   = setTimeout(() => ctrl.abort(), 3000);
+    const r       = await fetch(`${apiBase}/healthz`, { signal: ctrl.signal })
+                         .finally(() => clearTimeout(timer));
+    backend = r.ok ? 'healthy' : 'degraded';
+  } catch {
+    backend = 'unreachable';
   }
+
+  return NextResponse.json({
+    status:    'healthy',
+    backend,
+    timestamp: new Date().toISOString(),
+  });
 }
