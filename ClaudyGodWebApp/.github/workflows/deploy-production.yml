@@ -2,15 +2,18 @@ name: Build & Deploy → Production
 
 on:
   push:
-    branches: [main]
+    branches: [main]        # automatic deploy on merge to main
   workflow_dispatch:
     inputs:
       skip_build:
-        description: 'Skip build — deploy existing :latest image?'
+        description: 'Skip Docker build — deploy the existing :latest image as-is'
         required: false
         default: 'false'
         type: choice
         options: ['false', 'true']
+      # Note: workflow_dispatch always deploys :latest (the last successful main build).
+      # To test a feature branch, merge to main first or run build-and-push.yml to
+      # push the branch image to GHCR, then trigger this workflow with skip_build=true.
 
 concurrency:
   group: production
