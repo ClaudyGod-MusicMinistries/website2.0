@@ -45,6 +45,7 @@ export function NewsletterBanner() {
   };
 
   return (
+    <>
     <section className="relative overflow-hidden bg-[#0c0a1a]">
       {/* Purple radial glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.18)_0%,transparent_65%)] pointer-events-none" />
@@ -256,5 +257,6 @@ export function NewsletterBanner() {
         </>
       )}
     </AnimatePresence>
+    </>
   );
 }
