@@ -248,6 +248,14 @@ export function PhoneInput({
           </ul>
         </div>
       )}
+
+      {/* Error message */}
+      {error && (
+        <p className="mt-2 text-sm text-red-500 flex items-center gap-1.5">
+          <span className="w-1 h-1 rounded-full bg-red-500 flex-shrink-0" />
+          {error}
+        </p>
+      )}
     </div>
   );
 }

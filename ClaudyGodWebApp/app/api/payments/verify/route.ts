@@ -36,6 +36,32 @@ export async function GET(req: NextRequest) {
     }
 
     const tx = data.data;
+
+    // Record successful payment in backend
+    if (tx.status === 'success') {
+      const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
+      const donorName = tx.metadata?.custom_fields?.find((f: any) => f.variable_name === 'donor_name')?.value ?? 'Anonymous';
+      const message = tx.metadata?.custom_fields?.find((f: any) => f.variable_name === 'message')?.value ?? undefined;
+
+      try {
+        await fetch(`${apiBaseUrl}/api/v1.0/payments/paystack/record`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            donorName,
+            donorEmail: tx.customer?.email ?? '',
+            amount: tx.amount / 100,
+            currency: tx.currency,
+            reference: tx.reference,
+            message,
+          }),
+        });
+      } catch (err) {
+        console.error('[verify] Failed to record payment in backend:', err);
+        // Still return success as Paystack verified it
+      }
+    }
+
     return NextResponse.json({
       success:   true,
       status:    tx.status,       // 'success' | 'failed' | 'abandoned'
