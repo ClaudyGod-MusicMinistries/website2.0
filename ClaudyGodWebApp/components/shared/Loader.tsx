@@ -81,6 +81,29 @@ export function Loader() {
           transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#070611] select-none overflow-hidden"
         >
+          {/* ── Video Background with dark gradient ─────── */}
+          <video
+            autoPlay
+            muted
+            loop
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover opacity-30"
+            style={{
+              background: 'linear-gradient(135deg, #0a0a0f 0%, #1a0f2e 50%, #0a0a0f 100%)',
+            }}
+          >
+            <source src="/mainBanner.webm" type="video/webm" />
+          </video>
+
+          {/* ── Dark linear gradient overlay ────────────── */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'linear-gradient(135deg, rgba(10,10,15,0.8) 0%, rgba(26,15,46,0.7) 50%, rgba(10,10,15,0.8) 100%)',
+            }}
+          />
+
           {/* ── Background ambience ─────────────────────── */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {/* Deep purple core glow */}

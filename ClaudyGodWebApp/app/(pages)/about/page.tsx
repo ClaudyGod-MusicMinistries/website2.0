@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url:         '/about',
     type:        'profile',
     images: [{
-      url:    '/aboutUs.webp',
+      url:    '/ClaudySocial.jpg',
       width:  1200,
       height: 800,
       alt:    'Minister ClaudyGod — Nigerian Gospel Artist',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card:        'summary_large_image',
     title:       'About Minister ClaudyGod — Nigerian Gospel Artist',
     description: 'Over 20 years of ministry, 7 albums, and a God-given calling.',
-    images:      ['/aboutUs.webp'],
+    images:      ['/ClaudySocial.jpg'],
   },
   alternates: { canonical: 'https://claudygod.com/about' },
 };
@@ -68,7 +68,7 @@ export default function AboutPage() {
         eyebrow="About ClaudyGod"
         title="Minister, Artist & Worshipper"
         subtitle="A Nigerian gospel music minister whose God-breathed songs have touched lives across the world."
-        backgroundImage="/aboutUs.webp"
+        backgroundImage="/ClaudySocial.jpg"
         objectPosition="center top"
       />
       <BiographySection />
