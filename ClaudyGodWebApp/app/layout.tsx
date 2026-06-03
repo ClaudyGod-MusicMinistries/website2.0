@@ -95,6 +95,11 @@ export const metadata: Metadata = {
     google: 'uRQ-mtCDzE4I0xSrGiOFM-EiBW9ylzZwBdfOgcURaaQ',
     other:  { 'msvalidate.01': 'CDC0BA45440A0A1BB38769D83C132EBB' },
   },
+
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 };
 
 // ─── JSON-LD Graph — multiple schemas bundled ──────────────────────────────

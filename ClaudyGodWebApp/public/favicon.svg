@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <style>
+      .logo-bg { fill: #0d0b1a; }
+      .logo-circle { fill: #d4af37; }
+      .logo-text { fill: #ffffff; font-family: 'Bricolage Grotesque', sans-serif; font-weight: bold; font-size: 80px; text-anchor: middle; }
+    </style>
+  </defs>
+  <!-- Background -->
+  <rect class="logo-bg" width="180" height="180"/>
+  <!-- Circle -->
+  <circle cx="90" cy="90" r="75" class="logo-circle" opacity="0.3"/>
+  <!-- Inner circle -->
+  <circle cx="90" cy="90" r="65" class="logo-circle" opacity="0.2"/>
+  <!-- C letter -->
+  <text x="90" y="115" class="logo-text">C</text>
+  <!-- Gold accent -->
+  <circle cx="90" cy="90" r="70" fill="none" stroke="#d4af37" stroke-width="2" opacity="0.5"/>
+</svg>
