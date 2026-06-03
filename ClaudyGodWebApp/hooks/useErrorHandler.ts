@@ -28,10 +28,16 @@ export function useErrorHandler() {
           .map(([field, errors]) => `${field}: ${errors[0]}`)
           .join('\n');
 
+        // Transform fieldErrors from Record<string, string[]> to Record<string, string>
+        const transformedFieldErrors: Record<string, string> = {};
+        Object.entries(err.fieldErrors).forEach(([field, errors]) => {
+          transformedFieldErrors[field] = errors[0];
+        });
+
         showError(
           `${context} — Please Review`,
           `Please check the following:\n${fieldList}`,
-          err.fieldErrors,
+          transformedFieldErrors,
         );
       } else {
         showError(context, err.message || 'Something went wrong. Please try again.');

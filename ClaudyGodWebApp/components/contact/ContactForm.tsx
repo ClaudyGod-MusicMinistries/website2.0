@@ -29,7 +29,16 @@ export function ContactForm() {
     reset,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    mode: 'onTouched',
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
+    },
+  });
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -74,10 +83,16 @@ export function ContactForm() {
             Full Name
           </label>
           <input
-            {...register('name')}
+            {...register('name', {
+              required: 'Full name is required',
+              minLength: { value: 2, message: 'Name must be at least 2 characters' },
+              maxLength: { value: 100, message: 'Name must be less than 100 characters' },
+            })}
             type="text"
             placeholder="Your full name"
-            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
+            className={`w-full h-11 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl ${
+              errors.name ? 'border-red-400 bg-red-50' : 'border-neutral-200'
+            }`}
           />
           {errors.name && (
             <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -90,10 +105,18 @@ export function ContactForm() {
             Email Address
           </label>
           <input
-            {...register('email')}
+            {...register('email', {
+              required: 'Email is required',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Please enter a valid email address',
+              },
+            })}
             type="email"
             placeholder="your@email.com"
-            className="w-full h-11 px-4 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl"
+            className={`w-full h-11 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 rounded-xl ${
+              errors.email ? 'border-red-400 bg-red-50' : 'border-neutral-200'
+            }`}
           />
           {errors.email && (
             <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -138,10 +161,16 @@ export function ContactForm() {
           Message
         </label>
         <textarea
-          {...register('message')}
+          {...register('message', {
+            required: 'Message is required',
+            minLength: { value: 10, message: 'Message must be at least 10 characters' },
+            maxLength: { value: 2000, message: 'Message must be less than 2000 characters' },
+          })}
           rows={5}
           placeholder="Write your message here…"
-          className="w-full px-4 py-3 bg-white border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none rounded-xl"
+          className={`w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm font-light focus:outline-none focus:border-purple-400 transition-colors duration-300 resize-none rounded-xl ${
+            errors.message ? 'border-red-400 bg-red-50' : 'border-neutral-200'
+          }`}
         />
         {errors.message && (
           <p className="mt-1.5 font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
@@ -156,12 +185,19 @@ export function ContactForm() {
         title={error?.title}
         message={error?.message ?? ''}
         onClose={closeError}
+        actions={[
+          {
+            label: 'Edit Message',
+            onClick: closeError,
+            variant: 'primary',
+          },
+        ]}
       />
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="h-11 px-8 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300 rounded-xl"
+        disabled={isSubmitting || Object.keys(errors).length > 0}
+        className="h-11 px-8 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-worksans text-[0.58rem] tracking-[0.2em] uppercase transition-all duration-300 rounded-xl"
       >
         {isSubmitting ? 'Sending…' : 'Send Message'}
       </button>
