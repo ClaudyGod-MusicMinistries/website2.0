@@ -62,7 +62,7 @@ export function DonateSection() {
             </div>
 
             <motion.p custom={0.3} variants={fadeUp}
-              className="font-raleway text-neutral-400 text-base leading-[1.85] max-w-md mb-8"
+              className="font-roboto text-neutral-400 text-base leading-[1.85] max-w-md mb-8"
             >
               Your generous support helps us record new music, reach more lives through concerts and events,
               and spread the gospel to the ends of the earth. Every gift — large or small — makes a difference.
@@ -75,14 +75,14 @@ export function DonateSection() {
                   <div className="w-8 h-8 rounded-lg bg-purple-600/15 border border-purple-500/20 flex items-center justify-center shrink-0">
                     <Icon className="h-3.5 w-3.5 text-purple-400" />
                   </div>
-                  <p className="font-raleway text-neutral-300 text-sm">{label}</p>
+                  <p className="font-roboto text-neutral-300 text-sm">{label}</p>
                 </div>
               ))}
             </motion.div>
 
             {/* Scripture */}
             <motion.blockquote custom={0.55} variants={fadeUp}
-              className="font-raleway italic text-neutral-600 text-sm leading-relaxed border-l-2 border-gold-500/30 pl-4"
+              className="font-roboto italic text-neutral-600 text-sm leading-relaxed border-l-2 border-gold-500/30 pl-4"
             >
               &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together and
               running over, will be poured into your lap.&rdquo;
@@ -113,7 +113,7 @@ export function DonateSection() {
               </div>
 
               <p className="font-bricolage font-semibold text-white text-xl mb-2">Make a Difference Today</p>
-              <p className="font-raleway text-neutral-500 text-sm mb-8">
+              <p className="font-roboto text-neutral-500 text-sm mb-8">
                 100% of your donation supports the ministry directly. Choose any currency on the Donate page.
               </p>
 

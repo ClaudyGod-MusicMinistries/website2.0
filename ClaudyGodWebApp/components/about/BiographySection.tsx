@@ -19,7 +19,7 @@ export function BiographySection() {
             </h2>
             <div className="space-y-5">
               {firstSectionTexts.map((text, i) => (
-                <p key={i} className="font-raleway text-neutral-600 text-base leading-[1.85]">
+                <p key={i} className="font-roboto text-neutral-600 text-base leading-[1.85]">
                   {text.trim()}
                 </p>
               ))}
@@ -64,7 +64,7 @@ export function BiographySection() {
             </h2>
             <div className="space-y-5">
               {secondSectionTexts.map((text, i) => (
-                <p key={i} className="font-raleway text-neutral-600 text-base leading-[1.85]">
+                <p key={i} className="font-roboto text-neutral-600 text-base leading-[1.85]">
                   {text.trim()}
                 </p>
               ))}
@@ -81,7 +81,7 @@ export function BiographySection() {
                   <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
                   <div>
                     <p className="font-bricolage font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
-                    <p className="font-raleway text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                    <p className="font-roboto text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
                   </div>
                 </div>
               ))}

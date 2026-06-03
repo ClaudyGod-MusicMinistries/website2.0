@@ -85,13 +85,13 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
 }
 
 const inputClass =
-  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200';
+  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200';
 
 const selectClass =
-  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 appearance-none cursor-pointer';
+  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 appearance-none cursor-pointer';
 
 const textareaClass =
-  'w-full px-4 py-3.5 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-raleway text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none';
+  'w-full px-4 py-3.5 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none';
 
 export function BookingForm() {
   const [step, setStep]           = useState(0);
@@ -363,7 +363,7 @@ export function BookingForm() {
                 type="checkbox"
                 className="mt-0.5 w-4 h-4 accent-purple-600 cursor-pointer flex-shrink-0"
               />
-              <span className="font-raleway text-neutral-600 text-sm leading-relaxed">
+              <span className="font-roboto text-neutral-600 text-sm leading-relaxed">
                 I agree to the{' '}
                 <a href="/legal/terms" target="_blank" className="text-purple-600 hover:text-purple-800 underline underline-offset-2 transition-colors">
                   terms and conditions

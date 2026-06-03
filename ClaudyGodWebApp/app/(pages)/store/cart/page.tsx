@@ -20,7 +20,7 @@ export default function CartPage() {
           <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight mb-2">
             Your cart is empty
           </p>
-          <p className="font-raleway text-neutral-500 text-sm">
+          <p className="font-roboto text-neutral-500 text-sm">
             Browse the store and add some items.
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function CartPage() {
                     <p className="font-bricolage font-semibold text-neutral-900 text-sm leading-snug mb-0.5">
                       {item.name}
                     </p>
-                    <p className="font-raleway text-neutral-400 text-xs mb-4 capitalize">
+                    <p className="font-roboto text-neutral-400 text-xs mb-4 capitalize">
                       {item.category} — {item.description}
                     </p>
                     <div className="flex items-center gap-5">
@@ -127,10 +127,10 @@ export default function CartPage() {
               <div className="space-y-3 mb-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex justify-between gap-3">
-                    <p className="font-raleway text-neutral-500 text-sm truncate flex-1">
+                    <p className="font-roboto text-neutral-500 text-sm truncate flex-1">
                       {item.name} <span className="text-neutral-300">× {item.quantity}</span>
                     </p>
-                    <p className="font-raleway font-medium text-neutral-700 text-sm shrink-0">
+                    <p className="font-roboto font-medium text-neutral-700 text-sm shrink-0">
                       {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>

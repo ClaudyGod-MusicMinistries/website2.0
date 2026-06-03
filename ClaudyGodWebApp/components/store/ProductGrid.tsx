@@ -164,7 +164,7 @@ export function ProductGrid() {
               className="py-20 flex flex-col items-center gap-4 text-center"
             >
               <Search className="h-10 w-10 text-neutral-300" />
-              <p className="font-raleway text-neutral-400 text-lg">No products found</p>
+              <p className="font-roboto text-neutral-400 text-lg">No products found</p>
               <button
                 onClick={() => { setQuery(''); setActiveCategory('all'); }}
                 className="font-worksans text-xs tracking-[0.15em] uppercase text-purple-600 hover:text-purple-800 underline underline-offset-4 transition-colors"
@@ -187,7 +187,7 @@ export function ProductGrid() {
               <span className="text-2xl mt-0.5">{item.icon}</span>
               <div>
                 <p className="font-worksans text-xs tracking-[0.1em] uppercase text-neutral-800 font-medium">{item.label}</p>
-                <p className="font-raleway text-neutral-500 text-xs mt-0.5">{item.sub}</p>
+                <p className="font-roboto text-neutral-500 text-xs mt-0.5">{item.sub}</p>
               </div>
             </div>
           ))}

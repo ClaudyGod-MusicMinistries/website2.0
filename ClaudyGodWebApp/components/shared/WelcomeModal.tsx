@@ -127,7 +127,7 @@ export function WelcomeModal() {
                 </div>
               </div>
 
-              <p className="font-raleway text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
+              <p className="font-roboto text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
                 Spirit-filled gospel music, worship videos, and ministry content — created to bless your soul and spread the love of God.
               </p>
 
@@ -147,7 +147,7 @@ export function WelcomeModal() {
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
                       <span className="text-green-400 text-[0.6rem]">✓</span>
                     </div>
-                    <p className="font-raleway text-neutral-300 text-xs sm:text-sm">
+                    <p className="font-roboto text-neutral-300 text-xs sm:text-sm">
                       You&apos;re subscribed! Welcome to the community.
                     </p>
                   </motion.div>
@@ -158,7 +158,7 @@ export function WelcomeModal() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your@email.com"
-                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-raleway text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-roboto text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
                     />
                     <button
                       type="submit"

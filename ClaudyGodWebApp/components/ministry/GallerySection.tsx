@@ -117,7 +117,7 @@ export function GallerySection() {
               <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-2">
                 Ministry Moments
               </h2>
-              <p className="font-raleway text-neutral-500 text-sm leading-relaxed max-w-lg">
+              <p className="font-roboto text-neutral-500 text-sm leading-relaxed max-w-lg">
                 {catDescription}
               </p>
             </div>
@@ -203,7 +203,7 @@ export function GallerySection() {
           {/* Empty state */}
           {filtered.length === 0 && (
             <div className="text-center py-20">
-              <p className="font-raleway text-neutral-400 text-sm">No photos in this category yet.</p>
+              <p className="font-roboto text-neutral-400 text-sm">No photos in this category yet.</p>
             </div>
           )}
         </div>
@@ -275,7 +275,7 @@ export function GallerySection() {
                 </AnimatePresence>
 
                 {/* Caption */}
-                <p className="font-raleway text-white/50 text-xs leading-relaxed text-center mt-4 max-w-lg mx-auto">
+                <p className="font-roboto text-white/50 text-xs leading-relaxed text-center mt-4 max-w-lg mx-auto">
                   {activeImage.description}
                 </p>
 

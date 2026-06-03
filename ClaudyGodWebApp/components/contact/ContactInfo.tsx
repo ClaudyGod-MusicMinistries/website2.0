@@ -8,7 +8,7 @@ export function ContactInfo() {
         <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight leading-snug mb-4">
           Let&apos;s Connect
         </p>
-        <p className="font-raleway text-neutral-500 text-sm leading-relaxed font-light">
+        <p className="font-roboto text-neutral-500 text-sm leading-relaxed font-light">
           Whether you want to book for an event, collaborate on a project, or simply reach out —
           we&apos;d love to hear from you. Fill out the form and we&apos;ll respond within 2–3
           business days.
@@ -24,7 +24,7 @@ export function ContactInfo() {
             </p>
             <a
               href="mailto:info@claudygod.com"
-              className="font-raleway text-sm text-neutral-600 hover:text-purple-600 transition-colors duration-300"
+              className="font-roboto text-sm text-neutral-600 hover:text-purple-600 transition-colors duration-300"
             >
               info@claudygod.com
             </a>
@@ -37,7 +37,7 @@ export function ContactInfo() {
             <p className="font-worksans text-[0.48rem] tracking-[0.18em] uppercase text-neutral-600 mb-1">
               Based in
             </p>
-            <p className="font-raleway text-sm text-neutral-600 font-light">California, USA</p>
+            <p className="font-roboto text-sm text-neutral-600 font-light">California, USA</p>
           </div>
         </div>
       </div>
