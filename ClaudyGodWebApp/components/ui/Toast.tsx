@@ -77,16 +77,24 @@ function Toast({ id, type, title, message, duration = 5000, onClose }: ToastProp
   );
 }
 
+interface ToastItem {
+  id: string;
+  type: ToastType;
+  title: string;
+  message?: string;
+  duration?: number;
+}
+
 interface ToastContextProps {
-  toasts: Array<ToastProps & { id: string }>;
+  toasts: ToastItem[];
   showToast: (type: ToastType, title: string, message?: string, duration?: number) => void;
   removeToast: (id: string) => void;
 }
 
 let toastIdCounter = 0;
 
-export const useToast = (): Omit<ToastContextProps, 'toasts'> & { toasts: Array<any> } => {
-  const [toasts, setToasts] = useState<Array<ToastProps & { id: string }>>([]);
+export const useToast = (): Omit<ToastContextProps, 'toasts'> & { toasts: ToastItem[] } => {
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
 
   const showToast = (type: ToastType, title: string, message?: string, duration?: number) => {
     const id = `toast-${++toastIdCounter}`;
@@ -107,7 +115,14 @@ export function ToastContainer() {
     <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3 pointer-events-none">
       {toasts.map((toast) => (
         <div key={toast.id} className="pointer-events-auto">
-          <Toast {...toast} onClose={removeToast} />
+          <Toast
+            id={toast.id}
+            type={toast.type}
+            title={toast.title}
+            message={toast.message}
+            duration={toast.duration}
+            onClose={removeToast}
+          />
         </div>
       ))}
     </div>

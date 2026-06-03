@@ -47,6 +47,10 @@ async function proxyWithBody(
     const body = await req.json();
     const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
     const cookieHeader = req.headers.get('cookie');
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000); // 30-second timeout
+
     const upstream = await fetch(backendUrl, {
       method,
       headers: {
@@ -56,14 +60,38 @@ async function proxyWithBody(
         ...(cookieHeader ? { Cookie: cookieHeader } : {}),
       },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeout);
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
     const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+
+    if (message.includes('AbortError') || message.includes('timeout')) {
+      console.error(`[proxy ${method} ${backendUrl}] Timeout after 30 seconds`);
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Request took too long. Please try again.',
+          data: null,
+          errors: ['Request timeout'],
+          fieldErrors: {},
+        },
+        { status: 504 },
+      );
+    }
+
     console.error(`[proxy ${method} ${backendUrl}]`, message);
     return NextResponse.json(
-      { success: false, message: `Backend unreachable (${backendUrl}): ${message}`, data: null, errors: [message] },
+      {
+        success: false,
+        message: 'Unable to reach the server. Please check your connection and try again.',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
       { status: 502 },
     );
   }
@@ -102,16 +130,33 @@ export async function proxyGet(
     const search = req.nextUrl.searchParams.toString();
     const path = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
     const backendUrl = search ? `${path}?${search}` : path;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
     const upstream = await fetch(backendUrl, {
       method: 'GET',
       headers: { Accept: 'application/json', ...authHeader(req) },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeout);
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    console.error(`[proxy GET ${API_BASE}${API_PREFIX}${backendResource}]`, message);
+    const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+
+    if (message.includes('AbortError') || message.includes('timeout')) {
+      console.error(`[proxy GET ${backendUrl}] Timeout after 30 seconds`);
+      return NextResponse.json(
+        { success: false, message: 'Request took too long. Please try again.', data: null, errors: ['Request timeout'], fieldErrors: {} },
+        { status: 504 },
+      );
+    }
+
+    console.error(`[proxy GET ${backendUrl}]`, message);
     return NextResponse.json(
-      { success: false, message, data: null, errors: [message] },
+      { success: false, message: 'Unable to reach the server. Please check your connection and try again.', data: null, errors: [message], fieldErrors: {} },
       { status: 502 },
     );
   }
@@ -124,16 +169,33 @@ export async function proxyDelete(
 ): Promise<NextResponse> {
   try {
     const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
     const upstream = await fetch(backendUrl, {
       method: 'DELETE',
       headers: { Accept: 'application/json', ...authHeader(req) },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeout);
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    console.error(`[proxy DELETE ${API_BASE}${API_PREFIX}${backendResource}]`, message);
+    const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+
+    if (message.includes('AbortError') || message.includes('timeout')) {
+      console.error(`[proxy DELETE ${backendUrl}] Timeout after 30 seconds`);
+      return NextResponse.json(
+        { success: false, message: 'Request took too long. Please try again.', data: null, errors: ['Request timeout'], fieldErrors: {} },
+        { status: 504 },
+      );
+    }
+
+    console.error(`[proxy DELETE ${backendUrl}]`, message);
     return NextResponse.json(
-      { success: false, message, data: null, errors: [message] },
+      { success: false, message: 'Unable to reach the server. Please check your connection and try again.', data: null, errors: [message], fieldErrors: {} },
       { status: 502 },
     );
   }

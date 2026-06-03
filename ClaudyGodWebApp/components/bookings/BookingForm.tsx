@@ -105,7 +105,7 @@ export function BookingForm() {
     setError,
     trigger,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValidating },
   } = useForm<BookingInput>({
     mode: 'onTouched',
     defaultValues: {
@@ -118,6 +118,8 @@ export function BookingForm() {
     ['eventType', 'eventDate', 'eventDetails'],
     ['address1', 'address2', 'city', 'state', 'zipCode', 'country', 'agreeTerms'],
   ];
+
+  const isStepLoading = isValidating || isSubmitting;
 
   const next = async () => {
     const valid = await trigger(stepFields[step]);
@@ -380,6 +382,13 @@ export function BookingForm() {
         title={error?.title}
         message={error?.message ?? ''}
         onClose={closeError}
+        actions={[
+          {
+            label: 'Edit Booking',
+            onClick: closeError,
+            variant: 'primary',
+          },
+        ]}
       />
 
       {/* Navigation buttons */}
@@ -388,7 +397,8 @@ export function BookingForm() {
           <button
             type="button"
             onClick={() => setStep((s) => s - 1)}
-            className="inline-flex items-center gap-2 h-12 px-6 border border-neutral-200 hover:border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-700 font-bricolage font-semibold text-sm rounded-xl transition-all duration-200"
+            disabled={isStepLoading}
+            className="inline-flex items-center gap-2 h-12 px-6 border border-neutral-200 hover:border-neutral-300 bg-white hover:bg-neutral-50 disabled:bg-neutral-100 disabled:text-neutral-400 disabled:cursor-not-allowed text-neutral-700 font-bricolage font-semibold text-sm rounded-xl transition-all duration-200"
           >
             <ChevronLeft className="h-4 w-4" />
             Back
@@ -401,16 +411,17 @@ export function BookingForm() {
           <button
             type="button"
             onClick={next}
-            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
+            disabled={isStepLoading}
+            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
           >
-            Continue
+            {isStepLoading ? 'Validating…' : 'Continue'}
             <ChevronRight className="h-4 w-4" />
           </button>
         ) : (
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed active:bg-purple-700 text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
+            disabled={isSubmitting || isValidating}
+            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
           >
             {isSubmitting ? 'Submitting…' : 'Submit Request'}
           </button>
