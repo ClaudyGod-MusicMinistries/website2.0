@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { BackendError } from '@/utils/apiClient';
 import { getUserFriendlyError } from '@/utils/errorMessages';
 
@@ -12,46 +12,50 @@ interface ErrorState {
 export function useErrorHandler() {
   const [error, setError] = useState<ErrorState | null>(null);
 
-  const showError = (
-    title: string,
-    message: string,
-    fieldErrors?: Record<string, string>,
-  ) => {
-    setError({ isOpen: true, title, message, fieldErrors });
-  };
+  const showError = useCallback(
+    (
+      title: string,
+      message: string,
+      fieldErrors?: Record<string, string>,
+    ) => {
+      setError({ isOpen: true, title, message, fieldErrors });
+    },
+    [],
+  );
 
-  const handleApiError = (err: unknown, context: string = 'Operation') => {
-    if (err instanceof BackendError) {
-      // Backend validation errors
-      if (Object.keys(err.fieldErrors).length > 0) {
-        const fieldList = Object.entries(err.fieldErrors)
-          .map(([field, errors]) => `${field}: ${errors[0]}`)
-          .join('\n');
-
-        // Transform fieldErrors from Record<string, string[]> to Record<string, string>
-        const transformedFieldErrors: Record<string, string> = {};
-        Object.entries(err.fieldErrors).forEach(([field, errors]) => {
-          transformedFieldErrors[field] = errors[0];
-        });
-
-        showError(
-          `${context} — Please Review`,
-          `Please check the following:\n${fieldList}`,
-          transformedFieldErrors,
-        );
-      } else {
-        showError(context, err.message || 'Something went wrong. Please try again.');
-      }
-    } else if (err instanceof Error) {
-      showError(context, getUserFriendlyError(err));
-    } else {
-      showError(context, getUserFriendlyError(null));
-    }
-  };
-
-  const closeError = () => {
+  const closeError = useCallback(() => {
     setError(null);
-  };
+  }, []);
+
+  const handleApiError = useCallback(
+    (err: unknown, context: string = 'Operation') => {
+      if (err instanceof BackendError) {
+        if (Object.keys(err.fieldErrors).length > 0) {
+          const fieldList = Object.entries(err.fieldErrors)
+            .map(([field, errors]) => `${field}: ${errors[0]}`)
+            .join('\n');
+
+          const transformedFieldErrors: Record<string, string> = {};
+          Object.entries(err.fieldErrors).forEach(([field, errors]) => {
+            transformedFieldErrors[field] = errors[0];
+          });
+
+          showError(
+            `${context} — Please Review`,
+            `Please check the following:\n${fieldList}`,
+            transformedFieldErrors,
+          );
+        } else {
+          showError(context, err.message || 'Something went wrong. Please try again.');
+        }
+      } else if (err instanceof Error) {
+        showError(context, getUserFriendlyError(err));
+      } else {
+        showError(context, getUserFriendlyError(null));
+      }
+    },
+    [showError],
+  );
 
   return {
     error,
