@@ -4,8 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { post, BackendError } from '@/utils/apiClient';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 import type { EventShape } from '@/lib/backendFetch';
 
 interface TicketFormData {
@@ -204,6 +205,7 @@ function TicketForm({ events }: { events: EventShape[] }) {
 
   const {
     register,
+    control,
     handleSubmit,
     setError,
     reset,
@@ -386,8 +388,22 @@ function TicketForm({ events }: { events: EventShape[] }) {
               </div>
 
               <div>
-                <input {...register('phone')} type="tel" placeholder="Phone number" className={inputCls} />
-                {errors.phone && <p className={errCls}>{errors.phone.message}</p>}
+                <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
+                  Phone Number *
+                </label>
+                <Controller
+                  name="phone"
+                  control={control}
+                  rules={{ required: 'Phone number is required' }}
+                  render={({ field }) => (
+                    <PhoneInput
+                      value={field.value ?? ''}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      error={errors.phone?.message}
+                    />
+                  )}
+                />
               </div>
 
               {/* Quantity */}
