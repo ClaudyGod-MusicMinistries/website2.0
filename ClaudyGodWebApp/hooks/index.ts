@@ -9,4 +9,3 @@ export { useStoreProducts } from './useStoreProducts';
 export { useMedia } from './useMedia';
 export { useFAQs } from './useFAQs';
 export { useErrorHandler } from './useErrorHandler';
-export { useToast } from './useToast';
