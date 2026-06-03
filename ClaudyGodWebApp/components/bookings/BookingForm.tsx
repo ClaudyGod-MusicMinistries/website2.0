@@ -94,10 +94,9 @@ const textareaClass =
   'w-full px-4 py-3.5 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none';
 
 export function BookingForm() {
-  const [step, setStep]           = useState(0);
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep]                         = useState(0);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const { error, showError, closeError } = useErrorHandler();
+  const { error, showError, closeError }        = useErrorHandler();
 
   const {
     register,
@@ -105,12 +104,11 @@ export function BookingForm() {
     setError,
     trigger,
     control,
+    reset,
     formState: { errors, isSubmitting, isValidating },
   } = useForm<BookingInput>({
     mode: 'onTouched',
-    defaultValues: {
-      agreeTerms: false,
-    }
+    defaultValues: { agreeTerms: false },
   });
 
   const stepFields: (keyof BookingInput)[][] = [
@@ -147,6 +145,8 @@ export function BookingForm() {
         country:      countryNames[data.country] ?? data.country,
         agreeTerms:   data.agreeTerms,
       });
+      reset();
+      setStep(0);
       setShowSuccessModal(true);
     } catch (err) {
       if (err instanceof BackendError) {
@@ -261,7 +261,6 @@ export function BookingForm() {
                 />
               )}
             />
-            <FieldError message={errors.phone?.message} />
           </div>
           <div>
             <Label required>Organization / Church Name</Label>

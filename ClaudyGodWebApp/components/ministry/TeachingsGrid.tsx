@@ -20,26 +20,26 @@ export function TeachingsGrid() {
   return (
     <>
       <section className="bg-cream-100 section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="flex items-center gap-4 mb-6">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="flex items-center gap-4 mb-4 sm:mb-6">
             <span className="rule-gold" />
             <span className="label-eyebrow">Teachings & Podcasts</span>
           </div>
-          <h2 className="font-bricolage font-bold text-neutral-900 text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-12">
+          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight mb-8 sm:mb-10">
             Ministry Content
           </h2>
 
-          {/* Filter tabs */}
-          <div className="flex items-center gap-6 mb-10 border-b border-black/[0.07] pb-0">
+          {/* Filter tabs — pill style, horizontal scroll on mobile */}
+          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-10 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
             {filters.map((f) => (
               <button
                 key={f}
                 onClick={() => setActive(f)}
                 className={cn(
-                  'font-worksans text-xs tracking-[0.18em] uppercase pb-4 border-b-2 -mb-px transition-all duration-300',
+                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-worksans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
                   active === f
-                    ? 'text-purple-600 border-purple-500'
-                    : 'text-neutral-500 border-transparent hover:text-neutral-700'
+                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
+                    : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                 )}
               >
                 {f}

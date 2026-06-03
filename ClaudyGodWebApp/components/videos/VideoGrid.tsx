@@ -32,32 +32,32 @@ export function VideoGrid() {
   return (
     <>
       <section className="bg-white section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
           {/* Section header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
             <div>
               <div className="flex items-center gap-4 mb-3">
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-bricolage font-semibold text-neutral-900 text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-bricolage font-semibold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
                 All Videos
               </h2>
             </div>
-            <p className="font-worksans text-xs tracking-[0.1em] text-neutral-400 sm:pb-1">
+            <p className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
               {filtered.length} video{filtered.length !== 1 ? 's' : ''} available
             </p>
           </div>
 
-          {/* Pill filter tabs — large, bold, readable */}
-          <div className="flex flex-wrap gap-2.5 mb-10">
+          {/* Filter tabs — horizontal scroll on mobile, wraps on sm+ */}
+          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-10 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActive(cat)}
                 className={cn(
-                  'inline-flex items-center gap-2 px-5 h-11 rounded-full font-worksans text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
+                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-worksans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
                   active === cat
                     ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'

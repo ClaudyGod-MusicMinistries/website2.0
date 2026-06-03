@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
@@ -209,6 +210,7 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<ContactData>({ resolver: zodResolver(contactSchema) });
 
@@ -234,7 +236,18 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
 
       <div>
         <label className={labelCls}>Phone Number</label>
-        <input {...register('phone')} type="tel" placeholder="+234 800 000 0000" className={inputCls} />
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field }) => (
+            <PhoneInput
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              error={errors.phone?.message}
+            />
+          )}
+        />
         {errors.phone && <p className={errCls}>{errors.phone.message}</p>}
       </div>
 

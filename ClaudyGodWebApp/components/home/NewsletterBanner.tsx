@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Mail, Music, Bell, Users } from 'lucide-react';
+import { CheckCircle2, Mail, Music, Bell, Users, X } from 'lucide-react';
 import { post, BackendError } from '@/utils/apiClient';
 
 interface NewsletterInput {
@@ -45,6 +45,7 @@ export function NewsletterBanner() {
   };
 
   return (
+    <>
     <section className="relative overflow-hidden bg-[#0c0a1a]">
       {/* Purple radial glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.18)_0%,transparent_65%)] pointer-events-none" />
@@ -195,5 +196,67 @@ export function NewsletterBanner() {
       {/* Bottom accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
     </section>
+
+    {/* Success modal */}
+    <AnimatePresence>
+      {status === 'success' && (
+        <>
+          <motion.div
+            key="nl-backdrop"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[300] bg-black/70 backdrop-blur-sm"
+            onClick={() => setStatus('idle')}
+            aria-hidden="true"
+          />
+          <motion.div
+            key="nl-modal"
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            animate={{ opacity: 1, scale: 1,   y: 0 }}
+            exit={{ opacity: 0, scale: 0.96,   y: 8 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Subscription confirmed"
+            className="fixed inset-0 z-[301] flex items-center justify-center p-4"
+          >
+            <div className="relative w-full max-w-sm bg-[#0e0c1a] border border-white/[0.09] rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.6)] overflow-hidden">
+              {/* Gold top bar */}
+              <div className="h-1 bg-gradient-to-r from-gold-500/60 via-gold-400 to-gold-500/60" />
+
+              <div className="p-7 text-center">
+                {/* Animated check */}
+                <div className="w-16 h-16 rounded-full bg-gold-500/10 border border-gold-500/25 flex items-center justify-center mx-auto mb-5">
+                  <CheckCircle2 className="h-8 w-8 text-gold-400" aria-hidden="true" />
+                </div>
+
+                <h3 className="font-bricolage font-bold text-white text-xl mb-2">
+                  You&apos;re in. Welcome!
+                </h3>
+                <p className="font-roboto text-neutral-400 text-sm leading-relaxed mb-6">
+                  Thank you for joining the ministry community. Expect worship, updates, and encouragement straight to your inbox.
+                </p>
+
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="w-full h-11 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-colors duration-200"
+                >
+                  Continue
+                </button>
+              </div>
+
+              <button
+                onClick={() => setStatus('idle')}
+                aria-label="Close"
+                className="absolute top-4 right-4 w-8 h-8 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center text-neutral-500 hover:text-white transition-all duration-200"
+              >
+                <X className="h-3.5 w-3.5" aria-hidden="true" />
+              </button>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
