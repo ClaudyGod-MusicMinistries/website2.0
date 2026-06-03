@@ -21,12 +21,35 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
   const contentType = upstream.headers.get('content-type') ?? '';
   if (!contentType.includes('application/json')) {
     const text = await upstream.text();
-    console.error(`[proxy] Non-JSON response from ${backendUrl}: ${text.slice(0, 200)}`);
+    console.error(`[proxy] Non-JSON response from ${backendUrl} (${upstream.status}): ${text.slice(0, 500)}`);
+
+    // If it's a 5xx error, provide specific message
+    if (upstream.status >= 500) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Our servers are temporarily unavailable. Please try again in a moment.',
+          data: null,
+          errors: ['Server error. Our team has been notified.'],
+          fieldErrors: {},
+        },
+        { status: 503 },
+      );
+    }
+
+    // For other errors, provide more helpful message
     return NextResponse.json(
-      { success: false, message: 'Backend returned an unexpected response', data: null, errors: [] },
-      { status: 502 },
+      {
+        success: false,
+        message: 'There was a problem processing your request. Please try again.',
+        data: null,
+        errors: [`Server error (${upstream.status})`],
+        fieldErrors: {},
+      },
+      { status: upstream.status === 0 ? 502 : upstream.status },
     );
   }
+
   const data = await upstream.json();
   const res = NextResponse.json(data, { status: upstream.status });
 
