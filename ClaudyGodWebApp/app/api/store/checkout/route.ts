@@ -79,6 +79,38 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Persist order to backend
+    const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
+    try {
+      await fetch(`${apiBaseUrl}/api/v1.0/store/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: data.items,
+          shipping: {
+            fullName: data.shipping.fullName,
+            email: data.shipping.email,
+            phone: data.shipping.phone,
+            address: data.shipping.address,
+            city: data.shipping.city,
+            state: data.shipping.state,
+            country: data.shipping.country,
+            postalCode: data.shipping.postalCode,
+          },
+          shippingMethod: data.shippingMethod,
+          paymentMethod: data.paymentMethod,
+          subtotal: data.subtotal,
+          shippingCost: data.shippingCost,
+          total: data.total,
+          currency: data.currency,
+          paystackRef: data.paystackRef,
+        }),
+      });
+    } catch (err) {
+      console.error('[checkout] Failed to persist order to backend:', err);
+      // Still acknowledge order even if backend persistence fails
+    }
+
     return NextResponse.json(
       {
         success: true,
