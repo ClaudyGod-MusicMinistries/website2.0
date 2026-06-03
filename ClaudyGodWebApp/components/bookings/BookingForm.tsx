@@ -242,7 +242,18 @@ export function BookingForm() {
           </div>
           <div>
             <Label required>Phone Number</Label>
-            <input {...register('phone', { required: 'Phone number is required' })} type="tel" placeholder="+1 (555) 000-0000" className={inputClass} />
+            <input
+              {...register('phone', {
+                required: 'Phone number is required',
+                pattern: {
+                  value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+                  message: 'Please enter a valid phone number (e.g., +1 (555) 000-0000)'
+                }
+              })}
+              type="tel"
+              placeholder="+1 (555) 000-0000"
+              className={inputClass}
+            />
             <FieldError message={errors.phone?.message} />
           </div>
           <div>
