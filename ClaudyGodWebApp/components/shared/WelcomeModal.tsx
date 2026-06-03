@@ -7,7 +7,40 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
 import { getCookie, setCookie } from '@/utils/cookies';
 
-r
+const SESSION_KEY = 'cgm_welcome';
+const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
+
+const backdrop = {
+  hidden:  { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.35 } },
+  exit:    { opacity: 0, transition: { duration: 0.25, delay: 0.1 } },
+};
+
+const panel = {
+  hidden:  { opacity: 0, y: 32, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 } },
+  exit:    { opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } },
+};
+
+export function WelcomeModal() {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  useEffect(() => {
+    // Check if user has already seen modal within the last 12 hours
+    if (getCookie(SESSION_KEY)) return;
+
+    // Show modal after 3 seconds for new users
+    const t = setTimeout(() => setOpen(true), 3000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const close = useCallback(() => {
+    setOpen(false);
+    // Set cookie to expire in 12 hours
+    setCookie(SESSION_KEY, '1', { expires: WELCOME_COOKIE_DAYS });
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
