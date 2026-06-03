@@ -22,12 +22,12 @@ export const metadata: Metadata = {
     title:       'ClaudyGod Official Store — Gospel Merchandise & Apparel',
     description: 'Shop exclusive ClaudyGod merchandise — T-shirts, hoodies, caps & accessories. International shipping available.',
     url:         '/store',
-    images: [{ url: '/MusicBanner1.webp', width: 1920, height: 1080, alt: 'ClaudyGod Official Store' }],
+    images: [{ url: '/Bg_13.webp', width: 1920, height: 1080, alt: 'ClaudyGod Official Store' }],
   },
   twitter: {
     card:  'summary_large_image',
     title: 'ClaudyGod Official Store — Gospel Merch',
-    images:['/MusicBanner1.webp'],
+    images:['/Bg_13.webp'],
   },
   alternates: { canonical: 'https://claudygod.com/store' },
 };
@@ -62,7 +62,7 @@ export default function StorePage() {
         eyebrow="Store"
         title="Official Merchandise"
         subtitle="Music, apparel, and accessories — wear your worship."
-        backgroundImage="/MusicBanner1.webp"
+        backgroundImage="/Bg_13.webp"
         objectPosition="center center"
       />
       <AnimateOnView><ProductGrid /></AnimateOnView>

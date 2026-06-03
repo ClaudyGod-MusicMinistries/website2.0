@@ -89,19 +89,47 @@ export function AIChatWidget() {
 
       const data = await res.json();
 
-      if (!res.ok || !data.success) {
+      // Handle backend errors gracefully
+      if (!res.ok) {
+        // If server is temporarily unavailable (503), provide helpful message
+        if (res.status === 503) {
+          setError('Server temporarily unavailable. Using offline mode.');
+          // Still add a helpful response even when backend is down
+          setMessages(prev => [...prev, {
+            id: generateId(),
+            role: 'assistant',
+            content: 'Our servers are currently experiencing high load. However, I can still help with common questions about music, events, bookings, and more. What would you like to know?',
+            timestamp: new Date(),
+          }]);
+          return;
+        }
+
         setError(data.message ?? 'Something went wrong. Please try again.');
+        return;
+      }
+
+      if (!data.success) {
+        setError(data.message ?? 'Unable to process your request. Please try again.');
         return;
       }
 
       setMessages(prev => [...prev, {
         id:        generateId(),
         role:      'assistant',
-        content:   data.data?.reply ?? '',
+        content:   data.data?.reply ?? 'I encountered an issue processing your request. Please try again.',
         timestamp: new Date(),
       }]);
-    } catch {
-      setError('Network error. Please check your connection and try again.');
+    } catch (err) {
+      console.error('[AIChatWidget] Error:', err);
+      setError('Connection error. Please check your internet and try again.');
+
+      // Still provide helpful message even on network error
+      setMessages(prev => [...prev, {
+        id: generateId(),
+        role: 'assistant',
+        content: 'It looks like there\'s a connection issue. I can still try to help based on offline knowledge. What would you like to know?',
+        timestamp: new Date(),
+      }]);
     } finally {
       setLoading(false);
       inputRef.current?.focus();
