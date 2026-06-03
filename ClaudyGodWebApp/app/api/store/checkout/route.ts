@@ -79,10 +79,91 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Persist order to backend with proper error handling
+    const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
+    let backendOrderId: string | null = null;
+
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000); // 15-second timeout
+
+      const backendRes = await fetch(`${apiBaseUrl}/api/v1.0/store/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: data.items,
+          shipping: {
+            fullName: data.shipping.fullName,
+            email: data.shipping.email,
+            phone: data.shipping.phone,
+            address: data.shipping.address,
+            city: data.shipping.city,
+            state: data.shipping.state,
+            country: data.shipping.country,
+            postalCode: data.shipping.postalCode,
+          },
+          shippingMethod: data.shippingMethod,
+          paymentMethod: data.paymentMethod,
+          subtotal: data.subtotal,
+          shippingCost: data.shippingCost,
+          total: data.total,
+          currency: data.currency,
+          paystackRef: data.paystackRef,
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (!backendRes.ok) {
+        const errorText = await backendRes.text();
+        console.error(
+          `[checkout] Backend returned ${backendRes.status}:`,
+          errorText.slice(0, 200),
+        );
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Failed to process order. Please contact support if this persists.',
+          },
+          { status: 503 },
+        );
+      }
+
+      const backendData = await backendRes.json();
+      backendOrderId = backendData.data?.id;
+
+      if (!backendOrderId) {
+        console.error('[checkout] Backend response missing order ID:', backendData);
+        return NextResponse.json(
+          { success: false, message: 'Order processing error. Please contact support.' },
+          { status: 500 },
+        );
+      }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      console.error('[checkout] Failed to persist order to backend:', errorMsg);
+
+      if (errorMsg.includes('AbortError') || errorMsg.includes('timeout')) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'The order is taking too long to process. Please try again or contact support.',
+          },
+          { status: 504 },
+        );
+      }
+
+      return NextResponse.json(
+        { success: false, message: 'Unable to save your order. Please try again.' },
+        { status: 503 },
+      );
+    }
+
     return NextResponse.json(
       {
         success: true,
-        orderId,
+        orderId: backendOrderId || orderId,
         message: 'Order received successfully',
         estimatedDelivery: data.shippingMethod === 'express' ? '3-5 business days' : '7-14 business days',
       },

@@ -49,30 +49,45 @@ export function isAuthenticated(): boolean {
 // ─── Auto-refresh logic ──────────────────────────────────────────────────────
 
 let _refreshPromise: Promise<string> | null = null;
+let _refreshInProgress = false;
 
 async function refreshToken(): Promise<string> {
-  if (_refreshPromise) return _refreshPromise;
+  // Prevent concurrent refresh attempts
+  if (_refreshInProgress || _refreshPromise) return _refreshPromise!;
+
+  _refreshInProgress = true;
 
   _refreshPromise = (async () => {
-    const res = await fetch(`${BASE}/auth/refresh`, {
-      method: 'POST',
-      credentials: 'include', // send the HTTP-only refresh cookie
-      headers: { Accept: 'application/json' },
-    });
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000); // 10-second timeout
 
-    const body = (await res.json()) as ApiResponse<{ accessToken: string; accessTokenExpiresAt: string }>;
+      const res = await fetch(`${BASE}/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include', // send the HTTP-only refresh cookie
+        headers: { Accept: 'application/json' },
+        signal: controller.signal,
+      });
 
-    if (!res.ok || !body.success || !body.data) {
-      clearAccessToken();
-      throw new BackendError(
-        body.message || 'Session expired. Please log in again.',
-        res.status,
-      );
+      clearTimeout(timeout);
+
+      const body = (await res.json()) as ApiResponse<{ accessToken: string; accessTokenExpiresAt: string }>;
+
+      if (!res.ok || !body.success || !body.data) {
+        clearAccessToken();
+        throw new BackendError(
+          body.message || 'Session expired. Please log in again.',
+          res.status,
+        );
+      }
+
+      setAccessToken(body.data.accessToken, body.data.accessTokenExpiresAt);
+      return body.data.accessToken;
+    } finally {
+      _refreshInProgress = false;
+      _refreshPromise = null;
     }
-
-    setAccessToken(body.data.accessToken, body.data.accessTokenExpiresAt);
-    return body.data.accessToken;
-  })().finally(() => { _refreshPromise = null; });
+  })();
 
   return _refreshPromise;
 }
