@@ -3,7 +3,7 @@ FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --frozen-lockfile && npm cache clean --force
+RUN npm install --legacy-peer-deps && npm cache clean --force
 
 # ─── Stage 2: Builder ────────────────────────────────────────────────────────
 FROM node:20-alpine AS builder
