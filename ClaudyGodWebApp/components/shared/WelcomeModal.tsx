@@ -6,6 +6,12 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
 import { getCookie, setCookie } from '@/utils/cookies';
+import { featuredVideos } from '@/data/featured';
+
+function getYouTubeId(url: string) {
+  const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
+  return m ? m[1] : null;
+}
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -26,6 +32,9 @@ export function WelcomeModal() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
+  const latestVideo = featuredVideos[0];
+  const ytId = getYouTubeId(latestVideo.youtubeUrl);
 
   useEffect(() => {
     // Check if user has already seen modal within the last 12 hours
@@ -60,6 +69,7 @@ export function WelcomeModal() {
   };
 
   return (
+    <>
     <AnimatePresence>
       {open && (
         <motion.div
@@ -90,10 +100,13 @@ export function WelcomeModal() {
             </button>
 
             {/* ── Hero band — shrinks naturally, fixed on mobile ── */}
-            <div className="relative h-36 sm:h-52 overflow-hidden shrink-0">
+            <button
+              onClick={() => setVideoOpen(true)}
+              className="relative h-36 sm:h-52 overflow-hidden shrink-0 w-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
+            >
               <Image
-                src="/resize_abt.webp"
-                alt="ClaudyGod Music Ministries"
+                src={latestVideo.thumbnailUrl}
+                alt={latestVideo.title}
                 fill
                 className="object-cover object-top"
                 sizes="576px"
@@ -103,12 +116,12 @@ export function WelcomeModal() {
 
               {/* Play badge */}
               <div className="absolute bottom-3 left-4 flex items-center gap-2.5">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-[0_4px_18px_rgba(124,58,237,0.55)] cursor-pointer transition-colors duration-200">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-[0_4px_18px_rgba(124,58,237,0.55)] transition-colors duration-200">
                   <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
                 </div>
-                <div>
-                  <p className="font-worksans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Now Streaming</p>
-                  <p className="font-bricolage font-bold text-white text-xs sm:text-sm leading-tight">Very Glorious</p>
+                <div className="text-left">
+                  <p className="font-worksans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Latest Release</p>
+                  <p className="font-bricolage font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">{latestVideo.title}</p>
                 </div>
               </div>
 
@@ -116,7 +129,7 @@ export function WelcomeModal() {
               <div className="absolute top-3 left-4 bg-gold-500/90 text-[#07060f] font-worksans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
                 New Release
               </div>
-            </div>
+            </button>
 
             {/* ── Scrollable body ── */}
             <div className="overflow-y-auto flex-1 px-4 pb-4 pt-3 sm:px-6 sm:pb-6">
@@ -199,5 +212,53 @@ export function WelcomeModal() {
         </motion.div>
       )}
     </AnimatePresence>
+
+    {/* Video lightbox modal */}
+    <AnimatePresence>
+      {videoOpen && ytId && (
+        <>
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[800] bg-black/94 backdrop-blur-md"
+            onClick={() => setVideoOpen(false)}
+          />
+          <motion.div
+            key="modal"
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 10 }}
+            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            className="fixed inset-0 z-[801] flex items-center justify-center p-4 md:p-8 pointer-events-none"
+          >
+            <div className="relative w-full max-w-5xl pointer-events-auto">
+              <div className="flex items-center justify-between mb-3">
+                <p className="font-bricolage font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                  {latestVideo.title}
+                </p>
+                <button
+                  onClick={() => setVideoOpen(false)}
+                  aria-label="Close"
+                  className="flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="relative aspect-video bg-black rounded-2xl overflow-hidden ring-1 ring-white/10">
+                <iframe
+                  src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`}
+                  title={latestVideo.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+    </>
   );
 }
