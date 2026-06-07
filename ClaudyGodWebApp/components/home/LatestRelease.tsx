@@ -1,11 +1,26 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Play } from 'lucide-react';
 import { latestReleasePlatforms, albums } from '@/data/music';
+import { featuredVideos } from '@/data/featured';
+
+function getYouTubeId(url: string) {
+  const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
+  return m ? m[1] : null;
+}
 
 export function LatestRelease() {
+  const [videoOpen, setVideoOpen] = useState(false);
   const latest = albums[0];
+  const latestVideo = featuredVideos[0];
+  const ytId = getYouTubeId(latestVideo.youtubeUrl);
 
   return (
+    <>
     <section className="bg-white section-py">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
 
@@ -17,20 +32,45 @@ export function LatestRelease() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
 
-          {/* Album art */}
-          <div className="flex justify-center">
-            <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
+          {/* Album art & Video preview */}
+          <div className="flex flex-col gap-4">
+            {/* Album art */}
+            <div className="flex justify-center">
+              <div className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
+                <Image
+                  src={latest.image}
+                  alt={latest.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 45vw"
+                  quality={90}
+                  priority={true}
+                />
+                <div className="absolute inset-0 ring-1 ring-black/5 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Video preview */}
+            <button
+              onClick={() => setVideoOpen(true)}
+              className="relative w-full max-w-sm mx-auto aspect-video rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.12)] group cursor-pointer"
+            >
               <Image
-                src={latest.image}
-                alt={latest.title}
+                src={latestVideo.thumbnailUrl}
+                alt={latestVideo.title}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 45vw"
                 quality={90}
-                priority={true}
               />
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-white/20 group-hover:bg-white/30 backdrop-blur-sm flex items-center justify-center transition-all duration-300 shadow-lg">
+                  <Play className="h-6 w-6 text-white fill-white ml-1" />
+                </div>
+              </div>
               <div className="absolute inset-0 ring-1 ring-black/5 pointer-events-none" />
-            </div>
+            </button>
           </div>
 
           {/* Content */}
@@ -85,5 +125,53 @@ export function LatestRelease() {
         </div>
       </div>
     </section>
+
+    {/* Video lightbox modal */}
+    <AnimatePresence>
+      {videoOpen && ytId && (
+        <>
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[600] bg-black/94 backdrop-blur-md"
+            onClick={() => setVideoOpen(false)}
+          />
+          <motion.div
+            key="modal"
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 10 }}
+            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            className="fixed inset-0 z-[601] flex items-center justify-center p-4 md:p-8 pointer-events-none"
+          >
+            <div className="relative w-full max-w-5xl pointer-events-auto">
+              <div className="flex items-center justify-between mb-3">
+                <p className="font-bricolage font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                  {latestVideo.title}
+                </p>
+                <button
+                  onClick={() => setVideoOpen(false)}
+                  aria-label="Close"
+                  className="flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+              <div className="relative aspect-video bg-black rounded-2xl overflow-hidden ring-1 ring-white/10">
+                <iframe
+                  src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`}
+                  title={latestVideo.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+    </>
   );
 }

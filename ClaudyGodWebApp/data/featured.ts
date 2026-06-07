@@ -8,6 +8,13 @@ export interface FeaturedVideoProps {
 
 export const featuredVideos: FeaturedVideoProps[] = [
   {
+    id: '0',
+    title: 'Latest Release - Latest Single',
+    thumbnailUrl: 'https://img.youtube.com/vi/2JV1k5GGjmk/maxresdefault.jpg',
+    duration: '4:40',
+    youtubeUrl: 'https://youtu.be/2JV1k5GGjmk?si=bpfxXh-TS_kkhuFE',
+  },
+  {
     id: '1',
     title: 'Holy Forever. Spontaneous worship with ClaudyGod & Pianist Etim.',
     thumbnailUrl: 'https://img.youtube.com/vi/oiyqAG06SUk/hqdefault.jpg',
