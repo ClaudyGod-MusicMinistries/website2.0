@@ -3,13 +3,15 @@
  * All templates use modern design with proper branding
  */
 
+import { SITE_URL, LOGO_URL, SOCIAL_URLS } from '@/lib/config/site';
+
 export interface EmailTemplate {
   subject: string;
   html: string;
   text: string;
 }
 
-const BRAND_LOGO_URL = 'https://claudygod.org/ClaudyGoLogo.webp';
+const BRAND_LOGO_URL = LOGO_URL;
 const BRAND_COLOR = '#7C3AED'; // Purple
 const BRAND_PRIMARY = '#0D0B1A'; // Dark background
 
@@ -38,8 +40,8 @@ function getEmailFooter(): string {
         <td align="center" style="padding: 40px 20px;">
           <p style="margin: 0; font-family: 'Raleway', sans-serif; font-size: 13px; color: #999; line-height: 1.6;">
             Spirit-filled gospel music, worship, and ministry<br />
-            <a href="https://claudygod.org" style="color: ${BRAND_COLOR}; text-decoration: none; font-weight: 600;">Visit our website</a> •
-            <a href="https://twitter.com/claudygod" style="color: ${BRAND_COLOR}; text-decoration: none; font-weight: 600;">Follow us</a>
+            <a href="${SITE_URL}" style="color: ${BRAND_COLOR}; text-decoration: none; font-weight: 600;">Visit our website</a> •
+            <a href="${SOCIAL_URLS.twitter}" style="color: ${BRAND_COLOR}; text-decoration: none; font-weight: 600;">Follow us</a>
           </p>
           <p style="margin: 20px 0 0 0; font-family: 'Raleway', sans-serif; font-size: 12px; color: #666;">
             © 2026 ClaudyGod Music Ministries. All rights reserved.
@@ -97,7 +99,7 @@ export function newsletterWelcome(email: string): EmailTemplate {
                   <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
                     <tr>
                       <td align="center">
-                        <a href="https://claudygod.org/music" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, ${BRAND_COLOR} 0%, #6D28D9 100%); color: white; font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px; letter-spacing: 0.5px;">LISTEN NOW</a>
+                        <a href="${SITE_URL}/music" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, ${BRAND_COLOR} 0%, #6D28D9 100%); color: white; font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px; letter-spacing: 0.5px;">LISTEN NOW</a>
                       </td>
                     </tr>
                   </table>
@@ -115,7 +117,7 @@ export function newsletterWelcome(email: string): EmailTemplate {
         </body>
       </html>
     `,
-    text: `Welcome to ClaudyGod Music Ministries!\n\nHi ${email},\n\nThank you for subscribing! You're now part of our community.\n\nWhat You'll Receive:\n- Latest music releases\n- Exclusive worship videos\n- Ministry updates\n- Inspiring messages\n- Special offers\n\nVisit: https://claudygod.org/music\n\nIn faith and music,\nMinister ClaudyGod`,
+    text: `Welcome to ClaudyGod Music Ministries!\n\nHi ${email},\n\nThank you for subscribing! You're now part of our community.\n\nWhat You'll Receive:\n- Latest music releases\n- Exclusive worship videos\n- Ministry updates\n- Inspiring messages\n- Special offers\n\nVisit: ${SITE_URL}/music\n\nIn faith and music,\nMinister ClaudyGod`,
   };
 }
 
@@ -165,7 +167,7 @@ export function eventRegistrationConfirmation(name: string, eventTitle: string, 
                   <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
                     <tr>
                       <td align="center">
-                        <a href="https://claudygod.org/events" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, ${BRAND_COLOR} 0%, #6D28D9 100%); color: white; font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px;">VIEW EVENT</a>
+                        <a href="${SITE_URL}/events" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, ${BRAND_COLOR} 0%, #6D28D9 100%); color: white; font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px;">VIEW EVENT</a>
                       </td>
                     </tr>
                   </table>
@@ -182,7 +184,7 @@ export function eventRegistrationConfirmation(name: string, eventTitle: string, 
         </body>
       </html>
     `,
-    text: `Event Registration Confirmed!\n\nHi ${name},\n\nYour registration for ${eventTitle} has been confirmed!\n\nDate: ${eventDate}\n\nWe look forward to seeing you there!\n\nView Event: https://claudygod.org/events`,
+    text: `Event Registration Confirmed!\n\nHi ${name},\n\nYour registration for ${eventTitle} has been confirmed!\n\nDate: ${eventDate}\n\nWe look forward to seeing you there!\n\nView Event: ${SITE_URL}/events`,
   };
 }
 
@@ -224,7 +226,7 @@ export function contactFormConfirmation(name: string, subject: string): EmailTem
                   <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
                     <tr>
                       <td align="center">
-                        <a href="https://claudygod.org" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, ${BRAND_COLOR} 0%, #6D28D9 100%); color: white; font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px;">BACK TO WEBSITE</a>
+                        <a href="${SITE_URL}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, ${BRAND_COLOR} 0%, #6D28D9 100%); color: white; font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 8px;">BACK TO WEBSITE</a>
                       </td>
                     </tr>
                   </table>

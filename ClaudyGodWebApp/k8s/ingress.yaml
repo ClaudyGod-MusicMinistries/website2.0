@@ -27,12 +27,12 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - claudygod.com
-        - www.claudygod.com
+        - claudygod.org
+        - www.claudygod.org
       secretName: claudygod-tls
   rules:
     # www redirect → apex
-    - host: www.claudygod.com
+    - host: www.claudygod.org
       http:
         paths:
           - path: /
@@ -43,7 +43,7 @@ spec:
                 port:
                   number: 80
     # Apex domain
-    - host: claudygod.com
+    - host: claudygod.org
       http:
         paths:
           - path: /

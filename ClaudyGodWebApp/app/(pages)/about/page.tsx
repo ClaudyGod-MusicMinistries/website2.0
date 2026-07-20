@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: 'Over 20 years of ministry, 7 albums, and a God-given calling.',
     images:      ['/ClaudySocial.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.com/about' },
+  alternates: { canonical: 'https://claudygod.org/about' },
 };
 
 /* ── Structured data ── */

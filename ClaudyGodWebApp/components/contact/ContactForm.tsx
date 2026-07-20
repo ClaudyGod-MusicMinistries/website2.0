@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { CheckCircle2 } from 'lucide-react';
-import { post, BackendError } from '@/utils/apiClient';
+import { post, BackendError } from '@/lib/data/client';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'ClaudyGod Official Store — Gospel Merch',
     images:['/Bg_13.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/store' },
+  alternates: { canonical: 'https://claudygod.org/store' },
 };
 
 const ProductGrid = dynamic(
@@ -45,10 +45,10 @@ const CartDrawer = dynamic(
 const schemas = [
   breadcrumb([{ name: 'Store', href: '/store' }]),
   itemList('ClaudyGod Official Merchandise', [
-    { name: 'ClaudyGod Premium T-Shirt', url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product1.webp' },
-    { name: 'ClaudyGod Exclusive Hoodie', url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product2.webp' },
-    { name: 'ClaudyGod Cap Collection',   url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product3.webp' },
-    { name: 'ClaudyGod Worship Tote Bag', url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product4.webp' },
+    { name: 'ClaudyGod Premium T-Shirt', url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product1.webp' },
+    { name: 'ClaudyGod Exclusive Hoodie', url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product2.webp' },
+    { name: 'ClaudyGod Cap Collection',   url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product3.webp' },
+    { name: 'ClaudyGod Worship Tote Bag', url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product4.webp' },
   ]),
 ];
 

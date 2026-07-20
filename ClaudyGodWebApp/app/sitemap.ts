@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next';
-
-const BASE = 'https://claudygod.com';
+import { SITE_URL as BASE } from '@/lib/config/site';
 
 /* ── Static page routes ───────────────────────────────────────────────────── */
 const staticRoutes: MetadataRoute.Sitemap = [

@@ -190,7 +190,7 @@ export function ChatWidget() {
               {/* Contact options */}
               <div className="px-4 py-4 flex gap-2">
                 <a
-                  href="mailto:info@claudygod.com"
+                  href="mailto:info@claudygod.org"
                   className="flex-1 flex items-center justify-center gap-2 h-9 rounded-xl bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.07] text-neutral-400 hover:text-white transition-all duration-200"
                 >
                   <Mail className="h-3.5 w-3.5" />

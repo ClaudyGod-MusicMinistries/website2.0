@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mic2, Camera, ShieldCheck, Users, CheckCircle2, ChevronRight, Mic } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { post, BackendError } from '@/utils/apiClient';
+import { post, BackendError } from '@/lib/data/client';
 import type { VolunteerRole } from '@/types/api';
 
 interface FormData {

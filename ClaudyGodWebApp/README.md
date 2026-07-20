@@ -314,8 +314,8 @@ npm run test:coverage
 
 **Frontend**
 ```bash
-NEXT_PUBLIC_API_URL=https://api.claudygod.com
-NEXT_PUBLIC_SITE_URL=https://claudygod.com
+NEXT_PUBLIC_API_URL=https://api.claudygod.org
+NEXT_PUBLIC_SITE_URL=https://claudygod.org
 ```
 
 **Backend**
@@ -363,7 +363,7 @@ docker-compose up -d --scale api=3
 
 ### Base URL
 ```
-https://claudygod.com/api/v1.0
+https://claudygod.org/api/v1.0
 ```
 
 ### Public Endpoints
@@ -395,10 +395,10 @@ https://claudygod.com/api/v1.0
 
 ```bash
 # Get upcoming events
-curl https://claudygod.com/api/events?status=upcoming
+curl https://claudygod.org/api/events?status=upcoming
 
 # Get FAQs by category
-curl "https://claudygod.com/api/faqs?category=Music"
+curl "https://claudygod.org/api/faqs?category=Music"
 ```
 
 ---
@@ -417,7 +417,7 @@ curl "https://claudygod.com/api/faqs?category=Music"
 - Secure headers (HSTS, etc.)
 
 ⚠️ **Reporting Security Issues**
-Email: security@claudygod.com (Do not post publicly)
+Email: security@claudygod.org (Do not post publicly)
 
 ---
 
@@ -476,7 +476,7 @@ git push origin feature/amazing-feature
 
 **Documentation**: Check `/docs/_archived/` folder  
 **Issues**: GitHub Issues  
-**Email**: support@claudygod.com  
+**Email**: support@claudygod.org  
 
 ---
 

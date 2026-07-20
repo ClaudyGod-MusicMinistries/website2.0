@@ -190,7 +190,7 @@ lib/api/
 - Input validation and sanitization
 
 ⚠️ **Reporting Issues**
-Email: security@claudygod.com (never post publicly)
+Email: security@claudygod.org (never post publicly)
 
 ---
 
@@ -226,7 +226,7 @@ dotnet test              # Backend tests
 1. Check [README.md](../README.md) first
 2. Review relevant archived documentation
 3. Search GitHub Issues
-4. Email: support@claudygod.com
+4. Email: support@claudygod.org
 
 **Found a Bug?**
 1. Check GitHub Issues
@@ -234,7 +234,7 @@ dotnet test              # Backend tests
 3. Include: browser, steps to reproduce, expected vs actual
 
 **Security Issue?**
-Email: security@claudygod.com (do NOT post publicly)
+Email: security@claudygod.org (do NOT post publicly)
 
 ---
 
