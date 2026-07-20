@@ -68,14 +68,14 @@ export function VolunteersSection() {
   };
 
   return (
-    <section className="relative bg-[#07060f] overflow-hidden">
+    <section className="relative bg-surface-deep overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse_at_top_left,rgba(124,58,237,0.12)_0%,transparent_65%)]" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(201,168,76,0.06)_0%,transparent_65%)]" />
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12 py-16 md:py-24">
+      <div className="relative container-site py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
           {/* Left — heading + role picker */}

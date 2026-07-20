@@ -22,7 +22,7 @@ const fadeUp = {
 
 export function DonateSection() {
   return (
-    <section className="relative overflow-hidden bg-[#09080f]">
+    <section className="relative overflow-hidden bg-surface-deep">
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(201,168,76,0.10)_0%,transparent_70%)]" />
@@ -32,7 +32,7 @@ export function DonateSection() {
       {/* Gold top line */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-500/60 to-transparent" />
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-24">
+      <div className="relative container-site py-12 sm:py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
 
           {/* Left — copy + impact list */}
@@ -120,7 +120,7 @@ export function DonateSection() {
               <div className="flex flex-col gap-3">
                 <Link
                   href="/donate"
-                  className="w-full h-14 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-[#07060f] font-bricolage font-bold text-base rounded-xl transition-all duration-300 flex items-center justify-center gap-2.5 shadow-[0_4px_20px_rgba(201,168,76,0.35)] hover:shadow-[0_6px_28px_rgba(201,168,76,0.45)]"
+                  className="w-full h-14 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-bricolage font-bold text-base rounded-xl transition-all duration-300 flex items-center justify-center gap-2.5 shadow-[0_4px_20px_rgba(201,168,76,0.35)] hover:shadow-[0_6px_28px_rgba(201,168,76,0.45)]"
                 >
                   <Heart className="h-5 w-5 fill-current" />
                   Donate Now

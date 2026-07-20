@@ -132,7 +132,7 @@ export function HeroCarousel() {
         'absolute inset-0 flex flex-col pt-20 pb-16 sm:pb-20',
         isMusic ? 'justify-center' : 'justify-end sm:pb-20 md:pb-28 lg:pb-32'
       )}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 w-full">
+        <div className="container-site w-full">
           <AnimatePresence mode="wait">
             <motion.div key={`content-${slide.id}`} className="max-w-2xl">
               <SlideContent slide={slide} />
@@ -143,7 +143,7 @@ export function HeroCarousel() {
 
       {/* Dot indicators */}
       <div className="absolute bottom-5 sm:bottom-7 left-0 right-0 pointer-events-none">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center gap-2">
+        <div className="container-site flex items-center gap-2">
           {heroSlides.map((_, i) => (
             <button
               key={i}

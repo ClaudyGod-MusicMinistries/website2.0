@@ -8,7 +8,7 @@ export function StorePreview() {
 
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="container-site">
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-14">

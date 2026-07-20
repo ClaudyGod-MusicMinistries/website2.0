@@ -252,7 +252,7 @@ function TicketForm({ events }: { events: Event[] }) {
   const hasBackendEvents = backendEvt.length > 0;
 
   return (
-    <div id="register" className="bg-[#0d0b1a] rounded-3xl overflow-hidden">
+    <div id="register" className="bg-surface-raised rounded-3xl overflow-hidden">
       {/* Header */}
       <div className="relative px-8 pt-10 pb-8 border-b border-white/[0.06]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.2)_0%,transparent_65%)] pointer-events-none" />

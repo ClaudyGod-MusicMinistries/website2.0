@@ -51,7 +51,7 @@ export function Navbar() {
   return (
     <>
       <header className={cn('fixed top-0 inset-x-0 z-[500] transition-all duration-300', headerBg)}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 h-[68px] lg:h-[76px] flex items-center justify-between gap-4">
+        <div className="container-site h-[68px] lg:h-[76px] flex items-center justify-between gap-4">
 
           {/* ── Brand lockup ────────────────────────────────────────────── */}
           <Link href="/" className="shrink-0 flex items-center gap-2.5 group">
@@ -185,7 +185,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden fixed inset-0 z-[490] bg-[#0c0a1a] flex flex-col"
+            className="md:hidden fixed inset-0 z-[490] bg-surface-raised flex flex-col"
           >
             {/* Mobile header bar */}
             <div className="h-[68px] shrink-0 border-b border-white/[0.06] flex items-center px-4 gap-2.5">

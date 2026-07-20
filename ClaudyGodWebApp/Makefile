@@ -1,9 +1,17 @@
 ################################################################################
 #                    CLAUDYGODWEBAPP - DEVELOPMENT MAKEFILE                    #
-#                         Production-ready commands                            #
 ################################################################################
+#
+# Deployment is NOT here — it's handled entirely by the CI pipeline
+# (.github/workflows/build-push.yml: quality gate → Docker build/push to
+# GHCR → SSH deploy via docker-compose.yml). This Makefile previously had
+# its own docker-build/docker-push/deploy-local targets that duplicated
+# that pipeline with a different image name and a raw-rsync deploy path —
+# a second, untested, conflicting deploy mechanism. Removed; use the CI
+# pipeline (push to main) or `docker build .` / `docker compose up`
+# directly if you need a local container.
 
-.PHONY: help install dev build start test lint format clean docker-build docker-run deploy-local
+.PHONY: help install dev build start test lint format clean env-check
 
 # Colors for output
 BLUE := \033[0;34m
@@ -11,13 +19,6 @@ GREEN := \033[0;32m
 YELLOW := \033[0;33m
 RED := \033[0;31m
 NC := \033[0m
-
-# Variables
-NODE_VERSION := 18
-DOCKER_REGISTRY := ghcr.io
-DOCKER_IMAGE := claudygod-musicministries/claudygodwebapp
-PORT := 3000
-ENV_FILE := .env.local
 
 help:
 	@echo "$(BLUE)ClaudyGod Web App - Development Commands$(NC)"
@@ -35,14 +36,6 @@ help:
 	@echo "  make format            Format code with Prettier"
 	@echo "  make type-check        Run TypeScript type checking"
 	@echo "  make test              Run test suite"
-	@echo ""
-	@echo "$(YELLOW)Docker:$(NC)"
-	@echo "  make docker-build      Build Docker image locally"
-	@echo "  make docker-run        Run Docker container locally"
-	@echo "  make docker-push       Push Docker image to registry"
-	@echo ""
-	@echo "$(YELLOW)Deployment:$(NC)"
-	@echo "  make deploy-local      Deploy to local VPS (requires SSH setup)"
 	@echo ""
 	@echo "$(YELLOW)Utilities:$(NC)"
 	@echo "  make clean             Clean build artifacts"
@@ -91,43 +84,6 @@ clean:
 	rm -rf .next build dist coverage
 	rm -rf node_modules
 	@echo "$(GREEN)✓ Cleanup complete$(NC)"
-
-docker-build:
-	@echo "$(BLUE)→ Building Docker image...$(NC)"
-	docker build \
-		--build-arg NEXT_PUBLIC_API_URL=$${NEXT_PUBLIC_API_URL:-https://api.example.com} \
-		--build-arg NEXT_PUBLIC_SITE_URL=$${NEXT_PUBLIC_SITE_URL:-https://example.com} \
-		-t $(DOCKER_IMAGE):latest \
-		-t $(DOCKER_IMAGE):$$(git rev-parse --short HEAD) \
-		.
-	@echo "$(GREEN)✓ Docker image built$(NC)"
-
-docker-run: docker-build
-	@echo "$(BLUE)→ Running Docker container...$(NC)"
-	docker run -it --rm \
-		-p $(PORT):3000 \
-		-e NODE_ENV=production \
-		$(DOCKER_IMAGE):latest
-
-docker-push: docker-build
-	@echo "$(BLUE)→ Pushing to Docker registry...$(NC)"
-	docker push $(DOCKER_REGISTRY)/$(DOCKER_IMAGE):latest
-	docker push $(DOCKER_REGISTRY)/$(DOCKER_IMAGE):$$(git rev-parse --short HEAD)
-	@echo "$(GREEN)✓ Images pushed$(NC)"
-
-deploy-local: build
-	@echo "$(BLUE)→ Deploying to local VPS...$(NC)"
-	@if [ -z "$${VPS_HOST}" ]; then \
-		echo "$(RED)✗ VPS_HOST not set$(NC)"; \
-		exit 1; \
-	fi
-	rsync -avz --delete \
-		--exclude node_modules \
-		--exclude .next \
-		--exclude .git \
-		./ \
-		$${VPS_USER}@$${VPS_HOST}:$${VPS_DEPLOY_PATH}/web-app/
-	@echo "$(GREEN)✓ Deployed to VPS$(NC)"
 
 env-check:
 	@echo "$(BLUE)Checking environment setup...$(NC)"

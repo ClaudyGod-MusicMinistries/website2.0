@@ -84,7 +84,7 @@ export default function BookingsPage() {
       />
 
       <section className="bg-cream-100 section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
             {/* Form */}

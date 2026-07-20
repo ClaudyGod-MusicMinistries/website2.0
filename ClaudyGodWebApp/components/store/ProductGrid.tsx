@@ -53,7 +53,7 @@ export function ProductGrid() {
 
   return (
     <section className="bg-white section-py">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="container-site">
 
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-10">

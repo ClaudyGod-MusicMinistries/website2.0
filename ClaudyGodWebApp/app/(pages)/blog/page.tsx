@@ -235,7 +235,7 @@ export default function BlogPage() {
       />
 
       <section className="bg-cream-100 section-py">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Tab navigation */}
           <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-12 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">

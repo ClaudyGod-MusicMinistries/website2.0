@@ -9,6 +9,16 @@ const config: Config = {
     './types/**/*.{ts,tsx}',
   ],
   theme: {
+    // ─── Container ───────────────────────────────────────────────
+    // Formalizes the `max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12`
+    // pattern that was previously hand-typed at ~35 call sites instead
+    // of using a token. Use the `container` utility (or the narrow/wide
+    // variants defined in globals.css) instead of a fresh arbitrary value.
+    container: {
+      center: true,
+      padding: { DEFAULT: '1rem', sm: '1.5rem', lg: '3rem' },
+      screens: { '2xl': '1400px' },
+    },
     extend: {
       // ─── Brand colours ───────────────────────────────────────────
       colors: {
@@ -50,6 +60,12 @@ const config: Config = {
           overlay:  '#1E1E1E',
           border:   '#2A2A2A',
           divider:  '#232323',
+          // Purple-black steps — previously 5 undocumented one-off hex values
+          // (#07060f, #09080f, #0a0a0f, #0c0a1a, #0d0b1a) hand-typed per
+          // component instead of a token. `deep` covers the three near-#07060f
+          // values, `raised` covers the two near-#0d0b1a values.
+          deep:     '#07060f',
+          raised:   '#0d0b1a',
         },
         brand: {
           gold:    '#C9A84C',
@@ -71,12 +87,21 @@ const config: Config = {
       },
 
       // ─── Typography ──────────────────────────────────────────────
+      // Two families now (next/font/google, see lib/fonts.ts): `display`
+      // (Fraunces) and `sans` (Inter) are the canonical roles for all new
+      // code. `bricolage`/`abril`/`raleway`/`worksans`/`roboto` are a
+      // temporary bridge — the ~160 existing call sites using the old
+      // 5-family names now render in Fraunces/Inter without a blind
+      // rename; each gets replaced with font-display/font-sans as its
+      // page is rebuilt (Phase 1/2), not swept mechanically.
       fontFamily: {
-        bricolage: ['BricolageGrotesque', 'sans-serif'],
-        raleway:   ['Raleway', 'sans-serif'],
-        worksans:  ['WorkSans', 'sans-serif'],
-        abril:     ['AbrilFatface', 'serif'],
-        roboto:    ['Roboto', 'sans-serif'],
+        display: ['var(--font-display)', 'serif'],
+        sans:    ['var(--font-sans)', 'sans-serif'],
+        bricolage: ['var(--font-display)', 'serif'],
+        abril:     ['var(--font-display)', 'serif'],
+        raleway:   ['var(--font-sans)', 'sans-serif'],
+        worksans:  ['var(--font-sans)', 'sans-serif'],
+        roboto:    ['var(--font-sans)', 'sans-serif'],
       },
       fontSize: {
         '2xs': ['0.625rem', { lineHeight: '0.875rem' }],

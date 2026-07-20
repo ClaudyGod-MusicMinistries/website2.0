@@ -3,9 +3,9 @@ import { forwardRef, type HTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
 
 // ─── Display ───────────────────────────────────────────────────────────────
-// Abril Fatface — hero-level only. Kept tastefully compact.
+// Fraunces — hero-level only. Kept tastefully compact.
 
-const displayVariants = cva('font-abril text-balance', {
+const displayVariants = cva('font-display text-balance', {
   variants: {
     size: {
       xl: 'text-4xl md:text-5xl lg:text-6xl leading-none',
@@ -37,9 +37,9 @@ export function Display({ as: Tag = 'h1', size, color, className, children, ...p
 }
 
 // ─── Heading ───────────────────────────────────────────────────────────────
-// Bricolage Grotesque — section and card headings.
+// Fraunces — section and card headings.
 
-const headingVariants = cva('font-bricolage font-bold text-balance', {
+const headingVariants = cva('font-display font-semibold text-balance', {
   variants: {
     level: {
       1: 'text-3xl md:text-4xl leading-tight',
@@ -84,9 +84,10 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 Heading.displayName = 'Heading';
 
 // ─── Text ──────────────────────────────────────────────────────────────────
-// Body copy and UI text. Sizes are intentionally conservative.
+// Inter — body copy and UI text. Sizes are intentionally conservative;
+// legibility over personality is the point of this role.
 
-const textVariants = cva('font-bricolage', {
+const textVariants = cva('font-sans', {
   variants: {
     size: {
       '2xs': 'text-[0.625rem] leading-tight',
@@ -159,9 +160,9 @@ export const Text = forwardRef<HTMLElement, TextProps>(
 Text.displayName = 'Text';
 
 // ─── Label ─────────────────────────────────────────────────────────────────
-// WorkSans uppercase — eyebrows, form labels, tags.
+// Inter uppercase, tracked — eyebrows, form labels, tags.
 
-const labelVariants = cva('font-worksans uppercase tracking-widest', {
+const labelVariants = cva('font-sans font-medium uppercase tracking-widest', {
   variants: {
     size: {
       sm:   'text-[0.625rem]',
@@ -194,8 +195,43 @@ export function Label({ size, color, className, children, ...props }: LabelProps
 
 export function Caption({ className, children, ...props }: HTMLAttributes<HTMLSpanElement>) {
   return (
-    <span className={cn('text-xs text-neutral-500 font-worksans leading-snug', className)} {...props}>
+    <span className={cn('text-xs text-neutral-500 font-sans leading-snug', className)} {...props}>
       {children}
     </span>
+  );
+}
+
+// ─── Accent ────────────────────────────────────────────────────────────────
+// Fraunces italic — reserved for scripture callouts and pull-quotes. Not a
+// heading substitute; this is the one place the display face leans on its
+// italic personality instead of weight.
+
+const accentVariants = cva('font-display italic text-balance', {
+  variants: {
+    size: {
+      sm: 'text-lg md:text-xl leading-relaxed',
+      md: 'text-xl md:text-2xl leading-relaxed',
+      lg: 'text-2xl md:text-3xl leading-relaxed',
+    },
+    color: {
+      white: 'text-white',
+      gold:  'text-gold-400',
+      muted: 'text-neutral-300',
+    },
+  },
+  defaultVariants: { size: 'md', color: 'gold' },
+});
+
+interface AccentProps
+  extends Omit<HTMLAttributes<HTMLElement>, 'color'>,
+    VariantProps<typeof accentVariants> {
+  as?: 'p' | 'blockquote' | 'span';
+}
+
+export function Accent({ as: Tag = 'blockquote', size, color, className, children, ...props }: AccentProps) {
+  return (
+    <Tag className={cn(accentVariants({ size, color }), className)} {...props}>
+      {children}
+    </Tag>
   );
 }

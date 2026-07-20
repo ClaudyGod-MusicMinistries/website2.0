@@ -32,7 +32,7 @@ export function FeaturedVideos() {
 
   return (
     <>
-      <section className="relative bg-[#09080f] overflow-hidden">
+      <section className="relative bg-surface-deep overflow-hidden">
         {/* Ambient glows */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(109,40,217,0.12)_0%,transparent_65%)]" />
@@ -42,7 +42,7 @@ export function FeaturedVideos() {
         {/* Top gold accent */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
 
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-28">
+        <div className="relative container-site py-12 sm:py-16 md:py-20 lg:py-28">
 
           {/* Header */}
           <div className="flex items-end justify-between mb-8 sm:mb-12">

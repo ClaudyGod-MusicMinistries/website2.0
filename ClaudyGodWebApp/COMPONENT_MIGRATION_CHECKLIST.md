@@ -2,6 +2,17 @@
 
 > Migrate all components from static data to backend-driven dynamic data
 
+## Design-system lint warnings
+
+`.eslintrc.json` has a `no-restricted-syntax` rule (severity `warn`) flagging
+raw hex colors and arbitrary shadow values in `className` — the exact drift
+that made the pre-rebuild design system inconsistent (tokens defined, never
+adopted). Run `npm run lint` to see the current count. Each hit gets fixed
+(replaced with a `tailwind.config.ts` token, or a new token added if none
+fits) as its component is rebuilt in Phase 1/2 — not swept blind. Once the
+count hits zero, flip the rule to `"error"` in `.eslintrc.json` so CI blocks
+any new drift permanently.
+
 ## Status Summary
 
 ```

@@ -37,7 +37,7 @@ export function MusicPlayer() {
   const stop = () => setActiveId(null);
 
   return (
-    <section className="bg-[#0d0b1a] section-py relative overflow-hidden">
+    <section className="bg-surface-raised section-py relative overflow-hidden">
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-purple-900/25 blur-[120px]" />
@@ -45,7 +45,7 @@ export function MusicPlayer() {
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/30 to-transparent mb-0 absolute top-0 left-0" />
 
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="relative container-site">
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
