@@ -60,7 +60,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
       </div>
 
       <div className="absolute top-6 left-6">
-        <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black font-worksans text-[0.58rem] tracking-[0.18em] uppercase px-4 py-1.5 rounded-full font-semibold shadow-lg">
+        <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black font-sans text-[0.58rem] tracking-[0.18em] uppercase px-4 py-1.5 rounded-full font-semibold shadow-lg">
           <Star className="h-3 w-3 fill-current" />
           Featured Event
         </span>
@@ -68,7 +68,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
 
       {past && (
         <div className="absolute top-6 right-6">
-          <span className="bg-black/60 text-white/60 font-worksans text-[0.52rem] tracking-[0.14em] uppercase px-3 py-1.5 rounded-full backdrop-blur-sm">
+          <span className="bg-black/60 text-white/60 font-sans text-[0.52rem] tracking-[0.14em] uppercase px-3 py-1.5 rounded-full backdrop-blur-sm">
             Past Event
           </span>
         </div>
@@ -79,21 +79,21 @@ function FeaturedEventCard({ event }: { event: Event }) {
           <div>
             <div className="inline-flex items-center gap-3 mb-4">
               <div className="bg-white rounded-xl px-4 py-2 text-center shadow-lg">
-                <p className="font-bricolage font-bold text-neutral-900 text-2xl leading-none">{day}</p>
-                <p className="font-worksans text-[0.48rem] tracking-[0.16em] uppercase text-purple-600 mt-0.5">{mon}</p>
+                <p className="font-display font-bold text-neutral-900 text-2xl leading-none">{day}</p>
+                <p className="font-sans text-[0.48rem] tracking-[0.16em] uppercase text-purple-600 mt-0.5">{mon}</p>
               </div>
               <div>
-                <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-white/60 mb-0.5">{full}</p>
-                <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-gold-400 flex items-center gap-1">
+                <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-white/60 mb-0.5">{full}</p>
+                <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-gold-400 flex items-center gap-1">
                   <Clock className="h-3 w-3" />{event.time}
                 </p>
               </div>
             </div>
 
-            <h3 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-2">
+            <h3 className="font-display font-bold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-2">
               {event.title}
             </h3>
-            <p className="flex items-center gap-1.5 font-roboto text-white/70 text-sm">
+            <p className="flex items-center gap-1.5 font-sans text-white/70 text-sm">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-gold-400" />
               {event.venue}
             </p>
@@ -105,7 +105,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
                 href={event.ticketUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-black font-semibold px-7 h-11 rounded-xl transition-all duration-300 shadow-lg"
+                className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-black font-semibold px-7 h-11 rounded-xl transition-all duration-300 shadow-lg"
               >
                 Get Tickets <ExternalLink className="h-3 w-3" />
               </a>
@@ -113,7 +113,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
             {!past && isUUID(event.id) && (
               <a
                 href="#register"
-                className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white px-7 h-11 rounded-xl transition-all duration-300"
+                className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white px-7 h-11 rounded-xl transition-all duration-300"
               >
                 Reserve Ticket
               </a>
@@ -146,28 +146,28 @@ function TourCard({ event, index }: { event: Event; index: number }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-black/5" />
         <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg">
-          <p className="font-bricolage font-bold text-neutral-900 text-xl leading-none">{day}</p>
-          <p className="font-worksans text-[0.48rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
+          <p className="font-display font-bold text-neutral-900 text-xl leading-none">{day}</p>
+          <p className="font-sans text-[0.48rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
         </div>
         {past && (
-          <span className="absolute top-4 right-4 font-worksans text-[0.5rem] tracking-[0.14em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">
+          <span className="absolute top-4 right-4 font-sans text-[0.5rem] tracking-[0.14em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">
             Past
           </span>
         )}
       </div>
 
       <div className="p-5">
-        <h3 className="font-bricolage font-bold text-neutral-900 text-lg mb-1 group-hover:text-purple-700 transition-colors duration-300">
+        <h3 className="font-display font-bold text-neutral-900 text-lg mb-1 group-hover:text-purple-700 transition-colors duration-300">
           {event.title}
         </h3>
-        <p className="flex items-center gap-1.5 font-worksans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mb-2">
+        <p className="flex items-center gap-1.5 font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mb-2">
           <MapPin className="h-3 w-3 shrink-0" />{event.venue}
         </p>
         <div className="flex items-center gap-4 mb-4">
-          <span className="flex items-center gap-1.5 font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
+          <span className="flex items-center gap-1.5 font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
             <Calendar className="h-3 w-3" />{full}
           </span>
-          <span className="flex items-center gap-1.5 font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
+          <span className="flex items-center gap-1.5 font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
             <Clock className="h-3 w-3" />{event.time}
           </span>
         </div>
@@ -177,7 +177,7 @@ function TourCard({ event, index }: { event: Event; index: number }) {
               href={event.ticketUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.16em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-5 h-9 rounded-xl transition-all duration-300"
+              className="inline-flex items-center gap-1.5 font-sans text-[0.58rem] tracking-[0.16em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-5 h-9 rounded-xl transition-all duration-300"
             >
               Tickets <ExternalLink className="h-3 w-3" />
             </a>
@@ -185,7 +185,7 @@ function TourCard({ event, index }: { event: Event; index: number }) {
           {!past && isUUID(event.id) && (
             <a
               href="#register"
-              className="inline-flex items-center gap-1.5 font-worksans text-[0.58rem] tracking-[0.16em] uppercase border border-neutral-300 hover:border-purple-400 text-neutral-600 hover:text-purple-700 px-5 h-9 rounded-xl transition-all duration-300"
+              className="inline-flex items-center gap-1.5 font-sans text-[0.58rem] tracking-[0.16em] uppercase border border-neutral-300 hover:border-purple-400 text-neutral-600 hover:text-purple-700 px-5 h-9 rounded-xl transition-all duration-300"
             >
               Reserve
             </a>
@@ -245,8 +245,8 @@ function TicketForm({ events }: { events: Event[] }) {
   };
 
   const inputCls =
-    'w-full h-11 px-4 border border-neutral-200 rounded-xl font-roboto text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
-  const errCls = 'mt-1 font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+    'w-full h-11 px-4 border border-neutral-200 rounded-xl font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
+  const errCls = 'mt-1 font-sans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
 
   // If no backend events exist yet, show a simple "coming soon" panel
   const hasBackendEvents = backendEvt.length > 0;
@@ -265,10 +265,10 @@ function TicketForm({ events }: { events: Event[] }) {
               {hasBackendEvents ? 'Reserve Your Ticket' : 'Event Registration'}
             </span>
           </div>
-          <h3 className="font-bricolage font-bold text-white text-2xl md:text-3xl tracking-tight mb-2">
+          <h3 className="font-display font-bold text-white text-2xl md:text-3xl tracking-tight mb-2">
             {hasBackendEvents ? 'Secure Your Spot' : 'Register for a Tour Date'}
           </h3>
-          <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-md">
+          <p className="font-sans text-neutral-400 text-sm leading-relaxed max-w-md">
             {hasBackendEvents
               ? 'Reserve your ticket now. A confirmation code will be sent to your email.'
               : "Express your interest and we'll send you updates, reminders, and exclusive information."}
@@ -282,7 +282,7 @@ function TicketForm({ events }: { events: Event[] }) {
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2">
                 <Icon className="h-3.5 w-3.5 text-purple-400 shrink-0" />
-                <span className="font-worksans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-500">{label}</span>
+                <span className="font-sans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-500">{label}</span>
               </div>
             ))}
           </div>
@@ -305,20 +305,20 @@ function TicketForm({ events }: { events: Event[] }) {
                 <CheckCircle2 className="h-7 w-7 text-gold-400" />
               </div>
               <div>
-                <p className="font-bricolage font-bold text-white text-xl mb-2">You&apos;re Registered!</p>
+                <p className="font-display font-bold text-white text-xl mb-2">You&apos;re Registered!</p>
                 {confirmationCode && (
                   <div className="mt-3 mb-4 px-6 py-3 bg-purple-600/10 border border-purple-500/20 rounded-xl">
-                    <p className="font-worksans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-1">Confirmation Code</p>
-                    <p className="font-bricolage font-bold text-white text-lg tracking-widest">{confirmationCode}</p>
+                    <p className="font-sans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-1">Confirmation Code</p>
+                    <p className="font-display font-bold text-white text-lg tracking-widest">{confirmationCode}</p>
                   </div>
                 )}
-                <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-sm">
+                <p className="font-sans text-neutral-400 text-sm leading-relaxed max-w-sm">
                   Check your inbox — we&apos;ve sent your ticket details and confirmation.
                 </p>
               </div>
               <button
                 onClick={() => { setFormStatus('idle'); setConfirmationCode(''); }}
-                className="font-worksans text-[0.6rem] tracking-[0.16em] uppercase text-purple-400 hover:text-purple-300 transition-colors duration-300"
+                className="font-sans text-[0.6rem] tracking-[0.16em] uppercase text-purple-400 hover:text-purple-300 transition-colors duration-300"
               >
                 Reserve another ticket
               </button>
@@ -335,7 +335,7 @@ function TicketForm({ events }: { events: Event[] }) {
               {/* Event selector */}
               {upcoming.length > 0 && (
                 <div>
-                  <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
+                  <label className="block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
                     Select Event *
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -353,14 +353,14 @@ function TicketForm({ events }: { events: Event[] }) {
                               : 'border-white/10 bg-white/[0.03] hover:border-white/20'
                           }`}
                         >
-                          <p className={`font-bricolage font-semibold text-sm ${isSelected ? 'text-white' : 'text-neutral-300'}`}>
+                          <p className={`font-display font-semibold text-sm ${isSelected ? 'text-white' : 'text-neutral-300'}`}>
                             {event.title}
                           </p>
-                          <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
+                          <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
                             {full} · {event.time}
                           </p>
                           {event.availableSeats && event.availableSeats > 0 && (
-                            <p className="font-worksans text-[0.5rem] tracking-[0.1em] uppercase text-purple-400 mt-1">
+                            <p className="font-sans text-[0.5rem] tracking-[0.1em] uppercase text-purple-400 mt-1">
                               {event.availableSeats} seats left
                             </p>
                           )}
@@ -391,7 +391,7 @@ function TicketForm({ events }: { events: Event[] }) {
               </div>
 
               <div>
-                <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
+                <label className="block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
                   Phone Number *
                 </label>
                 <Controller
@@ -411,7 +411,7 @@ function TicketForm({ events }: { events: Event[] }) {
 
               {/* Quantity */}
               <div>
-                <label className="block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
+                <label className="block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 mb-2">
                   Tickets (1–10)
                 </label>
                 <input
@@ -426,7 +426,7 @@ function TicketForm({ events }: { events: Event[] }) {
               </div>
 
               {apiError && (
-                <p className="text-center font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
+                <p className="text-center font-sans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
                   {apiError}
                 </p>
               )}
@@ -434,7 +434,7 @@ function TicketForm({ events }: { events: Event[] }) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-11 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-worksans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+                className="w-full h-11 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-sans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
               >
                 {isSubmitting ? 'Processing…' : (
                   <>
@@ -444,7 +444,7 @@ function TicketForm({ events }: { events: Event[] }) {
                 )}
               </button>
 
-              <p className="text-center font-roboto text-xs text-neutral-600">
+              <p className="text-center font-sans text-xs text-neutral-600">
                 {hasBackendEvents
                   ? 'A confirmation email will be sent immediately after reserving.'
                   : 'Registration is free and non-binding. Ticket information will be sent separately.'}
@@ -505,11 +505,11 @@ export function EventsSection() {
             <span className="label-eyebrow">Tour Highlights</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight">
               2025 Ministry Tour
             </h2>
             {upcoming.length > 0 && (
-              <p className="font-roboto text-neutral-500 text-sm">
+              <p className="font-sans text-neutral-500 text-sm">
                 {upcoming.length} upcoming event{upcoming.length !== 1 ? 's' : ''} remaining
               </p>
             )}
@@ -538,10 +538,10 @@ export function EventsSection() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Join the Tour</span>
               </div>
-              <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-6">
+              <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-6">
                 Be Part of Every Moment
               </h2>
-              <p className="font-roboto text-neutral-600 text-base leading-[1.85] mb-8">
+              <p className="font-sans text-neutral-600 text-base leading-[1.85] mb-8">
                 Register for upcoming ministry events. Get instant confirmation, early notifications, and spiritual preparation guides delivered to your inbox.
               </p>
 
@@ -554,8 +554,8 @@ export function EventsSection() {
                   <div key={title} className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
                     <div>
-                      <p className="font-bricolage font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
-                      <p className="font-roboto text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                      <p className="font-display font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
+                      <p className="font-sans text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
                     </div>
                   </div>
                 ))}
@@ -563,7 +563,7 @@ export function EventsSection() {
 
               {past.length > 0 && (
                 <div className="mt-10 pt-8 border-t border-black/[0.06]">
-                  <p className="font-worksans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 mb-4">
+                  <p className="font-sans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 mb-4">
                     Past Events
                   </p>
                   <div className="space-y-2">
@@ -571,8 +571,8 @@ export function EventsSection() {
                       const { full } = formatDate(event.date);
                       return (
                         <div key={event.id} className="flex items-center justify-between py-2 border-b border-black/[0.05]">
-                          <span className="font-bricolage font-semibold text-neutral-600 text-sm">{event.title}</span>
-                          <span className="font-worksans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">{full}</span>
+                          <span className="font-display font-semibold text-neutral-600 text-sm">{event.title}</span>
+                          <span className="font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">{full}</span>
                         </div>
                       );
                     })}

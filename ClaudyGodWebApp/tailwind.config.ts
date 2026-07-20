@@ -150,6 +150,7 @@ const config: Config = {
         'inner-dark': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.5)',
         card: '0 4px 24px 0 rgb(0 0 0 / 0.4)',
         'card-hover': '0 8px 40px 0 rgb(0 0 0 / 0.6)',
+        header: '0 4px 24px 0 rgb(0 0 0 / 0.08)',
       },
 
       // ─── Borders ─────────────────────────────────────────────────

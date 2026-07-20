@@ -14,12 +14,12 @@ export function BiographySection() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Biography</span>
             </div>
-            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
               Called to Worship
             </h2>
             <div className="space-y-5">
               {firstSectionTexts.map((text, i) => (
-                <p key={i} className="font-roboto text-neutral-600 text-base leading-[1.85]">
+                <p key={i} className="font-sans text-neutral-600 text-base leading-[1.85]">
                   {text.trim()}
                 </p>
               ))}
@@ -59,12 +59,12 @@ export function BiographySection() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Ministry</span>
             </div>
-            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
               Spreading God&apos;s Love
             </h2>
             <div className="space-y-5">
               {secondSectionTexts.map((text, i) => (
-                <p key={i} className="font-roboto text-neutral-600 text-base leading-[1.85]">
+                <p key={i} className="font-sans text-neutral-600 text-base leading-[1.85]">
                   {text.trim()}
                 </p>
               ))}
@@ -80,8 +80,8 @@ export function BiographySection() {
                 <div key={title} className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
                   <div>
-                    <p className="font-bricolage font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
-                    <p className="font-roboto text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                    <p className="font-display font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
+                    <p className="font-sans text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
                   </div>
                 </div>
               ))}

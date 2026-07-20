@@ -62,7 +62,7 @@ export function LatestRelease() {
             </div>
 
             {/* Badge */}
-            <div className="absolute top-6 left-6 bg-gradient-to-r from-gold-500 to-gold-400 text-surface-deep font-worksans font-bold text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full shadow-lg">
+            <div className="absolute top-6 left-6 bg-gradient-to-r from-gold-500 to-gold-400 text-surface-deep font-sans font-bold text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full shadow-lg">
               🎬 New Video
             </div>
           </button>
@@ -72,18 +72,18 @@ export function LatestRelease() {
             {/* Badge for mobile */}
             <div className="lg:hidden mb-4 inline-flex items-center gap-2 w-fit">
               <Music className="h-4 w-4 text-gold-500" />
-              <span className="font-worksans text-xs tracking-[0.15em] uppercase text-gold-600 font-semibold">Latest Release</span>
+              <span className="font-sans text-xs tracking-[0.15em] uppercase text-gold-600 font-semibold">Latest Release</span>
             </div>
 
-            <h2 className="font-bricolage font-bold text-neutral-900 text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.1] mb-4 sm:mb-6">
+            <h2 className="font-display font-bold text-neutral-900 text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.1] mb-4 sm:mb-6">
               {latestVideo.title}
             </h2>
 
-            <p className="font-worksans text-sm tracking-[0.15em] uppercase text-neutral-500 font-semibold mb-6">
+            <p className="font-sans text-sm tracking-[0.15em] uppercase text-neutral-500 font-semibold mb-6">
               Exclusive Music Video
             </p>
 
-            <p className="font-raleway text-neutral-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10">
+            <p className="font-sans text-neutral-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10">
               Experience the powerful visuals and soul-stirring worship from our latest release. Watch, listen, and share this anointed moment with your community.
             </p>
 
@@ -92,7 +92,7 @@ export function LatestRelease() {
               onClick={() => setVideoOpen(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="w-fit inline-flex items-center justify-center gap-3 font-bricolage font-bold text-base sm:text-lg bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl mb-10"
+              className="w-fit inline-flex items-center justify-center gap-3 font-display font-bold text-base sm:text-lg bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl mb-10"
             >
               <Play className="h-5 w-5 fill-white" />
               Play Video
@@ -100,7 +100,7 @@ export function LatestRelease() {
 
             {/* Listen on platforms */}
             <div className="mb-8">
-              <p className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-500 font-semibold mb-4">
+              <p className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-500 font-semibold mb-4">
                 Listen Everywhere
               </p>
               <div className="flex flex-wrap gap-2">
@@ -127,14 +127,14 @@ export function LatestRelease() {
             <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-neutral-200">
               <Link
                 href="/music"
-                className="inline-flex items-center justify-center sm:justify-start gap-2.5 font-worksans text-xs tracking-[0.15em] uppercase bg-neutral-900 hover:bg-neutral-800 text-white px-6 h-11 rounded-xl transition-all duration-300 group flex-1"
+                className="inline-flex items-center justify-center sm:justify-start gap-2.5 font-sans text-xs tracking-[0.15em] uppercase bg-neutral-900 hover:bg-neutral-800 text-white px-6 h-11 rounded-xl transition-all duration-300 group flex-1"
               >
                 View All Music
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/videos"
-                className="inline-flex items-center justify-center sm:justify-start gap-2.5 font-worksans text-xs tracking-[0.15em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-11 rounded-xl transition-all duration-300 flex-1"
+                className="inline-flex items-center justify-center sm:justify-start gap-2.5 font-sans text-xs tracking-[0.15em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-11 rounded-xl transition-all duration-300 flex-1"
               >
                 More Videos
               </Link>
@@ -165,7 +165,7 @@ export function LatestRelease() {
           >
             <div className="relative w-full max-w-5xl pointer-events-auto">
               <div className="flex items-center justify-between mb-3">
-                <p className="font-bricolage font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                <p className="font-display font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
                   {latestVideo.title}
                 </p>
                 <button

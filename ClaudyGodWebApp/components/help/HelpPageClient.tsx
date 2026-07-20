@@ -85,10 +85,10 @@ export function HelpPageClient() {
         </div>
 
         <div className="relative max-w-4xl mx-auto text-center">
-          <h1 className="font-bricolage font-bold text-white text-4xl md:text-5xl tracking-tight mb-4">
+          <h1 className="font-display font-bold text-white text-4xl md:text-5xl tracking-tight mb-4">
             Help & FAQ
           </h1>
-          <p className="font-roboto text-neutral-300 text-lg leading-relaxed max-w-2xl mx-auto mb-10">
+          <p className="font-sans text-neutral-300 text-lg leading-relaxed max-w-2xl mx-auto mb-10">
             Find answers to common questions about our music, events, bookings, store, and support.
           </p>
 
@@ -117,7 +117,7 @@ export function HelpPageClient() {
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   className={cn(
-                    'px-5 py-2.5 rounded-xl font-worksans text-[0.65rem] tracking-[0.12em] uppercase transition-all duration-300',
+                    'px-5 py-2.5 rounded-xl font-sans text-[0.65rem] tracking-[0.12em] uppercase transition-all duration-300',
                     activeCategory === cat
                       ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
                       : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
@@ -134,14 +134,14 @@ export function HelpPageClient() {
         {loading && (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="h-8 w-8 text-purple-600 animate-spin mb-4" />
-            <p className="font-roboto text-neutral-600">Loading FAQs...</p>
+            <p className="font-sans text-neutral-600">Loading FAQs...</p>
           </div>
         )}
 
         {/* Error State */}
         {error && !loading && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
-            <p className="font-roboto text-red-700">{error}</p>
+            <p className="font-sans text-red-700">{error}</p>
           </div>
         )}
 
@@ -167,10 +167,10 @@ export function HelpPageClient() {
                         {ICON_MAP[faq.category] || <Mail className="h-5 w-5" />}
                       </div>
                       <div className="flex-1 text-left">
-                        <p className="font-bricolage font-semibold text-neutral-900 text-sm leading-snug">
+                        <p className="font-display font-semibold text-neutral-900 text-sm leading-snug">
                           {faq.question}
                         </p>
-                        <p className="font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-500 mt-1">
+                        <p className="font-sans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-500 mt-1">
                           {faq.category}
                         </p>
                       </div>
@@ -192,7 +192,7 @@ export function HelpPageClient() {
                           className="overflow-hidden"
                         >
                           <div className="px-6 py-5 border-t border-neutral-100 bg-neutral-50">
-                            <p className="font-roboto text-neutral-700 text-sm leading-relaxed">
+                            <p className="font-sans text-neutral-700 text-sm leading-relaxed">
                               {faq.answer}
                             </p>
                           </div>
@@ -207,7 +207,7 @@ export function HelpPageClient() {
                   animate={{ opacity: 1 }}
                   className="text-center py-12"
                 >
-                  <p className="font-roboto text-neutral-500">
+                  <p className="font-sans text-neutral-500">
                     No FAQs match your search. Try different keywords.
                   </p>
                 </motion.div>
@@ -221,10 +221,10 @@ export function HelpPageClient() {
       <section className="bg-gradient-to-r from-purple-50 to-blue-50 py-16 px-4 sm:px-6 lg:px-12 border-t border-neutral-200">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-4">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-4">
               Didn&apos;t Find Your Answer?
             </h2>
-            <p className="font-roboto text-neutral-600 text-lg">
+            <p className="font-sans text-neutral-600 text-lg">
               Our team is here to help. Reach out through multiple channels.
             </p>
           </div>
@@ -235,13 +235,13 @@ export function HelpPageClient() {
               <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                 <Mail className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="font-bricolage font-bold text-neutral-900 mb-2">Email Support</h3>
-              <p className="font-roboto text-neutral-600 text-sm mb-5">
+              <h3 className="font-display font-bold text-neutral-900 mb-2">Email Support</h3>
+              <p className="font-sans text-neutral-600 text-sm mb-5">
                 Send us a detailed message and we&apos;ll respond within 24-48 hours.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 font-worksans text-[0.65rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-700 font-semibold"
+                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-700 font-semibold"
               >
                 Contact Us <ExternalLink className="h-3.5 w-3.5" />
               </Link>
@@ -252,13 +252,13 @@ export function HelpPageClient() {
               <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
                 <MessageCircleIcon className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="font-bricolage font-bold text-neutral-900 mb-2">AI Assistant</h3>
-              <p className="font-roboto text-neutral-600 text-sm mb-5">
+              <h3 className="font-display font-bold text-neutral-900 mb-2">AI Assistant</h3>
+              <p className="font-sans text-neutral-600 text-sm mb-5">
                 Chat with our AI assistant for instant answers. Available 24/7 at bottom right.
               </p>
               <button
                 onClick={() => window.scrollTo(0, 0)}
-                className="inline-flex items-center gap-2 font-worksans text-[0.65rem] tracking-[0.14em] uppercase text-blue-600 hover:text-blue-700 font-semibold"
+                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-blue-600 hover:text-blue-700 font-semibold"
               >
                 Open Chat <ExternalLink className="h-3.5 w-3.5" />
               </button>
@@ -269,13 +269,13 @@ export function HelpPageClient() {
               <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                 <Phone className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="font-bricolage font-bold text-neutral-900 mb-2">Quick Contact</h3>
-              <p className="font-roboto text-neutral-600 text-sm mb-5">
+              <h3 className="font-display font-bold text-neutral-900 mb-2">Quick Contact</h3>
+              <p className="font-sans text-neutral-600 text-sm mb-5">
                 For urgent matters, reach out through our main contact page.
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 font-worksans text-[0.65rem] tracking-[0.14em] uppercase text-green-600 hover:text-green-700 font-semibold"
+                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-green-600 hover:text-green-700 font-semibold"
               >
                 Get in Touch <ExternalLink className="h-3.5 w-3.5" />
               </Link>

@@ -77,7 +77,7 @@ export function EventCard({ event, isLiked, onLike, onClick }: EventCardProps) {
 
       {/* Content */}
       <div className="p-4 sm:p-5">
-        <h3 className="font-bricolage font-bold text-base sm:text-lg text-white mb-2 line-clamp-2 group-hover:text-purple-300 transition-colors">
+        <h3 className="font-display font-bold text-base sm:text-lg text-white mb-2 line-clamp-2 group-hover:text-purple-300 transition-colors">
           {event.title}
         </h3>
 

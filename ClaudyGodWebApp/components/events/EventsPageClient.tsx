@@ -60,10 +60,10 @@ export function EventsPageClient() {
       {/* Hero Section */}
       <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="font-bricolage font-bold text-5xl md:text-6xl text-white mb-4">
+          <h1 className="font-display font-bold text-5xl md:text-6xl text-white mb-4">
             Events & Tours
           </h1>
-          <p className="font-raleway text-lg text-neutral-400 max-w-2xl mx-auto">
+          <p className="font-sans text-lg text-neutral-400 max-w-2xl mx-auto">
             Join Minister ClaudyGod at upcoming events, concerts, and ministry tours. Experience spirit-filled worship and ministry in your city.
           </p>
         </div>

@@ -41,11 +41,11 @@ export function VideoGrid() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-bricolage font-semibold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-display font-semibold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
                 All Videos
               </h2>
             </div>
-            <p className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
+            <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
               {filtered.length} video{filtered.length !== 1 ? 's' : ''} available
             </p>
           </div>
@@ -57,7 +57,7 @@ export function VideoGrid() {
                 key={cat}
                 onClick={() => setActive(cat)}
                 className={cn(
-                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-worksans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
+                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-sans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
                   active === cat
                     ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
@@ -95,7 +95,7 @@ export function VideoGrid() {
           <div className="mt-12 flex justify-center">
             <Link
               href="/videos"
-              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300 group"
+              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300 group"
             >
               See All on YouTube
               <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
@@ -125,7 +125,7 @@ export function VideoGrid() {
             >
               <div className="relative w-full max-w-5xl pointer-events-auto">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-white/40">
+                  <span className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-white/40">
                     Now Playing
                   </span>
                   <button
@@ -178,18 +178,18 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
           </div>
         </div>
         {/* Category badge */}
-        <span className="absolute top-3 left-3 font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-white/80 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full">
+        <span className="absolute top-3 left-3 font-sans text-[0.5rem] tracking-[0.15em] uppercase text-white/80 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full">
           {video.category}
         </span>
       </div>
 
       {/* Info */}
       <div className="p-4">
-        <p className="font-bricolage font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
+        <p className="font-display font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
           {video.title}
         </p>
         {video.duration && (
-          <span className="inline-flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
+          <span className="inline-flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
             <Clock className="h-3 w-3" />
             {video.duration}
           </span>
