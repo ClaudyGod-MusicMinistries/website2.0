@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: 'Donate — Support ClaudyGod Music Ministries',
     images:['/ClaudySocial.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.com/donate' },
+  alternates: { canonical: 'https://claudygod.org/donate' },
 };
 
 export default function DonatePage() {

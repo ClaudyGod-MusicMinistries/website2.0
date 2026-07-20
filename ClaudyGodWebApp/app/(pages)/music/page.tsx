@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: "Stream 'Very Glorious', 'You Are Our Everything' & more on all platforms.",
     images:      ['/Bg_13.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/music' },
+  alternates: { canonical: 'https://claudygod.org/music' },
 };
 
 const AlbumGrid = dynamic(
@@ -69,10 +69,10 @@ const schemas = [
     appleUrl:    'https://music.apple.com/ng/song/very-glorious/1789665670',
   }),
   itemList('ClaudyGod Gospel Albums', [
-    { name: 'You Are Our Everything', url: 'https://claudygod.com/music#you-are-our-everything' },
-    { name: 'Very Glorious',          url: 'https://claudygod.com/music#very-glorious'          },
-    { name: 'We Would Reign',         url: 'https://claudygod.com/music#we-would-reign'         },
-    { name: 'Lover of My Soul',       url: 'https://claudygod.com/music#lover-of-my-soul'       },
+    { name: 'You Are Our Everything', url: 'https://claudygod.org/music#you-are-our-everything' },
+    { name: 'Very Glorious',          url: 'https://claudygod.org/music#very-glorious'          },
+    { name: 'We Would Reign',         url: 'https://claudygod.org/music#we-would-reign'         },
+    { name: 'Lover of My Soul',       url: 'https://claudygod.org/music#lover-of-my-soul'       },
   ]),
 ];
 

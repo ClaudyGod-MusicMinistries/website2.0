@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { proxyGet } from '@/utils/backendProxy';
+import { proxyGet } from '@/lib/data/backendProxy';
 
 export const dynamic = 'force-dynamic';
 

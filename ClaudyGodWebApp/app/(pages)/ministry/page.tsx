@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'ClaudyGod Ministry — Teachings & Outreach',
     images:['/manBack.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.com/ministry' },
+  alternates: { canonical: 'https://claudygod.org/ministry' },
 };
 
 const TeachingsGrid = dynamic(

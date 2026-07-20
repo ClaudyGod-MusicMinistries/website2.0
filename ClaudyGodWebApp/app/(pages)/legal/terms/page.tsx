@@ -43,7 +43,7 @@ export default function TermsPage() {
         },
         {
           heading: 'Contact',
-          body: 'If you have any questions about these Terms of Service, please contact us at info@claudygod.com.',
+          body: 'If you have any questions about these Terms of Service, please contact us at info@claudygod.org.',
         },
       ]}
     />

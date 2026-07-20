@@ -35,7 +35,7 @@ export default function PrivacyPage() {
         },
         {
           heading: 'Your Rights',
-          body: 'You have the right to access, correct, or delete your personal information. To exercise these rights or if you have any questions about this Privacy Policy, please contact us at info@claudygod.com.',
+          body: 'You have the right to access, correct, or delete your personal information. To exercise these rights or if you have any questions about this Privacy Policy, please contact us at info@claudygod.org.',
         },
         {
           heading: 'Changes to This Policy',

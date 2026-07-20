@@ -57,8 +57,8 @@ Or manually:
 # Create clean .env
 cat > .env << 'ENVFILE'
 NODE_ENV=production
-NEXT_PUBLIC_SITE_URL=https://claudygod.com
-NEXT_PUBLIC_API_URL=https://api.claudygod.com
+NEXT_PUBLIC_SITE_URL=https://claudygod.org
+NEXT_PUBLIC_API_URL=https://api.claudygod.org
 NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=pk_live_your_key
 PAYSTACK_SECRET_KEY=sk_live_your_key
 ENVFILE
@@ -113,13 +113,13 @@ git push origin main
 # https://github.com/ClaudyGod-MusicMinistries/website2.0/actions
 
 # Verify deployment succeeded
-curl https://claudygod.com/api/healthz
+curl https://claudygod.org/api/healthz
 ```
 
 #### 3. Document Production URLs
-- Frontend: https://claudygod.com
-- Backend API: https://api.claudygod.com
-- Health Check: https://claudygod.com/api/healthz
+- Frontend: https://claudygod.org
+- Backend API: https://api.claudygod.org
+- Health Check: https://claudygod.org/api/healthz
 
 ---
 
@@ -174,7 +174,7 @@ curl https://claudygod.com/api/healthz
 ### Daily
 ```bash
 # Check if application is running
-curl https://claudygod.com/api/healthz
+curl https://claudygod.org/api/healthz
 ```
 
 ### Weekly
@@ -266,8 +266,8 @@ curl http://localhost:3000/api/healthz
 Your deployment is successful when:
 
 ✅ `docker compose ps` shows all containers "Up"
-✅ `curl https://claudygod.com/api/healthz` returns 200 OK
-✅ Application loads at https://claudygod.com
+✅ `curl https://claudygod.org/api/healthz` returns 200 OK
+✅ Application loads at https://claudygod.org
 ✅ GitHub Actions shows all workflows passing
 ✅ No errors in `docker compose logs web`
 ✅ Environment validates: `npm run validate:env .env.local`

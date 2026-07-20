@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { proxyPost } from '@/utils/backendProxy';
+import { proxyPost } from '@/lib/data/backendProxy';
 
 const chatSchema = z.object({
   message: z.string().min(1).max(1000),

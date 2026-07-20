@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Mail, Music, Bell, Users, X } from 'lucide-react';
-import { post, BackendError } from '@/utils/apiClient';
+import { post, BackendError } from '@/lib/data/client';
 
 interface NewsletterInput {
   name: string;

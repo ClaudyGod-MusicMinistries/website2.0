@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { post, BackendError } from '@/utils/apiClient';
+import { post, BackendError } from '@/lib/data/client';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';

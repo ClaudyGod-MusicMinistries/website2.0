@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: 'Contact ClaudyGod Music Ministries',
     images:['/manBack.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.com/contact' },
+  alternates: { canonical: 'https://claudygod.org/contact' },
 };
 
 const schemas = [

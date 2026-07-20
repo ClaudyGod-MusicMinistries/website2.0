@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { proxyPost } from '@/utils/backendProxy';
+import { proxyPost } from '@/lib/data/backendProxy';
 import { newsletterWelcome } from '@/utils/emailTemplates';
 
 const subscriptionSchema = z.object({

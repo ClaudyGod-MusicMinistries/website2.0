@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description: 'Church services, concerts & conferences — book ClaudyGod for your next gospel event.',
     images:      ['/Tour_Ph_2.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/bookings' },
+  alternates: { canonical: 'https://claudygod.org/bookings' },
 };
 
 const schemas = [

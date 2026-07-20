@@ -17,7 +17,7 @@ import {
 import { FaCreditCard, FaUniversity, FaGlobe } from 'react-icons/fa';
 import { useCartStore } from '@/components/store/cartStore';
 import { formatPrice } from '@/utils/format';
-import { post } from '@/utils/apiClient';
+import { post } from '@/lib/data/client';
 
 /* ── Constants ──────────────────────────────────────────── */
 const SHIPPING_OPTIONS = [
