@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { BackendError } from '@/utils/apiClient';
+import { BackendError } from '@/lib/data/client';
 import { getUserFriendlyError } from '@/utils/errorMessages';
 
 interface ErrorState {

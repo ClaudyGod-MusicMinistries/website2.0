@@ -125,4 +125,4 @@ metadata:
   name: claudygod-config
   namespace: claudygod
 data:
-  SITE_URL: "https://claudygod.com"
+  SITE_URL: "https://claudygod.org"

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: 'Spirit-filled gospel music, worship videos, and ministry from Minister ClaudyGod.',
     url: '/',
   },
-  alternates: { canonical: 'https://claudygod.com' },
+  alternates: { canonical: 'https://claudygod.org' },
 };
 
 export default function Home() {

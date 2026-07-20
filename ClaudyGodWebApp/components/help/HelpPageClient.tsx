@@ -222,7 +222,7 @@ export function HelpPageClient() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-4">
-              Didn't Find Your Answer?
+              Didn&apos;t Find Your Answer?
             </h2>
             <p className="font-roboto text-neutral-600 text-lg">
               Our team is here to help. Reach out through multiple channels.
@@ -237,7 +237,7 @@ export function HelpPageClient() {
               </div>
               <h3 className="font-bricolage font-bold text-neutral-900 mb-2">Email Support</h3>
               <p className="font-roboto text-neutral-600 text-sm mb-5">
-                Send us a detailed message and we'll respond within 24-48 hours.
+                Send us a detailed message and we&apos;ll respond within 24-48 hours.
               </p>
               <Link
                 href="/contact"

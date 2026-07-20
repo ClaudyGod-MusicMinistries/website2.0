@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     description: 'Watch official music videos & live sessions from Minister ClaudyGod.',
     images:      ['/Tour_Ph_1.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/videos' },
+  alternates: { canonical: 'https://claudygod.org/videos' },
 };
 
 const VideoGrid = dynamic(

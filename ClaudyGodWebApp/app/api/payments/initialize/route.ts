@@ -1,5 +1,6 @@
 import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
+import { SITE_URL } from '@/lib/config/site';
 
 export async function POST(req: NextRequest) {
   try {
@@ -57,7 +58,7 @@ export async function POST(req: NextRequest) {
               : []),
           ],
         },
-        callback_url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://claudygod.com'}/donate/success`,
+        callback_url: `${SITE_URL}/donate/success`,
       }),
       signal: controller.signal,
     });

@@ -345,10 +345,10 @@ systemctl restart claudygod-api
 **Step 4: Verify Deployment**
 ```bash
 # Check frontend
-curl https://claudygod.com
+curl https://claudygod.org
 
 # Check backend
-curl https://api.claudygod.com/api/v1.0/health
+curl https://api.claudygod.org/api/v1.0/health
 
 # Test API from frontend
 # DevTools → Network → API calls should work
@@ -379,7 +379,7 @@ curl https://api.claudygod.com/api/v1.0/health
 tail -f /var/log/claudygod-api.log
 
 # Check health
-curl https://api.claudygod.com/api/v1.0/health
+curl https://api.claudygod.org/api/v1.0/health
 
 # Monitor performance
 # Cloudflare Dashboard / AWS CloudWatch
@@ -454,7 +454,7 @@ echo $API_KEY  # Backend
 ### Issue: Data not loading on frontend
 **Solution**: Verify API endpoint
 ```bash
-curl https://api.claudygod.com/api/v1.0/events -v
+curl https://api.claudygod.org/api/v1.0/events -v
 # Check headers, response code, data
 ```
 
@@ -471,7 +471,7 @@ curl https://api.claudygod.com/api/v1.0/events -v
 # Check if images exist in public/ folder
 ls -la public/
 # Test image URL
-curl https://claudygod.com/image.webp
+curl https://claudygod.org/image.webp
 ```
 
 ---

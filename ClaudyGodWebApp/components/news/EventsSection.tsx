@@ -5,12 +5,12 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
-import { post, BackendError } from '@/utils/apiClient';
+import { post, BackendError } from '@/lib/data/client';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { useEvents } from '@/hooks/useEvents';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
-import type { Event } from '@/lib/api/types';
+import type { Event } from '@/lib/data/types';
 
 interface TicketFormData {
   firstName: string;

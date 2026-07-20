@@ -4,10 +4,9 @@
  *   <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
  */
 
-export const SITE_URL  = 'https://claudygod.com';
-export const SITE_NAME = 'ClaudyGod Music Ministries';
-export const OG_IMAGE  = 'https://claudygod.com/ClaudySocial.jpg';
-export const LOGO_URL  = 'https://claudygod.com/ClaudyGoLogo.webp';
+import { SITE_URL, SITE_NAME, OG_IMAGE, LOGO_URL, SOCIAL_URLS, CONTACT_EMAIL } from '@/lib/config/site';
+
+export { SITE_URL, SITE_NAME, OG_IMAGE, LOGO_URL };
 
 /* ── BreadcrumbList ─────────────────────────────────────────────────────────
    Shows the navigation path inside Google's search result snippet.
@@ -82,20 +81,22 @@ export function musicGroup() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Booking',
-      email: 'bookings@claudygod.com',
+      email: CONTACT_EMAIL,
       url: `${SITE_URL}/bookings`,
       availableLanguage: 'English',
     },
     sameAs: [
-      'https://www.facebook.com/ClaudyGod/',
-      'https://www.instagram.com/singerclaudygod/',
-      'https://twitter.com/claudygod',
-      'https://www.tiktok.com/@claudygod',
-      'https://open.spotify.com/album/1zCT0YUVggnzkZJK5VP0yd',
+      SOCIAL_URLS.facebook,
+      SOCIAL_URLS.instagram,
+      SOCIAL_URLS.twitter,
+      SOCIAL_URLS.tiktok,
+      SOCIAL_URLS.spotify,
+      // Flagship-album link, not the generic Apple Music artist page — deliberately
+      // release-specific, so it stays inline rather than in the site-wide config.
       'https://music.apple.com/ng/album/very-glorious/1789665669',
-      'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
-      'https://www.deezer.com/us/album/695949191',
-      'https://music.amazon.com/albums/B0DSM7QGLF',
+      SOCIAL_URLS.youtube,
+      SOCIAL_URLS.deezer,
+      SOCIAL_URLS.amazonMusic,
     ],
   };
 }
@@ -121,12 +122,12 @@ export function person() {
       '@id': `${SITE_URL}/#musicgroup`,
     },
     sameAs: [
-      'https://www.facebook.com/ClaudyGod/',
-      'https://www.instagram.com/singerclaudygod/',
-      'https://twitter.com/claudygod',
-      'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
-      'https://open.spotify.com/album/1zCT0YUVggnzkZJK5VP0yd',
-      'https://music.apple.com/ng/artist/claudygod/1440081695',
+      SOCIAL_URLS.facebook,
+      SOCIAL_URLS.instagram,
+      SOCIAL_URLS.twitter,
+      SOCIAL_URLS.youtube,
+      SOCIAL_URLS.spotify,
+      SOCIAL_URLS.appleMusic,
     ],
   };
 }
@@ -353,10 +354,10 @@ export function organization() {
       },
     ],
     sameAs: [
-      'https://www.facebook.com/ClaudyGod/',
-      'https://www.instagram.com/singerclaudygod/',
-      'https://twitter.com/claudygod',
-      'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
+      SOCIAL_URLS.facebook,
+      SOCIAL_URLS.instagram,
+      SOCIAL_URLS.twitter,
+      SOCIAL_URLS.youtube,
     ],
   };
 }

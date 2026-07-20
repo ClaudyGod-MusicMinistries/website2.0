@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: 'ClaudyGod News & Tour Dates 2025',
     images:['/tour_3.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.com/news' },
+  alternates: { canonical: 'https://claudygod.org/news' },
 };
 
 export default async function NewsPage() {
@@ -43,10 +43,10 @@ export default async function NewsPage() {
 
   const schemas = [
     breadcrumb([{ name: 'News & Tours', href: '/news' }]),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Port Harcourt', startDate: '2025-07-12T17:00:00+01:00', location: 'University of Port Harcourt Auditorium', city: 'Port Harcourt', country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Lagos',         startDate: '2025-08-02T18:00:00+01:00', location: 'Tafawa Balewa Square',                    city: 'Lagos',         country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Aba',           startDate: '2025-08-16T17:00:00+01:00', location: 'Enyimba Cultural Centre',                  city: 'Aba',           country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Imo',           startDate: '2025-09-06T17:00:00+01:00', location: 'Imo State University',                     city: 'Imo',           country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Port Harcourt', startDate: '2025-07-12T17:00:00+01:00', location: 'University of Port Harcourt Auditorium', city: 'Port Harcourt', country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Lagos',         startDate: '2025-08-02T18:00:00+01:00', location: 'Tafawa Balewa Square',                    city: 'Lagos',         country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Aba',           startDate: '2025-08-16T17:00:00+01:00', location: 'Enyimba Cultural Centre',                  city: 'Aba',           country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
+    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Imo',           startDate: '2025-09-06T17:00:00+01:00', location: 'Imo State University',                     city: 'Imo',           country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
   ];
 
   return (

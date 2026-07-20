@@ -23,10 +23,10 @@ export function ContactInfo() {
               Email
             </p>
             <a
-              href="mailto:info@claudygod.com"
+              href="mailto:info@claudygod.org"
               className="font-roboto text-sm text-neutral-600 hover:text-purple-600 transition-colors duration-300"
             >
-              info@claudygod.com
+              info@claudygod.org
             </a>
           </div>
         </div>
