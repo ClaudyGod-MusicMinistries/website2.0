@@ -21,7 +21,7 @@ function InputField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+      <label htmlFor={id} className="font-display font-semibold text-neutral-800 text-sm block mb-2">
         {label}{required && <span className="text-purple-500 ml-0.5">*</span>}
       </label>
       {children}
@@ -142,13 +142,13 @@ export default function DonateClient() {
         </motion.div>
 
         <motion.h2 custom={0.1} variants={fadeUp}
-          className="font-bricolage font-extrabold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight mb-5"
+          className="font-display font-extrabold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight mb-5"
         >
           Partner With the <span className="text-purple-600">Mission</span>
         </motion.h2>
 
         <motion.p custom={0.2} variants={fadeUp}
-          className="font-roboto text-neutral-500 text-base leading-relaxed mb-10"
+          className="font-sans text-neutral-500 text-base leading-relaxed mb-10"
         >
           ClaudyGod Music Ministries spreads the love of God through spirit-filled music, teachings, and
           community outreach. Your donation funds music production, ministry tours, and free worship events
@@ -156,7 +156,7 @@ export default function DonateClient() {
         </motion.p>
 
         <motion.div custom={0.3} variants={fadeUp} className="space-y-2.5">
-          <p className="font-bricolage font-bold text-neutral-700 text-sm uppercase tracking-widest mb-4">
+          <p className="font-display font-bold text-neutral-700 text-sm uppercase tracking-widest mb-4">
             What your gift does
           </p>
           {[
@@ -177,13 +177,13 @@ export default function DonateClient() {
               )}
             >
               <span className={cn(
-                'font-bricolage font-extrabold text-xl w-20 shrink-0 transition-colors',
+                'font-display font-extrabold text-xl w-20 shrink-0 transition-colors',
                 amount === tier && !custom ? 'text-purple-700' : 'text-neutral-800 group-hover:text-purple-600',
               )}>
                 {symbol}{tier.toLocaleString()}
               </span>
               <span className="w-px h-8 bg-neutral-200 shrink-0" />
-              <span className="font-roboto text-neutral-500 text-sm leading-snug">{note}</span>
+              <span className="font-sans text-neutral-500 text-sm leading-snug">{note}</span>
               {amount === tier && !custom && (
                 <span className="ml-auto shrink-0 w-2 h-2 rounded-full bg-purple-500" />
               )}
@@ -192,11 +192,11 @@ export default function DonateClient() {
         </motion.div>
 
         <motion.blockquote custom={0.5} variants={fadeUp}
-          className="mt-10 font-roboto italic text-neutral-500 text-sm leading-relaxed border-l-2 border-gold-500/40 pl-5"
+          className="mt-10 font-sans italic text-neutral-500 text-sm leading-relaxed border-l-2 border-gold-500/40 pl-5"
         >
           &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together and
           running over, will be poured into your lap.&rdquo;
-          <span className="not-italic block mt-2 font-worksans text-xs tracking-[0.16em] uppercase text-gold-500/70">
+          <span className="not-italic block mt-2 font-sans text-xs tracking-[0.16em] uppercase text-gold-500/70">
             Luke 6:38
           </span>
         </motion.blockquote>
@@ -219,8 +219,8 @@ export default function DonateClient() {
                   <Heart className="h-5 w-5 text-white fill-white/80" />
                 </div>
                 <div>
-                  <p className="font-bricolage font-bold text-white text-lg leading-tight">Make a Donation</p>
-                  <p className="font-worksans text-xs tracking-[0.16em] uppercase text-purple-200 mt-0.5">Secure · All gifts support the ministry</p>
+                  <p className="font-display font-bold text-white text-lg leading-tight">Make a Donation</p>
+                  <p className="font-sans text-xs tracking-[0.16em] uppercase text-purple-200 mt-0.5">Secure · All gifts support the ministry</p>
                 </div>
               </div>
 
@@ -229,7 +229,7 @@ export default function DonateClient() {
                 <button
                   type="button"
                   onClick={() => setShowCurrencyPicker((p) => !p)}
-                  className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-3 py-2 rounded-lg font-worksans text-xs tracking-[0.12em] uppercase transition-colors duration-200"
+                  className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-3 py-2 rounded-lg font-sans text-xs tracking-[0.12em] uppercase transition-colors duration-200"
                 >
                   {symbol} {code}
                   <ChevronDown className={cn('h-3 w-3 transition-transform duration-200', showCurrencyPicker && 'rotate-180')} />
@@ -249,7 +249,7 @@ export default function DonateClient() {
                           type="button"
                           onClick={() => handleCurrencyChange(c as SupportedCurrency)}
                           className={cn(
-                            'w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-worksans text-xs tracking-[0.1em] uppercase transition-colors duration-150',
+                            'w-full flex items-center gap-2.5 px-4 py-2.5 text-left font-sans text-xs tracking-[0.1em] uppercase transition-colors duration-150',
                             c === currency
                               ? 'bg-purple-50 text-purple-700 font-semibold'
                               : 'text-neutral-600 hover:bg-neutral-50'
@@ -280,10 +280,10 @@ export default function DonateClient() {
                 </div>
 
                 <div>
-                  <h3 className="font-bricolage font-extrabold text-neutral-900 text-3xl mb-2">Thank You!</h3>
-                  <p className="font-roboto text-neutral-500 text-base leading-relaxed max-w-xs">
+                  <h3 className="font-display font-extrabold text-neutral-900 text-3xl mb-2">Thank You!</h3>
+                  <p className="font-sans text-neutral-500 text-base leading-relaxed max-w-xs">
                     Your gift of{' '}
-                    <strong className="font-bricolage font-bold text-purple-600 text-lg">
+                    <strong className="font-display font-bold text-purple-600 text-lg">
                       {txCurrency}{txAmount.toLocaleString()}
                     </strong>{' '}
                     is sowing into the kingdom. God bless you abundantly.
@@ -292,9 +292,9 @@ export default function DonateClient() {
 
                 {txRef && (
                   <div className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-5 py-4">
-                    <p className="font-worksans text-xs tracking-[0.16em] uppercase text-neutral-400 mb-2">Transaction Reference</p>
+                    <p className="font-sans text-xs tracking-[0.16em] uppercase text-neutral-400 mb-2">Transaction Reference</p>
                     <div className="flex items-center justify-between gap-3">
-                      <code className="font-bricolage font-semibold text-neutral-700 text-sm truncate">{txRef}</code>
+                      <code className="font-display font-semibold text-neutral-700 text-sm truncate">{txRef}</code>
                       <button
                         onClick={copyRef}
                         className="shrink-0 p-1.5 rounded-lg hover:bg-neutral-200 transition-colors text-neutral-400 hover:text-neutral-700"
@@ -308,7 +308,7 @@ export default function DonateClient() {
 
                 <button
                   onClick={reset}
-                  className="font-worksans text-sm tracking-[0.12em] uppercase text-purple-600 hover:text-purple-800 underline underline-offset-4 transition-colors"
+                  className="font-sans text-sm tracking-[0.12em] uppercase text-purple-600 hover:text-purple-800 underline underline-offset-4 transition-colors"
                 >
                   Give Again
                 </button>
@@ -318,7 +318,7 @@ export default function DonateClient() {
 
                 {/* Amount presets */}
                 <div>
-                  <p className="font-bricolage font-bold text-neutral-800 text-sm uppercase tracking-widest mb-3">
+                  <p className="font-display font-bold text-neutral-800 text-sm uppercase tracking-widest mb-3">
                     Select Amount ({code})
                   </p>
                   <div className="grid grid-cols-3 gap-2.5 mb-4">
@@ -328,7 +328,7 @@ export default function DonateClient() {
                         type="button"
                         onClick={() => { setAmount(tier); setCustom(''); setErrors((e) => ({ ...e, amount: '' })); }}
                         className={cn(
-                          'h-12 font-bricolage font-extrabold text-sm rounded-xl border transition-all duration-200',
+                          'h-12 font-display font-extrabold text-sm rounded-xl border transition-all duration-200',
                           amount === tier && !custom
                             ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
                             : 'border-neutral-200 text-neutral-700 hover:border-purple-400 hover:text-purple-700 bg-white'
@@ -341,7 +341,7 @@ export default function DonateClient() {
 
                   {/* Custom amount */}
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bricolage font-bold text-neutral-400 text-base pointer-events-none select-none">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-display font-bold text-neutral-400 text-base pointer-events-none select-none">
                       {symbol}
                     </span>
                     <input
@@ -354,7 +354,7 @@ export default function DonateClient() {
                         setAmount(0);
                         setErrors((er) => ({ ...er, amount: '' }));
                       }}
-                      className="w-full h-12 pl-9 pr-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                      className="w-full h-12 pl-9 pr-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                     />
                   </div>
                   {errors.amount && (
@@ -372,8 +372,8 @@ export default function DonateClient() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center justify-between bg-purple-50 border border-purple-100 rounded-xl px-5 py-3.5"
                   >
-                    <span className="font-worksans text-sm tracking-wide text-purple-600 uppercase">Your gift</span>
-                    <span className="font-bricolage font-extrabold text-purple-700 text-2xl">
+                    <span className="font-sans text-sm tracking-wide text-purple-600 uppercase">Your gift</span>
+                    <span className="font-display font-extrabold text-purple-700 text-2xl">
                       {symbol}{finalAmount.toLocaleString()}
                     </span>
                   </motion.div>
@@ -387,7 +387,7 @@ export default function DonateClient() {
                     placeholder="Full name"
                     value={name}
                     onChange={(e) => { setName(e.target.value); setErrors((er) => ({ ...er, name: '' })); }}
-                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                   />
                 </InputField>
 
@@ -399,14 +399,14 @@ export default function DonateClient() {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setErrors((er) => ({ ...er, email: '' })); }}
-                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                   />
                 </InputField>
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="donor-message" className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
-                    Message <span className="font-roboto font-normal text-neutral-400 text-sm">(optional)</span>
+                  <label htmlFor="donor-message" className="font-display font-semibold text-neutral-800 text-sm block mb-2">
+                    Message <span className="font-sans font-normal text-neutral-400 text-sm">(optional)</span>
                   </label>
                   <textarea
                     id="donor-message"
@@ -414,7 +414,7 @@ export default function DonateClient() {
                     placeholder="Leave a word of encouragement…"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none"
                   />
                 </div>
 
@@ -422,7 +422,7 @@ export default function DonateClient() {
                 <button
                   type="button"
                   onClick={handlePay}
-                  className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-bricolage font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_4px_24px_rgba(124,58,237,0.40)] hover:shadow-[0_8px_32px_rgba(124,58,237,0.50)] active:scale-[0.99]"
+                  className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-display font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_4px_24px_rgba(124,58,237,0.40)] hover:shadow-[0_8px_32px_rgba(124,58,237,0.50)] active:scale-[0.99]"
                 >
                   <Heart className="h-5 w-5 fill-white/90" />
                   {amountValid
@@ -433,7 +433,7 @@ export default function DonateClient() {
                 {/* Trust line */}
                 <div className="flex items-center justify-center gap-2 pt-1">
                   <ShieldCheck className="h-4 w-4 text-neutral-400" />
-                  <p className="font-roboto text-neutral-400 text-xs text-center">
+                  <p className="font-sans text-neutral-400 text-xs text-center">
                     Secured by Paystack · NGN, USD, GBP, EUR, GHS &amp; ZAR supported
                   </p>
                 </div>

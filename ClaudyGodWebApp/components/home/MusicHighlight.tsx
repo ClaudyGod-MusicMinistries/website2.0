@@ -16,13 +16,13 @@ export function MusicHighlight() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Discography</span>
             </div>
-            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight">
               Albums
             </h2>
           </div>
           <Link
             href="/music"
-            className="hidden md:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 whitespace-nowrap"
+            className="hidden md:inline-flex items-center gap-2 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 whitespace-nowrap"
           >
             All Albums →
           </Link>
@@ -47,7 +47,7 @@ export function MusicHighlight() {
 
               {/* Album Info - flex-1 to push content down */}
               <div className="flex-1 flex flex-col">
-                <h3 className="font-bricolage font-semibold text-neutral-800 text-lg sm:text-xl md:text-2xl tracking-wide mb-2 sm:mb-3 line-clamp-2">
+                <h3 className="font-display font-semibold text-neutral-800 text-lg sm:text-xl md:text-2xl tracking-wide mb-2 sm:mb-3 line-clamp-2">
                   {album.title}
                 </h3>
 
@@ -78,7 +78,7 @@ export function MusicHighlight() {
         <div className="mt-10 sm:mt-12 flex md:hidden justify-center sm:justify-start">
           <Link
             href="/music"
-            className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+            className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
           >
             View All Albums
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

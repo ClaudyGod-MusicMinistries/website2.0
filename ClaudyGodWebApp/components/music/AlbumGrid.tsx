@@ -41,10 +41,10 @@ export function AlbumGrid() {
               {/* Album info */}
               <div className="flex-1 flex flex-col p-5 sm:p-6 lg:p-7">
                 {/* Title */}
-                <p className="font-bricolage font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+                <p className="font-display font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
                   {album.title}
                 </p>
-                <p className="font-worksans text-[0.55rem] sm:text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5 sm:mb-6">
+                <p className="font-sans text-[0.55rem] sm:text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5 sm:mb-6">
                   Full Album
                 </p>
 
@@ -76,7 +76,7 @@ export function AlbumGrid() {
                     href={album.links.spotify || album.links.youtube || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-worksans text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
+                    className="inline-flex items-center gap-2 font-sans text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
                   >
                     Stream Now
                     <span className="transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>

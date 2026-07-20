@@ -40,14 +40,14 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
         {/* Quick view overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
           <div className="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-            <span className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-neutral-900 font-worksans text-[0.6rem] tracking-[0.15em] uppercase px-4 h-9 rounded-full shadow-lg">
+            <span className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm text-neutral-900 font-sans text-[0.6rem] tracking-[0.15em] uppercase px-4 h-9 rounded-full shadow-lg">
               <Eye className="h-3 w-3" />
               Quick View
             </span>
           </div>
         </div>
         {/* Category badge */}
-        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-neutral-600 font-worksans text-[0.5rem] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full shadow-sm capitalize">
+        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-neutral-600 font-sans text-[0.5rem] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full shadow-sm capitalize">
           {product.category}
         </span>
       </div>
@@ -63,26 +63,26 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
                 className={`h-3 w-3 ${i < Math.floor(product.rating!) ? 'fill-gold-400 text-gold-400' : 'fill-neutral-200 text-neutral-200'}`}
               />
             ))}
-            <span className="font-worksans text-[0.55rem] tracking-wide text-neutral-400 ml-1">
+            <span className="font-sans text-[0.55rem] tracking-wide text-neutral-400 ml-1">
               {product.rating.toFixed(1)}
             </span>
           </div>
         )}
 
-        <p className="font-roboto font-medium text-neutral-900 text-base leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+        <p className="font-sans font-medium text-neutral-900 text-base leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
           {product.name}
         </p>
-        <p className="font-roboto text-neutral-400 text-xs leading-relaxed mb-4 flex-1">
+        <p className="font-sans text-neutral-400 text-xs leading-relaxed mb-4 flex-1">
           {product.description}
         </p>
 
         <div className="flex items-center justify-between gap-3 mt-auto">
-          <span className="font-bricolage font-semibold text-neutral-900 text-lg">
+          <span className="font-display font-semibold text-neutral-900 text-lg">
             {formatPrice(product.price)}
           </span>
           <button
             onClick={handleAdd}
-            className="flex items-center gap-2 h-10 px-4 bg-neutral-900 hover:bg-purple-600 text-white font-worksans text-[0.55rem] tracking-[0.15em] uppercase rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_4px_14px_rgba(124,58,237,0.4)]"
+            className="flex items-center gap-2 h-10 px-4 bg-neutral-900 hover:bg-purple-600 text-white font-sans text-[0.55rem] tracking-[0.15em] uppercase rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_4px_14px_rgba(124,58,237,0.4)]"
           >
             <ShoppingBag className="h-3.5 w-3.5" />
             Add

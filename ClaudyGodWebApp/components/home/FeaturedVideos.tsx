@@ -51,13 +51,13 @@ export function FeaturedVideos() {
                 <span className="block w-8 h-px bg-gold-500 opacity-70" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-abril text-white text-4xl md:text-5xl lg:text-[3.5rem] leading-tight tracking-tight">
+              <h2 className="font-display text-white text-4xl md:text-5xl lg:text-[3.5rem] leading-tight tracking-tight">
                 Featured Videos
               </h2>
             </div>
             <Link
               href="/videos"
-              className="hidden sm:inline-flex items-center gap-2 font-worksans text-xs tracking-[0.18em] uppercase border border-white/15 hover:border-purple-400/60 text-white/60 hover:text-white px-6 h-10 rounded-xl transition-all duration-300 group"
+              className="hidden sm:inline-flex items-center gap-2 font-sans text-xs tracking-[0.18em] uppercase border border-white/15 hover:border-purple-400/60 text-white/60 hover:text-white px-6 h-10 rounded-xl transition-all duration-300 group"
             >
               See All
               <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -100,14 +100,14 @@ export function FeaturedVideos() {
 
               {/* Bottom info */}
               <div className="absolute inset-x-0 bottom-0 p-6">
-                <span className="inline-block font-worksans text-[0.5rem] tracking-[0.18em] uppercase text-gold-400/80 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full mb-3">
+                <span className="inline-block font-sans text-[0.5rem] tracking-[0.18em] uppercase text-gold-400/80 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full mb-3">
                   Featured
                 </span>
-                <p className="font-bricolage font-bold text-white text-xl md:text-2xl leading-snug line-clamp-2 mb-2">
+                <p className="font-display font-bold text-white text-xl md:text-2xl leading-snug line-clamp-2 mb-2">
                   {featured.title}
                 </p>
                 {featured.duration && (
-                  <span className="flex items-center gap-1.5 font-worksans text-[0.52rem] tracking-[0.12em] uppercase text-white/50">
+                  <span className="flex items-center gap-1.5 font-sans text-[0.52rem] tracking-[0.12em] uppercase text-white/50">
                     <Clock className="h-3 w-3" />{featured.duration}
                   </span>
                 )}
@@ -141,14 +141,14 @@ export function FeaturedVideos() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <span className="font-worksans text-[0.45rem] tracking-[0.12em] uppercase text-gold-400/60 mb-1 block">
+                    <span className="font-sans text-[0.45rem] tracking-[0.12em] uppercase text-gold-400/60 mb-1 block">
                       {i === 0 ? 'Music Video' : i === 1 ? 'Live Session' : 'Visualizer'}
                     </span>
-                    <p className="font-bricolage font-semibold text-xs text-white/75 group-hover:text-white leading-snug line-clamp-2 mb-1.5 transition-colors duration-300">
+                    <p className="font-display font-semibold text-xs text-white/75 group-hover:text-white leading-snug line-clamp-2 mb-1.5 transition-colors duration-300">
                       {video.title}
                     </p>
                     {video.duration && (
-                      <span className="flex items-center gap-1 font-worksans text-[0.45rem] tracking-[0.1em] uppercase text-white/30">
+                      <span className="flex items-center gap-1 font-sans text-[0.45rem] tracking-[0.1em] uppercase text-white/30">
                         <Clock className="h-2.5 w-2.5" />{video.duration}
                       </span>
                     )}
@@ -194,7 +194,7 @@ export function FeaturedVideos() {
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 p-3">
-                  <p className="font-bricolage font-semibold text-white/85 text-xs leading-snug line-clamp-2 group-hover:text-white transition-colors duration-300">
+                  <p className="font-display font-semibold text-white/85 text-xs leading-snug line-clamp-2 group-hover:text-white transition-colors duration-300">
                     {video.title}
                   </p>
                 </div>
@@ -206,7 +206,7 @@ export function FeaturedVideos() {
           <div className="mt-10 flex justify-center sm:hidden">
             <Link
               href="/videos"
-              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-white/[0.07] hover:bg-purple-700 border border-white/10 hover:border-purple-600 text-white/70 hover:text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-white/[0.07] hover:bg-purple-700 border border-white/10 hover:border-purple-600 text-white/70 hover:text-white px-8 h-11 rounded-xl transition-all duration-300 group"
             >
               See All Videos
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -239,7 +239,7 @@ export function FeaturedVideos() {
             >
               <div className="relative w-full max-w-5xl pointer-events-auto">
                 <div className="flex items-center justify-between mb-3">
-                  <p className="font-bricolage font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                  <p className="font-display font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
                     {activeVideo?.title}
                   </p>
                   <button

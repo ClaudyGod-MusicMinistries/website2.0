@@ -22,7 +22,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         </div>
 
         {/* Heading */}
-        <h1 className="font-bricolage text-2xl font-bold text-white mb-2">
+        <h1 className="font-display text-2xl font-bold text-white mb-2">
           Something went wrong
         </h1>
         <p className="text-sm text-neutral-400 leading-relaxed mb-8">

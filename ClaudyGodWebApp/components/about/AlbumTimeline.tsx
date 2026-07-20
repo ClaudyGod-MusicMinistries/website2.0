@@ -111,7 +111,7 @@ function AlbumArtVisual({ album, isEven }: { album: (typeof albums)[0]; isEven: 
                 />
               ))}
             </span>
-            <span className="font-worksans text-[0.62rem] tracking-[0.14em] uppercase text-neutral-500 font-medium">
+            <span className="font-sans text-[0.62rem] tracking-[0.14em] uppercase text-neutral-500 font-medium">
               Now Streaming
             </span>
           </div>
@@ -130,7 +130,7 @@ export function AlbumTimeline() {
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-16">
+        <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-16">
           Albums &amp; Releases
         </h2>
 
@@ -163,10 +163,10 @@ export function AlbumTimeline() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-bricolage font-bold text-neutral-800 text-xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                        <p className="font-display font-bold text-neutral-800 text-xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
                           {album.title}
                         </p>
-                        <p className="font-roboto text-neutral-500 text-sm leading-relaxed mb-4">
+                        <p className="font-sans text-neutral-500 text-sm leading-relaxed mb-4">
                           Available on all platforms
                         </p>
                         <div className="flex items-center gap-2.5">
@@ -221,7 +221,7 @@ export function AlbumTimeline() {
         <div className="mt-14 pt-10 border-t border-black/[0.06] flex flex-wrap gap-4">
           <Link
             href="/music"
-            className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+            className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
           >
             View Full Music Catalogue
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

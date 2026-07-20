@@ -4,10 +4,10 @@ export function BibleVerse() {
       <div className="container-site">
         <div className="max-w-2xl mx-auto text-center">
           <span className="block w-8 h-px bg-gold-500 opacity-60 mx-auto mb-6 sm:mb-10" />
-          <blockquote className="font-roboto text-neutral-700 text-xl sm:text-2xl md:text-3xl lg:text-[2rem] leading-[1.6] tracking-tight">
+          <blockquote className="font-sans text-neutral-700 text-xl sm:text-2xl md:text-3xl lg:text-[2rem] leading-[1.6] tracking-tight">
             &ldquo;Let everything that has breath praise the Lord.&rdquo;
           </blockquote>
-          <p className="mt-5 sm:mt-7 font-worksans text-[0.58rem] tracking-[0.28em] uppercase text-gold-500">
+          <p className="mt-5 sm:mt-7 font-sans text-[0.58rem] tracking-[0.28em] uppercase text-gold-500">
             Psalm 150 : 6
           </p>
           <span className="block w-8 h-px bg-gold-500 opacity-40 mx-auto mt-6 sm:mt-10" />

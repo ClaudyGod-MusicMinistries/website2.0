@@ -186,7 +186,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden">
           <motion.blockquote
             custom={0.12} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-white text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] leading-[1.25] tracking-tight max-w-2xl"
+            className="font-display text-white text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] leading-[1.25] tracking-tight max-w-2xl"
           >
             {content.quote}
           </motion.blockquote>
@@ -195,7 +195,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         {content.reference && (
           <motion.p
             custom={0.5} variants={fadeUp} initial="hidden" animate="visible"
-            className="mt-7 font-worksans text-[0.62rem] tracking-[0.28em] uppercase text-gold-400/80"
+            className="mt-7 font-sans text-[0.62rem] tracking-[0.28em] uppercase text-gold-400/80"
           >
             {content.reference}
           </motion.p>
@@ -216,10 +216,10 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
               <Play className="h-5 w-5 text-white fill-white ml-0.5 group-hover:text-gold-300 transition-colors duration-300" />
             </span>
             <span className="flex flex-col gap-0.5">
-              <span className="font-worksans text-[0.58rem] tracking-[0.2em] uppercase text-gold-400/75 group-hover:text-gold-400 transition-colors duration-300">
+              <span className="font-sans text-[0.58rem] tracking-[0.2em] uppercase text-gold-400/75 group-hover:text-gold-400 transition-colors duration-300">
                 Watch on YouTube
               </span>
-              <span className="font-bricolage font-semibold text-white/80 text-sm group-hover:text-white transition-colors duration-300">
+              <span className="font-display font-semibold text-white/80 text-sm group-hover:text-white transition-colors duration-300">
                 Worship with ClaudyGod
               </span>
             </span>
@@ -244,7 +244,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden mb-1">
           <motion.h1
             custom={0.1} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
+            className="font-display text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
           >
             Worship.
           </motion.h1>
@@ -252,7 +252,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden mb-1">
           <motion.p
             custom={0.22} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-gold-300/95 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
+            className="font-display text-gold-300/95 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
           >
             Music.
           </motion.p>
@@ -260,7 +260,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         <div className="overflow-hidden mb-7">
           <motion.p
             custom={0.34} variants={reveal} initial="hidden" animate="visible"
-            className="font-abril text-purple-300/90 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
+            className="font-display text-purple-300/90 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] leading-[1.0] tracking-tight"
           >
             Ministry.
           </motion.p>
@@ -268,7 +268,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
 
         <motion.p
           custom={0.52} variants={fadeUp} initial="hidden" animate="visible"
-          className="font-roboto text-neutral-300 text-sm md:text-base leading-relaxed max-w-md mb-8"
+          className="font-sans text-neutral-300 text-sm md:text-base leading-relaxed max-w-md mb-8"
         >
           Spirit-filled gospel music from Minister ClaudyGod — spreading the love of God through worship and song.
         </motion.p>
@@ -279,13 +279,13 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
         >
           <Link
             href="/bookings"
-            className="font-worksans text-[0.62rem] tracking-[0.2em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-6 sm:px-8 h-10 sm:h-12 inline-flex items-center rounded-xl transition-all duration-300 shadow-[0_4px_20px_rgba(109,40,217,0.5)] hover:shadow-[0_6px_28px_rgba(109,40,217,0.6)]"
+            className="font-sans text-[0.62rem] tracking-[0.2em] uppercase text-white bg-purple-600 hover:bg-purple-500 px-6 sm:px-8 h-10 sm:h-12 inline-flex items-center rounded-xl transition-all duration-300 shadow-[0_4px_20px_rgba(109,40,217,0.5)] hover:shadow-[0_6px_28px_rgba(109,40,217,0.6)]"
           >
             Book Now
           </Link>
           <Link
             href="/music"
-            className="font-worksans text-[0.62rem] tracking-[0.2em] uppercase text-white/80 hover:text-white border border-white/25 hover:border-white/60 px-6 sm:px-8 h-10 sm:h-12 inline-flex items-center rounded-xl transition-all duration-300 backdrop-blur-sm gap-2 group"
+            className="font-sans text-[0.62rem] tracking-[0.2em] uppercase text-white/80 hover:text-white border border-white/25 hover:border-white/60 px-6 sm:px-8 h-10 sm:h-12 inline-flex items-center rounded-xl transition-all duration-300 backdrop-blur-sm gap-2 group"
           >
             Listen Now
             <span className="text-gold-400 transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -311,7 +311,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
           <div className="overflow-hidden mb-8">
             <motion.h2
               custom={0.1} variants={reveal} initial="hidden" animate="visible"
-              className="font-abril text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[3.8rem] leading-[1.1] tracking-tight"
+              className="font-display text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[3.8rem] leading-[1.1] tracking-tight"
             >
               {content.listenText}
             </motion.h2>
@@ -330,7 +330,7 @@ function SlideContent({ slide }: { slide: (typeof heroSlides)[number] }) {
                 href={platform.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 h-10 border border-white/20 hover:border-gold-500/60 bg-black/20 hover:bg-black/30 text-white/75 hover:text-white font-worksans text-[0.58rem] tracking-[0.15em] uppercase transition-all duration-300 backdrop-blur-sm rounded-xl"
+                className="inline-flex items-center gap-2 px-5 h-10 border border-white/20 hover:border-gold-500/60 bg-black/20 hover:bg-black/30 text-white/75 hover:text-white font-sans text-[0.58rem] tracking-[0.15em] uppercase transition-all duration-300 backdrop-blur-sm rounded-xl"
               >
                 <Icon className="h-3.5 w-3.5 shrink-0" />
                 {platform.name}
