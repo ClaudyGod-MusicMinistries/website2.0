@@ -131,7 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://open.spotify.com" />
         <link rel="dns-prefetch" href="https://music.apple.com" />
       </head>
-      <body className="font-bricolage bg-surface-base text-white antialiased min-h-dvh">
+      <body className="font-display bg-surface-base text-white antialiased min-h-dvh">
         <Loader />
         <Navbar />
         <main className="min-h-dvh">

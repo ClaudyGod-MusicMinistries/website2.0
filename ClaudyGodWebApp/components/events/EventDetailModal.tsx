@@ -79,7 +79,7 @@ export function EventDetailModal({
         >
           {/* Header */}
           <div className="sticky top-0 z-10 bg-neutral-900/95 backdrop-blur border-b border-white/10 px-6 py-4 flex items-center justify-between">
-            <h2 className="font-bricolage font-bold text-xl text-white">{event.title}</h2>
+            <h2 className="font-display font-bold text-xl text-white">{event.title}</h2>
             <button
               onClick={onClose}
               className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"

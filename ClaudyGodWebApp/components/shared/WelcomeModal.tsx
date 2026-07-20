@@ -120,13 +120,13 @@ export function WelcomeModal() {
                   <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
                 </div>
                 <div className="text-left">
-                  <p className="font-worksans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Latest Release</p>
-                  <p className="font-bricolage font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">{latestVideo.title}</p>
+                  <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Latest Release</p>
+                  <p className="font-display font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">{latestVideo.title}</p>
                 </div>
               </div>
 
               {/* New badge */}
-              <div className="absolute top-3 left-4 bg-gold-500/90 text-surface-deep font-worksans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
+              <div className="absolute top-3 left-4 bg-gold-500/90 text-surface-deep font-sans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
                 New Release
               </div>
             </button>
@@ -140,12 +140,12 @@ export function WelcomeModal() {
                   <Image src="/ClaudyGoLogo.webp" alt="ClaudyGod" fill className="object-contain p-1" sizes="40px" />
                 </div>
                 <div>
-                  <p className="font-bricolage font-bold text-white text-sm sm:text-base leading-tight">Welcome to ClaudyGod</p>
-                  <p className="font-worksans text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-500/60">Music Ministries</p>
+                  <p className="font-display font-bold text-white text-sm sm:text-base leading-tight">Welcome to ClaudyGod</p>
+                  <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-500/60">Music Ministries</p>
                 </div>
               </div>
 
-              <p className="font-roboto text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
+              <p className="font-sans text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
                 Spirit-filled gospel music, worship videos, and ministry content — created to bless your soul and spread the love of God.
               </p>
 
@@ -153,7 +153,7 @@ export function WelcomeModal() {
               <div className="mb-3 sm:mb-4 p-3 sm:p-4 rounded-xl bg-white/[0.04] border border-white/[0.07]">
                 <div className="flex items-center gap-2 mb-2.5">
                   <Bell className="h-3.5 w-3.5 text-gold-400 shrink-0" />
-                  <p className="font-bricolage font-semibold text-white text-xs sm:text-sm">Stay Connected</p>
+                  <p className="font-display font-semibold text-white text-xs sm:text-sm">Stay Connected</p>
                 </div>
 
                 {subscribed ? (
@@ -165,7 +165,7 @@ export function WelcomeModal() {
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
                       <span className="text-green-400 text-[0.6rem]">✓</span>
                     </div>
-                    <p className="font-roboto text-neutral-300 text-xs sm:text-sm">
+                    <p className="font-sans text-neutral-300 text-xs sm:text-sm">
                       You&apos;re subscribed! Welcome to the community.
                     </p>
                   </motion.div>
@@ -176,11 +176,11 @@ export function WelcomeModal() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your@email.com"
-                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-roboto text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-sans text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
                     />
                     <button
                       type="submit"
-                      className="h-9 sm:h-10 w-full bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.6rem] tracking-[0.14em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
+                      className="h-9 sm:h-10 w-full bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.6rem] tracking-[0.14em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
                     >
                       <Bell className="h-3 w-3 shrink-0" />
                       Subscribe
@@ -194,14 +194,14 @@ export function WelcomeModal() {
                 <Link
                   href="/music"
                   onClick={close}
-                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-bricolage font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
+                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-display font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
                 >
                   <Music className="h-3.5 w-3.5 shrink-0" />
                   Listen Now
                 </Link>
                 <button
                   onClick={close}
-                  className="w-full h-10 border border-white/[0.1] hover:border-white/[0.25] text-neutral-400 hover:text-white font-worksans text-[0.6rem] tracking-[0.12em] uppercase rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200"
+                  className="w-full h-10 border border-white/[0.1] hover:border-white/[0.25] text-neutral-400 hover:text-white font-sans text-[0.6rem] tracking-[0.12em] uppercase rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200"
                 >
                   Explore the Site
                   <ArrowRight className="h-3 w-3 shrink-0" />
@@ -234,7 +234,7 @@ export function WelcomeModal() {
           >
             <div className="relative w-full max-w-5xl pointer-events-auto">
               <div className="flex items-center justify-between mb-3">
-                <p className="font-bricolage font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                <p className="font-display font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
                   {latestVideo.title}
                 </p>
                 <button

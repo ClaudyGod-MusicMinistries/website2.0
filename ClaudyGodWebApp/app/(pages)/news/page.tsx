@@ -72,7 +72,7 @@ export default async function NewsPage() {
             <span className="rule-gold" />
             <span className="label-eyebrow">New Releases</span>
           </div>
-          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
+          <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
             Latest Music
           </h2>
 
@@ -89,10 +89,10 @@ export default async function NewsPage() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bricolage font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                  <p className="font-display font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
                     {album.title}
                   </p>
-                  <p className="font-worksans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-4">
+                  <p className="font-sans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-4">
                     Available on all platforms
                   </p>
                   <div className="flex items-center gap-3">
@@ -117,7 +117,7 @@ export default async function NewsPage() {
           <div className="mt-10">
             <Link
               href="/music"
-              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
             >
               View Full Discography
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -135,7 +135,7 @@ export default async function NewsPage() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Follow Along</span>
               </div>
-              <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">
+              <p className="font-display font-bold text-neutral-900 text-2xl tracking-tight">
                 Stay Connected
               </p>
             </div>

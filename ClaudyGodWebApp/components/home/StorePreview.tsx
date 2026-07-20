@@ -17,16 +17,16 @@ export function StorePreview() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Merchandise</span>
             </div>
-            <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
               Official Store
             </h2>
-            <p className="mt-2 sm:mt-3 font-roboto text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
+            <p className="mt-2 sm:mt-3 font-sans text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
               Music, apparel, and accessories — wear your faith, carry the anointing.
             </p>
           </div>
           <Link
             href="/store"
-            className="hidden sm:inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 shrink-0 group"
+            className="hidden sm:inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 shrink-0 group"
           >
             Browse All
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -54,13 +54,13 @@ export function StorePreview() {
 
               {/* Info */}
               <div className="p-3 sm:p-4 lg:p-5 flex flex-col gap-1 sm:gap-1.5 border-t border-black/[0.05]">
-                <p className="font-worksans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
+                <p className="font-sans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
                   {product.category}
                 </p>
-                <p className="font-roboto font-normal text-neutral-800 text-sm leading-snug group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+                <p className="font-sans font-normal text-neutral-800 text-sm leading-snug group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
                   {product.name}
                 </p>
-                <p className="font-bricolage text-neutral-900 text-base font-semibold mt-1">
+                <p className="font-display text-neutral-900 text-base font-semibold mt-1">
                   {formatPrice(product.price)}
                 </p>
               </div>
@@ -72,14 +72,14 @@ export function StorePreview() {
         <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/store"
-            className="inline-flex items-center justify-center gap-2.5 font-worksans text-[0.65rem] sm:text-xs tracking-[0.18em] sm:tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-6 sm:px-10 h-11 sm:h-12 rounded-xl transition-all duration-300 group"
+            className="inline-flex items-center justify-center gap-2.5 font-sans text-[0.65rem] sm:text-xs tracking-[0.18em] sm:tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-6 sm:px-10 h-11 sm:h-12 rounded-xl transition-all duration-300 group"
           >
             Visit Official Store
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
           <Link
             href="/store"
-            className="sm:hidden inline-flex items-center justify-center gap-2 font-worksans text-[0.65rem] tracking-[0.18em] uppercase border border-neutral-300 text-neutral-600 h-11 rounded-xl transition-all duration-300"
+            className="sm:hidden inline-flex items-center justify-center gap-2 font-sans text-[0.65rem] tracking-[0.18em] uppercase border border-neutral-300 text-neutral-600 h-11 rounded-xl transition-all duration-300"
           >
             Browse All Products
           </Link>

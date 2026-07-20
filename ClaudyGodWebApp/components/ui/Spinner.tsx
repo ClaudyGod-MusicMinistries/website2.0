@@ -45,7 +45,7 @@ export function PageLoader({ label = 'Loading…' }: { label?: string }) {
     <div className="fixed inset-0 z-modal flex items-center justify-center bg-surface-base/80 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-4">
         <Spinner size="2xl" />
-        <p className="text-sm text-neutral-400 font-worksans">{label}</p>
+        <p className="text-sm text-neutral-400 font-sans">{label}</p>
       </div>
     </div>
   );

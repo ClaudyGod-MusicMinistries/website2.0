@@ -54,17 +54,17 @@ export function MusicPlayer() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Now Playing</span>
             </div>
-            <h2 className="font-bricolage font-bold text-white text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-display font-bold text-white text-3xl md:text-4xl tracking-tight">
               Music Player
             </h2>
-            <p className="font-roboto text-neutral-500 text-sm mt-2">
+            <p className="font-sans text-neutral-500 text-sm mt-2">
               Select any track below to stream it instantly
             </p>
           </div>
           <button
             onClick={() => setShowList((v) => !v)}
             className={cn(
-              'sm:hidden inline-flex items-center gap-2 px-5 h-10 rounded-xl border font-worksans text-xs tracking-[0.12em] uppercase transition-all duration-300',
+              'sm:hidden inline-flex items-center gap-2 px-5 h-10 rounded-xl border font-sans text-xs tracking-[0.12em] uppercase transition-all duration-300',
               showList ? 'bg-purple-600 border-purple-600 text-white' : 'bg-white/10 border-white/10 text-white/70'
             )}
           >
@@ -98,8 +98,8 @@ export function MusicPlayer() {
                   className="rounded-full opacity-40"
                 />
                 <div className="text-center">
-                  <p className="font-bricolage font-semibold text-white/40 text-lg mb-1">Select a track to play</p>
-                  <p className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-700">
+                  <p className="font-display font-semibold text-white/40 text-lg mb-1">Select a track to play</p>
+                  <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-700">
                     {tracks.length} tracks available
                   </p>
                 </div>
@@ -114,8 +114,8 @@ export function MusicPlayer() {
                     <Music2 className="h-3.5 w-3.5 text-purple-400" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-bricolage font-semibold text-white text-sm truncate">{activeTrack.title}</p>
-                    <p className="font-worksans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-600">ClaudyGod Music Ministries</p>
+                    <p className="font-display font-semibold text-white text-sm truncate">{activeTrack.title}</p>
+                    <p className="font-sans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-600">ClaudyGod Music Ministries</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -142,8 +142,8 @@ export function MusicPlayer() {
           <div className={cn('lg:block', showList ? 'block' : 'hidden')}>
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
               <div className="px-5 py-4 border-b border-white/[0.05] flex items-center justify-between">
-                <span className="font-worksans text-xs tracking-[0.15em] uppercase text-neutral-400">Playlist</span>
-                <span className="font-worksans text-[0.55rem] tracking-[0.12em] uppercase text-neutral-700">{tracks.length} tracks</span>
+                <span className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-400">Playlist</span>
+                <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase text-neutral-700">{tracks.length} tracks</span>
               </div>
               <div className="divide-y divide-white/[0.04] max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
                 {tracks.map((track, i) => (
@@ -169,7 +169,7 @@ export function MusicPlayer() {
                         ) : (
                           <motion.span
                             key="num"
-                            className="font-worksans text-[0.55rem] text-neutral-600 group-hover:hidden"
+                            className="font-sans text-[0.55rem] text-neutral-600 group-hover:hidden"
                           >
                             {String(i + 1).padStart(2, '0')}
                           </motion.span>
@@ -182,12 +182,12 @@ export function MusicPlayer() {
 
                     <div className="flex-1 min-w-0">
                       <p className={cn(
-                        'font-roboto font-medium text-sm truncate transition-colors duration-200',
+                        'font-sans font-medium text-sm truncate transition-colors duration-200',
                         activeId === track.id ? 'text-purple-300' : 'text-neutral-300 group-hover:text-white'
                       )}>
                         {track.title}
                       </p>
-                      <p className="font-worksans text-[0.48rem] tracking-[0.1em] uppercase text-neutral-700 mt-0.5">
+                      <p className="font-sans text-[0.48rem] tracking-[0.1em] uppercase text-neutral-700 mt-0.5">
                         {track.category}
                       </p>
                     </div>

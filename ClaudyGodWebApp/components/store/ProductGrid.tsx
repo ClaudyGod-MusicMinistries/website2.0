@@ -65,7 +65,7 @@ export function ProductGrid() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search products…"
-              className="w-full h-11 pl-10 pr-9 bg-cream-100 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-worksans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors"
+              className="w-full h-11 pl-10 pr-9 bg-cream-100 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors"
             />
             {query && (
               <button
@@ -82,7 +82,7 @@ export function ProductGrid() {
             <select
               value={activeSort}
               onChange={(e) => setActiveSort(e.target.value)}
-              className="h-11 px-3 bg-white border border-neutral-200 rounded-xl text-neutral-700 font-worksans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors cursor-pointer"
+              className="h-11 px-3 bg-white border border-neutral-200 rounded-xl text-neutral-700 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors cursor-pointer"
             >
               {sortOptions.map((o) => (
                 <option key={o.id} value={o.id}>{o.label}</option>
@@ -118,7 +118,7 @@ export function ProductGrid() {
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
                 className={cn(
-                  'px-5 h-10 rounded-full font-worksans text-xs tracking-[0.12em] uppercase border transition-all duration-300',
+                  'px-5 h-10 rounded-full font-sans text-xs tracking-[0.12em] uppercase border transition-all duration-300',
                   activeCategory === cat.id
                     ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
@@ -131,7 +131,7 @@ export function ProductGrid() {
         </div>
 
         {/* Result count */}
-        <p className="font-worksans text-[0.65rem] tracking-[0.18em] uppercase text-neutral-400 mb-6">
+        <p className="font-sans text-[0.65rem] tracking-[0.18em] uppercase text-neutral-400 mb-6">
           {sorted.length} {sorted.length === 1 ? 'product' : 'products'}
           {activeCategory !== 'all' && ` in ${categories.find((c) => c.id === activeCategory)?.name}`}
           {query && ` matching "${query}"`}
@@ -164,10 +164,10 @@ export function ProductGrid() {
               className="py-20 flex flex-col items-center gap-4 text-center"
             >
               <Search className="h-10 w-10 text-neutral-300" />
-              <p className="font-roboto text-neutral-400 text-lg">No products found</p>
+              <p className="font-sans text-neutral-400 text-lg">No products found</p>
               <button
                 onClick={() => { setQuery(''); setActiveCategory('all'); }}
-                className="font-worksans text-xs tracking-[0.15em] uppercase text-purple-600 hover:text-purple-800 underline underline-offset-4 transition-colors"
+                className="font-sans text-xs tracking-[0.15em] uppercase text-purple-600 hover:text-purple-800 underline underline-offset-4 transition-colors"
               >
                 Clear filters
               </button>
@@ -186,8 +186,8 @@ export function ProductGrid() {
             <div key={item.label} className="flex items-start gap-3">
               <span className="text-2xl mt-0.5">{item.icon}</span>
               <div>
-                <p className="font-worksans text-xs tracking-[0.1em] uppercase text-neutral-800 font-medium">{item.label}</p>
-                <p className="font-roboto text-neutral-500 text-xs mt-0.5">{item.sub}</p>
+                <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-800 font-medium">{item.label}</p>
+                <p className="font-sans text-neutral-500 text-xs mt-0.5">{item.sub}</p>
               </div>
             </div>
           ))}

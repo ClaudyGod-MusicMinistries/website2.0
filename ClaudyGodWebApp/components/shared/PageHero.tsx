@@ -45,7 +45,7 @@ export function PageHero({
           <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/35 via-transparent to-transparent" />
         </>
       ) : (
-        <div className="absolute inset-0 bg-[#0a0914]">
+        <div className="absolute inset-0 bg-surface-deep">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_100%,rgba(124,58,237,0.20)_0%,transparent_70%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(201,168,76,0.06)_0%,transparent_70%)]" />
         </div>
@@ -62,11 +62,11 @@ export function PageHero({
             <span className="label-eyebrow text-white/70">{eyebrow}</span>
           </div>
         )}
-        <h1 className="font-bricolage font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-[1.05] max-w-3xl">
+        <h1 className="font-display font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-[1.05] max-w-3xl">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-3 sm:mt-5 font-roboto text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
+          <p className="mt-3 sm:mt-5 font-sans text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
             {subtitle}
           </p>
         )}

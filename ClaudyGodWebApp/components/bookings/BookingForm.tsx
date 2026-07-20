@@ -77,7 +77,7 @@ function FieldError({ message }: { message?: string }) {
 
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <label className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+    <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
       {children}
       {required && <span className="text-purple-500 ml-0.5">*</span>}
     </label>
@@ -85,13 +85,13 @@ function Label({ children, required }: { children: React.ReactNode; required?: b
 }
 
 const inputClass =
-  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200';
+  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200';
 
 const selectClass =
-  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 appearance-none cursor-pointer';
+  'w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 appearance-none cursor-pointer';
 
 const textareaClass =
-  'w-full px-4 py-3.5 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none';
+  'w-full px-4 py-3.5 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none';
 
 export function BookingForm() {
   const [step, setStep]                         = useState(0);
@@ -198,7 +198,7 @@ export function BookingForm() {
             <div className="flex items-center gap-3">
               {/* Circle */}
               <div className={cn(
-                'w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bricolage font-bold text-sm transition-all duration-300',
+                'w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-display font-bold text-sm transition-all duration-300',
                 i < step
                   ? 'bg-purple-600 text-white'
                   : i === step
@@ -209,7 +209,7 @@ export function BookingForm() {
               </div>
               {/* Label */}
               <span className={cn(
-                'font-bricolage font-semibold text-sm hidden sm:block transition-colors duration-300',
+                'font-display font-semibold text-sm hidden sm:block transition-colors duration-300',
                 i <= step ? 'text-neutral-900' : 'text-neutral-400'
               )}>
                 {s}
@@ -362,7 +362,7 @@ export function BookingForm() {
                 type="checkbox"
                 className="mt-0.5 w-4 h-4 accent-purple-600 cursor-pointer flex-shrink-0"
               />
-              <span className="font-roboto text-neutral-600 text-sm leading-relaxed">
+              <span className="font-sans text-neutral-600 text-sm leading-relaxed">
                 I agree to the{' '}
                 <a href="/legal/terms" target="_blank" className="text-purple-600 hover:text-purple-800 underline underline-offset-2 transition-colors">
                   terms and conditions
@@ -397,7 +397,7 @@ export function BookingForm() {
             type="button"
             onClick={() => setStep((s) => s - 1)}
             disabled={isStepLoading}
-            className="inline-flex items-center gap-2 h-12 px-6 border border-neutral-200 hover:border-neutral-300 bg-white hover:bg-neutral-50 disabled:bg-neutral-100 disabled:text-neutral-400 disabled:cursor-not-allowed text-neutral-700 font-bricolage font-semibold text-sm rounded-xl transition-all duration-200"
+            className="inline-flex items-center gap-2 h-12 px-6 border border-neutral-200 hover:border-neutral-300 bg-white hover:bg-neutral-50 disabled:bg-neutral-100 disabled:text-neutral-400 disabled:cursor-not-allowed text-neutral-700 font-display font-semibold text-sm rounded-xl transition-all duration-200"
           >
             <ChevronLeft className="h-4 w-4" />
             Back
@@ -411,7 +411,7 @@ export function BookingForm() {
             type="button"
             onClick={next}
             disabled={isStepLoading}
-            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
+            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
           >
             {isStepLoading ? 'Validating…' : 'Continue'}
             <ChevronRight className="h-4 w-4" />
@@ -420,7 +420,7 @@ export function BookingForm() {
           <button
             type="submit"
             disabled={isSubmitting || isValidating}
-            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
+            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
           >
             {isSubmitting ? 'Submitting…' : 'Submit Request'}
           </button>

@@ -79,7 +79,7 @@ export function Loader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.04 }}
           transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#070611] select-none overflow-hidden"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-surface-deep select-none overflow-hidden"
         >
           {/* ── Video Background with dark gradient ─────── */}
           <video
@@ -185,7 +185,7 @@ export function Loader() {
               transition={{ delay: 0.35, duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <motion.p
-                className="font-bricolage font-bold text-white text-2xl tracking-widest"
+                className="font-display font-bold text-white text-2xl tracking-widest"
                 initial={{ letterSpacing: '0.3em', opacity: 0 }}
                 animate={{ letterSpacing: '0.12em', opacity: 1 }}
                 transition={{ delay: 0.45, duration: 0.9, ease: 'easeOut' }}
@@ -193,7 +193,7 @@ export function Loader() {
                 ClaudyGod
               </motion.p>
               <motion.p
-                className="font-worksans text-[0.62rem] tracking-[0.32em] uppercase text-neutral-500 mt-1.5"
+                className="font-sans text-[0.62rem] tracking-[0.32em] uppercase text-neutral-500 mt-1.5"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7, duration: 0.6 }}
@@ -223,8 +223,8 @@ export function Loader() {
                 />
               </div>
               <div className="flex justify-between mt-2">
-                <span className="font-worksans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-700">Loading</span>
-                <span className="font-worksans text-[0.5rem] tracking-[0.1em] text-neutral-600">{progress}%</span>
+                <span className="font-sans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-700">Loading</span>
+                <span className="font-sans text-[0.5rem] tracking-[0.1em] text-neutral-600">{progress}%</span>
               </div>
             </motion.div>
 
@@ -256,10 +256,10 @@ export function Loader() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.55, duration: 0.9 }}
-            className="absolute bottom-6 sm:bottom-10 font-roboto italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center [@media(max-height:500px)]:hidden"
+            className="absolute bottom-6 sm:bottom-10 font-sans italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center [@media(max-height:500px)]:hidden"
           >
             &ldquo;Sing praises to God, sing praises; sing praises to our King, sing praises.&rdquo;
-            <span className="block font-worksans not-italic text-[0.54rem] tracking-[0.16em] uppercase text-neutral-700/60 mt-1.5">
+            <span className="block font-sans not-italic text-[0.54rem] tracking-[0.16em] uppercase text-neutral-700/60 mt-1.5">
               Psalm 47:6
             </span>
           </motion.p>

@@ -73,12 +73,12 @@ export function ProductModal({ product, onClose }: Props) {
                 {/* Details */}
                 <div className="flex flex-col p-8">
                   {/* Category eyebrow */}
-                  <p className="font-worksans text-[0.48rem] tracking-[0.2em] uppercase text-gold-400/70 mb-3 capitalize">
+                  <p className="font-sans text-[0.48rem] tracking-[0.2em] uppercase text-gold-400/70 mb-3 capitalize">
                     {product.category}
                   </p>
 
                   {/* Name */}
-                  <h2 className="font-bricolage font-bold text-white text-xl leading-snug tracking-tight mb-3">
+                  <h2 className="font-display font-bold text-white text-xl leading-snug tracking-tight mb-3">
                     {product.name}
                   </h2>
 
@@ -91,7 +91,7 @@ export function ProductModal({ product, onClose }: Props) {
                           className={`h-3 w-3 ${i < Math.round(product.rating!) ? 'text-gold-400 fill-gold-400' : 'text-neutral-700'}`}
                         />
                       ))}
-                      <span className="font-worksans text-[0.48rem] tracking-[0.1em] text-neutral-600 ml-1">
+                      <span className="font-sans text-[0.48rem] tracking-[0.1em] text-neutral-600 ml-1">
                         {product.rating.toFixed(1)}
                       </span>
                     </div>
@@ -101,14 +101,14 @@ export function ProductModal({ product, onClose }: Props) {
                   <div className="h-px bg-white/[0.06] mb-5" />
 
                   {/* Description */}
-                  <p className="font-roboto text-neutral-500 text-sm font-light leading-relaxed mb-6">
+                  <p className="font-sans text-neutral-500 text-sm font-light leading-relaxed mb-6">
                     {product.description}
                   </p>
 
                   {/* Benefits */}
                   <ul className="space-y-2 mb-8">
                     {['Premium quality materials', 'Official ClaudyGod merchandise', 'Ships worldwide'].map((b) => (
-                      <li key={b} className="flex items-center gap-2.5 font-roboto text-xs text-neutral-600">
+                      <li key={b} className="flex items-center gap-2.5 font-sans text-xs text-neutral-600">
                         <span className="w-1 h-1 rounded-full bg-gold-500/60 flex-shrink-0" />
                         {b}
                       </li>
@@ -117,14 +117,14 @@ export function ProductModal({ product, onClose }: Props) {
 
                   <div className="mt-auto">
                     {/* Price */}
-                    <p className="font-bricolage font-bold text-white text-2xl tracking-tight mb-4">
+                    <p className="font-display font-bold text-white text-2xl tracking-tight mb-4">
                       {formatPrice(product.price)}
                     </p>
 
                     {/* CTA */}
                     <button
                       onClick={handleAdd}
-                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.6rem] tracking-[0.22em] uppercase transition-all duration-300 flex items-center justify-center gap-2.5 group"
+                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.6rem] tracking-[0.22em] uppercase transition-all duration-300 flex items-center justify-center gap-2.5 group"
                     >
                       <ShoppingBag className="h-3.5 w-3.5" />
                       Add to Cart

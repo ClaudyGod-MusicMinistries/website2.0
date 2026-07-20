@@ -116,7 +116,7 @@ function Card({ s, priority }: { s: Section; priority?: boolean }) {
       {/* ── TOP ROW: badge + arrow ── */}
       <div className="absolute top-3.5 left-4 right-4 flex items-start justify-between sm:top-4 lg:top-5 sm:left-5 sm:right-5 lg:left-6 lg:right-6">
         {/* Category pill */}
-        <span className="inline-flex items-center gap-1.5 font-worksans text-[0.45rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-white/75 bg-black/30 backdrop-blur-sm border border-white/[0.14] px-2.5 sm:px-3 py-1 rounded-full">
+        <span className="inline-flex items-center gap-1.5 font-sans text-[0.45rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-white/75 bg-black/30 backdrop-blur-sm border border-white/[0.14] px-2.5 sm:px-3 py-1 rounded-full">
           {s.eyebrow}
         </span>
 
@@ -138,13 +138,13 @@ function Card({ s, priority }: { s: Section; priority?: boolean }) {
         p-4 sm:p-5 lg:p-6
       ">
         {/* Meta tag */}
-        <p className="font-worksans text-[0.45rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-400/70 mb-1 sm:mb-1.5">
+        <p className="font-sans text-[0.45rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-400/70 mb-1 sm:mb-1.5">
           {s.meta}
         </p>
 
         {/* Title */}
         <h3 className={cn(
-          'font-bricolage font-bold text-white leading-tight tracking-tight',
+          'font-display font-bold text-white leading-tight tracking-tight',
           s.featured
             ? 'text-xl sm:text-2xl md:text-3xl lg:text-4xl'
             : 'text-base sm:text-lg lg:text-xl',
@@ -157,7 +157,7 @@ function Card({ s, priority }: { s: Section; priority?: boolean }) {
             - Non-featured mobile/tablet: visible (line-clamped)
             - Non-featured desktop: hidden, slides up on hover */}
         <p className={cn(
-          'font-roboto text-white/70 leading-relaxed',
+          'font-sans text-white/70 leading-relaxed',
           s.featured
             ? 'text-xs sm:text-sm mt-1.5 sm:mt-2 max-w-xs sm:max-w-sm lg:max-w-md line-clamp-3 sm:line-clamp-none'
             : [
@@ -179,7 +179,7 @@ function Card({ s, priority }: { s: Section; priority?: boolean }) {
             'lg:transition-all lg:duration-300 lg:delay-75',
           ].join(' '),
         )}>
-          <span className="font-worksans text-[0.52rem] sm:text-[0.55rem] tracking-[0.18em] uppercase text-gold-400/75 group-hover:text-gold-400 transition-colors duration-300">
+          <span className="font-sans text-[0.52rem] sm:text-[0.55rem] tracking-[0.18em] uppercase text-gold-400/75 group-hover:text-gold-400 transition-colors duration-300">
             {s.cta}
           </span>
           <ArrowUpRight className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-gold-400/75 group-hover:text-gold-400 transition-colors duration-300" />
@@ -211,11 +211,11 @@ export function PagesExplorer() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Explore</span>
             </div>
-            <h2 className="font-abril text-white text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight">
+            <h2 className="font-display text-white text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight">
               Explore the Ministry
             </h2>
           </div>
-          <p className="font-roboto text-neutral-500 text-sm leading-relaxed sm:text-right sm:max-w-[220px] lg:max-w-xs">
+          <p className="font-sans text-neutral-500 text-sm leading-relaxed sm:text-right sm:max-w-[220px] lg:max-w-xs">
             Music, ministry, worship, and community — all in one place.
           </p>
         </div>

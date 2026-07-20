@@ -41,10 +41,10 @@ export function MinistryStats() {
               <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
                 <Icon className={`h-5 w-5 ${accent}`} />
               </div>
-              <p className="font-bricolage font-bold text-neutral-900 text-[0.92rem] leading-snug">
+              <p className="font-display font-bold text-neutral-900 text-[0.92rem] leading-snug">
                 {title}
               </p>
-              <p className="font-roboto text-neutral-500 text-xs leading-relaxed">
+              <p className="font-sans text-neutral-500 text-xs leading-relaxed">
                 {body}
               </p>
             </div>

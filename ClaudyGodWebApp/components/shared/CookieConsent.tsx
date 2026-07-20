@@ -76,12 +76,12 @@ function PrefRow({
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-4">
-          <p className="font-bricolage font-semibold text-neutral-900 text-sm">{title}</p>
+          <p className="font-display font-semibold text-neutral-900 text-sm">{title}</p>
           <Toggle checked={checked} onChange={onChange} disabled={disabled} />
         </div>
-        <p className="font-roboto text-neutral-500 text-xs leading-relaxed mt-1">{description}</p>
+        <p className="font-sans text-neutral-500 text-xs leading-relaxed mt-1">{description}</p>
         {disabled && (
-          <span className="inline-block mt-1 font-worksans text-[0.5rem] tracking-[0.14em] uppercase text-purple-500 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full">
+          <span className="inline-block mt-1 font-sans text-[0.5rem] tracking-[0.14em] uppercase text-purple-500 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full">
             Always Active
           </span>
         )}
@@ -153,10 +153,10 @@ export function CookieConsent() {
                     <Cookie className="h-4 w-4 text-purple-600" />
                   </div>
                   <div>
-                    <p className="font-bricolage font-bold text-neutral-900 text-sm mb-0.5">
+                    <p className="font-display font-bold text-neutral-900 text-sm mb-0.5">
                       We use cookies to enhance your experience
                     </p>
-                    <p className="font-roboto text-neutral-500 text-xs leading-relaxed">
+                    <p className="font-sans text-neutral-500 text-xs leading-relaxed">
                       We use essential cookies to make our site work, and optional cookies to improve your experience and analyse traffic.{' '}
                       <Link href="/legal/cookies" className="text-purple-600 hover:underline underline-offset-2">
                         Learn more
@@ -171,13 +171,13 @@ export function CookieConsent() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={onReject}
-                      className="flex-1 sm:flex-none h-9 px-4 border border-neutral-200 hover:border-neutral-300 text-neutral-600 hover:text-neutral-900 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200"
+                      className="flex-1 sm:flex-none h-9 px-4 border border-neutral-200 hover:border-neutral-300 text-neutral-600 hover:text-neutral-900 font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200"
                     >
                       Reject All
                     </button>
                     <button
                       onClick={() => setShowModal(true)}
-                      className="flex-1 sm:flex-none h-9 px-4 border border-neutral-200 hover:border-purple-300 text-neutral-600 hover:text-purple-700 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5"
+                      className="flex-1 sm:flex-none h-9 px-4 border border-neutral-200 hover:border-purple-300 text-neutral-600 hover:text-purple-700 font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5"
                     >
                       <Settings2 className="h-3 w-3 shrink-0" />
                       Customize
@@ -186,7 +186,7 @@ export function CookieConsent() {
                   {/* Accept All — full width on mobile, auto on sm+ */}
                   <button
                     onClick={onAcceptAll}
-                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
+                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
                   >
                     Accept All
                   </button>
@@ -221,8 +221,8 @@ export function CookieConsent() {
                     <Settings2 className="h-4 w-4 text-purple-600" />
                   </div>
                   <div>
-                    <p className="font-bricolage font-bold text-neutral-900 text-base">Cookie Preferences</p>
-                    <p className="font-worksans text-[0.5rem] tracking-[0.14em] uppercase text-neutral-400">Manage your consent</p>
+                    <p className="font-display font-bold text-neutral-900 text-base">Cookie Preferences</p>
+                    <p className="font-sans text-[0.5rem] tracking-[0.14em] uppercase text-neutral-400">Manage your consent</p>
                   </div>
                 </div>
                 <button
@@ -270,13 +270,13 @@ export function CookieConsent() {
               <div className="px-6 py-5 bg-neutral-50 border-t border-neutral-100 flex flex-col sm:flex-row gap-2.5">
                 <button
                   onClick={onReject}
-                  className="flex-1 h-10 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200"
+                  className="flex-1 h-10 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-all duration-200"
                 >
                   Reject Non-Essential
                 </button>
                 <button
                   onClick={onSavePrefs}
-                  className="flex-1 h-10 bg-purple-600 hover:bg-purple-500 text-white font-worksans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
+                  className="flex-1 h-10 bg-purple-600 hover:bg-purple-500 text-white font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
                 >
                   Save Preferences
                   <ChevronRight className="h-3.5 w-3.5" />
@@ -284,7 +284,7 @@ export function CookieConsent() {
               </div>
 
               <div className="px-6 pb-4 text-center">
-                <p className="font-roboto text-neutral-400 text-xs">
+                <p className="font-sans text-neutral-400 text-xs">
                   Read our{' '}
                   <Link href="/legal/cookies" className="text-purple-600 hover:underline underline-offset-2">Cookie Policy</Link>
                   {' '}and{' '}

@@ -84,15 +84,15 @@ export function VolunteersSection() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Get Involved</span>
             </div>
-            <h2 className="font-bricolage font-extrabold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-4">
+            <h2 className="font-display font-extrabold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-4">
               Serve With the Ministry
             </h2>
-            <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-sm mb-8">
+            <p className="font-sans text-neutral-400 text-sm leading-relaxed max-w-sm mb-8">
               Every gift matters. Join a team of passionate believers advancing the Kingdom
               through music, media, and community outreach.
             </p>
 
-            <p className="font-worksans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-600 mb-4">
+            <p className="font-sans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-600 mb-4">
               Choose your area *
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -111,16 +111,16 @@ export function VolunteersSection() {
                     )}
                   >
                     <Icon className={cn('h-4 w-4', active ? 'text-purple-300' : 'text-neutral-500')} />
-                    <p className={cn('font-bricolage font-semibold text-sm', active ? 'text-white' : 'text-white/65')}>
+                    <p className={cn('font-display font-semibold text-sm', active ? 'text-white' : 'text-white/65')}>
                       {label}
                     </p>
-                    <p className="font-roboto text-neutral-600 text-xs">{desc}</p>
+                    <p className="font-sans text-neutral-600 text-xs">{desc}</p>
                   </button>
                 );
               })}
             </div>
             {errors.role && (
-              <p className="mt-2 font-worksans text-[0.58rem] text-red-400">{errors.role.message}</p>
+              <p className="mt-2 font-sans text-[0.58rem] text-red-400">{errors.role.message}</p>
             )}
           </div>
 
@@ -139,12 +139,12 @@ export function VolunteersSection() {
                     <CheckCircle2 className="h-7 w-7 text-green-400" />
                   </div>
                   <div>
-                    <p className="font-bricolage font-bold text-white text-lg mb-1">Welcome to the Team!</p>
-                    <p className="font-roboto text-neutral-400 text-sm leading-relaxed max-w-xs">
+                    <p className="font-display font-bold text-white text-lg mb-1">Welcome to the Team!</p>
+                    <p className="font-sans text-neutral-400 text-sm leading-relaxed max-w-xs">
                       We&apos;ll review your application and be in touch within 3–5 business days.
                     </p>
                   </div>
-                  <p className="font-worksans text-[0.52rem] tracking-[0.18em] uppercase text-gold-400">
+                  <p className="font-sans text-[0.52rem] tracking-[0.18em] uppercase text-gold-400">
                     God bless you.
                   </p>
                 </motion.div>
@@ -157,85 +157,85 @@ export function VolunteersSection() {
                   className="flex flex-col gap-5"
                 >
                   <div>
-                    <p className="font-bricolage font-bold text-white text-base mb-1">Volunteer Interest</p>
-                    <p className="font-roboto text-neutral-500 text-xs">Select a role, then fill in your details.</p>
+                    <p className="font-display font-bold text-white text-base mb-1">Volunteer Interest</p>
+                    <p className="font-sans text-neutral-500 text-xs">Select a role, then fill in your details.</p>
                   </div>
 
                   {/* Name row */}
                   <div className="grid grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1.5">
-                      <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                      <label className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
                         First Name *
                       </label>
                       <input
                         type="text"
                         placeholder="First"
                         {...register('firstName')}
-                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-sans text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                       />
                       {errors.firstName && (
-                        <p className="font-worksans text-[0.58rem] text-red-400">{errors.firstName.message}</p>
+                        <p className="font-sans text-[0.58rem] text-red-400">{errors.firstName.message}</p>
                       )}
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                      <label className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
                         Last Name *
                       </label>
                       <input
                         type="text"
                         placeholder="Last"
                         {...register('lastName')}
-                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                        className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-sans text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                       />
                       {errors.lastName && (
-                        <p className="font-worksans text-[0.58rem] text-red-400">{errors.lastName.message}</p>
+                        <p className="font-sans text-[0.58rem] text-red-400">{errors.lastName.message}</p>
                       )}
                     </div>
                   </div>
 
                   {/* Email */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                    <label className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
                       Email *
                     </label>
                     <input
                       type="email"
                       placeholder="your@email.com"
                       {...register('email')}
-                      className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
+                      className="h-11 px-4 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-sans text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200"
                     />
                     {errors.email && (
-                      <p className="font-worksans text-[0.58rem] text-red-400">{errors.email.message}</p>
+                      <p className="font-sans text-[0.58rem] text-red-400">{errors.email.message}</p>
                     )}
                   </div>
 
                   {/* Reason */}
                   <div className="flex flex-col gap-1.5">
-                    <label className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
+                    <label className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500">
                       Why do you want to volunteer? *
                     </label>
                     <textarea
                       rows={4}
                       placeholder="Share your passion, gifting, and why you'd like to serve…"
                       {...register('reason')}
-                      className="px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-roboto text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200 resize-none"
+                      className="px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.10] text-white placeholder:text-neutral-600 font-sans text-sm focus:outline-none focus:border-purple-500/60 focus:bg-white/[0.07] transition-colors duration-200 resize-none"
                     />
                     {errors.reason && (
-                      <p className="font-worksans text-[0.58rem] text-red-400">{errors.reason.message}</p>
+                      <p className="font-sans text-[0.58rem] text-red-400">{errors.reason.message}</p>
                     )}
                   </div>
 
                   <input type="hidden" {...register('role')} />
 
                   {apiError && (
-                    <p className="font-worksans text-[0.58rem] text-red-400">{apiError}</p>
+                    <p className="font-sans text-[0.58rem] text-red-400">{apiError}</p>
                   )}
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className={cn(
-                      'h-11 rounded-xl font-worksans text-xs tracking-[0.18em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-300 mt-1',
+                      'h-11 rounded-xl font-sans text-xs tracking-[0.18em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-300 mt-1',
                       isSubmitting
                         ? 'bg-purple-800/50 text-white/40 cursor-not-allowed'
                         : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_4px_16px_rgba(109,40,217,0.3)]'

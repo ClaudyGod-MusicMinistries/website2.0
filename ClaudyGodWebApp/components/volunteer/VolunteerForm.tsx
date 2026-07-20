@@ -81,13 +81,13 @@ export function VolunteerForm() {
   };
 
   const inputClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl';
+    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl';
 
   const selectClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 font-roboto text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl appearance-none cursor-pointer';
+    'w-full h-12 px-4 bg-white border text-neutral-900 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl appearance-none cursor-pointer';
 
   const textareaClass =
-    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-roboto text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-xl';
+    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-xl';
 
   return (
     <>
@@ -104,7 +104,7 @@ export function VolunteerForm() {
         {/* Name Row */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+            <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
               First Name <span className="text-purple-500">*</span>
             </label>
             <input
@@ -124,7 +124,7 @@ export function VolunteerForm() {
           </div>
 
           <div>
-            <label className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+            <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
               Last Name <span className="text-purple-500">*</span>
             </label>
             <input
@@ -146,7 +146,7 @@ export function VolunteerForm() {
 
         {/* Email */}
         <div>
-          <label className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
             Email <span className="text-purple-500">*</span>
           </label>
           <input
@@ -170,7 +170,7 @@ export function VolunteerForm() {
 
         {/* Volunteer Role Selection */}
         <div>
-          <label className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
             Volunteer Role <span className="text-purple-500">*</span>
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -189,7 +189,7 @@ export function VolunteerForm() {
                   value={r.value}
                   className="mr-2"
                 />
-                <span className="text-sm font-raleway">{r.label}</span>
+                <span className="text-sm font-sans">{r.label}</span>
               </label>
             ))}
           </div>
@@ -200,7 +200,7 @@ export function VolunteerForm() {
 
         {/* Reason / Background */}
         <div>
-          <label className="font-bricolage font-semibold text-neutral-800 text-sm block mb-2">
+          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
             Tell Us About Yourself <span className="text-purple-500">*</span>
             <span className="text-neutral-500 text-xs font-normal block mt-1">
               Share your experience, skills, availability, and why you want to volunteer
@@ -258,7 +258,7 @@ export function VolunteerForm() {
         <button
           type="submit"
           disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-bricolage font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)]"
+          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)]"
         >
           {isSubmitting ? 'Submitting Application…' : 'Submit Application'}
         </button>

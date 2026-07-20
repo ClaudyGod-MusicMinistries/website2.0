@@ -17,7 +17,7 @@ export default function NotFoundPage() {
     <div className="min-h-dvh bg-surface-base flex flex-col items-center justify-center px-4">
       <div className="max-w-lg w-full text-center">
         {/* 404 display */}
-        <p className="font-abril text-[8rem] leading-none text-gold-500/20 select-none mb-4">
+        <p className="font-display text-[8rem] leading-none text-gold-500/20 select-none mb-4">
           404
         </p>
 
@@ -26,7 +26,7 @@ export default function NotFoundPage() {
           <Search className="h-6 w-6 text-gold-500" strokeWidth={1.5} />
         </div>
 
-        <h1 className="font-bricolage text-2xl font-bold text-white mb-3">
+        <h1 className="font-display text-2xl font-bold text-white mb-3">
           Page not found
         </h1>
         <p className="text-sm text-neutral-400 leading-relaxed mb-10">
@@ -45,7 +45,7 @@ export default function NotFoundPage() {
 
         {/* Quick links */}
         <div className="border-t border-surface-border pt-8">
-          <p className="text-xs font-worksans uppercase tracking-widest text-neutral-500 mb-5">
+          <p className="text-xs font-sans uppercase tracking-widest text-neutral-500 mb-5">
             Quick links
           </p>
           <div className="flex flex-wrap justify-center gap-3">

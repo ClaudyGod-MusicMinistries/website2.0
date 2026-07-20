@@ -59,9 +59,9 @@ export function CartDrawer() {
             <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 border-b border-white/[0.07]">
               <div className="flex items-center gap-3">
                 <ShoppingBag className="h-4 w-4 text-gold-400" aria-hidden="true" />
-                <h2 className="font-bricolage font-semibold text-white text-sm">
+                <h2 className="font-display font-semibold text-white text-sm">
                   Cart
-                  <span className="ml-2 font-worksans text-[0.5rem] tracking-[0.15em] text-neutral-400">
+                  <span className="ml-2 font-sans text-[0.5rem] tracking-[0.15em] text-neutral-400">
                     ({items.length} item{items.length !== 1 ? 's' : ''})
                   </span>
                 </h2>
@@ -83,16 +83,16 @@ export function CartDrawer() {
                     <ShoppingBag className="h-7 w-7 text-neutral-600" aria-hidden="true" />
                   </div>
                   <div>
-                    <p className="font-bricolage font-semibold text-neutral-300 text-base mb-1">
+                    <p className="font-display font-semibold text-neutral-300 text-base mb-1">
                       Your cart is empty
                     </p>
-                    <p className="font-roboto text-neutral-600 text-sm leading-relaxed">
+                    <p className="font-sans text-neutral-600 text-sm leading-relaxed">
                       Add items from the store to get started.
                     </p>
                   </div>
                   <button
                     onClick={closeCart}
-                    className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-purple-400 hover:text-purple-300 transition-colors border border-purple-500/30 hover:border-purple-400/50 px-5 h-9 rounded-xl"
+                    className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-purple-400 hover:text-purple-300 transition-colors border border-purple-500/30 hover:border-purple-400/50 px-5 h-9 rounded-xl"
                   >
                     Continue Shopping
                   </button>
@@ -114,10 +114,10 @@ export function CartDrawer() {
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <p className="font-bricolage font-semibold text-sm text-white leading-snug mb-0.5 truncate">
+                        <p className="font-display font-semibold text-sm text-white leading-snug mb-0.5 truncate">
                           {item.name}
                         </p>
-                        <p className="font-roboto text-sm text-neutral-400 mb-3">
+                        <p className="font-sans text-sm text-neutral-400 mb-3">
                           {formatPrice(item.price)}
                         </p>
 
@@ -133,7 +133,7 @@ export function CartDrawer() {
                           <span
                             aria-live="polite"
                             aria-label={`Quantity: ${item.quantity}`}
-                            className="w-8 h-9 flex items-center justify-center border-x border-white/[0.1] font-worksans text-xs text-white"
+                            className="w-8 h-9 flex items-center justify-center border-x border-white/[0.1] font-sans text-xs text-white"
                           >
                             {item.quantity}
                           </span>
@@ -149,7 +149,7 @@ export function CartDrawer() {
 
                       {/* Subtotal + remove */}
                       <div className="flex flex-col items-end justify-between shrink-0">
-                        <p className="font-bricolage font-semibold text-sm text-white">
+                        <p className="font-display font-semibold text-sm text-white">
                           {formatPrice(item.price * item.quantity)}
                         </p>
                         <button
@@ -171,12 +171,12 @@ export function CartDrawer() {
               <div className="border-t border-white/[0.07] px-5 sm:px-6 py-5 space-y-3 bg-white/[0.02]">
                 {/* Subtotal */}
                 <div className="flex items-center justify-between py-1">
-                  <p className="font-roboto text-sm text-neutral-400">Subtotal</p>
-                  <p className="font-bricolage font-bold text-white text-lg">
+                  <p className="font-sans text-sm text-neutral-400">Subtotal</p>
+                  <p className="font-display font-bold text-white text-lg">
                     {formatPrice(total)}
                   </p>
                 </div>
-                <p className="font-roboto text-xs text-neutral-600 leading-relaxed">
+                <p className="font-sans text-xs text-neutral-600 leading-relaxed">
                   Shipping and taxes calculated at checkout.
                 </p>
 
@@ -184,7 +184,7 @@ export function CartDrawer() {
                 <Link
                   href="/store/checkout"
                   onClick={closeCart}
-                  className="flex items-center justify-center gap-2.5 w-full h-12 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-worksans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 shadow-[0_4px_16px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.5)]"
+                  className="flex items-center justify-center gap-2.5 w-full h-12 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 shadow-[0_4px_16px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.5)]"
                   aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout
@@ -195,7 +195,7 @@ export function CartDrawer() {
                 <Link
                   href="/store/cart"
                   onClick={closeCart}
-                  className="flex items-center justify-center w-full h-10 border border-white/[0.1] hover:border-white/[0.2] text-neutral-400 hover:text-white font-worksans text-[0.55rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-200"
+                  className="flex items-center justify-center w-full h-10 border border-white/[0.1] hover:border-white/[0.2] text-neutral-400 hover:text-white font-sans text-[0.55rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-200"
                   aria-label="View full cart page"
                 >
                   View Full Cart
