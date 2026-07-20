@@ -3,7 +3,7 @@ import { securedMusicPlatforms } from '@/data/music';
 export function StreamingPlatforms() {
   return (
     <section className="bg-white py-14 border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="container-site">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
           <div>
             <div className="flex items-center gap-4 mb-2">

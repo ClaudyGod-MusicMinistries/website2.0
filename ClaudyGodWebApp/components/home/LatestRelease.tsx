@@ -21,7 +21,7 @@ export function LatestRelease() {
   return (
     <>
     <section className="bg-gradient-to-b from-white via-white to-neutral-50 section-py">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="container-site">
 
         {/* Eyebrow */}
         <div className="flex items-center gap-4 mb-12 sm:mb-16">
@@ -62,7 +62,7 @@ export function LatestRelease() {
             </div>
 
             {/* Badge */}
-            <div className="absolute top-6 left-6 bg-gradient-to-r from-gold-500 to-gold-400 text-[#07060f] font-worksans font-bold text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full shadow-lg">
+            <div className="absolute top-6 left-6 bg-gradient-to-r from-gold-500 to-gold-400 text-surface-deep font-worksans font-bold text-xs tracking-[0.2em] uppercase px-4 py-2 rounded-full shadow-lg">
               🎬 New Video
             </div>
           </button>

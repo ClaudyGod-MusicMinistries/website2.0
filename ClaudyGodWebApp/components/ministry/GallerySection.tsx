@@ -104,7 +104,7 @@ export function GallerySection() {
         onKeyDown={onKeyDown}
         tabIndex={-1}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Header */}
           <div className="flex items-center gap-4 mb-4">

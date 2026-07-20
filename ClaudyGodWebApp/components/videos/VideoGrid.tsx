@@ -32,7 +32,7 @@ export function VideoGrid() {
   return (
     <>
       <section className="bg-white section-py">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Section header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">

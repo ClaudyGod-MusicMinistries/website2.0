@@ -8,7 +8,7 @@ const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: 
 export function MusicHighlight() {
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="container-site">
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-4 mb-10 sm:mb-14">
           <div>

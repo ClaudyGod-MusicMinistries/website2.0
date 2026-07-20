@@ -1,3 +1,12 @@
+/**
+ * Placeholder tour/event content — the `/events` page will be replaced by a
+ * backend-driven `/tour` page in the rebuild (see .ai/plans). Until then
+ * this keeps the live page working. Previously named MOCK_EVENTS with a
+ * Rickroll video ID (dQw4w9WgXcQ) baked into every "highlight" — removed,
+ * along with the fabricated attendee counts, since those read as real data
+ * rather than placeholder content.
+ */
+
 export type EventStatus = 'upcoming' | 'ongoing' | 'completed';
 
 export interface Highlight {
@@ -29,7 +38,7 @@ export interface Event {
   };
 }
 
-export const MOCK_EVENTS: Event[] = [
+export const placeholderEvents: Event[] = [
   {
     id: '1',
     title: 'Spirit-Filled Worship Night',
@@ -41,14 +50,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Grace Pavilion, Port Harcourt',
     image: '/Bg_13.webp',
     status: 'upcoming',
-    attendees: 245,
-    highlights: {
-      images: [
-        { url: '/ClaudySocial.jpg', caption: 'Last year\'s Spirit-Filled Worship Night - atmosphere filled with praise' },
-        { url: '/ClaudySocial.jpg', caption: 'Minister ClaudyGod leading worship with the band' },
-      ],
-      videos: [{ videoId: 'dQw4w9WgXcQ', caption: 'Highlights from last year\'s worship night' }],
-    },
+    highlights: { images: [], videos: [] },
   },
   {
     id: '2',
@@ -61,14 +63,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Civic Center, Lagos',
     image: '/Bg_13.webp',
     status: 'upcoming',
-    attendees: 1250,
-    highlights: {
-      images: [
-        { url: '/ClaudySocial.jpg', caption: 'Previous concert - packed house celebrating gospel music' },
-        { url: '/ClaudySocial.jpg', caption: 'Minister ClaudyGod performing live with full band' },
-      ],
-      videos: [{ videoId: 'dQw4w9WgXcQ', caption: 'Gospel Concert highlights - audience reaction' }],
-    },
+    highlights: { images: [], videos: [] },
   },
   {
     id: '3',
@@ -81,14 +76,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Youth Center, Abuja',
     image: '/Bg_13.webp',
     status: 'ongoing',
-    attendees: 800,
-    highlights: {
-      images: [
-        { url: '/ClaudySocial.jpg', caption: 'Young adults engaging in worship during the conference' },
-        { url: '/ClaudySocial.jpg', caption: 'Mentorship session with Minister ClaudyGod' },
-      ],
-      videos: [{ videoId: 'dQw4w9WgXcQ', caption: 'Conference highlights - testimonies and worship' }],
-    },
+    highlights: { images: [], videos: [] },
   },
   {
     id: '4',
@@ -101,14 +89,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Music Institute, Port Harcourt',
     image: '/Bg_13.webp',
     status: 'completed',
-    attendees: 120,
-    highlights: {
-      images: [
-        { url: '/ClaudySocial.jpg', caption: 'Training program graduates with certificates' },
-        { url: '/ClaudySocial.jpg', caption: 'Minister ClaudyGod teaching music production techniques' },
-      ],
-      videos: [{ videoId: 'dQw4w9WgXcQ', caption: 'Ministry School graduation ceremony' }],
-    },
+    highlights: { images: [], videos: [] },
   },
   {
     id: '5',
@@ -121,14 +102,7 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Retreat Center, Calabar',
     image: '/Bg_13.webp',
     status: 'completed',
-    attendees: 450,
-    highlights: {
-      images: [
-        { url: '/ClaudySocial.jpg', caption: 'Sunrise prayer session at the retreat center' },
-        { url: '/ClaudySocial.jpg', caption: 'Minister ClaudyGod leading group intercession' },
-      ],
-      videos: [{ videoId: 'dQw4w9WgXcQ', caption: 'Prayer Conference - moments of breakthrough' }],
-    },
+    highlights: { images: [], videos: [] },
   },
   {
     id: '6',
@@ -141,13 +115,6 @@ export const MOCK_EVENTS: Event[] = [
     location: 'Recording Studio, Lagos',
     image: '/Bg_13.webp',
     status: 'completed',
-    attendees: 50,
-    highlights: {
-      images: [
-        { url: '/ClaudySocial.jpg', caption: 'Master class in progress - vocal technique demonstration' },
-        { url: '/ClaudySocial.jpg', caption: 'One-on-one coaching session with Minister ClaudyGod' },
-      ],
-      videos: [{ videoId: 'dQw4w9WgXcQ', caption: 'Performance masterclass highlights' }],
-    },
+    highlights: { images: [], videos: [] },
   },
 ];

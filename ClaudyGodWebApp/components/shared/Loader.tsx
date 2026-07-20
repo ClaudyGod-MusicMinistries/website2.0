@@ -89,7 +89,7 @@ export function Loader() {
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover opacity-30"
             style={{
-              background: 'linear-gradient(135deg, #0a0a0f 0%, #1a0f2e 50%, #0a0a0f 100%)',
+              background: 'linear-gradient(135deg, #07060f 0%, #1a0f2e 50%, #07060f 100%)',
             }}
           >
             <source src="/mainBanner.webm" type="video/webm" />

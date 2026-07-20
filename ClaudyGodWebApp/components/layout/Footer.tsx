@@ -28,13 +28,13 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#07060f]">
+    <footer className="bg-surface-deep">
       {/* Gold top accent — thicker */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-500/70 to-transparent" />
 
       {/* Scripture band */}
       <div className="border-b border-white/[0.06] bg-[#0b0a18]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-12 md:py-16">
+        <div className="container-site py-12 md:py-16">
           <div className="flex items-center gap-8 justify-center">
             <span className="hidden md:block flex-1 h-px bg-gradient-to-r from-transparent to-gold-500/25" />
             <div className="text-center max-w-2xl">
@@ -52,7 +52,7 @@ export function Footer() {
 
       {/* Streaming CTA band */}
       <div className="border-b border-white/[0.05] bg-gradient-to-r from-purple-900/30 via-[#0d0b1e] to-purple-900/20">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10">
+        <div className="container-site py-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
               <p className="font-worksans text-[0.55rem] tracking-[0.22em] uppercase text-gold-500/70 mb-2">
@@ -84,7 +84,7 @@ export function Footer() {
       </div>
 
       {/* Main footer body */}
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-10 sm:py-14 md:py-20">
+      <div className="container-site py-10 sm:py-14 md:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-10 mb-10 lg:mb-14">
 
           {/* Brand column */}

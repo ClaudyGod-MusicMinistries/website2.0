@@ -88,7 +88,7 @@ export function WelcomeModal() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full sm:max-w-lg bg-[#0d0b1a] sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-[0_-8px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/[0.07] flex flex-col max-h-[92svh]"
+            className="relative w-full sm:max-w-lg bg-surface-raised sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-[0_-8px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/[0.07] flex flex-col max-h-[92svh]"
           >
             {/* Close */}
             <button
@@ -111,7 +111,7 @@ export function WelcomeModal() {
                 className="object-cover object-top"
                 sizes="576px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b1a] via-[#0d0b1a]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-surface-raised/40 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 to-transparent" />
 
               {/* Play badge */}
@@ -126,7 +126,7 @@ export function WelcomeModal() {
               </div>
 
               {/* New badge */}
-              <div className="absolute top-3 left-4 bg-gold-500/90 text-[#07060f] font-worksans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
+              <div className="absolute top-3 left-4 bg-gold-500/90 text-surface-deep font-worksans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
                 New Release
               </div>
             </button>
@@ -194,7 +194,7 @@ export function WelcomeModal() {
                 <Link
                   href="/music"
                   onClick={close}
-                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-[#07060f] font-bricolage font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
+                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-bricolage font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
                 >
                   <Music className="h-3.5 w-3.5 shrink-0" />
                   Listen Now

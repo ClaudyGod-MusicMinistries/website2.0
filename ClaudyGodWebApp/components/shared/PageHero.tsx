@@ -55,7 +55,7 @@ export function PageHero({
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="relative z-10 w-full container-site">
         {eyebrow && (
           <div className="flex items-center gap-3 mb-3 sm:mb-5">
             <span className="rule-gold" />

@@ -5,7 +5,7 @@ import { Calendar, Clock, MapPin, Users, Video, Image as ImageIcon, Heart } from
 import { cn } from '@/utils/cn';
 import { EventCard } from './EventCard';
 import { EventDetailModal } from './EventDetailModal';
-import { MOCK_EVENTS, EventStatus, type Event } from '@/data/events';
+import { placeholderEvents, EventStatus, type Event } from '@/data/events';
 
 type TabType = 'upcoming' | 'ongoing' | 'completed';
 
@@ -27,7 +27,7 @@ export function EventsPageClient() {
       completed: 'completed',
     };
 
-    return MOCK_EVENTS.filter((e) => e.status === statusMap[activeTab]).sort(
+    return placeholderEvents.filter((e) => e.status === statusMap[activeTab]).sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
     );
   }, [activeTab]);

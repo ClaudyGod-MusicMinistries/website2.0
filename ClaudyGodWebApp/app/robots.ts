@@ -11,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/api/',
           '/_next/',
+          '/dev/',
           '/store/cart',
           '/store/checkout',
           '/legal/privacy',

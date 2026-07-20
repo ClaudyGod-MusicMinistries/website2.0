@@ -5,7 +5,7 @@ import { firstSectionTexts, secondSectionTexts } from '@/data/biography';
 export function BiographySection() {
   return (
     <section className="bg-white section-py">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="container-site">
 
         {/* First block: text left, image right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-start mb-10 sm:mb-16 lg:mb-28">
