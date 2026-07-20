@@ -2,145 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Font faces ──────────────────────────────────────────────────────────── */
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'BricolageGrotesque';
-  src: url('/fonts/BricolageGrotesque-ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Raleway';
-  src: url('/fonts/Raleway-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'WorkSans';
-  src: url('/fonts/WorkSans-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'WorkSans';
-  src: url('/fonts/WorkSans-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'WorkSans';
-  src: url('/fonts/WorkSans-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'WorkSans';
-  src: url('/fonts/WorkSans-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'AbrilFatface';
-  src: url('/fonts/AbrilFatface-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
+/* Fonts (Fraunces + Inter) are loaded via next/font/google in lib/fonts.ts —
+   no raw @font-face declarations needed here; next/font handles self-hosting,
+   preload, and font-display: swap. */
 
 /* ─── CSS custom properties ───────────────────────────────────────────────── */
 :root {
@@ -193,7 +57,7 @@
   }
 
   body {
-    @apply bg-white text-neutral-900 font-bricolage antialiased;
+    @apply bg-white text-neutral-900 font-sans antialiased;
     min-height: 100dvh;
   }
 
@@ -229,10 +93,11 @@
 
 /* ─── Component layer ─────────────────────────────────────────────────────── */
 @layer components {
-  /* Container */
+  /* Container — matches the real-world max-w-[1400px] pattern that was
+     previously hand-typed at ~35 call sites instead of using this class. */
   .container-site {
-    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
-    max-width: 1280px;
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-12;
+    max-width: 1400px;
   }
   .container-narrow {
     @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
@@ -250,7 +115,7 @@
 
   /* Eyebrow label */
   .label-eyebrow {
-    font-family: 'WorkSans', sans-serif;
+    font-family: var(--font-sans), sans-serif;
     font-size: 0.72rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;

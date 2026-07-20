@@ -33,7 +33,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/60 via-transparent to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 lg:px-12 pb-24 md:pb-32">
+      <div className="relative z-10 w-full container-site pb-24 md:pb-32">
         {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}

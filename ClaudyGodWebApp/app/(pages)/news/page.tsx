@@ -67,7 +67,7 @@ export default async function NewsPage() {
 
       {/* New releases */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="container-site">
           <div className="flex items-center gap-4 mb-4">
             <span className="rule-gold" />
             <span className="label-eyebrow">New Releases</span>
@@ -128,7 +128,7 @@ export default async function NewsPage() {
 
       {/* Follow */}
       <section className="bg-white py-16 border-t border-black/[0.05]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="container-site">
           <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-16">
             <div>
               <div className="flex items-center gap-4 mb-2">

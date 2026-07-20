@@ -124,7 +124,7 @@ function AlbumArtVisual({ album, isEven }: { album: (typeof albums)[0]; isEven: 
 export function AlbumTimeline() {
   return (
     <section className="bg-cream-100 section-py">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="container-site">
         <div className="flex items-center gap-4 mb-14">
           <span className="rule-gold" />
           <span className="label-eyebrow">Discography</span>

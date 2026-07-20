@@ -66,7 +66,7 @@ export default function ContactPage() {
         objectPosition="center top"
       />
       <section className="bg-white section-py">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="container-site">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
             <ContactForm />
             <ContactInfo />

@@ -15,7 +15,7 @@ const platformIconMap = {
 export function AlbumGrid() {
   return (
     <section className="bg-cream-100 section-py">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="container-site">
         <div className="flex items-center gap-4 mb-10 sm:mb-14">
           <span className="rule-gold" />
           <span className="label-eyebrow">Discography</span>

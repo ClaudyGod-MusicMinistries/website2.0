@@ -40,10 +40,10 @@ const promos = [
 
 export function CrossPromo() {
   return (
-    <section className="bg-[#09080f] overflow-hidden">
+    <section className="bg-surface-deep overflow-hidden">
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-20">
+      <div className="container-site py-12 sm:py-16 md:py-20">
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-8 sm:mb-10">
@@ -69,7 +69,7 @@ export function CrossPromo() {
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.06] opacity-60 group-hover:opacity-75"
                   sizes="(max-width: 640px) 82vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-[#09080f]/90" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-surface-deep/90" />
 
                 {/* Badge */}
                 <span className={`absolute top-3 left-3 ${accent} text-white font-worksans text-[0.45rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full`}>

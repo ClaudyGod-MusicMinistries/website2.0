@@ -37,7 +37,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-cream-100 pt-[var(--navbar-height)]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 md:py-20">
+      <div className="container-site py-16 md:py-20">
 
         {/* Header */}
         <div className="flex items-center justify-between mb-10">

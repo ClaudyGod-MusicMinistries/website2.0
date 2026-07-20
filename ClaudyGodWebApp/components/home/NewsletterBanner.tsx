@@ -46,7 +46,7 @@ export function NewsletterBanner() {
 
   return (
     <>
-    <section className="relative overflow-hidden bg-[#0c0a1a]">
+    <section className="relative overflow-hidden bg-surface-raised">
       {/* Purple radial glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.18)_0%,transparent_65%)] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(201,168,76,0.08)_0%,transparent_65%)] pointer-events-none" />
@@ -54,7 +54,7 @@ export function NewsletterBanner() {
       {/* Top accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-24">
+      <div className="container-site py-12 sm:py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center">
 
           {/* Left — copy */}

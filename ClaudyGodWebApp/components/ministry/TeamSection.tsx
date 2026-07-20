@@ -50,7 +50,7 @@ export function TeamSection() {
         onKeyDown={onKeyDown}
         tabIndex={-1}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 sm:mb-12">

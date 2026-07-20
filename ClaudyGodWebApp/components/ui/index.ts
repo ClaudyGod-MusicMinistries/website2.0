@@ -5,7 +5,7 @@ export { IconButton, iconButtonVariants } from './IconButton';
 export type { IconButtonProps }           from './IconButton';
 
 // Typography
-export { Display, Heading, Text, Label, Caption } from './Typography';
+export { Display, Heading, Text, Label, Caption, Accent } from './Typography';
 
 // Layout
 export { Container, Section, Grid, Flex, Stack } from './Layout';
@@ -21,6 +21,7 @@ export { Divider, GoldBar }                 from './Divider';
 
 // Composed
 export { SectionHeader }                    from './SectionHeader';
+export { Dialog }                           from './Dialog';
 
 // Brand
 export { Logo }                             from './Logo';

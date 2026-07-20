@@ -192,7 +192,7 @@ function Card({ s, priority }: { s: Section; priority?: boolean }) {
 /* ─────────────────────────────────────── Section ── */
 export function PagesExplorer() {
   return (
-    <section className="relative bg-[#09080f] overflow-hidden">
+    <section className="relative bg-surface-deep overflow-hidden">
       {/* Top accent */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
@@ -202,7 +202,7 @@ export function PagesExplorer() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(201,168,76,0.05)_0%,transparent_65%)]" />
       </div>
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-28">
+      <div className="relative container-site py-12 sm:py-16 md:py-20 lg:py-28">
 
         {/* ── Section header ── */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-8 mb-7 sm:mb-10 lg:mb-12">

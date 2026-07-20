@@ -1,12 +1,12 @@
 export function AppDownload() {
   return (
-    <section className="bg-[#0c0a1a] py-12 sm:py-16 md:py-20 relative overflow-hidden">
+    <section className="bg-surface-raised py-12 sm:py-16 md:py-20 relative overflow-hidden">
       {/* Purple radial glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.22)_0%,transparent_70%)] pointer-events-none" />
       {/* Gold accent line top */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
-      <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 text-center">
+      <div className="relative container-site text-center">
         <div className="flex items-center justify-center gap-4 mb-6">
           <span className="block w-8 h-px bg-gold-500 opacity-60" />
           <span className="label-eyebrow">Mobile App</span>

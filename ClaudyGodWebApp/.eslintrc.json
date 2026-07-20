@@ -8,5 +8,24 @@
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-explicit-any": "warn"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "excludedFiles": ["components/ui/**", "data/**"],
+      "rules": {
+        "no-restricted-syntax": [
+          "warn",
+          {
+            "selector": "Literal[value=/-\\[#[0-9a-fA-F]{3,8}\\]/]",
+            "message": "Raw hex color in an arbitrary Tailwind value. Add it to tailwind.config.ts's color tokens (or components/ui/ if it's a design-system primitive) instead of hardcoding it per-component — this is exactly the drift that made the pre-rebuild design system inconsistent."
+          },
+          {
+            "selector": "Literal[value=/shadow-\\[/]",
+            "message": "Arbitrary shadow value. Use one of the shadow-* tokens defined in tailwind.config.ts (shadow-card, shadow-gold, ...) instead of a one-off rgba() shadow — add a new token there if none fit."
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -5,6 +5,7 @@ import { Footer }  from '@/components/layout/Footer';
 import { Loader }  from '@/components/shared/Loader';
 import { musicGroup, webSite, person } from '@/utils/jsonLd';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_PATH } from '@/lib/config/site';
+import { fontVariables } from '@/lib/fonts';
 import './globals.css';
 
 const WelcomeModal  = dynamic(() => import('@/components/shared/WelcomeModal').then(m => m.WelcomeModal),  { ssr: false });
@@ -115,7 +116,7 @@ const jsonLdGraph = {
 // ─── Root layout ────────────────────────────────────────────────────────────
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={fontVariables}>
       <head>
         {/* ── Structured data ── */}
         <script
