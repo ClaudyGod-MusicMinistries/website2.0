@@ -1,7 +1,19 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { products } from '@/data/store';
 import { formatPrice } from '@/utils/format';
+
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+const cardVariant = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+};
 
 export function StorePreview() {
   const preview = products.slice(0, 4);
@@ -34,12 +46,18 @@ export function StorePreview() {
         </div>
 
         {/* Product grid — proper gap */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-7">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-7"
+        >
           {preview.map((product) => (
+            <motion.div key={product.id} variants={cardVariant}>
             <Link
-              key={product.id}
               href="/store"
-              className="group bg-white overflow-hidden flex flex-col rounded-xl sm:rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] transition-all duration-300 hover:-translate-y-0.5"
+              className="group bg-white overflow-hidden flex flex-col rounded-xl sm:rounded-2xl shadow-card-light hover:shadow-card-light-hover transition-all duration-300 hover:-translate-y-0.5"
             >
               {/* Image */}
               <div className="relative aspect-square overflow-hidden bg-cream-100">
@@ -54,7 +72,7 @@ export function StorePreview() {
 
               {/* Info */}
               <div className="p-3 sm:p-4 lg:p-5 flex flex-col gap-1 sm:gap-1.5 border-t border-black/[0.05]">
-                <p className="font-sans text-[0.56rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
+                <p className="font-sans text-[0.68rem] tracking-[0.18em] uppercase text-neutral-400 capitalize">
                   {product.category}
                 </p>
                 <p className="font-sans font-normal text-neutral-800 text-sm leading-snug group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
@@ -65,8 +83,9 @@ export function StorePreview() {
                 </p>
               </div>
             </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* CTA row */}
         <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">

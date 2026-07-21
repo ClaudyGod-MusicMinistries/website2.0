@@ -146,7 +146,7 @@ export function NewsletterBanner() {
                         className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
                       />
                       {errors.name && (
-                        <p className="mt-1.5 font-sans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
+                        <p className="mt-1.5 font-sans text-[0.65rem] tracking-[0.1em] uppercase text-red-400/80">
                           {errors.name.message}
                         </p>
                       )}
@@ -159,7 +159,7 @@ export function NewsletterBanner() {
                         className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
                       />
                       {errors.email && (
-                        <p className="mt-1.5 font-sans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
+                        <p className="mt-1.5 font-sans text-[0.65rem] tracking-[0.1em] uppercase text-red-400/80">
                           {errors.email.message}
                         </p>
                       )}
@@ -168,7 +168,7 @@ export function NewsletterBanner() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-sans text-[0.62rem] tracking-[0.14em] sm:tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group whitespace-nowrap"
+                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-sans text-[0.7rem] tracking-[0.14em] sm:tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group whitespace-nowrap"
                     >
                       {isSubmitting ? (
                         'Subscribing…'
@@ -181,7 +181,7 @@ export function NewsletterBanner() {
                     </button>
 
                     {apiError && (
-                      <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-red-400/80">
+                      <p className="font-sans text-[0.65rem] tracking-[0.1em] uppercase text-red-400/80">
                         {apiError}
                       </p>
                     )}
@@ -220,7 +220,7 @@ export function NewsletterBanner() {
             aria-label="Subscription confirmed"
             className="fixed inset-0 z-[301] flex items-center justify-center p-4"
           >
-            <div className="relative w-full max-w-sm bg-surface-raised border border-white/[0.09] rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.6)] overflow-hidden">
+            <div className="relative w-full max-w-sm bg-surface-raised border border-white/[0.09] rounded-2xl shadow-popup overflow-hidden">
               {/* Gold top bar */}
               <div className="h-1 bg-gradient-to-r from-gold-500/60 via-gold-400 to-gold-500/60" />
 
@@ -239,7 +239,7 @@ export function NewsletterBanner() {
 
                 <button
                   onClick={() => setStatus('idle')}
-                  className="w-full h-11 bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-colors duration-200"
+                  className="w-full h-11 bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.68rem] tracking-[0.18em] uppercase rounded-xl transition-colors duration-200"
                 >
                   Continue
                 </button>
