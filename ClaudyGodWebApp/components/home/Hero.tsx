@@ -75,7 +75,7 @@ export function Hero() {
           bottom edge and sits inside a blurred glass box instead of
           directly on the image; desktop (lg+) reverts to the original
           bottom-anchored, borderless layout. */}
-      <div className="absolute inset-0 flex flex-col justify-center pb-0 lg:justify-end lg:pb-32">
+      <div className="absolute inset-0 flex flex-col justify-end pb-40 sm:pb-40 lg:pb-32">
         <div className="container-site w-full">
           <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-white/[0.07] backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
             <motion.div
