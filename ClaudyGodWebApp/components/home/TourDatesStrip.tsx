@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { MapPin, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Section, Container } from '@/components/ui';
 import { placeholderEvents } from '@/data/events';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
@@ -52,7 +54,7 @@ export function TourDatesStrip() {
           </div>
           <Link
             href="/events"
-            className="hidden sm:inline-flex items-center gap-2 font-sans text-xs tracking-[0.18em] uppercase border border-white/15 hover:border-gold-500/60 text-white/60 hover:text-white px-6 h-10 rounded-xl transition-all duration-300 group shrink-0"
+            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'hidden sm:inline-flex group shrink-0')}
           >
             Full Schedule
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
