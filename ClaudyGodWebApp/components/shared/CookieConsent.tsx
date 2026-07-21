@@ -186,7 +186,7 @@ export function CookieConsent() {
                   {/* Accept All — full width on mobile, auto on sm+ */}
                   <button
                     onClick={onAcceptAll}
-                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(124,58,237,0.3)]"
+                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(97, 73, 145,0.3)]"
                   >
                     Accept All
                   </button>

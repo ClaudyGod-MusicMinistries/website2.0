@@ -120,7 +120,7 @@ export function ProductGrid() {
                 className={cn(
                   'px-5 h-10 rounded-full font-sans text-xs tracking-[0.12em] uppercase border transition-all duration-300',
                   activeCategory === cat.id
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
+                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                 )}
               >

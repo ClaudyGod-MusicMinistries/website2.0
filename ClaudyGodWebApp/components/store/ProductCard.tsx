@@ -82,7 +82,7 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
           </span>
           <button
             onClick={handleAdd}
-            className="flex items-center gap-2 h-10 px-4 bg-neutral-900 hover:bg-purple-600 text-white font-sans text-[0.55rem] tracking-[0.15em] uppercase rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_4px_14px_rgba(124,58,237,0.4)]"
+            className="flex items-center gap-2 h-10 px-4 bg-neutral-900 hover:bg-purple-600 text-white font-sans text-[0.55rem] tracking-[0.15em] uppercase rounded-xl transition-all duration-300 shadow-sm hover:shadow-[0_4px_14px_rgba(97, 73, 145,0.4)]"
           >
             <ShoppingBag className="h-3.5 w-3.5" />
             Add

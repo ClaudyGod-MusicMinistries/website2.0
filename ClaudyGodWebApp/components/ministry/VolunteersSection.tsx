@@ -70,8 +70,8 @@ export function VolunteersSection() {
   return (
     <section className="relative bg-surface-deep overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse_at_top_left,rgba(124,58,237,0.12)_0%,transparent_65%)]" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(201,168,76,0.06)_0%,transparent_65%)]" />
+        <div className="absolute top-0 left-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse_at_top_left,rgba(97, 73, 145,0.12)_0%,transparent_65%)]" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(181, 101, 29,0.06)_0%,transparent_65%)]" />
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
@@ -238,7 +238,7 @@ export function VolunteersSection() {
                       'h-11 rounded-xl font-sans text-xs tracking-[0.18em] uppercase inline-flex items-center justify-center gap-2 transition-all duration-300 mt-1',
                       isSubmitting
                         ? 'bg-purple-800/50 text-white/40 cursor-not-allowed'
-                        : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_4px_16px_rgba(109,40,217,0.3)]'
+                        : 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.3)]'
                     )}
                   >
                     {isSubmitting ? (

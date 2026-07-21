@@ -142,7 +142,7 @@ export default function CartPage() {
               </div>
               <Link
                 href="/store/checkout"
-                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-sans text-xs font-semibold tracking-[0.12em] uppercase rounded-xl transition-all duration-300 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)] flex items-center justify-center"
+                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-sans text-xs font-semibold tracking-[0.12em] uppercase rounded-xl transition-all duration-300 shadow-[0_4px_14px_rgba(97, 73, 145,0.35)] hover:shadow-[0_6px_20px_rgba(97, 73, 145,0.45)] flex items-center justify-center"
               >
                 Proceed to Checkout
               </Link>

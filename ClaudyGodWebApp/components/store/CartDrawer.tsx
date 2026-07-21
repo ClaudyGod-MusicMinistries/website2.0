@@ -184,7 +184,7 @@ export function CartDrawer() {
                 <Link
                   href="/store/checkout"
                   onClick={closeCart}
-                  className="flex items-center justify-center gap-2.5 w-full h-12 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 shadow-[0_4px_16px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.5)]"
+                  className="flex items-center justify-center gap-2.5 w-full h-12 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 shadow-[0_4px_16px_rgba(97, 73, 145,0.35)] hover:shadow-[0_6px_24px_rgba(97, 73, 145,0.5)]"
                   aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout
