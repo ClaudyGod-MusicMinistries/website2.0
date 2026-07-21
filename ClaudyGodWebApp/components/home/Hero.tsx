@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Play, CalendarDays, ChevronDown } from 'lucide-react';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 const reveal = {
   hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 0 },
@@ -69,10 +71,13 @@ export function Hero() {
         />
       </div>
 
-      {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-end pb-24 sm:pb-28 md:pb-32">
+      {/* Content — on tablet (md) the copy is pushed up off the bottom edge
+          and sits inside a blurred glass box instead of directly on the
+          image; desktop (lg+) reverts to the original bottom-anchored,
+          borderless layout. */}
+      <div className="absolute inset-0 flex flex-col justify-end pb-24 sm:pb-28 md:justify-center md:pb-0 lg:justify-end lg:pb-32">
         <div className="container-site w-full">
-          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
+          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 md:bg-white/[0.07] md:backdrop-blur-xl md:border md:border-white/15 md:rounded-3xl md:p-8 md:shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
             <motion.div
               custom={0} variants={fadeUp} initial="hidden" animate="visible"
               className="flex items-center gap-3 mb-6 justify-center sm:justify-start"
@@ -84,7 +89,7 @@ export function Hero() {
             <div className="overflow-hidden mb-3">
               <motion.h1
                 custom={0.12} variants={reveal} initial="hidden" animate="visible"
-                className="font-display font-bold text-white text-4xl sm:text-5xl md:text-6xl lg:text-[4.2rem] leading-[1.05] tracking-tight"
+                className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
               >
                 Spirit-Filled Worship,
                 <span className="block text-gold-300">Sent to the Nations.</span>
@@ -105,20 +110,20 @@ export function Hero() {
             >
               <Link
                 href="/music"
-                className="inline-flex items-center gap-2.5 font-sans text-[0.68rem] tracking-[0.18em] uppercase text-surface-deep bg-gold-500 hover:bg-gold-400 px-7 h-12 rounded-xl transition-all duration-300 shadow-gold-cta hover:shadow-gold-cta-hover font-semibold"
+                className={cn(buttonVariants({ variant: 'primary', size: 'xl', uppercase: true }), 'shadow-gold-cta hover:shadow-gold-cta-hover')}
               >
                 <Play className="h-3.5 w-3.5 fill-current" />
                 Listen Now
               </Link>
               <Link
                 href="/videos"
-                className="inline-flex items-center gap-2.5 font-sans text-[0.68rem] tracking-[0.18em] uppercase text-white border border-white/30 hover:border-white/70 hover:bg-white/10 px-7 h-12 rounded-xl transition-all duration-300 backdrop-blur-sm"
+                className={buttonVariants({ variant: 'outline-white', size: 'xl', uppercase: true })}
               >
                 Watch
               </Link>
               <Link
                 href="/events"
-                className="inline-flex items-center gap-2.5 font-sans text-[0.68rem] tracking-[0.18em] uppercase text-white/80 hover:text-white px-2 h-12 rounded-xl transition-all duration-300 group"
+                className={cn(buttonVariants({ variant: 'link', uppercase: true }), 'text-white/80 hover:text-white gap-2.5 group')}
               >
                 <CalendarDays className="h-3.5 w-3.5" />
                 See Tour Dates

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { navigationItems, type NavGroup } from '@/data/navbar';
 import { cn } from '@/utils/cn';
+import { buttonVariants } from '@/lib/theme/buttons';
 import { CartIcon } from '@/components/store/CartIcon';
 import { Dialog } from '@/components/ui';
 
@@ -32,9 +33,12 @@ export function Navbar() {
 
   useEffect(() => { setOpen(false); }, [pathname]);
 
-  // Desktop and tablet both render the primary tier inline — one list,
-  // not three hand-synced arrays. The mobile overlay shows everything.
-  const primaryLinks = navigationItems.filter((i) => i.priority === 'primary');
+  // Tablet shows exactly the 2 'tablet'-tier items; desktop shows those
+  // same 2 plus the 3 'desktop'-tier items (5 total). One data source
+  // (data/navbar.ts), filtered by the `header` field — not three
+  // hand-typed name arrays.
+  const tabletLinks = navigationItems.filter((i) => i.header === 'tablet');
+  const desktopLinks = navigationItems.filter((i) => i.header === 'tablet' || i.header === 'desktop');
   const bookingLink = navigationItems.find((i) => i.href === '/bookings');
   const donateLink = navigationItems.find((i) => i.href === '/donate');
   const mobileLinksByGroup = GROUP_ORDER.map((group) => ({
@@ -86,52 +90,61 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* ── Nav (md+) — one list, same items at every breakpoint ────── */}
-          <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-7 flex-1 justify-center">
-            {primaryLinks.map((item) => {
-              const active = isActive(item.href);
-              return (
+          {/* ── Right cluster: nav links + cart + Book Now ───────────────── */}
+          <div className="flex items-center gap-6 lg:gap-8">
+            {/* Tablet nav — exactly 2 links, hidden once desktop's 5-link nav takes over */}
+            <nav className="hidden md:flex lg:hidden items-center gap-5">
+              {tabletLinks.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <Link key={item.href} href={item.href} className={cn(linkBase, active ? activeColor : linkColor)}>
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Desktop nav — 5 links */}
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-7">
+              {desktopLinks.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <Link key={item.href} href={item.href} className={cn(linkBase, active ? activeColor : linkColor)}>
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="hidden md:flex items-center gap-2.5 lg:gap-4 shrink-0">
+              <CartIcon />
+              {bookingLink && (
                 <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(linkBase, 'text-[0.62rem] lg:text-[0.68rem]', active ? activeColor : linkColor)}
+                  href={bookingLink.href}
+                  className={cn(
+                    buttonVariants({ variant: 'secondary', size: 'sm', uppercase: true }),
+                    'lg:h-10 lg:px-6',
+                    !scrolled && 'bg-transparent border border-white/30 hover:border-white/70 hover:bg-white/10 hover:shadow-none',
+                  )}
                 >
-                  {item.label}
+                  Book Now
                 </Link>
-              );
-            })}
-          </nav>
+              )}
+            </div>
 
-          {/* ── Desktop/tablet right: Cart + Book Now ─────────────────── */}
-          <div className="hidden md:flex items-center gap-2.5 lg:gap-4 shrink-0">
-            <CartIcon />
-            {bookingLink && (
-              <Link
-                href={bookingLink.href}
-                className={cn(
-                  'font-sans text-[0.6rem] lg:text-[0.65rem] tracking-[0.18em] uppercase px-4 lg:px-6 h-8 lg:h-10 inline-flex items-center rounded-xl transition-all duration-300',
-                  scrolled
-                    ? 'text-white bg-purple-600 hover:bg-purple-500'
-                    : 'text-white border border-white/30 hover:border-white/70 hover:bg-white/10'
-                )}
-              >
-                Book Now
-              </Link>
-            )}
+            {/* ── Mobile toggle — the only thing visible in the header below md ── */}
+            <button
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              onClick={() => setOpen((p) => !p)}
+              className={cn(
+                'md:hidden relative flex items-center justify-center w-9 h-9',
+                open ? 'text-white' : scrolled ? 'text-neutral-800' : 'text-white'
+              )}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
-
-          {/* ── Mobile toggle ──────────────────────────────────────────── */}
-          <button
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            onClick={() => setOpen((p) => !p)}
-            className={cn(
-              'md:hidden relative flex items-center justify-center w-9 h-9',
-              open ? 'text-white' : scrolled ? 'text-neutral-800' : 'text-white'
-            )}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
         </div>
       </header>
 
@@ -186,18 +199,12 @@ export function Navbar() {
 
             <div className="flex items-center gap-2.5 flex-wrap pt-2">
               {bookingLink && (
-                <Link
-                  href={bookingLink.href}
-                  className="inline-flex items-center font-sans text-[0.65rem] tracking-[0.18em] uppercase bg-purple-600 hover:bg-purple-500 text-white px-6 h-10 rounded-xl transition-colors duration-300"
-                >
+                <Link href={bookingLink.href} className={buttonVariants({ variant: 'secondary', uppercase: true })}>
                   Book Now
                 </Link>
               )}
               {donateLink && (
-                <Link
-                  href={donateLink.href}
-                  className="inline-flex items-center font-sans text-[0.65rem] tracking-[0.18em] uppercase bg-gold-500 hover:bg-gold-400 text-surface-deep px-6 h-10 rounded-xl transition-colors duration-300"
-                >
+                <Link href={donateLink.href} className={buttonVariants({ variant: 'primary', uppercase: true })}>
                   Donate
                 </Link>
               )}

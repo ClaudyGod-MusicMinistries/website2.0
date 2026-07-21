@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Music } from 'lucide-react';
 import { latestReleasePlatforms } from '@/data/music';
 import { featuredVideos } from '@/data/featured';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 function getYouTubeId(url: string) {
   const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
@@ -75,7 +77,7 @@ export function LatestRelease() {
               <span className="font-sans text-xs tracking-[0.15em] uppercase text-gold-600 font-semibold">Latest Release</span>
             </div>
 
-            <h2 className="font-display font-bold text-neutral-900 text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.1] mb-4 sm:mb-6">
+            <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.1] mb-4 sm:mb-6">
               {latestVideo.title}
             </h2>
 
@@ -90,9 +92,8 @@ export function LatestRelease() {
             {/* CTA Button */}
             <motion.button
               onClick={() => setVideoOpen(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-fit inline-flex items-center justify-center gap-3 font-display font-bold text-base sm:text-lg bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl mb-10"
+              whileTap={{ scale: 0.97 }}
+              className={cn(buttonVariants({ variant: 'secondary', size: 'xl' }), 'w-fit text-base sm:text-lg px-8 sm:px-10 mb-10')}
             >
               <Play className="h-5 w-5 fill-white" />
               Play Video
@@ -127,14 +128,14 @@ export function LatestRelease() {
             <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-neutral-200">
               <Link
                 href="/music"
-                className="inline-flex items-center justify-center sm:justify-start gap-2.5 font-sans text-xs tracking-[0.15em] uppercase bg-neutral-900 hover:bg-neutral-800 text-white px-6 h-11 rounded-xl transition-all duration-300 group flex-1"
+                className={cn(buttonVariants({ variant: 'secondary', size: 'xl', uppercase: true }), 'group flex-1')}
               >
                 View All Music
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/videos"
-                className="inline-flex items-center justify-center sm:justify-start gap-2.5 font-sans text-xs tracking-[0.15em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-11 rounded-xl transition-all duration-300 flex-1"
+                className={cn(buttonVariants({ variant: 'outline', size: 'xl', uppercase: true }), 'flex-1')}
               >
                 More Videos
               </Link>

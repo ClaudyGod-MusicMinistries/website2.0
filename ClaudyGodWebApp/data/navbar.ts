@@ -19,16 +19,22 @@ export type NavIcon = ForwardRefExoticComponent<
 >;
 
 /**
- * Single source of truth for navigation — replaces the old Navbar.tsx
- * pattern of three separately hand-maintained arrays (PRIMARY_NAV,
- * TABLET_NAV, and an implicit "everything except Donate" mobile list) that
- * had to be kept in sync by hand. Desktop/tablet render `primary` items
- * inline; the mobile overlay and the footer render everything, grouped by
- * `group`. `/volunteer` previously appeared in none of the three — it's
- * back in the one list now.
+ * Single source of truth for navigation — one array, filtered declaratively
+ * by breakpoint instead of the old Navbar.tsx pattern of three separately
+ * hand-maintained name arrays that had to be kept in sync by hand.
+ *
+ * `header` controls what shows in the header nav at each breakpoint:
+ *   - 'tablet': shown from md upward — the 2 core items visible on tablet
+ *     AND folded into the desktop set.
+ *   - 'desktop': shown from lg upward only — the 3 additional items that
+ *     bring desktop to 5 total.
+ *   - 'none': never in the header nav (still reachable via the mobile
+ *     overlay and the footer, grouped by `group`).
+ * `priority`/`group` still drive the mobile overlay and footer grouping.
  */
 
 export type NavGroup = 'explore' | 'connect' | 'support';
+export type HeaderTier = 'tablet' | 'desktop' | 'none';
 
 export interface NavItem {
   href: string;
@@ -36,20 +42,21 @@ export interface NavItem {
   icon: NavIcon;
   priority: 'primary' | 'secondary';
   group: NavGroup;
+  header: HeaderTier;
 }
 
 export const navigationItems: NavItem[] = [
-  { href: '/about',     label: 'About',     icon: User,         priority: 'primary',   group: 'explore' },
-  { href: '/music',     label: 'Music',     icon: Music2,       priority: 'primary',   group: 'explore' },
-  { href: '/videos',    label: 'Videos',    icon: Film,         priority: 'primary',   group: 'explore' },
-  { href: '/events',    label: 'Events',    icon: CalendarDays, priority: 'primary',   group: 'explore' },
-  { href: '/ministry',  label: 'Ministry',  icon: Heart,        priority: 'primary',   group: 'explore' },
-  { href: '/store',     label: 'Store',     icon: ShoppingBag,  priority: 'primary',   group: 'support' },
-  { href: '/contact',   label: 'Contact',   icon: Mail,         priority: 'primary',   group: 'connect' },
-  { href: '/blog',      label: 'Blog',      icon: BookOpen,     priority: 'secondary', group: 'explore' },
-  { href: '/news',      label: 'News',      icon: Newspaper,    priority: 'secondary', group: 'connect' },
-  { href: '/bookings',  label: 'Bookings',  icon: CalendarDays, priority: 'secondary', group: 'connect' },
-  { href: '/volunteer', label: 'Volunteer', icon: HandHeart,    priority: 'secondary', group: 'connect' },
-  { href: '/donate',    label: 'Donate',    icon: HandCoins,    priority: 'secondary', group: 'support' },
-  { href: '/help',      label: 'Help',      icon: HelpCircle,   priority: 'secondary', group: 'support' },
+  { href: '/music',     label: 'Music',     icon: Music2,       priority: 'primary',   group: 'explore', header: 'tablet'  },
+  { href: '/events',    label: 'Events',    icon: CalendarDays, priority: 'primary',   group: 'explore', header: 'tablet'  },
+  { href: '/about',     label: 'About',     icon: User,         priority: 'primary',   group: 'explore', header: 'desktop' },
+  { href: '/videos',    label: 'Videos',    icon: Film,         priority: 'primary',   group: 'explore', header: 'desktop' },
+  { href: '/ministry',  label: 'Ministry',  icon: Heart,        priority: 'primary',   group: 'explore', header: 'desktop' },
+  { href: '/store',     label: 'Store',     icon: ShoppingBag,  priority: 'primary',   group: 'support', header: 'none'    },
+  { href: '/contact',   label: 'Contact',   icon: Mail,         priority: 'primary',   group: 'connect', header: 'none'    },
+  { href: '/blog',      label: 'Blog',      icon: BookOpen,     priority: 'secondary', group: 'explore', header: 'none'    },
+  { href: '/news',      label: 'News',      icon: Newspaper,    priority: 'secondary', group: 'connect', header: 'none'    },
+  { href: '/bookings',  label: 'Bookings',  icon: CalendarDays, priority: 'secondary', group: 'connect', header: 'none'    },
+  { href: '/volunteer', label: 'Volunteer', icon: HandHeart,    priority: 'secondary', group: 'connect', header: 'none'    },
+  { href: '/donate',    label: 'Donate',    icon: HandCoins,    priority: 'secondary', group: 'support', header: 'none'    },
+  { href: '/help',      label: 'Help',      icon: HelpCircle,   priority: 'secondary', group: 'support', header: 'none'    },
 ];
