@@ -35,8 +35,8 @@ export function FeaturedVideos() {
       <section className="relative bg-surface-deep overflow-hidden">
         {/* Ambient glows */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(109,40,217,0.12)_0%,transparent_65%)]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(201,168,76,0.06)_0%,transparent_65%)]" />
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(97, 73, 145,0.12)_0%,transparent_65%)]" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(181, 101, 29,0.06)_0%,transparent_65%)]" />
         </div>
 
         {/* Top gold accent */}

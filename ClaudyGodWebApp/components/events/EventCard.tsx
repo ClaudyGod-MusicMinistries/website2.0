@@ -38,7 +38,7 @@ export function EventCard({ event, isLiked, onLike, onClick }: EventCardProps) {
   return (
     <div
       onClick={onClick}
-      className="group relative cursor-pointer h-full rounded-xl overflow-hidden bg-neutral-900/50 border border-white/10 hover:border-purple-600/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(124,58,237,0.15)]"
+      className="group relative cursor-pointer h-full rounded-xl overflow-hidden bg-neutral-900/50 border border-white/10 hover:border-purple-600/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(97, 73, 145,0.15)]"
     >
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden bg-neutral-800">

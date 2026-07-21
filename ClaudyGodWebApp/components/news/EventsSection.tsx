@@ -134,7 +134,7 @@ function TourCard({ event, index }: { event: Event; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group relative overflow-hidden rounded-2xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(124,58,237,0.08)] transition-all duration-300"
+      className="group relative overflow-hidden rounded-2xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.08)] transition-all duration-300"
     >
       <div className="relative h-40 overflow-hidden">
         <Image
@@ -255,7 +255,7 @@ function TicketForm({ events }: { events: Event[] }) {
     <div id="register" className="bg-surface-raised rounded-3xl overflow-hidden">
       {/* Header */}
       <div className="relative px-8 pt-10 pb-8 border-b border-white/[0.06]">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.2)_0%,transparent_65%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(97, 73, 145,0.2)_0%,transparent_65%)] pointer-events-none" />
         <div className="relative">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 rounded-full bg-gold-500/15 border border-gold-500/20 flex items-center justify-center">

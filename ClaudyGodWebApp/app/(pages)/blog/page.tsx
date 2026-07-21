@@ -145,7 +145,7 @@ function TourCard({ t }: { t: typeof tourDates[number] }) {
         'group relative overflow-hidden rounded-2xl border transition-all duration-300 flex flex-col h-full',
         past
           ? 'bg-neutral-50 border-neutral-200 opacity-60'
-          : 'bg-white border-neutral-200 hover:border-purple-300 hover:shadow-[0_8px_32px_rgba(124,58,237,0.08)]'
+          : 'bg-white border-neutral-200 hover:border-purple-300 hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.08)]'
       )}
     >
       <div className="relative h-52 overflow-hidden flex-shrink-0">
@@ -248,7 +248,7 @@ export default function BlogPage() {
                   className={cn(
                     'inline-flex items-center gap-2 px-5 h-11 rounded-full font-sans text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300 shrink-0',
                     activeTab === tab
-                      ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
+                      ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.35)]'
                       : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                   )}
                 >

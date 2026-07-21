@@ -80,7 +80,7 @@ export function EventsPageClient() {
                 className={cn(
                   'flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 whitespace-nowrap',
                   activeTab === tab.id
-                    ? 'bg-purple-600 text-white shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
+                    ? 'bg-purple-600 text-white shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]'
                     : 'text-neutral-400 hover:text-white hover:bg-white/[0.05]',
                 )}
               >

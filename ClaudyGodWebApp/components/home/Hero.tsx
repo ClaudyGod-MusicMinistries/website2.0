@@ -60,12 +60,12 @@ export function Hero() {
         <motion.div
           animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -bottom-32 -left-24 w-[700px] h-[700px] bg-[radial-gradient(ellipse_at_center,rgba(109,40,217,0.12)_0%,transparent_70%)]"
+          className="absolute -bottom-32 -left-24 w-[700px] h-[700px] bg-[radial-gradient(ellipse_at_center,rgba(97, 73, 145,0.12)_0%,transparent_70%)]"
         />
         <motion.div
           animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-          className="absolute -top-20 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(201,168,76,0.07)_0%,transparent_70%)]"
+          className="absolute -top-20 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,rgba(181, 101, 29,0.07)_0%,transparent_70%)]"
         />
       </div>
 

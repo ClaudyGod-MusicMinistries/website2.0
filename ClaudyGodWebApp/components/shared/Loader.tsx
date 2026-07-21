@@ -154,7 +154,7 @@ export function Loader() {
                 transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
               />
               {/* Logo image */}
-              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-gold-500/30 bg-white/6 shadow-[0_0_40px_rgba(201,168,76,0.2)]">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-gold-500/30 bg-white/6 shadow-[0_0_40px_rgba(181, 101, 29,0.2)]">
                 <Image
                   src="/ClaudyGoLogo.webp"
                   alt="ClaudyGod"

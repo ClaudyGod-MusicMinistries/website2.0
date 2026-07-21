@@ -116,7 +116,7 @@ export function WelcomeModal() {
 
               {/* Play badge */}
               <div className="absolute bottom-3 left-4 flex items-center gap-2.5">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-[0_4px_18px_rgba(124,58,237,0.55)] transition-colors duration-200">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-[0_4px_18px_rgba(97, 73, 145,0.55)] transition-colors duration-200">
                   <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
                 </div>
                 <div className="text-left">

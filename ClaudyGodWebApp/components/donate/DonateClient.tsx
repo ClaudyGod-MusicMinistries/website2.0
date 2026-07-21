@@ -172,7 +172,7 @@ export default function DonateClient() {
               className={cn(
                 'w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left transition-all duration-200 group',
                 amount === tier && !custom
-                  ? 'bg-purple-50 border-purple-300 shadow-[0_2px_12px_rgba(124,58,237,0.12)]'
+                  ? 'bg-purple-50 border-purple-300 shadow-[0_2px_12px_rgba(97, 73, 145,0.12)]'
                   : 'bg-white border-neutral-200 hover:border-purple-200 hover:bg-purple-50/40'
               )}
             >
@@ -330,7 +330,7 @@ export default function DonateClient() {
                         className={cn(
                           'h-12 font-display font-extrabold text-sm rounded-xl border transition-all duration-200',
                           amount === tier && !custom
-                            ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(124,58,237,0.35)]'
+                            ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]'
                             : 'border-neutral-200 text-neutral-700 hover:border-purple-400 hover:text-purple-700 bg-white'
                         )}
                       >
@@ -422,7 +422,7 @@ export default function DonateClient() {
                 <button
                   type="button"
                   onClick={handlePay}
-                  className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-display font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_4px_24px_rgba(124,58,237,0.40)] hover:shadow-[0_8px_32px_rgba(124,58,237,0.50)] active:scale-[0.99]"
+                  className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-display font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_4px_24px_rgba(97, 73, 145,0.40)] hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.50)] active:scale-[0.99]"
                 >
                   <Heart className="h-5 w-5 fill-white/90" />
                   {amountValid
