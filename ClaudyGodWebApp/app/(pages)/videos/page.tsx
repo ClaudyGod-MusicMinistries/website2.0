@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero }    from '@/components/shared/PageHero';
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     description: 'Watch official music videos & live sessions from Minister ClaudyGod.',
     images:      ['/Tour_Ph_1.webp'],
   },
-  alternates: { canonical: 'https://claudygod.org/videos' },
+  alternates: { canonical: `${SITE_URL}/videos` },
 };
 
 const VideoGrid = dynamic(

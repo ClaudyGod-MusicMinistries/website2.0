@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import { PageHero }        from '@/components/shared/PageHero';
 import { BiographySection }from '@/components/about/BiographySection';
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     description: 'Over 20 years of ministry, 7 albums, and a God-given calling.',
     images:      ['/ClaudySocial.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.org/about' },
+  alternates: { canonical: `${SITE_URL}/about` },
 };
 
 /* ── Structured data ── */

@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero }    from '@/components/shared/PageHero';
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     title: 'ClaudyGod Official Store — Gospel Merch',
     images:['/Bg_13.webp'],
   },
-  alternates: { canonical: 'https://claudygod.org/store' },
+  alternates: { canonical: `${SITE_URL}/store` },
 };
 
 const ProductGrid = dynamic(
@@ -45,10 +46,10 @@ const CartDrawer = dynamic(
 const schemas = [
   breadcrumb([{ name: 'Store', href: '/store' }]),
   itemList('ClaudyGod Official Merchandise', [
-    { name: 'ClaudyGod Premium T-Shirt', url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product1.webp' },
-    { name: 'ClaudyGod Exclusive Hoodie', url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product2.webp' },
-    { name: 'ClaudyGod Cap Collection',   url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product3.webp' },
-    { name: 'ClaudyGod Worship Tote Bag', url: 'https://claudygod.org/store', imageUrl: 'https://claudygod.org/Product4.webp' },
+    { name: 'ClaudyGod Premium T-Shirt', url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product1.webp` },
+    { name: 'ClaudyGod Exclusive Hoodie', url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product2.webp` },
+    { name: 'ClaudyGod Cap Collection',   url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product3.webp` },
+    { name: 'ClaudyGod Worship Tote Bag', url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product4.webp` },
   ]),
 ];
 
