@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { albums } from '@/data/music';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: FaDeezer } as const;
 
@@ -34,7 +36,7 @@ export function MusicHighlight() {
           </div>
           <Link
             href="/music"
-            className="hidden md:inline-flex items-center gap-2 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 whitespace-nowrap"
+            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'hidden md:inline-flex whitespace-nowrap')}
           >
             All Albums →
           </Link>
@@ -96,7 +98,7 @@ export function MusicHighlight() {
         <div className="mt-10 sm:mt-12 flex md:hidden justify-center sm:justify-start">
           <Link
             href="/music"
-            className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+            className={cn(buttonVariants({ variant: 'secondary', size: 'xl', uppercase: true }), 'group')}
           >
             View All Albums
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

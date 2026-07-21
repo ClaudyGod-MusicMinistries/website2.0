@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Mail, Music, Bell, Users, X } from 'lucide-react';
 import { post, BackendError } from '@/lib/data/client';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 interface NewsletterInput {
   name: string;
@@ -70,7 +72,7 @@ export function NewsletterBanner() {
               <span className="label-eyebrow">Stay Connected</span>
             </div>
 
-            <h2 className="font-display font-extrabold text-white text-2xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.08] tracking-tight mb-3 sm:mb-5">
+            <h2 className="font-display font-extrabold text-white text-2xl sm:text-3xl md:text-4xl leading-[1.08] tracking-tight mb-3 sm:mb-5">
               Join the Ministry<br />
               <span className="text-purple-300">Community.</span>
             </h2>
@@ -168,7 +170,7 @@ export function NewsletterBanner() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-sans text-[0.7rem] tracking-[0.14em] sm:tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group whitespace-nowrap"
+                      className={cn(buttonVariants({ variant: 'secondary', size: 'xl', fullWidth: true, uppercase: true }), 'h-12 group whitespace-nowrap')}
                     >
                       {isSubmitting ? (
                         'Subscribing…'

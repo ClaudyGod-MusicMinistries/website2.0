@@ -51,7 +51,7 @@ export function FeaturedVideos() {
                 <span className="block w-8 h-px bg-gold-500 opacity-70" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-display text-white text-4xl md:text-5xl lg:text-[3.5rem] leading-tight tracking-tight">
+              <h2 className="font-display text-white text-3xl sm:text-4xl md:text-5xl leading-tight tracking-tight">
                 Featured Videos
               </h2>
             </div>

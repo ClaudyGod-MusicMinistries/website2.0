@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Heart, Music2, Globe2, Mic2 } from 'lucide-react';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 const impacts = [
   { icon: Mic2,   label: 'Record new worship albums' },
@@ -48,14 +50,14 @@ export function DonateSection() {
 
             <div className="overflow-hidden mb-2">
               <motion.h2 custom={0.1} variants={fadeUp}
-                className="font-display text-white text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
+                className="font-display text-white text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
               >
                 Partner With
               </motion.h2>
             </div>
             <div className="overflow-hidden mb-6 sm:mb-8">
               <motion.h2 custom={0.2} variants={fadeUp}
-                className="font-display text-gold-300/90 text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] leading-[1.1] tracking-tight"
+                className="font-display text-gold-300/90 text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
               >
                 the Ministry.
               </motion.h2>
@@ -120,14 +122,14 @@ export function DonateSection() {
               <div className="flex flex-col gap-3">
                 <Link
                   href="/donate"
-                  className="w-full h-14 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-display font-bold text-base rounded-xl transition-all duration-300 flex items-center justify-center gap-2.5 shadow-gold-cta hover:shadow-gold-cta-hover"
+                  className={cn(buttonVariants({ variant: 'primary', size: 'xl', fullWidth: true }), 'h-14 shadow-gold-cta hover:shadow-gold-cta-hover')}
                 >
                   <Heart className="h-5 w-5 fill-current" />
                   Donate Now
                 </Link>
                 <Link
                   href="/donate"
-                  className="w-full h-11 border border-white/10 hover:border-white/25 text-neutral-400 hover:text-white font-sans text-[0.7rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center"
+                  className={buttonVariants({ variant: 'ghost', size: 'xl', fullWidth: true, uppercase: true })}
                 >
                   Learn More About Giving
                 </Link>

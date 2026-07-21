@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { products } from '@/data/store';
 import { formatPrice } from '@/utils/format';
+import { buttonVariants } from '@/lib/theme/buttons';
+import { cn } from '@/utils/cn';
 
 const stagger = {
   hidden: {},
@@ -38,7 +40,7 @@ export function StorePreview() {
           </div>
           <Link
             href="/store"
-            className="hidden sm:inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-6 h-10 rounded-xl transition-all duration-300 shrink-0 group"
+            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'hidden sm:inline-flex shrink-0 group')}
           >
             Browse All
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -91,14 +93,14 @@ export function StorePreview() {
         <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/store"
-            className="inline-flex items-center justify-center gap-2.5 font-sans text-[0.65rem] sm:text-xs tracking-[0.18em] sm:tracking-[0.22em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-6 sm:px-10 h-11 sm:h-12 rounded-xl transition-all duration-300 group"
+            className={cn(buttonVariants({ variant: 'secondary', size: 'xl', uppercase: true }), 'group')}
           >
             Visit Official Store
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
           <Link
             href="/store"
-            className="sm:hidden inline-flex items-center justify-center gap-2 font-sans text-[0.65rem] tracking-[0.18em] uppercase border border-neutral-300 text-neutral-600 h-11 rounded-xl transition-all duration-300"
+            className={cn(buttonVariants({ variant: 'outline', size: 'xl', uppercase: true }), 'sm:hidden')}
           >
             Browse All Products
           </Link>

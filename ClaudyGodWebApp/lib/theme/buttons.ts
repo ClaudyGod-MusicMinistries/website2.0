@@ -52,6 +52,13 @@ export const buttonVariants = cva(
           'bg-white text-surface-base border-transparent',
           'hover:bg-neutral-100 hover:shadow-md',
         ],
+        // For secondary CTAs over a photo/video background (hero sections,
+        // PageHero), where a purple-tinted outline would disappear against
+        // a busy image — needs true white/transparent contrast instead.
+        'outline-white': [
+          'bg-transparent text-white border-white/30 backdrop-blur-sm',
+          'hover:border-white/70 hover:bg-white/10',
+        ],
         danger: [
           'bg-status-error text-white border-transparent',
           'hover:brightness-110',
