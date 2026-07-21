@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     title: 'Donate — Support ClaudyGod Music Ministries',
     images:['/ClaudySocial.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.org/donate' },
+  alternates: { canonical: `${SITE_URL}/donate` },
 };
 
 export default function DonatePage() {

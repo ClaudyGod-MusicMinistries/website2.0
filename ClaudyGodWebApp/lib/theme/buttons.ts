@@ -1,13 +1,29 @@
 import { cva } from 'class-variance-authority';
 
+/**
+ * The one button variant source for the whole app. Every clickable action
+ * — hero CTAs, form submits, card links styled as buttons — should render
+ * through <Button variant="..."> (components/ui/Button.tsx) instead of a
+ * one-off hand-typed className, which is how buttons ended up with
+ * inconsistent hover/active/focus treatment (some had press feedback,
+ * some didn't; some had a focus ring, some didn't) across the app.
+ *
+ * `primary` is gold — reserve it for the single most important action on
+ * a screen. `secondary` is solid purple, for the next-most-important
+ * action that still needs presence (not just an outline). `outline`/
+ * `ghost`/`soft` are lower-emphasis purple treatments for tertiary
+ * actions. All variants share the same transition timing and
+ * active:scale press feedback so nothing on the site ever feels
+ * unresponsive to a click.
+ */
 export const buttonVariants = cva(
   [
     'inline-flex items-center justify-center gap-1.5',
     'font-display font-semibold tracking-wide',
-    'rounded-lg border transition-all duration-200',
+    'rounded-lg border transition-all duration-150',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base',
     'disabled:pointer-events-none disabled:opacity-40',
-    'select-none cursor-pointer',
+    'select-none cursor-pointer active:scale-[0.97]',
   ],
   {
     variants: {
@@ -15,37 +31,35 @@ export const buttonVariants = cva(
         primary: [
           'bg-gradient-gold text-surface-base border-transparent',
           'hover:shadow-gold hover:brightness-110',
-          'active:scale-[0.97]',
+        ],
+        secondary: [
+          'bg-purple-600 text-white border-transparent',
+          'hover:bg-purple-500 hover:shadow-purple',
         ],
         outline: [
-          'bg-transparent text-gold-500 border-gold-500',
-          'hover:bg-gold-500 hover:text-surface-base',
-          'active:scale-[0.97]',
+          'bg-transparent text-purple-200 border-purple-400/50',
+          'hover:bg-purple-600 hover:text-white hover:border-purple-600',
         ],
         ghost: [
           'bg-transparent text-white border-transparent',
           'hover:bg-surface-elevated hover:text-gold-400',
-          'active:scale-[0.97]',
         ],
         soft: [
-          'bg-gold-500/10 text-gold-400 border-gold-500/20',
-          'hover:bg-gold-500/20 hover:border-gold-500/40',
-          'active:scale-[0.97]',
+          'bg-purple-600/15 text-purple-200 border-purple-500/20',
+          'hover:bg-purple-600/25 hover:border-purple-500/40',
         ],
         white: [
           'bg-white text-surface-base border-transparent',
           'hover:bg-neutral-100 hover:shadow-md',
-          'active:scale-[0.97]',
         ],
         danger: [
           'bg-status-error text-white border-transparent',
           'hover:brightness-110',
-          'active:scale-[0.97]',
         ],
         link: [
           'bg-transparent border-transparent text-gold-500 underline-offset-4',
           'hover:underline hover:text-gold-400',
-          'h-auto p-0',
+          'h-auto p-0 active:scale-100',
         ],
       },
       size: {

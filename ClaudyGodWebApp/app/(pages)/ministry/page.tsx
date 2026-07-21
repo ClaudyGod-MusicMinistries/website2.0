@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero }         from '@/components/shared/PageHero';
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     title: 'ClaudyGod Ministry — Teachings & Outreach',
     images:['/manBack.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.org/ministry' },
+  alternates: { canonical: `${SITE_URL}/ministry` },
 };
 
 const TeachingsGrid = dynamic(
