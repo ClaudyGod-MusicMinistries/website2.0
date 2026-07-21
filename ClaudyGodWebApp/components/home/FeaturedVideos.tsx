@@ -93,21 +93,21 @@ export function FeaturedVideos() {
 
               {/* Play button */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full border-2 border-white/25 flex items-center justify-center bg-black/25 backdrop-blur-sm group-hover:border-purple-400/80 group-hover:bg-purple-600/40 group-hover:scale-110 transition-all duration-400 shadow-[0_0_40px_rgba(0,0,0,0.4)] group-hover:shadow-[0_0_50px_rgba(109,40,217,0.5)]">
+                <div className="w-20 h-20 rounded-full border-2 border-white/25 flex items-center justify-center bg-black/25 backdrop-blur-sm group-hover:border-purple-400/80 group-hover:bg-purple-600/40 group-hover:scale-110 transition-all duration-400 shadow-glow-dark group-hover:shadow-glow-purple">
                   <Play className="h-8 w-8 text-white fill-white ml-1" />
                 </div>
               </div>
 
               {/* Bottom info */}
               <div className="absolute inset-x-0 bottom-0 p-6">
-                <span className="inline-block font-sans text-[0.5rem] tracking-[0.18em] uppercase text-gold-400/80 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full mb-3">
+                <span className="inline-block font-sans text-[0.65rem] tracking-[0.18em] uppercase text-gold-400/80 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full mb-3">
                   Featured
                 </span>
                 <p className="font-display font-bold text-white text-xl md:text-2xl leading-snug line-clamp-2 mb-2">
                   {featured.title}
                 </p>
                 {featured.duration && (
-                  <span className="flex items-center gap-1.5 font-sans text-[0.52rem] tracking-[0.12em] uppercase text-white/50">
+                  <span className="flex items-center gap-1.5 font-sans text-[0.65rem] tracking-[0.12em] uppercase text-white/50">
                     <Clock className="h-3 w-3" />{featured.duration}
                   </span>
                 )}
@@ -141,14 +141,14 @@ export function FeaturedVideos() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <span className="font-sans text-[0.45rem] tracking-[0.12em] uppercase text-gold-400/60 mb-1 block">
+                    <span className="font-sans text-[0.65rem] tracking-[0.12em] uppercase text-gold-400/60 mb-1 block">
                       {i === 0 ? 'Music Video' : i === 1 ? 'Live Session' : 'Visualizer'}
                     </span>
                     <p className="font-display font-semibold text-xs text-white/75 group-hover:text-white leading-snug line-clamp-2 mb-1.5 transition-colors duration-300">
                       {video.title}
                     </p>
                     {video.duration && (
-                      <span className="flex items-center gap-1 font-sans text-[0.45rem] tracking-[0.1em] uppercase text-white/30">
+                      <span className="flex items-center gap-1 font-sans text-[0.65rem] tracking-[0.1em] uppercase text-white/30">
                         <Clock className="h-2.5 w-2.5" />{video.duration}
                       </span>
                     )}
@@ -188,7 +188,7 @@ export function FeaturedVideos() {
 
                 {/* Play on hover */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-10 h-10 rounded-full bg-purple-600/80 backdrop-blur-sm flex items-center justify-center shadow-[0_4px_20px_rgba(109,40,217,0.5)]">
+                  <div className="w-10 h-10 rounded-full bg-purple-600/80 backdrop-blur-sm flex items-center justify-center shadow-purple">
                     <Play className="h-4 w-4 text-white fill-white ml-px" />
                   </div>
                 </div>

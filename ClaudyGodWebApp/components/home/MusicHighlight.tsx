@@ -1,9 +1,21 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { albums } from '@/data/music';
 
 const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: FaDeezer } as const;
+
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+};
+const cardVariant = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } },
+};
 
 export function MusicHighlight() {
   return (
@@ -28,11 +40,17 @@ export function MusicHighlight() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+        >
           {albums.slice(0, 3).map((album, idx) => (
-            <div key={album.title} className="group flex flex-col h-full">
+            <motion.div key={album.title} variants={cardVariant} className="group flex flex-col h-full">
               {/* Album Art Container */}
-              <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.10)] bg-neutral-100">
+              <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-2xl shadow-card-light-hover bg-neutral-100">
                 <Image
                   src={album.image}
                   alt={album.title}
@@ -71,9 +89,9 @@ export function MusicHighlight() {
                   })}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="mt-10 sm:mt-12 flex md:hidden justify-center sm:justify-start">
           <Link

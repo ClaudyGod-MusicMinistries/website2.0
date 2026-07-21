@@ -87,21 +87,14 @@ const config: Config = {
       },
 
       // ─── Typography ──────────────────────────────────────────────
-      // Two families now (next/font/google, see lib/fonts.ts): `display`
-      // (Fraunces) and `sans` (Inter) are the canonical roles for all new
-      // code. `bricolage`/`abril`/`raleway`/`worksans`/`roboto` are a
-      // temporary bridge — the ~160 existing call sites using the old
-      // 5-family names now render in Fraunces/Inter without a blind
-      // rename; each gets replaced with font-display/font-sans as its
-      // page is rebuilt (Phase 1/2), not swept mechanically.
+      // Two families (next/font/google, see lib/fonts.ts): `display`
+      // and `sans` are the only font-family classes in the codebase —
+      // every call site was migrated off the old 5-family names
+      // (bricolage/abril/raleway/worksans/roboto). Change the actual
+      // typeface only in lib/fonts.ts; these class names should stay put.
       fontFamily: {
         display: ['var(--font-display)', 'serif'],
         sans:    ['var(--font-sans)', 'sans-serif'],
-        bricolage: ['var(--font-display)', 'serif'],
-        abril:     ['var(--font-display)', 'serif'],
-        raleway:   ['var(--font-sans)', 'sans-serif'],
-        worksans:  ['var(--font-sans)', 'sans-serif'],
-        roboto:    ['var(--font-sans)', 'sans-serif'],
       },
       fontSize: {
         '2xs': ['0.625rem', { lineHeight: '0.875rem' }],
@@ -151,6 +144,21 @@ const config: Config = {
         card: '0 4px 24px 0 rgb(0 0 0 / 0.4)',
         'card-hover': '0 8px 40px 0 rgb(0 0 0 / 0.6)',
         header: '0 4px 24px 0 rgb(0 0 0 / 0.08)',
+        // Light-background card shadows — 'card'/'card-hover' above are
+        // tuned for dark surfaces and read as too heavy on white cards.
+        'card-light': '0 2px 12px 0 rgb(0 0 0 / 0.06)',
+        'card-light-hover': '0 8px 32px 0 rgb(0 0 0 / 0.10)',
+        'card-light-lg': '0 20px 60px 0 rgb(0 0 0 / 0.15)',
+        purple: '0 4px 20px 0 rgb(109 40 217 / 0.5)',
+        'purple-lg': '0 6px 28px 0 rgb(109 40 217 / 0.6)',
+        // Centered glows (play buttons, icon badges) vs the offset shadows above.
+        'glow-dark': '0 0 40px 0 rgb(0 0 0 / 0.4)',
+        'glow-purple': '0 0 50px 0 rgb(109 40 217 / 0.5)',
+        // Offset gold shadow for gold CTA buttons — distinct shape from the
+        // centered 'gold'/'gold-lg' glows above.
+        'gold-cta': '0 4px 20px 0 rgb(201 168 76 / 0.35)',
+        'gold-cta-hover': '0 6px 28px 0 rgb(201 168 76 / 0.45)',
+        popup: '0 24px 64px 0 rgb(0 0 0 / 0.6)',
       },
 
       // ─── Borders ─────────────────────────────────────────────────
