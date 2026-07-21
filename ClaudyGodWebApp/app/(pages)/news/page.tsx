@@ -1,10 +1,11 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
-import { breadcrumb, event as eventSchema } from '@/utils/jsonLd';
+import { breadcrumb } from '@/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -16,13 +17,13 @@ export const metadata: Metadata = {
   description:
     'Stay updated with ClaudyGod — upcoming gospel concerts and tour dates in Nigeria and the UK, new album releases, media interviews, and ministry announcements. Never miss a ClaudyGod event.',
   keywords: [
-    'ClaudyGod tour dates 2025', 'gospel concerts Nigeria 2025',
-    'ClaudyGod news', 'ClaudyGod new release 2025',
-    'gospel concert Port Harcourt', 'gospel concert Lagos 2025',
+    'ClaudyGod tour dates', 'gospel concerts Nigeria',
+    'ClaudyGod news', 'ClaudyGod new release',
+    'gospel concert Port Harcourt', 'gospel concert Lagos',
     'ClaudyGod Aba concert', 'ClaudyGod Imo concert',
-    'Nigerian gospel tour 2025', 'gospel music events Nigeria',
+    'Nigerian gospel tour', 'gospel music events Nigeria',
     'ClaudyGod media interview', 'ClaudyGod ministry update',
-    'gospel artist tour Nigeria', 'Christian concert Nigeria 2025',
+    'gospel artist tour Nigeria', 'Christian concert Nigeria',
   ],
   openGraph: {
     title:       'ClaudyGod News, Tour Dates & New Releases',
@@ -32,21 +33,22 @@ export const metadata: Metadata = {
   },
   twitter: {
     card:  'summary_large_image',
-    title: 'ClaudyGod News & Tour Dates 2025',
+    title: 'ClaudyGod News & Tour Dates',
     images:['/tour_3.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.org/news' },
+  alternates: { canonical: `${SITE_URL}/news` },
 };
 
 export default async function NewsPage() {
   
 
+  // Event JSON-LD previously hardcoded four 2025 concert dates here — all
+  // now in the past, which makes them invalid for Google's Event rich
+  // results (meant for upcoming events) and duplicates data/events.ts's
+  // separate event list. Removed rather than inventing new fake dates;
+  // real Event schema belongs on the canonical /tour page once it exists.
   const schemas = [
     breadcrumb([{ name: 'News & Tours', href: '/news' }]),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Port Harcourt', startDate: '2025-07-12T17:00:00+01:00', location: 'University of Port Harcourt Auditorium', city: 'Port Harcourt', country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Lagos',         startDate: '2025-08-02T18:00:00+01:00', location: 'Tafawa Balewa Square',                    city: 'Lagos',         country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Aba',           startDate: '2025-08-16T17:00:00+01:00', location: 'Enyimba Cultural Centre',                  city: 'Aba',           country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Imo',           startDate: '2025-09-06T17:00:00+01:00', location: 'Imo State University',                     city: 'Imo',           country: 'NG', image: 'https://claudygod.org/tour_3.jpg' }),
   ];
 
   return (
@@ -78,7 +80,7 @@ export default async function NewsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {newsAlbums.map((album) => (
-              <div key={album.title} className="group bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
+              <div key={album.title} className="group bg-white rounded-2xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
                 <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
                   <Image
                     src={album.image}

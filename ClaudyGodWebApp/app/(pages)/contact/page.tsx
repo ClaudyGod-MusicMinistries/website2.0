@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import { PageHero }    from '@/components/shared/PageHero';
 import { ContactForm } from '@/components/contact/ContactForm';
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     title: 'Contact ClaudyGod Music Ministries',
     images:['/manBack.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.org/contact' },
+  alternates: { canonical: `${SITE_URL}/contact` },
 };
 
 const schemas = [

@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import { PageHero }    from '@/components/shared/PageHero';
 import { BookingForm } from '@/components/bookings/BookingForm';
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
     description: 'Church services, concerts & conferences — book ClaudyGod for your next gospel event.',
     images:      ['/Tour_Ph_2.webp'],
   },
-  alternates: { canonical: 'https://claudygod.org/bookings' },
+  alternates: { canonical: `${SITE_URL}/bookings` },
 };
 
 const schemas = [
