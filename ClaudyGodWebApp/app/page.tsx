@@ -5,7 +5,7 @@ import { LatestRelease }   from '@/components/home/LatestRelease';
 import { MusicHighlight }  from '@/components/home/MusicHighlight';
 import { TourDatesStrip }  from '@/components/home/TourDatesStrip';
 import { FeaturedVideos }  from '@/components/home/FeaturedVideos';
-import { MissionBand }     from '@/components/home/MissionBand';
+import { ScriptureDivider } from '@/components/home/ScriptureDivider';
 import { StorePreview }    from '@/components/home/StorePreview';
 import { DonateSection }   from '@/components/home/DonateSection';
 import { NewsletterBanner } from '@/components/home/NewsletterBanner';
@@ -47,8 +47,8 @@ export default function Home() {
       {/* 5. One strong video moment */}
       <AnimateOnView><FeaturedVideos /></AnimateOnView>
 
-      {/* 6. Mission/values band (scripture + pillars) */}
-      <MissionBand />
+      {/* 6. Scripture breather before commerce */}
+      <ScriptureDivider />
 
       {/* 7. Commerce */}
       <AnimateOnView><StorePreview /></AnimateOnView>
