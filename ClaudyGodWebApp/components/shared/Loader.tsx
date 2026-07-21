@@ -3,36 +3,9 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AmbientGlow, Particles } from '@/components/ui';
 
-/* Floating music note particle */
-function MusicNote({ delay, x, size }: { delay: number; x: string; size: number }) {
-  return (
-    <motion.div
-      className="absolute bottom-0 select-none pointer-events-none text-gold-400/20 font-serif"
-      style={{ left: x, fontSize: size }}
-      initial={{ y: 0, opacity: 0 }}
-      animate={{ y: '-100vh', opacity: [0, 0.6, 0] }}
-      transition={{
-        duration: 4 + Math.random() * 3,
-        delay,
-        repeat: Infinity,
-        ease: 'linear',
-      }}
-    >
-      ♪
-    </motion.div>
-  );
-}
-
-const notes = [
-  { delay: 0,    x: '12%',  size: 14 },
-  { delay: 0.8,  x: '28%',  size: 10 },
-  { delay: 1.4,  x: '55%',  size: 16 },
-  { delay: 0.3,  x: '72%',  size: 12 },
-  { delay: 1.9,  x: '88%',  size: 10 },
-  { delay: 2.5,  x: '40%',  size: 8  },
-  { delay: 3.1,  x: '65%',  size: 14 },
-];
+const burstRings = [0, 1, 2];
 
 export function Loader() {
   const [visible,  setVisible]  = useState(true);
@@ -76,85 +49,64 @@ export function Loader() {
       {visible && (
         <motion.div
           key="loader"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          initial={{ clipPath: 'inset(0% 0 0% 0)' }}
+          exit={{ clipPath: 'inset(100% 0 0% 0)' }}
+          transition={{ duration: 0.9, ease: [0.83, 0, 0.17, 1] }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-surface-deep select-none overflow-hidden"
         >
-          {/* ── Background gradient ──────────────────────── */}
-          {/* A 5.5MB background video previously loaded here for a screen
-              visible under 2s at 30% opacity — pure weight on the critical
-              first-paint path for almost no visual payoff. A CSS gradient
-              reads the same and costs nothing. */}
+          {/* ── Background gradient mesh — same language as the Hero ──── */}
           <div
             className="absolute inset-0 pointer-events-none"
+            style={{ background: 'linear-gradient(135deg, #07060f 0%, #1a0f2e 50%, #07060f 100%)' }}
+          />
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <AmbientGlow color="purple" size={700} opacity={0.20} duration={12} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <AmbientGlow color="gold" size={320} opacity={0.14} duration={9} delay={0.5} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-[62%]" />
+          </div>
+
+          {/* Subtle grid texture */}
+          <div
+            className="absolute inset-0 opacity-[0.025] pointer-events-none"
             style={{
-              background: 'linear-gradient(135deg, #07060f 0%, #1a0f2e 50%, #07060f 100%)',
+              backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
             }}
           />
 
-          {/* ── Background ambience ─────────────────────── */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {/* Deep purple core glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(700px,130vw)] h-[min(700px,130vw)] rounded-full bg-purple-900/25 blur-[140px]" />
-            {/* Gold soft glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[62%] w-[min(280px,70vw)] h-[min(280px,70vw)] rounded-full bg-gold-500/12 blur-[90px]" />
-            {/* Subtle grid texture */}
-            <div
-              className="absolute inset-0 opacity-[0.025]"
-              style={{
-                backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
-                backgroundSize: '48px 48px',
-              }}
-            />
-            {/* Animated ring 1 */}
-            <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(420px,88vw)] h-[min(420px,88vw)] rounded-full border border-purple-700/15"
-              animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.2, 0.5] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            {/* Animated ring 2 */}
-            <motion.div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,120vw)] h-[min(600px,120vw)] rounded-full border border-gold-500/8"
-              animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.1, 0.3] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-            />
-          </div>
-
-          {/* ── Floating music notes ─────────────────────── */}
-          {notes.map((n, i) => (
-            <MusicNote key={i} {...n} />
-          ))}
+          {/* ── Rising particles — worship "rising up", not random drift ── */}
+          <Particles color="gold" glyph="✦" count={9} direction="rise" />
 
           {/* ── Centre content ───────────────────────────── */}
           <div className="relative z-10 flex flex-col items-center gap-5 sm:gap-8">
 
-            {/* Logo with pulsing ring */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.6, y: 20 }}
-              animate={{ opacity: 1, scale: 1,   y: 0  }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="relative"
-            >
-              {/* Outer animated ring */}
+            {/* Glory burst — concentric rings radiating outward, logo
+                emerging through the light at the burst's peak, rather
+                than a static logo sitting inside a spinning ring. */}
+            <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
+              {burstRings.map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute inset-0 rounded-full border border-gold-400/60"
+                  initial={{ scale: 0.3, opacity: 0 }}
+                  animate={{ scale: [0.3, 1.9], opacity: [0, 0.7, 0] }}
+                  transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.55, ease: 'easeOut' }}
+                />
+              ))}
+
+              {/* Pulsing core glow */}
               <motion.div
-                className="absolute -inset-4 rounded-full border border-gold-500/25"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+                className="absolute inset-0 rounded-full bg-gold-500/25 blur-xl"
+                animate={{ opacity: [0.3, 0.9, 0.3], scale: [0.9, 1.15, 0.9] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
               />
+
+              {/* Logo emerging through the burst */}
               <motion.div
-                className="absolute -inset-2 rounded-full border border-dashed border-purple-500/20"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-              />
-              {/* Pulse glow */}
-              <motion.div
-                className="absolute inset-0 rounded-full bg-gold-500/15 blur-md"
-                animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.3, 1] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              {/* Logo image */}
-              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-gold-500/30 bg-white/6 shadow-[0_0_40px_rgba(181, 101, 29,0.2)]">
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-2 ring-gold-500/40 bg-white/[0.06] shadow-gold-lg"
+              >
                 <Image
                   src="/ClaudyGoLogo.webp"
                   alt="ClaudyGod"
@@ -163,21 +115,21 @@ export function Loader() {
                   sizes="96px"
                   priority
                 />
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             {/* Brand name — staggered reveal */}
             <motion.div
               className="text-center"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ delay: 0.7, duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <motion.p
                 className="font-display font-bold text-white text-2xl tracking-widest"
                 initial={{ letterSpacing: '0.3em', opacity: 0 }}
                 animate={{ letterSpacing: '0.12em', opacity: 1 }}
-                transition={{ delay: 0.45, duration: 0.9, ease: 'easeOut' }}
+                transition={{ delay: 0.8, duration: 0.9, ease: 'easeOut' }}
               >
                 ClaudyGod
               </motion.p>
@@ -185,7 +137,7 @@ export function Loader() {
                 className="font-sans text-[0.62rem] tracking-[0.32em] uppercase text-neutral-500 mt-1.5"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
+                transition={{ delay: 1.0, duration: 0.6 }}
               >
                 Music Ministries
               </motion.p>
@@ -195,7 +147,7 @@ export function Loader() {
             <motion.div
               initial={{ opacity: 0, scaleX: 0.4 }}
               animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
+              transition={{ delay: 0.85, duration: 0.6 }}
               className="w-48 sm:w-56"
             >
               <div className="relative h-[3px] bg-white/[0.07] rounded-full overflow-hidden">
@@ -221,7 +173,7 @@ export function Loader() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.65, duration: 0.5 }}
+              transition={{ delay: 0.95, duration: 0.5 }}
               className="flex items-end gap-1 h-5"
             >
               {[0, 1, 2, 3, 4].map((i) => (
@@ -244,14 +196,22 @@ export function Loader() {
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.9 }}
-            className="absolute bottom-6 sm:bottom-10 font-sans italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center [@media(max-height:500px)]:hidden"
+            transition={{ delay: 0.8, duration: 0.9 }}
+            className="absolute z-10 bottom-6 sm:bottom-10 font-sans italic text-neutral-600/80 text-[0.68rem] sm:text-[0.78rem] tracking-wide px-6 text-center [@media(max-height:500px)]:hidden"
           >
             &ldquo;Sing praises to God, sing praises; sing praises to our King, sing praises.&rdquo;
             <span className="block font-sans not-italic text-[0.54rem] tracking-[0.16em] uppercase text-neutral-700/60 mt-1.5">
               Psalm 47:6
             </span>
           </motion.p>
+
+          {/* ── Wipe-reveal gold seam — tracks the clip-path exit above ── */}
+          <motion.div
+            initial={{ top: '0%' }}
+            exit={{ top: '100%' }}
+            transition={{ duration: 0.9, ease: [0.83, 0, 0.17, 1] }}
+            className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-400 to-transparent shadow-gold pointer-events-none z-20"
+          />
         </motion.div>
       )}
     </AnimatePresence>
