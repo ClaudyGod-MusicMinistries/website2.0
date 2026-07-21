@@ -93,14 +93,14 @@ export function StorePreview() {
         <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/store"
-            className={cn(buttonVariants({ variant: 'secondary', size: 'xl', uppercase: true }), 'group')}
+            className={cn(buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }), 'group')}
           >
             Visit Official Store
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
           <Link
             href="/store"
-            className={cn(buttonVariants({ variant: 'outline', size: 'xl', uppercase: true }), 'sm:hidden')}
+            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'sm:hidden')}
           >
             Browse All Products
           </Link>

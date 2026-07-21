@@ -19,7 +19,9 @@ import { cva } from 'class-variance-authority';
 export const buttonVariants = cva(
   [
     'inline-flex items-center justify-center gap-1.5',
-    'font-display font-semibold tracking-wide',
+    // font-sans, not font-display — buttons are UI chrome, not editorial
+    // headlines; the display face at button sizes read heavy/oversized.
+    'font-sans font-semibold tracking-wide',
     'rounded-lg border transition-all duration-150',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base',
     'disabled:pointer-events-none disabled:opacity-40',
@@ -69,16 +71,22 @@ export const buttonVariants = cva(
           'h-auto p-0 active:scale-100',
         ],
       },
+      // Text stays at text-sm max even at the largest size — only height
+      // and padding grow. A button reading text-base/uppercase/tracked
+      // was consistently the "buttons feel too big" complaint.
       size: {
-        xs:   'h-7  px-3   text-xs  gap-1',
+        xs:   'h-7  px-3   text-[0.7rem] gap-1',
         sm:   'h-8  px-3.5 text-xs',
-        md:   'h-9  px-4   text-sm',
+        md:   'h-9  px-4   text-xs',
         lg:   'h-10 px-5   text-sm',
-        xl:   'h-11 px-6   text-base',
+        xl:   'h-11 px-6   text-sm',
         icon: 'h-9  w-9    p-0',
       },
       fullWidth: { true: 'w-full' },
-      uppercase: { true: 'uppercase tracking-widest' },
+      // tracking-wider, not tracking-widest — the widest tracking read as
+      // shouty at button sizes; save tracking-widest for actual eyebrow
+      // labels, which have room to breathe.
+      uppercase: { true: 'uppercase tracking-wider' },
     },
     defaultVariants: { variant: 'primary', size: 'md' },
   }

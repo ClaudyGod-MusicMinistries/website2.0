@@ -122,14 +122,14 @@ export function DonateSection() {
               <div className="flex flex-col gap-3">
                 <Link
                   href="/donate"
-                  className={cn(buttonVariants({ variant: 'primary', size: 'xl', fullWidth: true }), 'h-14 shadow-gold-cta hover:shadow-gold-cta-hover')}
+                  className={cn(buttonVariants({ variant: 'primary', size: 'lg', fullWidth: true }), 'h-14 shadow-gold-cta hover:shadow-gold-cta-hover')}
                 >
                   <Heart className="h-5 w-5 fill-current" />
                   Donate Now
                 </Link>
                 <Link
                   href="/donate"
-                  className={buttonVariants({ variant: 'ghost', size: 'xl', fullWidth: true, uppercase: true })}
+                  className={buttonVariants({ variant: 'ghost', size: 'lg', fullWidth: true, uppercase: true })}
                 >
                   Learn More About Giving
                 </Link>

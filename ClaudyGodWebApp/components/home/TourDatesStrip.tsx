@@ -109,7 +109,7 @@ export function TourDatesStrip() {
         <div className="mt-8 flex sm:hidden justify-center">
           <Link
             href="/events"
-            className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 text-white px-8 h-11 rounded-xl transition-all duration-300"
+            className={buttonVariants({ variant: 'ghost', size: 'lg', uppercase: true })}
           >
             Full Schedule
             <ArrowRight className="h-3.5 w-3.5" />

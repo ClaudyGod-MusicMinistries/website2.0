@@ -71,13 +71,13 @@ export function Hero() {
         />
       </div>
 
-      {/* Content — on tablet (md) the copy is pushed up off the bottom edge
-          and sits inside a blurred glass box instead of directly on the
-          image; desktop (lg+) reverts to the original bottom-anchored,
-          borderless layout. */}
-      <div className="absolute inset-0 flex flex-col justify-end pb-24 sm:pb-28 md:justify-center md:pb-0 lg:justify-end lg:pb-32">
+      {/* Content — below lg (mobile + tablet) the copy is pushed up off the
+          bottom edge and sits inside a blurred glass box instead of
+          directly on the image; desktop (lg+) reverts to the original
+          bottom-anchored, borderless layout. */}
+      <div className="absolute inset-0 flex flex-col justify-center pb-0 lg:justify-end lg:pb-32">
         <div className="container-site w-full">
-          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 md:bg-white/[0.07] md:backdrop-blur-xl md:border md:border-white/15 md:rounded-3xl md:p-8 md:shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
+          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-white/[0.07] backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
             <motion.div
               custom={0} variants={fadeUp} initial="hidden" animate="visible"
               className="flex items-center gap-3 mb-6 justify-center sm:justify-start"
@@ -110,14 +110,14 @@ export function Hero() {
             >
               <Link
                 href="/music"
-                className={cn(buttonVariants({ variant: 'primary', size: 'xl', uppercase: true }), 'shadow-gold-cta hover:shadow-gold-cta-hover')}
+                className={cn(buttonVariants({ variant: 'primary', size: 'lg', uppercase: true }), 'shadow-gold-cta hover:shadow-gold-cta-hover')}
               >
                 <Play className="h-3.5 w-3.5 fill-current" />
                 Listen Now
               </Link>
               <Link
                 href="/videos"
-                className={buttonVariants({ variant: 'outline-white', size: 'xl', uppercase: true })}
+                className={buttonVariants({ variant: 'outline-white', size: 'lg', uppercase: true })}
               >
                 Watch
               </Link>
