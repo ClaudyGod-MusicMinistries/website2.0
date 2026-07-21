@@ -93,7 +93,7 @@ export function LatestRelease() {
             <motion.button
               onClick={() => setVideoOpen(true)}
               whileTap={{ scale: 0.97 }}
-              className={cn(buttonVariants({ variant: 'secondary', size: 'xl' }), 'w-fit text-base sm:text-lg px-8 sm:px-10 mb-10')}
+              className={cn(buttonVariants({ variant: 'secondary', size: 'lg' }), 'w-fit px-8 mb-10')}
             >
               <Play className="h-5 w-5 fill-white" />
               Play Video
@@ -128,14 +128,14 @@ export function LatestRelease() {
             <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-neutral-200">
               <Link
                 href="/music"
-                className={cn(buttonVariants({ variant: 'secondary', size: 'xl', uppercase: true }), 'group flex-1')}
+                className={cn(buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }), 'group flex-1')}
               >
                 View All Music
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/videos"
-                className={cn(buttonVariants({ variant: 'outline', size: 'xl', uppercase: true }), 'flex-1')}
+                className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'flex-1')}
               >
                 More Videos
               </Link>
