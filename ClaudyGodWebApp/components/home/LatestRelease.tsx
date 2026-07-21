@@ -34,7 +34,7 @@ export function LatestRelease() {
           {/* Video - Main Focus */}
           <button
             onClick={() => setVideoOpen(true)}
-            className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] group cursor-pointer order-2 lg:order-1"
+            className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-card-light-lg group cursor-pointer order-2 lg:order-1"
           >
             <Image
               src={latestVideo.thumbnailUrl}
@@ -55,7 +55,7 @@ export function LatestRelease() {
               <motion.div
                 whileHover={{ scale: 1.15 }}
                 transition={{ duration: 0.3 }}
-                className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-600 to-purple-500 flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.5)] backdrop-blur-sm"
+                className="w-20 h-20 rounded-full bg-gradient-to-r from-purple-600 to-purple-500 flex items-center justify-center shadow-glow-purple backdrop-blur-sm"
               >
                 <Play className="h-8 w-8 text-white fill-white ml-1" />
               </motion.div>
