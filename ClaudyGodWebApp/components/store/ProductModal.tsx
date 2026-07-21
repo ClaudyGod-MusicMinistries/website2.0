@@ -1,10 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { X, ShoppingBag, Star } from 'lucide-react';
 import { useCartStore } from './cartStore';
 import { formatPrice } from '@/utils/format';
+import { cn } from '@/utils/cn';
 import type { Product } from '@/types/store';
 
 interface Props {
@@ -15,6 +17,13 @@ interface Props {
 export function ProductModal({ product, onClose }: Props) {
   const addToCart = useCartStore((s) => s.addToCart);
   const openCart  = useCartStore((s) => s.openCart);
+  const [activeImage, setActiveImage] = useState(0);
+
+  const gallery = product?.images && product.images.length > 1 ? product.images : null;
+
+  useEffect(() => {
+    setActiveImage(0);
+  }, [product?.id]);
 
   const handleAdd = () => {
     if (!product) return;
@@ -47,7 +56,7 @@ export function ProductModal({ product, onClose }: Props) {
             transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             className="fixed inset-0 z-[701] flex items-center justify-center p-4 md:p-8 pointer-events-none"
           >
-            <div className="relative bg-[#0e0e0e] border border-white/[0.08] w-full max-w-3xl pointer-events-auto">
+            <div className="relative bg-surface-deep border border-white/[0.08] w-full max-w-3xl pointer-events-auto">
               {/* Close */}
               <button
                 onClick={onClose}
@@ -59,15 +68,47 @@ export function ProductModal({ product, onClose }: Props) {
 
               <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Image */}
-                <div className="relative aspect-square bg-[#111]">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width:768px) 100vw, 50vw"
-                  />
-                  <div className="absolute inset-0 ring-1 ring-white/[0.05] pointer-events-none" />
+                <div className="flex flex-col">
+                  <div className="relative aspect-square bg-surface-elevated overflow-hidden">
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={gallery ? gallery[activeImage] : product.image}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="absolute inset-0"
+                      >
+                        <Image
+                          src={gallery ? gallery[activeImage] : product.image}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width:768px) 100vw, 50vw"
+                        />
+                      </motion.div>
+                    </AnimatePresence>
+                    <div className="absolute inset-0 ring-1 ring-white/[0.05] pointer-events-none" />
+                  </div>
+
+                  {/* Thumbnail strip — front/back/angles */}
+                  {gallery && (
+                    <div className="flex items-center gap-2 p-4 bg-surface-elevated">
+                      {gallery.map((src, i) => (
+                        <button
+                          key={src}
+                          onClick={() => setActiveImage(i)}
+                          aria-label={`View ${i === 0 ? 'front' : i === 1 ? 'back' : `view ${i + 1}`}`}
+                          className={cn(
+                            'relative w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors duration-200 shrink-0',
+                            activeImage === i ? 'border-gold-500' : 'border-white/[0.08] hover:border-white/25'
+                          )}
+                        >
+                          <Image src={src} alt="" fill className="object-cover" sizes="56px" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Details */}

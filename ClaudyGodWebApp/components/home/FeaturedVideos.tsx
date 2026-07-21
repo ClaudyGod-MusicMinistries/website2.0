@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, ChevronRight, Clock } from 'lucide-react';
 import { featuredVideos } from '@/data/featured';
+import { AmbientGlow } from '@/components/ui';
 
 function getYouTubeId(url: string) {
   const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
@@ -34,9 +35,9 @@ export function FeaturedVideos() {
     <>
       <section className="relative bg-surface-deep overflow-hidden">
         {/* Ambient glows */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(97, 73, 145,0.12)_0%,transparent_65%)]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(181, 101, 29,0.06)_0%,transparent_65%)]" />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <AmbientGlow color="purple" size={600} opacity={0.12} animate={false} className="-top-[300px] -right-[300px]" />
+          <AmbientGlow color="gold" size={400} opacity={0.06} animate={false} className="-bottom-[200px] -left-[200px]" />
         </div>
 
         {/* Top gold accent */}

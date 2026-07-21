@@ -31,6 +31,9 @@ function AccordionRow({ product, isOpen, onToggle }: AccordionRowProps) {
   const addToCart = useCartStore((s) => s.addToCart);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
+
+  const gallery = product.images && product.images.length > 1 ? product.images : null;
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) addToCart(product);
@@ -50,13 +53,24 @@ function AccordionRow({ product, isOpen, onToggle }: AccordionRowProps) {
         className="w-full flex items-center gap-4 sm:gap-5 py-4 sm:py-5 text-left group"
       >
         <div className="relative shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-white ring-1 ring-black/[0.06]">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.08]"
-            sizes="80px"
-          />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={gallery ? gallery[activeImage] : product.image}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={gallery ? gallery[activeImage] : product.image}
+                alt={product.name}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.08]"
+                sizes="80px"
+              />
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         <div className="min-w-0 flex-1">
@@ -94,9 +108,29 @@ function AccordionRow({ product, isOpen, onToggle }: AccordionRowProps) {
             className="overflow-hidden"
           >
             <div className="pb-5 sm:pb-6 sm:pl-[6.25rem] flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-6">
-              <p className="font-sans text-neutral-600 text-sm leading-relaxed flex-1">
-                {product.description}
-              </p>
+              <div className="flex-1">
+                <p className="font-sans text-neutral-600 text-sm leading-relaxed">
+                  {product.description}
+                </p>
+
+                {gallery && (
+                  <div className="flex items-center gap-2 mt-3">
+                    {gallery.map((src, i) => (
+                      <button
+                        key={src}
+                        onClick={() => setActiveImage(i)}
+                        aria-label={`View ${i === 0 ? 'front' : i === 1 ? 'back' : `view ${i + 1}`}`}
+                        className={cn(
+                          'relative w-10 h-10 rounded-lg overflow-hidden border-2 transition-colors duration-200 shrink-0',
+                          activeImage === i ? 'border-purple-600' : 'border-black/[0.08] hover:border-purple-300'
+                        )}
+                      >
+                        <Image src={src} alt="" fill className="object-cover" sizes="40px" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <div className="flex items-center gap-3 shrink-0">
                 <div className="flex items-center border border-neutral-200 rounded-full overflow-hidden bg-white">

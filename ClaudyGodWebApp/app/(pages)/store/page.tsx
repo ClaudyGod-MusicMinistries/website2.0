@@ -5,6 +5,7 @@ import { PageHero }    from '@/components/shared/PageHero';
 import { GridSkeleton }from '@/components/shared/GridSkeleton';
 import { AnimateOnView }from '@/components/shared/AnimateOnView';
 import { breadcrumb, itemList } from '@/utils/jsonLd';
+import { products } from '@/data/store';
 
 export const metadata: Metadata = {
   title: 'Official ClaudyGod Store — Gospel Merchandise & Apparel',
@@ -45,12 +46,10 @@ const CartDrawer = dynamic(
 
 const schemas = [
   breadcrumb([{ name: 'Store', href: '/store' }]),
-  itemList('ClaudyGod Official Merchandise', [
-    { name: 'ClaudyGod Premium T-Shirt', url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product1.webp` },
-    { name: 'ClaudyGod Exclusive Hoodie', url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product2.webp` },
-    { name: 'ClaudyGod Cap Collection',   url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product3.webp` },
-    { name: 'ClaudyGod Worship Tote Bag', url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}/Product4.webp` },
-  ]),
+  itemList(
+    'ClaudyGod Official Merchandise',
+    products.map((p) => ({ name: p.name, url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}${p.image}` }))
+  ),
 ];
 
 export default function StorePage() {

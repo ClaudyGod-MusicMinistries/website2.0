@@ -10,6 +10,10 @@ export { Display, Heading, Text, Label, Caption, Accent } from './Typography';
 // Layout
 export { Container, Section, Grid, Flex, Stack } from './Layout';
 
+// Decorative primitives
+export { AmbientGlow } from './AmbientGlow';
+export { Particles }   from './Particles';
+
 // Card
 export { Card, CardHeader, CardBody, CardFooter } from './Card';
 
