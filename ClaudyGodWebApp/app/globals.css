@@ -7,25 +7,20 @@
    preload, and font-display: swap. */
 
 /* ─── CSS custom properties ───────────────────────────────────────────────── */
+/* Colour values below mirror lib/theme/colors.ts (the single source of
+   truth tailwind.config.ts imports from) — duplicated here only because
+   plain CSS (pseudo-elements, gradient stops, scrollbar) can't consume
+   Tailwind utility classes or import a .ts file. Keep these in sync with
+   that file by hand; do not reintroduce a third, divergent palette. */
 :root {
-  /* Colours */
-  --color-gold:           #C9A84C;
-  --color-gold-light:     #E8C96A;
-  --color-gold-dark:      #8B6914;
-  --color-purple:         #7C3AED;
-  --color-purple-light:   #A78BFA;
-  --color-purple-dark:    #5B21B6;
-  --color-cream:          #F5F0E8;
-  --color-accent-primary: #7C3AED;
-  --color-accent-secondary: #C9A84C;
-  --color-bg:           #080808;
-  --color-surface:      #0E0E0E;
-  --color-elevated:     #161616;
-  --color-overlay:      #1E1E1E;
-  --color-border:       #2A2A2A;
-  --color-text:         #F5F5F5;
-  --color-text-muted:   #A8A8A8;
-  --color-text-dim:     #6B6B6B;
+  --color-gold:       #B5651D; /* gold-500 */
+  --color-gold-light: #CE9962; /* gold-300 */
+  --color-gold-dark:  #834915; /* gold-700 */
+  --color-purple:     #7B62AC; /* purple-500 */
+  --color-surface:    #0C0A16; /* surface.muted */
+  --color-elevated:   #14111F; /* surface.elevated */
+  --color-overlay:    #1D1929; /* surface.overlay */
+  --color-border:     #2C2638; /* surface.border */
 
   /* Sizes */
   --navbar-height: 4rem;
@@ -79,7 +74,7 @@
 
   /* Selection */
   ::selection {
-    background-color: rgba(201, 168, 76, 0.3);
+    background-color: rgba(181, 101, 29, 0.3); /* gold-500 tint */
     color: var(--color-gold-light);
   }
 
@@ -136,23 +131,12 @@
     @apply bg-gradient-gold bg-clip-text text-transparent;
   }
 
-  /* Gold border accent */
-  .border-gold-accent {
-    border-image: linear-gradient(90deg, transparent, #C9A84C, transparent) 1;
-  }
-
-  /* Glass effect */
+  /* Glass effect — used by Card.tsx's `glass` variant */
   .glass {
-    background: rgba(22, 22, 22, 0.7);
+    background: rgba(20, 17, 31, 0.7); /* surface.elevated tint */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(201, 168, 76, 0.1);
-  }
-  .glass-dark {
-    background: rgba(8, 8, 8, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(181, 101, 29, 0.12); /* gold-500 tint */
   }
 
   /* Shimmer skeleton */
@@ -168,35 +152,6 @@
     animation: shimmer 1.8s linear infinite;
   }
 
-  /* Overlay gradient for images — editorial bottom-weighted */
-  .image-overlay {
-    @apply absolute inset-0;
-    background: linear-gradient(
-      to bottom,
-      rgba(8, 8, 8, 0.15) 0%,
-      transparent 25%,
-      transparent 40%,
-      rgba(8, 8, 8, 0.6) 70%,
-      rgba(8, 8, 8, 0.92) 100%
-    );
-  }
-
-  /* Lighter overlay for mid sections */
-  .image-overlay-light {
-    @apply absolute inset-0;
-    background: linear-gradient(
-      to bottom,
-      rgba(8, 8, 8, 0.3) 0%,
-      rgba(8, 8, 8, 0.5) 100%
-    );
-  }
-
-  /* Navbar blur */
-  .navbar-blur {
-    background: rgba(8, 8, 8, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
 }
 
 /* ─── Utility layer ───────────────────────────────────────────────────────── */
@@ -211,7 +166,6 @@
 
   /* Smooth hover scale */
   .hover-scale { @apply transition-transform duration-300 hover:scale-105; }
-  .hover-scale-sm { @apply transition-transform duration-300 hover:scale-102; }
 
   /* Text balance */
   .text-balance { text-wrap: balance; }
@@ -219,14 +173,4 @@
 
   /* GPU acceleration */
   .gpu { transform: translateZ(0); will-change: transform; }
-
-  /* Gold underline decoration */
-  .underline-gold {
-    @apply relative;
-  }
-  .underline-gold::after {
-    content: '';
-    @apply absolute -bottom-1 left-0 h-0.5 w-full bg-gold-500 scale-x-0 transition-transform duration-300 origin-left;
-  }
-  .underline-gold:hover::after { @apply scale-x-100; }
 }
