@@ -48,8 +48,8 @@ export function NewsletterBanner() {
     <>
     <section className="relative overflow-hidden bg-surface-raised">
       {/* Purple radial glow */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(124,58,237,0.18)_0%,transparent_65%)] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(201,168,76,0.08)_0%,transparent_65%)] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(97, 73, 145,0.18)_0%,transparent_65%)] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(181, 101, 29,0.08)_0%,transparent_65%)] pointer-events-none" />
 
       {/* Top accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />

@@ -59,7 +59,7 @@ export function VideoGrid() {
                 className={cn(
                   'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-sans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
                   active === cat
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
+                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.35)]'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                 )}
               >

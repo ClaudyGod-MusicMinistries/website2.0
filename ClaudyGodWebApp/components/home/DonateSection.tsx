@@ -25,8 +25,8 @@ export function DonateSection() {
     <section className="relative overflow-hidden bg-surface-deep">
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(201,168,76,0.10)_0%,transparent_70%)]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(109,40,217,0.15)_0%,transparent_65%)]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(181, 101, 29,0.10)_0%,transparent_70%)]" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(97, 73, 145,0.15)_0%,transparent_65%)]" />
       </div>
 
       {/* Gold top line */}
@@ -100,7 +100,7 @@ export function DonateSection() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-2xl overflow-hidden p-5 sm:p-8 md:p-10 backdrop-blur-sm">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse_at_top_right,rgba(201,168,76,0.07)_0%,transparent_70%)] pointer-events-none" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse_at_top_right,rgba(181, 101, 29,0.07)_0%,transparent_70%)] pointer-events-none" />
 
               <div className="flex items-center gap-4 mb-8">
                 <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">

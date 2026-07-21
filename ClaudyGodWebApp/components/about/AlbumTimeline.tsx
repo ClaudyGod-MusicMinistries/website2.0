@@ -29,8 +29,8 @@ function AlbumArtVisual({ album, isEven }: { album: (typeof albums)[0]; isEven: 
       className="relative flex items-center justify-center py-16 lg:py-10"
     >
       {/* Ambient radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.09)_0%,transparent_70%)] pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-[radial-gradient(circle,rgba(201,168,76,0.07)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(97, 73, 145,0.09)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-[radial-gradient(circle,rgba(181, 101, 29,0.07)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="relative">
         {/* Outer spinning dashed orbit */}
@@ -208,7 +208,7 @@ export function AlbumTimeline() {
                   }`}
                 >
                   {/* Timeline dot */}
-                  <div className="absolute left-0 lg:left-1/2 top-10 w-2.5 h-2.5 rounded-full bg-gold-500/50 border border-gold-500/70 -translate-x-1/2 hidden md:block z-10 shadow-[0_0_8px_rgba(201,168,76,0.3)]" />
+                  <div className="absolute left-0 lg:left-1/2 top-10 w-2.5 h-2.5 rounded-full bg-gold-500/50 border border-gold-500/70 -translate-x-1/2 hidden md:block z-10 shadow-[0_0_8px_rgba(181, 101, 29,0.3)]" />
 
                   {isEven ? contentBlock : visualBlock}
                   {isEven ? visualBlock : contentBlock}

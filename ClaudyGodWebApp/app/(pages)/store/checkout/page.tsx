@@ -102,7 +102,7 @@ function StepBar({ current }: { current: number }) {
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
                   done    ? 'bg-purple-600 border-purple-600 text-white'
-                  : active ? 'bg-white border-purple-600 text-purple-600 shadow-[0_0_0_4px_rgba(124,58,237,0.1)]'
+                  : active ? 'bg-white border-purple-600 text-purple-600 shadow-[0_0_0_4px_rgba(97, 73, 145,0.1)]'
                            : 'bg-white border-neutral-200 text-neutral-300'
                 }`}
               >
@@ -591,7 +591,7 @@ function StepReview({
           type="button"
           onClick={onPlace}
           disabled={placing}
-          className="flex-1 h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-60 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_20px_rgba(124,58,237,0.35)]"
+          className="flex-1 h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-60 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_20px_rgba(97, 73, 145,0.35)]"
         >
           {placing ? 'Placing Order…' : (
             <><CheckCircle2 className="h-3.5 w-3.5" /> Place Order</>

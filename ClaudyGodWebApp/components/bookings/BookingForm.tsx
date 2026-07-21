@@ -411,7 +411,7 @@ export function BookingForm() {
             type="button"
             onClick={next}
             disabled={isStepLoading}
-            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
+            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(97, 73, 145,0.35)] hover:shadow-[0_6px_20px_rgba(97, 73, 145,0.45)]"
           >
             {isStepLoading ? 'Validating…' : 'Continue'}
             <ChevronRight className="h-4 w-4" />
@@ -420,7 +420,7 @@ export function BookingForm() {
           <button
             type="submit"
             disabled={isSubmitting || isValidating}
-            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.45)]"
+            className="inline-flex items-center gap-2 h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed active:bg-purple-700 text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(97, 73, 145,0.35)] hover:shadow-[0_6px_20px_rgba(97, 73, 145,0.45)]"
           >
             {isSubmitting ? 'Submitting…' : 'Submit Request'}
           </button>

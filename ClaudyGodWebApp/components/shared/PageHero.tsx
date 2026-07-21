@@ -46,8 +46,8 @@ export function PageHero({
         </>
       ) : (
         <div className="absolute inset-0 bg-surface-deep">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_100%,rgba(124,58,237,0.20)_0%,transparent_70%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(201,168,76,0.06)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_100%,rgba(97, 73, 145,0.20)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(181, 101, 29,0.06)_0%,transparent_70%)]" />
         </div>
       )}
 

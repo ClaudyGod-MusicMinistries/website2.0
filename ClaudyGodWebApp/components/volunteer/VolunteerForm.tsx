@@ -258,7 +258,7 @@ export function VolunteerForm() {
         <button
           type="submit"
           disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(124,58,237,0.35)]"
+          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]"
         >
           {isSubmitting ? 'Submitting Application…' : 'Submit Application'}
         </button>

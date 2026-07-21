@@ -16,8 +16,8 @@ import {
 import { Heart, Trash2, ShoppingBag } from 'lucide-react';
 
 const COLOR_SCALES: Record<string, Record<string, string>> = {
-  gold:   { 50: '#FFFBEB', 100: '#FEF3C7', 200: '#FDE68A', 300: '#FCD34D', 400: '#FBBF24', 500: '#C9A84C', 600: '#A88A2E', 700: '#8B6914', 800: '#6B4D00', 900: '#4A3400' },
-  purple: { 50: '#F5F3FF', 100: '#EDE9FE', 200: '#DDD6FE', 300: '#C4B5FD', 400: '#A78BFA', 500: '#7C3AED', 600: '#6D28D9', 700: '#5B21B6', 800: '#4C1D95', 900: '#2E1065' },
+  gold:   { 50: '#FFFBEB', 100: '#FEF3C7', 200: '#FDE68A', 300: '#FCD34D', 400: '#FBBF24', 500: '#B5651D', 600: '#A88A2E', 700: '#834915', 800: '#6B4D00', 900: '#4A3400' },
+  purple: { 50: '#F5F3FF', 100: '#EDE9FE', 200: '#DDD6FE', 300: '#C4B5FD', 400: '#A78BFA', 500: '#614991', 600: '#4C3873', 700: '#382957', 800: '#4C1D95', 900: '#2E1065' },
   cream:  { 50: '#FDFCFB', 100: '#F8F5F0', 200: '#F5F0E8', 300: '#EDE4D5', 400: '#DDD0BC' },
   surface:{ base: '#080808', muted: '#0E0E0E', elevated: '#161616', overlay: '#1E1E1E', deep: '#07060f', raised: '#0d0b1a' },
   status: { success: '#10B981', warning: '#F59E0B', error: '#EF4444', info: '#3B82F6' },
