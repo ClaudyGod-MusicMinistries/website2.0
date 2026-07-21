@@ -98,7 +98,7 @@ export function MusicHighlight() {
         <div className="mt-10 sm:mt-12 flex md:hidden justify-center sm:justify-start">
           <Link
             href="/music"
-            className={cn(buttonVariants({ variant: 'secondary', size: 'xl', uppercase: true }), 'group')}
+            className={cn(buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }), 'group')}
           >
             View All Albums
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

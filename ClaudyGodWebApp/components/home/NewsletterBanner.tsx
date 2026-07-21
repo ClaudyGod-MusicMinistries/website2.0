@@ -170,7 +170,7 @@ export function NewsletterBanner() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={cn(buttonVariants({ variant: 'secondary', size: 'xl', fullWidth: true, uppercase: true }), 'h-12 group whitespace-nowrap')}
+                      className={cn(buttonVariants({ variant: 'secondary', size: 'lg', fullWidth: true, uppercase: true }), 'h-12 group whitespace-nowrap')}
                     >
                       {isSubmitting ? (
                         'Subscribing…'
