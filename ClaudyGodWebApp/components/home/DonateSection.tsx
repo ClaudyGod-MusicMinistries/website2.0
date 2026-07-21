@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Heart, Music2, Globe2, Mic2 } from 'lucide-react';
 import { buttonVariants } from '@/lib/theme/buttons';
+import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/utils/cn';
 
 const impacts = [
@@ -26,9 +27,9 @@ export function DonateSection() {
   return (
     <section className="relative overflow-hidden bg-surface-deep">
       {/* Ambient glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(181, 101, 29,0.10)_0%,transparent_70%)]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(97, 73, 145,0.15)_0%,transparent_65%)]" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <AmbientGlow color="gold" width={800} height={400} opacity={0.10} animate={false} className="left-1/2 -translate-x-1/2 -top-[200px]" />
+        <AmbientGlow color="purple" size={600} opacity={0.15} animate={false} className="-bottom-[300px] -right-[300px]" />
       </div>
 
       {/* Gold top line */}

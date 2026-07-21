@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Mail, Music, Bell, Users, X } from 'lucide-react';
 import { post, BackendError } from '@/lib/data/client';
 import { buttonVariants } from '@/lib/theme/buttons';
+import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/utils/cn';
 
 interface NewsletterInput {
@@ -50,8 +51,10 @@ export function NewsletterBanner() {
     <>
     <section className="relative overflow-hidden bg-surface-raised">
       {/* Purple radial glow */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_top_right,rgba(97, 73, 145,0.18)_0%,transparent_65%)] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_bottom_left,rgba(181, 101, 29,0.08)_0%,transparent_65%)] pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <AmbientGlow color="purple" size={600} opacity={0.18} animate={false} className="-top-[300px] -right-[300px]" />
+        <AmbientGlow color="gold" size={400} opacity={0.08} animate={false} className="-bottom-[200px] -left-[200px]" />
+      </div>
 
       {/* Top accent line */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 to-transparent" />

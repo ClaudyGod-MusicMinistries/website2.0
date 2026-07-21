@@ -3,11 +3,14 @@
 export interface Product {
   id: string;
   name: string;
+  /** Cover image — always images[0]. Kept as its own field so cart/checkout/JSON-LD don't need to know about galleries. */
   image: string;
+  /** Additional views (front/back, angles). Omit or single-entry for single-image products. */
+  images?: string[];
   price: number;
   category: string;
   description: string;
-  rating?: number; // ✅ Add this line
+  rating?: number;
 }
 
 export interface CartItem extends Product {
