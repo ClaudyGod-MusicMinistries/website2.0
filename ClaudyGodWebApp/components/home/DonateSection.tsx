@@ -102,7 +102,7 @@ export function DonateSection() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-xl overflow-hidden p-5 sm:p-8 md:p-10 backdrop-blur-sm">
+            <div className="relative bg-surface-elevated border border-white/[0.08] rounded-xl overflow-hidden p-5 sm:p-8 md:p-10">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse_at_top_right,rgba(181, 101, 29,0.07)_0%,transparent_70%)] pointer-events-none" />
 
               <div className="flex items-center gap-4 mb-8">

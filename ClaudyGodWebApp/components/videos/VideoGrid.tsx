@@ -147,8 +147,8 @@ function VideoCard({ video, onPlay }: { video: VideoView & { youtubeId: string }
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent" />
         {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center bg-black/25 backdrop-blur-sm group-hover:border-purple-400 group-hover:bg-purple-600/70 group-hover:scale-110 transition-all duration-300">
-            <Play className="h-4.5 w-4.5 text-white fill-white ml-0.5" />
+          <div className="w-12 h-12 rounded-full border border-white/25 flex items-center justify-center bg-black/30 group-hover:bg-gold-500 group-hover:border-gold-500 group-hover:scale-110 transition-all duration-300">
+            <Play className="h-4 w-4 text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
           </div>
         </div>
       </div>

@@ -206,7 +206,7 @@ export function FeaturedVideos() {
 
                   {/* Play on hover */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-10 h-10 rounded-full bg-purple-600/80 backdrop-blur-sm flex items-center justify-center shadow-purple">
+                    <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center shadow-gold">
                       <Play className="h-4 w-4 text-white fill-white ml-px" />
                     </div>
                   </div>
