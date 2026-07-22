@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { X, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCartStore } from './cartStore';
-import { formatPrice } from '@/utils/format';
+import { formatPrice } from '@/lib/utils/format';
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeFromCart, updateQuantity, cartTotal } = useCartStore();
@@ -79,7 +79,7 @@ export function CartDrawer() {
             <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-4" role="list" aria-label="Cart items">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-5 text-center py-12">
-                  <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
                     <ShoppingBag className="h-7 w-7 text-neutral-600" aria-hidden="true" />
                   </div>
                   <div>

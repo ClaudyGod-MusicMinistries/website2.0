@@ -57,7 +57,7 @@ export function CrossPromo() {
             <Link
               key={href}
               href={href}
-              className="group relative flex-none snap-start w-[82vw] sm:w-auto overflow-hidden rounded-2xl bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.15] transition-all duration-400 flex flex-col"
+              className="group relative flex-none snap-start w-[82vw] sm:w-auto overflow-hidden rounded-xl bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.15] transition-all duration-400 flex flex-col"
             >
               {/* Image strip */}
               <div className="relative h-44 sm:h-40 lg:h-48 overflow-hidden shrink-0">

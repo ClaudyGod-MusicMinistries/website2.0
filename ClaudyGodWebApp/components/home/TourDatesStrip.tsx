@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { MapPin, ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Section, Container } from '@/components/ui';
-import { placeholderEvents } from '@/data/events';
+import { Section, Container, Skeleton } from '@/components/ui';
+import { useEvents } from '@/hooks/useEvents';
 import { buttonVariants } from '@/lib/theme/buttons';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
@@ -28,14 +28,46 @@ const rowVariant = {
 
 /**
  * A real dated list — city, venue, date, ticket link — not a 3-card teaser.
- * For a live-performing gospel artist, tour presence is core identity;
- * every reference site studied for this rebuild (Sinach in particular)
- * treats it as a substantial section, not an afterthought.
+ * Backed by useEvents() (GET /api/events -> the real .NET EventController),
+ * not a static placeholder file — see components/news/EventsSection.tsx for
+ * the original working reference this hook usage is copied from.
  */
 export function TourDatesStrip() {
-  const dates = placeholderEvents
+  const { events, loading, error } = useEvents();
+
+  const dates = events
     .filter((e) => e.status === 'upcoming' || e.status === 'ongoing')
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
+  if (error) return null;
+
+  if (loading) {
+    return (
+      <Section bg="muted" py="lg" className="border-t border-b border-white/[0.05]">
+        <Container>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 mb-10 sm:mb-14">
+            <div>
+              <div className="flex items-center gap-4 mb-3">
+                <span className="block w-8 h-px bg-gold-500 opacity-70" />
+                <span className="label-eyebrow">On Tour</span>
+              </div>
+              <h2 className="font-display font-bold text-white text-2xl sm:text-3xl md:text-4xl tracking-tight">
+                Live Dates
+              </h2>
+            </div>
+          </div>
+          <div className="space-y-4 border-y border-white/[0.06] py-6">
+            {[0, 1].map((i) => (
+              <div key={i} className="flex items-center gap-5 sm:gap-8">
+                <Skeleton className="h-10 w-14 shrink-0" />
+                <Skeleton className="h-5 flex-1 max-w-xs" />
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    );
+  }
 
   if (dates.length === 0) return null;
 
@@ -48,7 +80,7 @@ export function TourDatesStrip() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">On Tour</span>
             </div>
-            <h2 className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl tracking-tight">
+            <h2 className="font-display font-bold text-white text-2xl sm:text-3xl md:text-4xl tracking-tight">
               Live Dates
             </h2>
           </div>
@@ -69,7 +101,7 @@ export function TourDatesStrip() {
           className="divide-y divide-white/[0.06] border-y border-white/[0.06]"
         >
           {dates.map((event) => {
-            const { day, mon, full } = formatDate(event.date);
+            const { day, mon, full } = formatDate(event.startDate);
             return (
               <motion.div key={event.id} variants={rowVariant}>
                 <Link
@@ -86,10 +118,10 @@ export function TourDatesStrip() {
                       {event.title}
                     </p>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1">
-                      {event.location && (
+                      {event.venue && (
                         <p className="flex items-center gap-1.5 font-sans text-neutral-500 text-sm">
                           <MapPin className="h-3.5 w-3.5 shrink-0" />
-                          {event.location}
+                          {event.venue}
                         </p>
                       )}
                       <p className="hidden sm:block font-sans text-neutral-600 text-sm">{full}</p>

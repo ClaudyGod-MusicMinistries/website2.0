@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import { Navbar }  from '@/components/layout/Navbar';
 import { Footer }  from '@/components/layout/Footer';
 import { Loader }  from '@/components/shared/Loader';
-import { musicGroup, webSite, person } from '@/utils/jsonLd';
+import { musicGroup, webSite, person } from '@/lib/utils/jsonLd';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_PATH } from '@/lib/config/site';
 import { fontVariables } from '@/lib/fonts';
 import './globals.css';

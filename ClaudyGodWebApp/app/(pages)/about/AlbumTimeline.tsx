@@ -3,9 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { albums } from '@/data/music';
+import { useAlbums } from '@/hooks/useAlbums';
+import { toAlbumView, type AlbumView } from '@/lib/data/adapters';
 import { FaSpotify, FaApple, FaYoutube } from 'react-icons/fa6';
-import { platformColors } from '@/utils/platformColors';
+import { platformColors } from '@/lib/utils/platformColors';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 const platformIcons = {
   spotify: FaSpotify,
@@ -15,7 +18,7 @@ const platformIcons = {
 
 type PlatformKey = keyof typeof platformIcons;
 
-function AlbumArtVisual({ album, isEven }: { album: (typeof albums)[0]; isEven: boolean }) {
+function AlbumArtVisual({ album, isEven }: { album: AlbumView; isEven: boolean }) {
   const platformEntries = (Object.entries(album.links) as [PlatformKey, string][]).filter(
     ([key]) => key in platformIcons
   );
@@ -50,7 +53,7 @@ function AlbumArtVisual({ album, isEven }: { album: (typeof albums)[0]; isEven: 
         <motion.div
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-2xl overflow-hidden shadow-[0_28px_80px_rgba(0,0,0,0.18)] ring-1 ring-black/10 cursor-pointer"
+          className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-xl overflow-hidden shadow-[0_28px_80px_rgba(0,0,0,0.18)] ring-1 ring-black/10 cursor-pointer"
         >
           <Image
             src={album.image}
@@ -122,6 +125,12 @@ function AlbumArtVisual({ album, isEven }: { album: (typeof albums)[0]; isEven: 
 }
 
 export function AlbumTimeline() {
+  const { albums: rawAlbums, loading, error, refetch } = useAlbums();
+  const albums = rawAlbums.map(toAlbumView);
+
+  if (loading) return <GridSkeleton cols={1} rows={3} />;
+  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+
   return (
     <section className="bg-cream-100 section-py">
       <div className="container-site">
@@ -144,7 +153,7 @@ export function AlbumTimeline() {
 
               const contentBlock = (
                 <motion.div
-                  key={`content-${album.title}`}
+                  key={`content-${album.id}`}
                   initial={{ opacity: 0, x: isEven ? -28 : 28 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
@@ -197,12 +206,12 @@ export function AlbumTimeline() {
               );
 
               const visualBlock = (
-                <AlbumArtVisual key={`visual-${album.title}`} album={album} isEven={isEven} />
+                <AlbumArtVisual key={`visual-${album.id}`} album={album} isEven={isEven} />
               );
 
               return (
                 <div
-                  key={album.title}
+                  key={album.id}
                   className={`relative grid grid-cols-1 lg:grid-cols-2 gap-0 ${
                     i < albums.length - 1 ? 'mb-1' : ''
                   }`}

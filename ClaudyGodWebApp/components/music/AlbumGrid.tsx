@@ -1,9 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { albums, securedMusicPlatforms } from '@/data/music';
+import { useAlbums } from '@/hooks/useAlbums';
+import { toAlbumView } from '@/lib/data/adapters';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
-import { platformColors } from '@/utils/platformColors';
+import { platformColors } from '@/lib/utils/platformColors';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 const platformIconMap = {
   spotify: FaSpotify,
@@ -13,6 +16,12 @@ const platformIconMap = {
 } as const;
 
 export function AlbumGrid() {
+  const { albums: rawAlbums, loading, error, refetch } = useAlbums();
+  const albums = rawAlbums.map(toAlbumView);
+
+  if (loading) return <GridSkeleton cols={3} rows={2} />;
+  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+
   return (
     <section className="bg-cream-100 section-py">
       <div className="container-site">
@@ -23,7 +32,7 @@ export function AlbumGrid() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
           {albums.map((album, i) => (
-            <div key={album.title} className="group flex flex-col h-full bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
+            <div key={album.title} className="group flex flex-col h-full bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
               {/* Album art container */}
               <div className="relative w-full aspect-square overflow-hidden bg-neutral-100">
                 <Image

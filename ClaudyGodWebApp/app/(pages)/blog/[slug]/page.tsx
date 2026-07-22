@@ -1,45 +1,36 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
+import type { ApiResponse, BlogPostDetail } from '@/lib/data/types';
 
-const posts: Record<string, { title: string; date: string; category: string; readTime: string; content: string }> = {
-  'the-power-of-worship': {
-    title: "The Power of Worship in a Believer's Life",
-    date: 'May 10, 2025',
-    category: 'Devotional',
-    readTime: '5 min read',
-    content: `Worship is not just what we do on Sunday morning — it is a posture of the heart that we carry through every moment of our lives. When we truly understand what it means to worship, everything changes.
+const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
 
-The word "worship" in Hebrew — שׁחה (shachah) — means to bow down, to prostrate oneself. It is an act of total surrender before a holy God. This is not a passive act. It takes intention, vulnerability, and faith.
+/**
+ * Server-side fetch straight to the backend — this runs during SSR only
+ * (never in the browser), so API_BASE_URL stays server-only exactly like
+ * the app/api/* proxy routes. No client hook here: this is a Server
+ * Component and the post content belongs in the initial HTML for SEO.
+ */
+async function getPostBySlug(slug: string): Promise<BlogPostDetail | null> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1.0/blog/${slug}`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    const json = (await res.json()) as ApiResponse<BlogPostDetail>;
+    return json.data;
+  } catch {
+    return null;
+  }
+}
 
-When we worship, we are declaring the worth of God over the circumstances of our lives. We are saying, "You are greater than this problem. You are greater than my fear. You are worthy of my praise regardless of what I am walking through."
+function readTime(content: string): string {
+  const words = content.trim().split(/\s+/).length;
+  return `${Math.max(1, Math.round(words / 200))} min read`;
+}
 
-There is a reason why worship is one of the most powerful spiritual weapons available to a believer. In 2 Chronicles 20, when the people of Judah were surrounded by enemies with no way of escape, King Jehoshaphat appointed singers to worship God at the front of the army. As they worshipped, God moved.
-
-Practical steps to deepen your worship life:
-
-1. Create a dedicated time and space for private worship
-2. Learn to worship through difficulty, not just in joy
-3. Study the Psalms — they teach us how to be honest with God and still praise
-4. Let worship lead you to prayer and scripture
-5. Find a community of worshippers who will encourage your growth
-
-Worship is a journey. It deepens as we deepen in our understanding of who God is. And the more we know Him, the more naturally worship flows from our hearts.`,
-  },
-  'seven-albums-journey': {
-    title: 'From One Album to Seven — A Ministry Journey',
-    date: 'April 22, 2025',
-    category: 'Ministry',
-    readTime: '7 min read',
-    content: `When God called ClaudyGod to write songs, she never imagined it would lead to seven albums. Here is the story of obedience and multiplication.
-
-Every step in this journey has been one of faith — producing in seasons of limited resources, recording while trusting God for provision, and releasing music into a world that needed to hear the gospel.
-
-The albums span every emotion of the Christian walk: joy, grief, perseverance, praise, thanksgiving, and intercession. Each project is not just a collection of songs — it is a prophetic declaration over the generation that hears it.
-
-For anyone feeling called to create for God but uncertain of where to start: start where you are. Use what you have. Obey the prompting. The multiplication is God's business.`,
-  },
-};
+function formatDate(iso?: string): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
 
 const categoryColors: Record<string, string> = {
   Devotional: 'bg-purple-100 text-purple-700',
@@ -52,15 +43,16 @@ type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = posts[slug];
+  const post = await getPostBySlug(slug);
   return {
     title: post ? `${post.title} — ClaudyGod Blog` : 'Blog — ClaudyGod Music Ministries',
+    description: post?.excerpt,
   };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = posts[slug];
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return (
@@ -80,7 +72,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     );
   }
 
-  const catColor = categoryColors[post.category] ?? 'bg-neutral-100 text-neutral-600';
+  const catColor = categoryColors[post.categoryName ?? ''] ?? 'bg-neutral-100 text-neutral-600';
 
   return (
     <div className="min-h-screen bg-white pt-[var(--navbar-height)]">
@@ -96,14 +88,18 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-6 flex-wrap">
-            <span className={`font-sans text-[0.52rem] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full font-medium ${catColor}`}>
-              {post.category}
-            </span>
+            {post.categoryName && (
+              <span className={`font-sans text-[0.52rem] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full font-medium ${catColor}`}>
+                {post.categoryName}
+              </span>
+            )}
+            {post.publishedAt && (
+              <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
+                <Calendar className="h-3 w-3" />{formatDate(post.publishedAt)}
+              </span>
+            )}
             <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-              <Calendar className="h-3 w-3" />{post.date}
-            </span>
-            <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-              <Clock className="h-3 w-3" />{post.readTime}
+              <Clock className="h-3 w-3" />{readTime(post.content)}
             </span>
           </div>
           <h1 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.08] mb-6">

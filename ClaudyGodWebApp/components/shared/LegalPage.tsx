@@ -77,7 +77,7 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
 
           {/* ── Content ── */}
           <div className="flex-1 min-w-0">
-            <div className="bg-white rounded-2xl border border-neutral-100 shadow-[0_2px_24px_rgba(0,0,0,0.05)] overflow-hidden">
+            <div className="bg-white rounded-xl border border-neutral-100 shadow-[0_2px_24px_rgba(0,0,0,0.05)] overflow-hidden">
 
               {intro && (
                 <div className="px-8 py-8 border-b border-neutral-100 bg-neutral-50/50">

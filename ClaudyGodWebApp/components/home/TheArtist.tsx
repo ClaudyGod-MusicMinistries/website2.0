@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { ParallaxLayer } from '@/components/ui';
 
 const stats = [
   { value: '7', label: 'Studio Albums' },
@@ -35,16 +36,18 @@ export function TheArtist() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-card-light-lg order-2 lg:order-1"
+            className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-card-light-lg order-2 lg:order-1"
           >
-            <Image
-              src="/mum1.jpg"
-              alt="Minister ClaudyGod"
-              fill
-              className="object-cover"
-              style={{ objectPosition: 'center top' }}
-              sizes="(max-width: 1024px) 100vw, 45vw"
-            />
+            <ParallaxLayer distance={30} className="absolute inset-0">
+              <Image
+                src="/mum1.jpg"
+                alt="Minister ClaudyGod"
+                fill
+                className="object-cover"
+                style={{ objectPosition: 'center top' }}
+                sizes="(max-width: 1024px) 100vw, 45vw"
+              />
+            </ParallaxLayer>
           </motion.div>
 
           {/* Copy + stats */}
@@ -60,7 +63,7 @@ export function TheArtist() {
               <span className="label-eyebrow">The Artist</span>
             </div>
 
-            <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight mb-6">
+            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight mb-6">
               Minister ClaudyGod
             </h2>
 

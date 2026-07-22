@@ -1,17 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Search, Music, Calendar, ShoppingCart, Users, Heart, Mail, Phone, ExternalLink, Loader2 } from 'lucide-react';
-import { cn } from '@/utils/cn';
-
-interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-  category: string;
-}
+import { useFAQs } from '@/hooks/useFAQs';
+import { cn } from '@/lib/utils/cn';
 
 const ICON_MAP: Record<string, React.ReactNode> = {
   'Music & Albums': <Music className="h-5 w-5" />,
@@ -24,40 +18,10 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 };
 
 export function HelpPageClient() {
-  const [faqs, setFaqs] = useState<FAQItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { faqs, loading, error } = useFAQs();
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchFAQs = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/faqs');
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch FAQs');
-        }
-
-        const data = await response.json();
-
-        // Handle both ApiResponse and direct array formats
-        const faqList = data.data || data;
-        setFaqs(Array.isArray(faqList) ? faqList : []);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching FAQs:', err);
-        setError('Failed to load FAQs. Please try again later.');
-        setFaqs([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFAQs();
-  }, []);
 
   const categories = faqs.length > 0
     ? ['All', ...Array.from(new Set(faqs.map(f => f.category)))]
@@ -231,7 +195,7 @@ export function HelpPageClient() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Contact Form */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                 <Mail className="h-6 w-6 text-purple-600" />
               </div>
@@ -248,7 +212,7 @@ export function HelpPageClient() {
             </div>
 
             {/* Live Chat */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
                 <MessageCircleIcon className="h-6 w-6 text-blue-600" />
               </div>
@@ -265,7 +229,7 @@ export function HelpPageClient() {
             </div>
 
             {/* Phone */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4">
                 <Phone className="h-6 w-6 text-green-600" />
               </div>

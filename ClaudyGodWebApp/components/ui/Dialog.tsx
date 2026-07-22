@@ -3,7 +3,7 @@
 import * as RadixDialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { type ReactNode } from 'react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 /**
  * Shared dialog/drawer/full-screen-overlay primitive, modeled on
@@ -22,7 +22,7 @@ const variantStyles = {
   /** Centered modal — product quick-view, event detail, lightboxes. */
   center: cn(
     'fixed left-1/2 top-1/2 z-modal w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2',
-    'rounded-2xl max-h-[85dvh] overflow-y-auto',
+    'rounded-xl max-h-[85dvh] overflow-y-auto',
     'data-[state=open]:animate-scale-in',
   ),
   /** Side drawer — cart, filters. */

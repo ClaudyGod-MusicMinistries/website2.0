@@ -13,11 +13,15 @@ COPY . .
 
 # Public env vars baked in at build time (Next.js static optimisation).
 # Passed as --build-arg from CI → docker build.
-ARG NEXT_PUBLIC_API_URL=https://api.claudygod.org
+# Note: API_BASE_URL (the var lib/data/backendProxy.ts actually reads) is
+# deliberately NOT here — it's a server-only secret, supplied at container
+# *runtime* via docker-compose's environment/env_file, not baked into the
+# build. A NEXT_PUBLIC_API_URL build arg used to live here too; removed —
+# no code reads it, and its presence was masking the fact that the real
+# variable was never being set anywhere.
 ARG NEXT_PUBLIC_SITE_URL=https://claudygod.org
 ARG NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-    NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
     NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=$NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY \
     NEXT_TELEMETRY_DISABLED=1 \
     NODE_ENV=production

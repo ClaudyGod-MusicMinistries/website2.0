@@ -5,11 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, Clock } from 'lucide-react';
-import { videos, type VideoType } from '@/data/videos';
-import { cn } from '@/utils/cn';
-
-const categories = ['All', 'Music Videos', 'Visualizers', 'Live Sessions', 'Christmas'] as const;
-type Filter = (typeof categories)[number];
+import { useMedia } from '@/hooks/useMedia';
+import { toVideoView, type VideoView } from '@/lib/data/adapters';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 const stagger = {
   hidden: {},
@@ -21,13 +20,13 @@ const cardAnim = {
 };
 
 export function VideoGrid() {
-  const [active, setActive]     = useState<Filter>('All');
+  const { media, loading, error, refetch } = useMedia('video');
   const [playingId, setPlayingId] = useState<string | null>(null);
 
-  const filtered = active === 'All' ? videos : videos.filter((v) => v.category === active);
-  const counts   = Object.fromEntries(
-    categories.map((c) => [c, c === 'All' ? videos.length : videos.filter((v) => v.category === c).length])
-  );
+  const videos = media.map(toVideoView).filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
+
+  if (loading) return <GridSkeleton cols={4} rows={2} />;
+  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
 
   return (
     <>
@@ -46,44 +45,19 @@ export function VideoGrid() {
               </h2>
             </div>
             <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
-              {filtered.length} video{filtered.length !== 1 ? 's' : ''} available
+              {videos.length} video{videos.length !== 1 ? 's' : ''} available
             </p>
-          </div>
-
-          {/* Filter tabs — horizontal scroll on mobile, wraps on sm+ */}
-          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-10 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={cn(
-                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-sans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
-                  active === cat
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.35)]'
-                    : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
-                )}
-              >
-                {cat}
-                <span className={cn(
-                  'text-[0.6rem] rounded-full px-1.5 py-0.5 font-semibold transition-colors duration-300',
-                  active === cat ? 'bg-white/20 text-white' : 'bg-neutral-100 text-neutral-400'
-                )}>
-                  {counts[cat]}
-                </span>
-              </button>
-            ))}
           </div>
 
           {/* Grid */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={active}
               variants={stagger}
               initial="hidden"
               animate="show"
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
-              {filtered.map((video) => (
+              {videos.map((video) => (
                 <motion.div key={video.id} variants={cardAnim}>
                   <VideoCard video={video} onPlay={() => setPlayingId(video.youtubeId)} />
                 </motion.div>
@@ -136,7 +110,7 @@ export function VideoGrid() {
                     <X className="h-4 w-4" />
                   </button>
                 </div>
-                <div className="relative aspect-video bg-black rounded-2xl overflow-hidden ring-1 ring-white/10">
+                <div className="relative aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10">
                   <iframe
                     src={`https://www.youtube.com/embed/${playingId}?autoplay=1&rel=0`}
                     title="Video player"
@@ -154,11 +128,11 @@ export function VideoGrid() {
   );
 }
 
-function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) {
+function VideoCard({ video, onPlay }: { video: VideoView & { youtubeId: string }; onPlay: () => void }) {
   return (
     <button
       onClick={onPlay}
-      className="group w-full text-left overflow-hidden rounded-2xl bg-neutral-950 shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.22)] transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
+      className="group w-full text-left overflow-hidden rounded-xl bg-neutral-950 shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.22)] transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
@@ -177,10 +151,6 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
             <Play className="h-4.5 w-4.5 text-white fill-white ml-0.5" />
           </div>
         </div>
-        {/* Category badge */}
-        <span className="absolute top-3 left-3 font-sans text-[0.5rem] tracking-[0.15em] uppercase text-white/80 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full">
-          {video.category}
-        </span>
       </div>
 
       {/* Info */}

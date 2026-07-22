@@ -7,7 +7,7 @@ import { CheckCircle2, Mail, Music, Bell, Users, X } from 'lucide-react';
 import { post, BackendError } from '@/lib/data/client';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { AmbientGlow } from '@/components/ui';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 interface NewsletterInput {
   name: string;
@@ -75,7 +75,7 @@ export function NewsletterBanner() {
               <span className="label-eyebrow">Stay Connected</span>
             </div>
 
-            <h2 className="font-display font-extrabold text-white text-2xl sm:text-3xl md:text-4xl leading-[1.08] tracking-tight mb-3 sm:mb-5">
+            <h2 className="font-display font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-[1.08] tracking-tight mb-3 sm:mb-5">
               Join the Ministry<br />
               <span className="text-purple-300">Community.</span>
             </h2>
@@ -225,7 +225,7 @@ export function NewsletterBanner() {
             aria-label="Subscription confirmed"
             className="fixed inset-0 z-[301] flex items-center justify-center p-4"
           >
-            <div className="relative w-full max-w-sm bg-surface-raised border border-white/[0.09] rounded-2xl shadow-popup overflow-hidden">
+            <div className="relative w-full max-w-sm bg-surface-raised border border-white/[0.09] rounded-xl shadow-popup overflow-hidden">
               {/* Gold top bar */}
               <div className="h-1 bg-gradient-to-r from-gold-500/60 via-gold-400 to-gold-500/60" />
 

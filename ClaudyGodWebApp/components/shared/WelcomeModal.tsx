@@ -5,13 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
-import { getCookie, setCookie } from '@/utils/cookies';
-import { featuredVideos } from '@/data/featured';
-
-function getYouTubeId(url: string) {
-  const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
-  return m ? m[1] : null;
-}
+import { getCookie, setCookie } from '@/lib/utils/cookies';
+import { useMedia } from '@/hooks/useMedia';
+import { toVideoView } from '@/lib/data/adapters';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -33,8 +29,8 @@ export function WelcomeModal() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
-  const latestVideo = featuredVideos[0];
-  const ytId = getYouTubeId(latestVideo.youtubeUrl);
+  const { media } = useMedia('video');
+  const latestVideo = media.map(toVideoView).filter((v) => v.youtubeId !== null)[0];
 
   useEffect(() => {
     // Check if user has already seen modal within the last 12 hours
@@ -88,7 +84,7 @@ export function WelcomeModal() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full sm:max-w-lg bg-surface-raised sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-[0_-8px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/[0.07] flex flex-col max-h-[92svh]"
+            className="relative w-full sm:max-w-lg bg-surface-raised sm:rounded-xl rounded-t-2xl overflow-hidden shadow-[0_-8px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/[0.07] flex flex-col max-h-[92svh]"
           >
             {/* Close */}
             <button
@@ -100,6 +96,7 @@ export function WelcomeModal() {
             </button>
 
             {/* ── Hero band — shrinks naturally, fixed on mobile ── */}
+            {latestVideo && (
             <button
               onClick={() => setVideoOpen(true)}
               className="relative h-36 sm:h-52 overflow-hidden shrink-0 w-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
@@ -108,6 +105,7 @@ export function WelcomeModal() {
                 src={latestVideo.thumbnailUrl}
                 alt={latestVideo.title}
                 fill
+                unoptimized
                 className="object-cover object-top"
                 sizes="576px"
               />
@@ -116,7 +114,7 @@ export function WelcomeModal() {
 
               {/* Play badge */}
               <div className="absolute bottom-3 left-4 flex items-center gap-2.5">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-[0_4px_18px_rgba(97, 73, 145,0.55)] transition-colors duration-200">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-purple transition-colors duration-200">
                   <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
                 </div>
                 <div className="text-left">
@@ -130,6 +128,7 @@ export function WelcomeModal() {
                 New Release
               </div>
             </button>
+            )}
 
             {/* ── Scrollable body ── */}
             <div className="overflow-y-auto flex-1 px-4 pb-4 pt-3 sm:px-6 sm:pb-6">
@@ -215,7 +214,7 @@ export function WelcomeModal() {
 
     {/* Video lightbox modal */}
     <AnimatePresence>
-      {videoOpen && ytId && (
+      {videoOpen && latestVideo?.youtubeId && (
         <>
           <motion.div
             key="backdrop"
@@ -245,9 +244,9 @@ export function WelcomeModal() {
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <div className="relative aspect-video bg-black rounded-2xl overflow-hidden ring-1 ring-white/10">
+              <div className="relative aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10">
                 <iframe
-                  src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`}
+                  src={`https://www.youtube.com/embed/${latestVideo.youtubeId}?autoplay=1&rel=0`}
                   title={latestVideo.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

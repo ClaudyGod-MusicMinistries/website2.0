@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 interface ParticlesProps {
   /** Character rendered per-particle. */
