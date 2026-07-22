@@ -81,19 +81,20 @@ export function LatestRelease() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300" />
 
-            {/* Play button — glass, pulsing ring */}
+            {/* Play button — small, gold-accented on hover, scales cleanly */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
-                className="absolute w-20 h-20 rounded-full border border-white/30"
-                animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
+                className="absolute w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-gold-400/50"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
               />
               <motion.div
-                whileHover={{ scale: 1.08 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-glow-dark"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.25 }}
+                className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center group-hover:bg-gold-500 group-hover:border-gold-500 transition-colors duration-300"
               >
-                <Play className="h-7 w-7 text-white fill-white ml-1" />
+                <Play className="h-4 w-4 sm:h-[1.1rem] sm:w-[1.1rem] text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
               </motion.div>
             </div>
 
