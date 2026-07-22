@@ -58,6 +58,7 @@ export const navigationItems: NavItem[] = [
   { href: '/news',      label: 'News',      icon: Newspaper,    priority: 'secondary', group: 'connect', header: 'none'    },
   { href: '/bookings',  label: 'Bookings',  icon: CalendarDays, priority: 'secondary', group: 'connect', header: 'none'    },
   { href: '/volunteer', label: 'Volunteer', icon: HandHeart,    priority: 'secondary', group: 'connect', header: 'none'    },
+  { href: '/prayer',    label: 'Prayer',    icon: HeartHandshake, priority: 'secondary', group: 'connect', header: 'none' },
   { href: '/donate',    label: 'Donate',    icon: HandCoins,    priority: 'secondary', group: 'support', header: 'none'    },
   { href: '/help',      label: 'Help',      icon: HelpCircle,   priority: 'secondary', group: 'support', header: 'none'    },
 ];

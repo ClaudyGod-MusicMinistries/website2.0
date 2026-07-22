@@ -7,7 +7,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, ChevronRight, Clock } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
+import { buttonVariants } from '@/lib/theme/buttons';
 import { AmbientGlow, Skeleton } from '@/components/ui';
+import { cn } from '@/lib/utils/cn';
 
 const stagger = {
   hidden: {},
@@ -64,7 +66,7 @@ export function FeaturedVideos() {
             </div>
             <Link
               href="/videos"
-              className="hidden sm:inline-flex items-center gap-2 font-sans text-xs tracking-[0.18em] uppercase border border-white/15 hover:border-purple-400/60 text-white/60 hover:text-white px-6 h-10 rounded-xl transition-all duration-300 group"
+              className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'hidden sm:inline-flex group')}
             >
               See All
               <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -107,16 +109,16 @@ export function FeaturedVideos() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
 
-              {/* Play button */}
+              {/* Play button — small, gold-accented on hover, matches LatestRelease */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 rounded-full border-2 border-white/25 flex items-center justify-center bg-black/25 backdrop-blur-sm group-hover:border-purple-400/80 group-hover:bg-purple-600/40 group-hover:scale-110 transition-all duration-400 shadow-glow-dark group-hover:shadow-glow-purple">
-                  <Play className="h-8 w-8 text-white fill-white ml-1" />
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-white/25 flex items-center justify-center bg-black/30 group-hover:bg-gold-500 group-hover:border-gold-500 group-hover:scale-110 transition-all duration-300">
+                  <Play className="h-5 w-5 sm:h-6 sm:w-6 text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
                 </div>
               </div>
 
               {/* Bottom info */}
               <div className="absolute inset-x-0 bottom-0 p-6">
-                <span className="inline-block font-sans text-[0.65rem] tracking-[0.18em] uppercase text-gold-400/80 bg-black/40 backdrop-blur-sm px-3 py-1 rounded-full mb-3">
+                <span className="inline-block font-sans text-[0.65rem] tracking-[0.18em] uppercase text-gold-400 bg-black/60 px-3 py-1 rounded-full mb-3">
                   Featured
                 </span>
                 <p className="font-display font-bold text-white text-xl md:text-2xl leading-snug line-clamp-2 mb-2">
@@ -225,7 +227,7 @@ export function FeaturedVideos() {
           <div className="mt-10 flex justify-center sm:hidden">
             <Link
               href="/videos"
-              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-white/[0.07] hover:bg-purple-700 border border-white/10 hover:border-purple-600 text-white/70 hover:text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+              className={cn(buttonVariants({ variant: 'soft', size: 'lg', uppercase: true }), 'group')}
             >
               See All Videos
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
