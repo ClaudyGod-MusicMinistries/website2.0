@@ -84,7 +84,7 @@ export function WelcomeModal() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full sm:max-w-lg bg-surface-raised sm:rounded-xl rounded-t-2xl overflow-hidden shadow-[0_-8px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/[0.07] flex flex-col max-h-[92svh]"
+            className="relative w-full sm:max-w-lg bg-surface-raised rounded-t-xl sm:rounded-xl overflow-hidden shadow-popup border border-white/[0.07] flex flex-col max-h-[92svh]"
           >
             {/* Close */}
             <button

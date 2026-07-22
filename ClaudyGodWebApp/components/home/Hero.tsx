@@ -101,7 +101,7 @@ export function Hero() {
           (lg+) reverts to the original bottom-anchored, borderless layout. */}
       <div className="absolute inset-0 z-10 flex flex-col justify-end pb-40 sm:pb-40 lg:pb-32">
         <div className="container-site w-full">
-          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-white/[0.07] backdrop-blur-xl border border-white/15 rounded-xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
+          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-black/25 backdrop-blur-sm border border-white/15 rounded-xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
             <motion.div
               custom={0} variants={fadeUp} initial="hidden" animate="visible"
               className="flex items-center gap-3 mb-6 justify-center sm:justify-start"
