@@ -5,13 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
-import { getCookie, setCookie } from '@/utils/cookies';
-import { featuredVideos } from '@/data/featured';
-
-function getYouTubeId(url: string) {
-  const m = url.match(/(?:youtu\.be\/|v=|\/embed\/)([^?&]+)/);
-  return m ? m[1] : null;
-}
+import { getCookie, setCookie } from '@/lib/utils/cookies';
+import { useMedia } from '@/hooks/useMedia';
+import { toVideoView } from '@/lib/data/adapters';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -33,8 +29,8 @@ export function WelcomeModal() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
-  const latestVideo = featuredVideos[0];
-  const ytId = getYouTubeId(latestVideo.youtubeUrl);
+  const { media } = useMedia('video');
+  const latestVideo = media.map(toVideoView).filter((v) => v.youtubeId !== null)[0];
 
   useEffect(() => {
     // Check if user has already seen modal within the last 12 hours
@@ -88,7 +84,7 @@ export function WelcomeModal() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full sm:max-w-lg bg-[#0d0b1a] sm:rounded-2xl rounded-t-2xl overflow-hidden shadow-[0_-8px_40px_rgba(0,0,0,0.5)] sm:shadow-[0_32px_80px_rgba(0,0,0,0.6)] border border-white/[0.07] flex flex-col max-h-[92svh]"
+            className="relative w-full sm:max-w-lg bg-surface-raised rounded-t-xl sm:rounded-xl overflow-hidden shadow-popup border border-white/[0.07] flex flex-col max-h-[92svh]"
           >
             {/* Close */}
             <button
@@ -100,6 +96,7 @@ export function WelcomeModal() {
             </button>
 
             {/* ── Hero band — shrinks naturally, fixed on mobile ── */}
+            {latestVideo && (
             <button
               onClick={() => setVideoOpen(true)}
               className="relative h-36 sm:h-52 overflow-hidden shrink-0 w-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
@@ -108,28 +105,30 @@ export function WelcomeModal() {
                 src={latestVideo.thumbnailUrl}
                 alt={latestVideo.title}
                 fill
+                unoptimized
                 className="object-cover object-top"
                 sizes="576px"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b1a] via-[#0d0b1a]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-surface-raised/40 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 to-transparent" />
 
               {/* Play badge */}
               <div className="absolute bottom-3 left-4 flex items-center gap-2.5">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-[0_4px_18px_rgba(124,58,237,0.55)] transition-colors duration-200">
+                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-purple transition-colors duration-200">
                   <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
                 </div>
                 <div className="text-left">
-                  <p className="font-worksans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Latest Release</p>
-                  <p className="font-bricolage font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">{latestVideo.title}</p>
+                  <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Latest Release</p>
+                  <p className="font-display font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">{latestVideo.title}</p>
                 </div>
               </div>
 
               {/* New badge */}
-              <div className="absolute top-3 left-4 bg-gold-500/90 text-[#07060f] font-worksans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
+              <div className="absolute top-3 left-4 bg-gold-500/90 text-surface-deep font-sans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
                 New Release
               </div>
             </button>
+            )}
 
             {/* ── Scrollable body ── */}
             <div className="overflow-y-auto flex-1 px-4 pb-4 pt-3 sm:px-6 sm:pb-6">
@@ -140,12 +139,12 @@ export function WelcomeModal() {
                   <Image src="/ClaudyGoLogo.webp" alt="ClaudyGod" fill className="object-contain p-1" sizes="40px" />
                 </div>
                 <div>
-                  <p className="font-bricolage font-bold text-white text-sm sm:text-base leading-tight">Welcome to ClaudyGod</p>
-                  <p className="font-worksans text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-500/60">Music Ministries</p>
+                  <p className="font-display font-bold text-white text-sm sm:text-base leading-tight">Welcome to ClaudyGod</p>
+                  <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-500/60">Music Ministries</p>
                 </div>
               </div>
 
-              <p className="font-roboto text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
+              <p className="font-sans text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
                 Spirit-filled gospel music, worship videos, and ministry content — created to bless your soul and spread the love of God.
               </p>
 
@@ -153,7 +152,7 @@ export function WelcomeModal() {
               <div className="mb-3 sm:mb-4 p-3 sm:p-4 rounded-xl bg-white/[0.04] border border-white/[0.07]">
                 <div className="flex items-center gap-2 mb-2.5">
                   <Bell className="h-3.5 w-3.5 text-gold-400 shrink-0" />
-                  <p className="font-bricolage font-semibold text-white text-xs sm:text-sm">Stay Connected</p>
+                  <p className="font-display font-semibold text-white text-xs sm:text-sm">Stay Connected</p>
                 </div>
 
                 {subscribed ? (
@@ -165,7 +164,7 @@ export function WelcomeModal() {
                     <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
                       <span className="text-green-400 text-[0.6rem]">✓</span>
                     </div>
-                    <p className="font-roboto text-neutral-300 text-xs sm:text-sm">
+                    <p className="font-sans text-neutral-300 text-xs sm:text-sm">
                       You&apos;re subscribed! Welcome to the community.
                     </p>
                   </motion.div>
@@ -176,11 +175,11 @@ export function WelcomeModal() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your@email.com"
-                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-roboto text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-sans text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
                     />
                     <button
                       type="submit"
-                      className="h-9 sm:h-10 w-full bg-purple-600 hover:bg-purple-500 text-white font-worksans text-[0.6rem] tracking-[0.14em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
+                      className="h-9 sm:h-10 w-full bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.6rem] tracking-[0.14em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
                     >
                       <Bell className="h-3 w-3 shrink-0" />
                       Subscribe
@@ -194,14 +193,14 @@ export function WelcomeModal() {
                 <Link
                   href="/music"
                   onClick={close}
-                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-[#07060f] font-bricolage font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
+                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-display font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
                 >
                   <Music className="h-3.5 w-3.5 shrink-0" />
                   Listen Now
                 </Link>
                 <button
                   onClick={close}
-                  className="w-full h-10 border border-white/[0.1] hover:border-white/[0.25] text-neutral-400 hover:text-white font-worksans text-[0.6rem] tracking-[0.12em] uppercase rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200"
+                  className="w-full h-10 border border-white/[0.1] hover:border-white/[0.25] text-neutral-400 hover:text-white font-sans text-[0.6rem] tracking-[0.12em] uppercase rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200"
                 >
                   Explore the Site
                   <ArrowRight className="h-3 w-3 shrink-0" />
@@ -215,7 +214,7 @@ export function WelcomeModal() {
 
     {/* Video lightbox modal */}
     <AnimatePresence>
-      {videoOpen && ytId && (
+      {videoOpen && latestVideo?.youtubeId && (
         <>
           <motion.div
             key="backdrop"
@@ -234,7 +233,7 @@ export function WelcomeModal() {
           >
             <div className="relative w-full max-w-5xl pointer-events-auto">
               <div className="flex items-center justify-between mb-3">
-                <p className="font-bricolage font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                <p className="font-display font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
                   {latestVideo.title}
                 </p>
                 <button
@@ -245,9 +244,9 @@ export function WelcomeModal() {
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <div className="relative aspect-video bg-black rounded-2xl overflow-hidden ring-1 ring-white/10">
+              <div className="relative aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10">
                 <iframe
-                  src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`}
+                  src={`https://www.youtube.com/embed/${latestVideo.youtubeId}?autoplay=1&rel=0`}
                   title={latestVideo.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

@@ -3,7 +3,9 @@ import dynamic from 'next/dynamic';
 import { Navbar }  from '@/components/layout/Navbar';
 import { Footer }  from '@/components/layout/Footer';
 import { Loader }  from '@/components/shared/Loader';
-import { musicGroup, webSite, person } from '@/utils/jsonLd';
+import { musicGroup, webSite, person } from '@/lib/utils/jsonLd';
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_PATH } from '@/lib/config/site';
+import { fontVariables } from '@/lib/fonts';
 import './globals.css';
 
 const WelcomeModal  = dynamic(() => import('@/components/shared/WelcomeModal').then(m => m.WelcomeModal),  { ssr: false });
@@ -20,15 +22,14 @@ export const viewport: Viewport = {
 
 // ─── Root Metadata ──────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  metadataBase: new URL('https://claudygod.com'),
+  metadataBase: new URL(SITE_URL),
 
   title: {
-    template: '%s | ClaudyGod Music Ministries',
-    default:  'ClaudyGod Music Ministries — Gospel Artist, Minister & Worship Leader',
+    template: `%s | ${SITE_NAME}`,
+    default:  `${SITE_NAME} — Gospel Artist, Minister & Worship Leader`,
   },
 
-  description:
-    'Official website of Minister ClaudyGod — Nigerian gospel music artist, worship leader, and evangelist. Stream 7 albums, watch worship videos, book for events, and follow the ministry.',
+  description: SITE_DESCRIPTION,
 
   keywords: [
     'ClaudyGod', 'Minister ClaudyGod', 'ClaudyGod Music Ministries',
@@ -41,23 +42,23 @@ export const metadata: Metadata = {
     'spirit filled worship', 'gospel ministry Nigeria',
   ],
 
-  authors:   [{ name: 'ClaudyGod Music Ministries', url: 'https://claudygod.com' }],
-  creator:   'ClaudyGod Music Ministries',
-  publisher: 'ClaudyGod Music Ministries',
+  authors:   [{ name: SITE_NAME, url: SITE_URL }],
+  creator:   SITE_NAME,
+  publisher: SITE_NAME,
   category:  'Music',
 
   openGraph: {
     type:        'website',
-    siteName:    'ClaudyGod Music Ministries',
+    siteName:    SITE_NAME,
     locale:      'en_US',
-    url:         'https://claudygod.com',
-    title:       'ClaudyGod Music Ministries — Gospel Artist & Worship Leader',
+    url:         SITE_URL,
+    title:       `${SITE_NAME} — Gospel Artist & Worship Leader`,
     description: 'Spirit-filled gospel music, ministry, and worship from Minister ClaudyGod — spreading the love of God to the ends of the earth.',
     images: [{
-      url:    '/ClaudySocial.jpg',
+      url:    OG_IMAGE_PATH,
       width:  1200,
       height: 630,
-      alt:    'ClaudyGod Music Ministries',
+      alt:    SITE_NAME,
       type:   'image/jpeg',
     }],
   },
@@ -66,9 +67,9 @@ export const metadata: Metadata = {
     card:        'summary_large_image',
     site:        '@claudygod',
     creator:     '@claudygod',
-    title:       'ClaudyGod Music Ministries',
+    title:       SITE_NAME,
     description: 'Spirit-filled gospel music, ministry, and worship from Minister ClaudyGod.',
-    images:      [{ url: '/ClaudySocial.jpg', alt: 'ClaudyGod Music Ministries' }],
+    images:      [{ url: OG_IMAGE_PATH, alt: SITE_NAME }],
   },
 
   robots: {
@@ -86,7 +87,7 @@ export const metadata: Metadata = {
   },
 
   alternates: {
-    canonical: 'https://claudygod.com',
+    canonical: SITE_URL,
   },
 
   manifest: '/manifest.json',
@@ -115,7 +116,7 @@ const jsonLdGraph = {
 // ─── Root layout ────────────────────────────────────────────────────────────
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={fontVariables}>
       <head>
         {/* ── Structured data ── */}
         <script
@@ -130,7 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://open.spotify.com" />
         <link rel="dns-prefetch" href="https://music.apple.com" />
       </head>
-      <body className="font-bricolage bg-surface-base text-white antialiased min-h-dvh">
+      <body className="font-display bg-surface-base text-white antialiased min-h-dvh">
         <Loader />
         <Navbar />
         <main className="min-h-dvh">

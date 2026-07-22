@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X } from 'lucide-react';
 import { teachingsData } from '@/data/ministry';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 type Filter = 'All' | 'Live Teachings' | 'CGM Podcasts';
 const filters: Filter[] = ['All', 'Live Teachings', 'CGM Podcasts'];
@@ -20,12 +20,12 @@ export function TeachingsGrid() {
   return (
     <>
       <section className="bg-cream-100 section-py">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
           <div className="flex items-center gap-4 mb-4 sm:mb-6">
             <span className="rule-gold" />
             <span className="label-eyebrow">Teachings & Podcasts</span>
           </div>
-          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight mb-8 sm:mb-10">
+          <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight mb-8 sm:mb-10">
             Ministry Content
           </h2>
 
@@ -36,9 +36,9 @@ export function TeachingsGrid() {
                 key={f}
                 onClick={() => setActive(f)}
                 className={cn(
-                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-worksans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
+                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-sans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
                   active === f
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
+                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.35)]'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                 )}
               >
@@ -53,7 +53,7 @@ export function TeachingsGrid() {
               <button
                 key={teaching.id}
                 onClick={() => setPlayingId(teaching.youtubeId)}
-                className="group relative bg-neutral-900 text-left overflow-hidden rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-shadow duration-300"
+                className="group relative bg-neutral-900 text-left overflow-hidden rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-shadow duration-300"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -69,12 +69,12 @@ export function TeachingsGrid() {
                       <Play className="h-3.5 w-3.5 text-white fill-white ml-0.5" />
                     </div>
                   </div>
-                  <span className="absolute top-3 left-3 font-worksans text-[0.45rem] tracking-[0.15em] uppercase text-gold-400/80 bg-black/60 backdrop-blur-sm px-2 py-1">
+                  <span className="absolute top-3 left-3 font-sans text-[0.45rem] tracking-[0.15em] uppercase text-gold-400/80 bg-black/60 backdrop-blur-sm px-2 py-1">
                     {teaching.scripture}
                   </span>
                 </div>
                 <div className="p-4 border-t border-white/[0.06]">
-                  <p className="font-roboto text-base text-neutral-300 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
+                  <p className="font-sans text-base text-neutral-300 group-hover:text-white font-light leading-snug line-clamp-2 transition-colors duration-300">
                     {teaching.title}
                   </p>
                 </div>

@@ -39,7 +39,7 @@ export default function CookiesPage() {
         },
         {
           heading: 'Contact Us',
-          body: 'If you have any questions about our use of cookies, please contact us at info@claudygod.com.',
+          body: 'If you have any questions about our use of cookies, please contact us at info@claudygod.org.',
         },
       ]}
     />

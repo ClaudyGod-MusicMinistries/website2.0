@@ -104,7 +104,7 @@ export function GallerySection() {
         onKeyDown={onKeyDown}
         tabIndex={-1}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Header */}
           <div className="flex items-center gap-4 mb-4">
@@ -114,16 +114,16 @@ export function GallerySection() {
 
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
-              <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-2">
+              <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-2">
                 Ministry Moments
               </h2>
-              <p className="font-roboto text-neutral-500 text-sm leading-relaxed max-w-lg">
+              <p className="font-sans text-neutral-500 text-sm leading-relaxed max-w-lg">
                 {catDescription}
               </p>
             </div>
             <div className="flex items-center gap-2 text-neutral-400 shrink-0">
               <Grid3X3 className="h-4 w-4" />
-              <span className="font-worksans text-[0.6rem] tracking-[0.12em] uppercase">
+              <span className="font-sans text-[0.6rem] tracking-[0.12em] uppercase">
                 {filtered.length} photo{filtered.length !== 1 ? 's' : ''}
               </span>
             </div>
@@ -137,7 +137,7 @@ export function GallerySection() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`shrink-0 px-5 py-2 rounded-full font-worksans text-[0.62rem] tracking-[0.14em] uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-5 py-2 rounded-full font-sans text-[0.62rem] tracking-[0.14em] uppercase transition-all duration-300 ${
                     isActive
                       ? 'bg-neutral-900 text-white shadow-sm'
                       : 'bg-neutral-100 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700'
@@ -189,7 +189,7 @@ export function GallerySection() {
                       </div>
                       {/* Category label on hover */}
                       <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <p className="font-worksans text-[0.52rem] tracking-[0.12em] uppercase text-white/80 bg-black/40 rounded-md px-2 py-1 inline-block backdrop-blur-sm">
+                        <p className="font-sans text-[0.52rem] tracking-[0.12em] uppercase text-white/80 bg-black/40 rounded-md px-2 py-1 inline-block backdrop-blur-sm">
                           {img.label}
                         </p>
                       </div>
@@ -203,7 +203,7 @@ export function GallerySection() {
           {/* Empty state */}
           {filtered.length === 0 && (
             <div className="text-center py-20">
-              <p className="font-roboto text-neutral-400 text-sm">No photos in this category yet.</p>
+              <p className="font-sans text-neutral-400 text-sm">No photos in this category yet.</p>
             </div>
           )}
         </div>
@@ -238,8 +238,8 @@ export function GallerySection() {
                 {/* Header bar */}
                 <div className="flex items-center justify-between mb-4 px-1">
                   <div>
-                    <p className="font-bricolage font-semibold text-white text-sm">{activeImage.label}</p>
-                    <p className="font-worksans text-[0.54rem] tracking-[0.14em] uppercase text-white/40 mt-0.5">
+                    <p className="font-display font-semibold text-white text-sm">{activeImage.label}</p>
+                    <p className="font-sans text-[0.54rem] tracking-[0.14em] uppercase text-white/40 mt-0.5">
                       {filteredIdx + 1} of {filtered.length}
                     </p>
                   </div>
@@ -260,7 +260,7 @@ export function GallerySection() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.22 }}
-                    className="relative aspect-[4/3] md:aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                    className="relative aspect-[4/3] md:aspect-[16/9] w-full rounded-xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
                   >
                     <Image
                       src={activeImage.src}
@@ -275,7 +275,7 @@ export function GallerySection() {
                 </AnimatePresence>
 
                 {/* Caption */}
-                <p className="font-roboto text-white/50 text-xs leading-relaxed text-center mt-4 max-w-lg mx-auto">
+                <p className="font-sans text-white/50 text-xs leading-relaxed text-center mt-4 max-w-lg mx-auto">
                   {activeImage.description}
                 </p>
 

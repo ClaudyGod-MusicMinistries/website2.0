@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { proxyGet } from '@/utils/backendProxy';
+import { proxyGet } from '@/lib/data/backendProxy';
 
 export async function GET(req: NextRequest) {
   try {

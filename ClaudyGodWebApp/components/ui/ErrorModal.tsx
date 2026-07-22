@@ -46,12 +46,12 @@ export function ErrorModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
         {/* Header */}
         <div className="bg-gradient-to-r from-red-50 to-orange-50 px-6 py-4 flex items-start justify-between border-b border-red-100">
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
-            <h2 className="font-bricolage font-bold text-lg text-neutral-900">{title}</h2>
+            <h2 className="font-display font-bold text-lg text-neutral-900">{title}</h2>
           </div>
           <button
             onClick={handleClose}
@@ -63,14 +63,14 @@ export function ErrorModal({
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="font-roboto text-sm text-neutral-700 leading-relaxed">{message}</p>
+          <p className="font-sans text-sm text-neutral-700 leading-relaxed">{message}</p>
         </div>
 
         {/* Actions */}
         <div className="px-6 py-4 bg-neutral-50 border-t border-neutral-200 flex gap-3">
           <button
             onClick={handleClose}
-            className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-roboto font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
+            className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-sans font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
           >
             Dismiss
           </button>
@@ -81,7 +81,7 @@ export function ErrorModal({
                 action.onClick();
                 handleClose();
               }}
-              className={`flex-1 px-4 py-2.5 font-roboto font-semibold text-sm rounded-lg transition-colors ${
+              className={`flex-1 px-4 py-2.5 font-sans font-semibold text-sm rounded-lg transition-colors ${
                 action.variant === 'primary'
                   ? 'bg-purple-600 text-white hover:bg-purple-700'
                   : 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300'

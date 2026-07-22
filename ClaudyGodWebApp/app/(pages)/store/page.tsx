@@ -1,9 +1,10 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero }    from '@/components/shared/PageHero';
 import { GridSkeleton }from '@/components/shared/GridSkeleton';
 import { AnimateOnView }from '@/components/shared/AnimateOnView';
-import { breadcrumb, itemList } from '@/utils/jsonLd';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Official ClaudyGod Store — Gospel Merchandise & Apparel',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     title: 'ClaudyGod Official Store — Gospel Merch',
     images:['/Bg_13.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/store' },
+  alternates: { canonical: `${SITE_URL}/store` },
 };
 
 const ProductGrid = dynamic(
@@ -42,14 +43,14 @@ const CartDrawer = dynamic(
   { ssr: false }
 );
 
+// Product itemList JSON-LD dropped: it previously enumerated a static
+// placeholder list that had already drifted from real content once, and
+// now that products are fetched client-side from the real backend, an
+// accurate list isn't available here in a Server Component without a
+// second server-side fetch. Breadcrumb schema alone is honest; a stale
+// or empty itemList is worse than no itemList.
 const schemas = [
   breadcrumb([{ name: 'Store', href: '/store' }]),
-  itemList('ClaudyGod Official Merchandise', [
-    { name: 'ClaudyGod Premium T-Shirt', url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product1.webp' },
-    { name: 'ClaudyGod Exclusive Hoodie', url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product2.webp' },
-    { name: 'ClaudyGod Cap Collection',   url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product3.webp' },
-    { name: 'ClaudyGod Worship Tote Bag', url: 'https://claudygod.com/store', imageUrl: 'https://claudygod.com/Product4.webp' },
-  ]),
 ];
 
 export default function StorePage() {

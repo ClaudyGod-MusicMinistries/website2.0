@@ -8,7 +8,7 @@ export default function Loading() {
       </div>
 
       {/* Brand wordmark */}
-      <p className="font-bricolage text-sm font-medium tracking-widest text-neutral-500 uppercase">
+      <p className="font-display text-sm font-medium tracking-widest text-neutral-500 uppercase">
         ClaudyGod
       </p>
 

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { BackendError } from '@/utils/apiClient';
-import { getUserFriendlyError } from '@/utils/errorMessages';
+import { BackendError } from '@/lib/data/client';
+import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 
 interface ErrorState {
   isOpen: boolean;

@@ -1,15 +1,20 @@
 import { forwardRef, type HTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 // ─── Container ────────────────────────────────────────────────────────────
 
+// `default` applies the same `.container-site` class every hand-typed
+// `<div className="container-site">` in the app uses (defined once in
+// globals.css, driven by the `container` key in tailwind.config.ts) — one
+// container definition, not a second one duplicated here with different
+// numbers. `narrow`/`wide`/`full` are deliberately distinct variants.
 const containerVariants = cva('w-full mx-auto', {
   variants: {
     size: {
-      narrow:  'max-w-3xl  px-4 sm:px-6 lg:px-8',
-      default: 'max-w-7xl  px-4 sm:px-6 lg:px-8',
-      wide:    'max-w-8xl  px-4 sm:px-6 lg:px-10',
+      narrow:  'max-w-3xl px-4 sm:px-6 lg:px-8',
+      default: 'container-site',
+      wide:    'max-w-[1600px] px-4 sm:px-6 lg:px-12',
       full:    'max-w-full px-4 sm:px-6 lg:px-8',
     },
   },

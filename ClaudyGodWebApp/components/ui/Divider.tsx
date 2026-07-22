@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 import type { HTMLAttributes } from 'react';
 
 interface DividerProps extends HTMLAttributes<HTMLDivElement> {
@@ -24,7 +24,7 @@ export function Divider({
     return (
       <div className={cn('flex items-center gap-4', className)} role="separator" {...props}>
         <span className={cn('flex-1 border-t', colorClass)} />
-        <span className="text-xs font-worksans text-neutral-500 tracking-wider uppercase">
+        <span className="text-xs font-sans text-neutral-500 tracking-wider uppercase">
           {label}
         </span>
         <span className={cn('flex-1 border-t', colorClass)} />

@@ -1,9 +1,10 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero }    from '@/components/shared/PageHero';
 import { CrossPromo }  from '@/components/shared/CrossPromo';
 import { GridSkeleton }from '@/components/shared/GridSkeleton';
-import { breadcrumb, videoObject, itemList } from '@/utils/jsonLd';
+import { breadcrumb, videoObject, itemList } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Watch ClaudyGod Videos — Music Videos, Live Worship & More',
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     description: 'Watch official music videos & live sessions from Minister ClaudyGod.',
     images:      ['/Tour_Ph_1.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/videos' },
+  alternates: { canonical: `${SITE_URL}/videos` },
 };
 
 const VideoGrid = dynamic(

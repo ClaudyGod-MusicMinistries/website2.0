@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# ─────────────────────────────────────────────────────────────────────────────
+# Pre-commit — fast checks on staged frontend files only.
+#
+# Runs ESLint + Prettier --check on your staged files, plus a project-wide
+# TypeScript type-check (tsc has no cheaper single-file mode — type inference
+# is whole-project by nature, but it's still fast enough for a commit-time
+# check on this codebase). None of these auto-fix and re-stage for you —
+# they fail loudly and tell you the exact command to run, so you always
+# know what's actually being committed. Full production build + test suite
+# runs at push time instead — see .githooks/pre-push.
+# ─────────────────────────────────────────────────────────────────────────────
+set -euo pipefail
+
+GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
+info()    { echo -e "${GREEN}→${NC} $*"; }
+warn()    { echo -e "${YELLOW}⚠${NC}  $*"; }
+success() { echo -e "${GREEN}✓${NC} $*"; }
+die()     { echo -e "${RED}✗${NC} $*" >&2; exit 1; }
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+APP_DIR="$REPO_ROOT/ClaudyGodWebApp"
+cd "$REPO_ROOT"
+
+# Filter with a bash case pattern rather than a git pathspec glob — git's `**`
+# pathspec matching needs --glob-pathspecs/core.globPathspecs to behave as
+# expected, which isn't guaranteed on every machine. Plain `case` matching
+# is portable and does the same job here. Uses a `while read` loop instead of
+# `mapfile` — macOS ships bash 3.2 by default, which predates mapfile (bash 4+).
+STAGED_APP_FILES=()
+while IFS= read -r f; do
+  [[ -z "$f" ]] && continue
+  case "$f" in
+    ClaudyGodWebApp/*.ts|ClaudyGodWebApp/*.tsx|ClaudyGodWebApp/*.js|ClaudyGodWebApp/*.jsx)
+      STAGED_APP_FILES+=("$f") ;;
+  esac
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+if [[ ${#STAGED_APP_FILES[@]} -eq 0 ]]; then
+  info "No staged frontend files — skipping."
+  exit 0
+fi
+
+if [[ ! -d "$APP_DIR/node_modules" ]]; then
+  die "node_modules not found in ClaudyGodWebApp/ — run 'npm install' there first."
+fi
+
+# Paths relative to ClaudyGodWebApp/, since that's where eslint/prettier/tsc run from.
+RELATIVE_FILES=()
+for f in "${STAGED_APP_FILES[@]}"; do
+  RELATIVE_FILES+=("${f#ClaudyGodWebApp/}")
+done
+
+cd "$APP_DIR"
+
+info "Linting ${#RELATIVE_FILES[@]} staged file(s)..."
+if ! npx eslint "${RELATIVE_FILES[@]}"; then
+  die "ESLint found errors. Fix them (or run 'npx eslint --fix <file>' inside ClaudyGodWebApp/), re-stage, and commit again."
+fi
+
+info "Checking formatting..."
+if ! npx prettier --check "${RELATIVE_FILES[@]}"; then
+  die "Formatting issues found. Run 'npx prettier --write <file>' inside ClaudyGodWebApp/, review the diff, re-stage, and commit again."
+fi
+
+info "Type-checking (whole project)..."
+if ! npm run type-check --silent; then
+  die "TypeScript errors found. Fix them before committing."
+fi
+
+success "Lint, format, and type-check all passed."

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 /* ── Country data ─────────────────────────────────────────── */
 export interface DialCountry {
@@ -174,7 +174,7 @@ export function PhoneInput({
           onChange={(e) => setLocal(e.target.value)}
           onBlur={onBlur}
           placeholder={placeholder}
-          className="flex-1 min-w-0 px-3 bg-transparent font-roboto text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+          className="flex-1 min-w-0 px-3 bg-transparent font-sans text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
         />
       </div>
 
@@ -183,7 +183,7 @@ export function PhoneInput({
         <div
           role="dialog"
           aria-label="Select country code"
-          className="absolute top-[calc(100%+6px)] left-0 z-[200] w-72 bg-white border border-neutral-200 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] overflow-hidden"
+          className="absolute top-[calc(100%+6px)] left-0 z-[200] w-72 bg-white border border-neutral-200 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] overflow-hidden"
         >
           {/* Search bar */}
           <div className="p-2.5 border-b border-neutral-100">
@@ -196,7 +196,7 @@ export function PhoneInput({
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Escape') { setOpen(false); setSearch(''); } }}
                 placeholder="Search country or code…"
-                className="flex-1 min-w-0 bg-transparent font-roboto text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+                className="flex-1 min-w-0 bg-transparent font-sans text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
               />
             </div>
           </div>
@@ -208,7 +208,7 @@ export function PhoneInput({
             className="max-h-64 overflow-y-auto py-1 overscroll-contain"
           >
             {filtered.length === 0 ? (
-              <li className="px-4 py-4 text-sm text-neutral-400 font-roboto text-center">
+              <li className="px-4 py-4 text-sm text-neutral-400 font-sans text-center">
                 No match for &ldquo;{search}&rdquo;
               </li>
             ) : (
@@ -231,7 +231,7 @@ export function PhoneInput({
                       <span className="text-xl leading-none select-none shrink-0" aria-hidden>
                         {emojiFlag(c.code)}
                       </span>
-                      <span className="flex-1 min-w-0 font-roboto text-sm text-neutral-800 truncate">
+                      <span className="flex-1 min-w-0 font-sans text-sm text-neutral-800 truncate">
                         {c.name}
                       </span>
                       <span className="font-mono text-xs text-neutral-400 shrink-0">

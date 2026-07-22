@@ -6,7 +6,7 @@ import {
   MessageCircle, X, Send, Loader2, Bot, User,
   Sparkles, RotateCcw,
 } from 'lucide-react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 type Message = {
   id: string;
@@ -197,7 +197,7 @@ export function AIChatWidget() {
               'w-[360px] max-w-[calc(100vw-1.5rem)]',
               'h-[520px] max-h-[calc(100vh-8rem)]',
               'flex flex-col',
-              'bg-neutral-950 border border-white/10 rounded-2xl shadow-2xl overflow-hidden',
+              'bg-neutral-950 border border-white/10 rounded-xl shadow-2xl overflow-hidden',
             )}
           >
             {/* Header */}
@@ -249,7 +249,7 @@ export function AIChatWidget() {
                       : <User className="w-3.5 h-3.5 text-neutral-400" />}
                   </div>
                   <div className={cn(
-                    'max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed',
+                    'max-w-[80%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed',
                     msg.role === 'assistant'
                       ? 'bg-neutral-800/80 text-neutral-200 rounded-tl-sm'
                       : 'bg-purple-600/90 text-white rounded-tr-sm',
@@ -264,7 +264,7 @@ export function AIChatWidget() {
                   <div className="w-7 h-7 rounded-full bg-purple-600/20 border border-purple-500/30 flex items-center justify-center shrink-0">
                     <Bot className="w-3.5 h-3.5 text-purple-400" />
                   </div>
-                  <div className="bg-neutral-800/80 rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5">
+                  <div className="bg-neutral-800/80 rounded-xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce [animation-delay:0ms]" />
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce [animation-delay:150ms]" />
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce [animation-delay:300ms]" />

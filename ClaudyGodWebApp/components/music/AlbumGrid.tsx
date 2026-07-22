@@ -1,9 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { albums, securedMusicPlatforms } from '@/data/music';
+import { useAlbums } from '@/hooks/useAlbums';
+import { toAlbumView } from '@/lib/data/adapters';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
-import { platformColors } from '@/utils/platformColors';
+import { platformColors } from '@/lib/utils/platformColors';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 const platformIconMap = {
   spotify: FaSpotify,
@@ -13,9 +16,15 @@ const platformIconMap = {
 } as const;
 
 export function AlbumGrid() {
+  const { albums: rawAlbums, loading, error, refetch } = useAlbums();
+  const albums = rawAlbums.map(toAlbumView);
+
+  if (loading) return <GridSkeleton cols={3} rows={2} />;
+  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+
   return (
     <section className="bg-cream-100 section-py">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+      <div className="container-site">
         <div className="flex items-center gap-4 mb-10 sm:mb-14">
           <span className="rule-gold" />
           <span className="label-eyebrow">Discography</span>
@@ -23,7 +32,7 @@ export function AlbumGrid() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
           {albums.map((album, i) => (
-            <div key={album.title} className="group flex flex-col h-full bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
+            <div key={album.title} className="group flex flex-col h-full bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
               {/* Album art container */}
               <div className="relative w-full aspect-square overflow-hidden bg-neutral-100">
                 <Image
@@ -41,10 +50,10 @@ export function AlbumGrid() {
               {/* Album info */}
               <div className="flex-1 flex flex-col p-5 sm:p-6 lg:p-7">
                 {/* Title */}
-                <p className="font-bricolage font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+                <p className="font-display font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
                   {album.title}
                 </p>
-                <p className="font-worksans text-[0.55rem] sm:text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5 sm:mb-6">
+                <p className="font-sans text-[0.55rem] sm:text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5 sm:mb-6">
                   Full Album
                 </p>
 
@@ -76,7 +85,7 @@ export function AlbumGrid() {
                     href={album.links.spotify || album.links.youtube || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-worksans text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
+                    className="inline-flex items-center gap-2 font-sans text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
                   >
                     Stream Now
                     <span className="transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>

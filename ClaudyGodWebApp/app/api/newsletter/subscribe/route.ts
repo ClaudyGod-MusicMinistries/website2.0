@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { proxyPost } from '@/utils/backendProxy';
-import { newsletterWelcome } from '@/utils/emailTemplates';
+import { proxyPost } from '@/lib/data/backendProxy';
+import { newsletterWelcome } from '@/lib/utils/emailTemplates';
 
 const subscriptionSchema = z.object({
   email: z.string().email('Please enter a valid email address'),

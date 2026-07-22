@@ -5,11 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, Clock } from 'lucide-react';
-import { videos, type VideoType } from '@/data/videos';
-import { cn } from '@/utils/cn';
-
-const categories = ['All', 'Music Videos', 'Visualizers', 'Live Sessions', 'Christmas'] as const;
-type Filter = (typeof categories)[number];
+import { useMedia } from '@/hooks/useMedia';
+import { toVideoView, type VideoView } from '@/lib/data/adapters';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 const stagger = {
   hidden: {},
@@ -21,18 +20,18 @@ const cardAnim = {
 };
 
 export function VideoGrid() {
-  const [active, setActive]     = useState<Filter>('All');
+  const { media, loading, error, refetch } = useMedia('video');
   const [playingId, setPlayingId] = useState<string | null>(null);
 
-  const filtered = active === 'All' ? videos : videos.filter((v) => v.category === active);
-  const counts   = Object.fromEntries(
-    categories.map((c) => [c, c === 'All' ? videos.length : videos.filter((v) => v.category === c).length])
-  );
+  const videos = media.map(toVideoView).filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
+
+  if (loading) return <GridSkeleton cols={4} rows={2} />;
+  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
 
   return (
     <>
       <section className="bg-white section-py">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Section header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
@@ -41,49 +40,24 @@ export function VideoGrid() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Watch & Worship</span>
               </div>
-              <h2 className="font-bricolage font-semibold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-display font-semibold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
                 All Videos
               </h2>
             </div>
-            <p className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
-              {filtered.length} video{filtered.length !== 1 ? 's' : ''} available
+            <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
+              {videos.length} video{videos.length !== 1 ? 's' : ''} available
             </p>
-          </div>
-
-          {/* Filter tabs — horizontal scroll on mobile, wraps on sm+ */}
-          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-10 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={cn(
-                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-worksans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
-                  active === cat
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(124,58,237,0.35)]'
-                    : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
-                )}
-              >
-                {cat}
-                <span className={cn(
-                  'text-[0.6rem] rounded-full px-1.5 py-0.5 font-semibold transition-colors duration-300',
-                  active === cat ? 'bg-white/20 text-white' : 'bg-neutral-100 text-neutral-400'
-                )}>
-                  {counts[cat]}
-                </span>
-              </button>
-            ))}
           </div>
 
           {/* Grid */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={active}
               variants={stagger}
               initial="hidden"
               animate="show"
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
-              {filtered.map((video) => (
+              {videos.map((video) => (
                 <motion.div key={video.id} variants={cardAnim}>
                   <VideoCard video={video} onPlay={() => setPlayingId(video.youtubeId)} />
                 </motion.div>
@@ -95,7 +69,7 @@ export function VideoGrid() {
           <div className="mt-12 flex justify-center">
             <Link
               href="/videos"
-              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300 group"
+              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300 group"
             >
               See All on YouTube
               <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
@@ -125,7 +99,7 @@ export function VideoGrid() {
             >
               <div className="relative w-full max-w-5xl pointer-events-auto">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="font-worksans text-[0.55rem] tracking-[0.18em] uppercase text-white/40">
+                  <span className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-white/40">
                     Now Playing
                   </span>
                   <button
@@ -136,7 +110,7 @@ export function VideoGrid() {
                     <X className="h-4 w-4" />
                   </button>
                 </div>
-                <div className="relative aspect-video bg-black rounded-2xl overflow-hidden ring-1 ring-white/10">
+                <div className="relative aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10">
                   <iframe
                     src={`https://www.youtube.com/embed/${playingId}?autoplay=1&rel=0`}
                     title="Video player"
@@ -154,11 +128,11 @@ export function VideoGrid() {
   );
 }
 
-function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) {
+function VideoCard({ video, onPlay }: { video: VideoView & { youtubeId: string }; onPlay: () => void }) {
   return (
     <button
       onClick={onPlay}
-      className="group w-full text-left overflow-hidden rounded-2xl bg-neutral-950 shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.22)] transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
+      className="group w-full text-left overflow-hidden rounded-xl bg-neutral-950 shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.22)] transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
@@ -173,23 +147,19 @@ function VideoCard({ video, onPlay }: { video: VideoType; onPlay: () => void }) 
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent" />
         {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-12 h-12 rounded-full border-2 border-white/30 flex items-center justify-center bg-black/25 backdrop-blur-sm group-hover:border-purple-400 group-hover:bg-purple-600/70 group-hover:scale-110 transition-all duration-300">
-            <Play className="h-4.5 w-4.5 text-white fill-white ml-0.5" />
+          <div className="w-12 h-12 rounded-full border border-white/25 flex items-center justify-center bg-black/30 group-hover:bg-gold-500 group-hover:border-gold-500 group-hover:scale-110 transition-all duration-300">
+            <Play className="h-4 w-4 text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
           </div>
         </div>
-        {/* Category badge */}
-        <span className="absolute top-3 left-3 font-worksans text-[0.5rem] tracking-[0.15em] uppercase text-white/80 bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full">
-          {video.category}
-        </span>
       </div>
 
       {/* Info */}
       <div className="p-4">
-        <p className="font-bricolage font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
+        <p className="font-display font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
           {video.title}
         </p>
         {video.duration && (
-          <span className="inline-flex items-center gap-1.5 font-worksans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
+          <span className="inline-flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
             <Clock className="h-3 w-3" />
             {video.duration}
           </span>

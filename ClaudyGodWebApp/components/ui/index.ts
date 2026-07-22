@@ -5,10 +5,15 @@ export { IconButton, iconButtonVariants } from './IconButton';
 export type { IconButtonProps }           from './IconButton';
 
 // Typography
-export { Display, Heading, Text, Label, Caption } from './Typography';
+export { Display, Heading, Text, Label, Caption, Accent } from './Typography';
 
 // Layout
 export { Container, Section, Grid, Flex, Stack } from './Layout';
+
+// Decorative primitives
+export { AmbientGlow }  from './AmbientGlow';
+export { Particles }    from './Particles';
+export { ParallaxLayer } from './ParallaxLayer';
 
 // Card
 export { Card, CardHeader, CardBody, CardFooter } from './Card';
@@ -20,7 +25,7 @@ export { Skeleton, SkeletonText, SkeletonCard, SkeletonAvatar } from './Skeleton
 export { Divider, GoldBar }                 from './Divider';
 
 // Composed
-export { SectionHeader }                    from './SectionHeader';
+export { Dialog }                           from './Dialog';
 
 // Brand
 export { Logo }                             from './Logo';

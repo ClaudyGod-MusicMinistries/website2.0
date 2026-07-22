@@ -16,8 +16,8 @@ import {
 } from 'lucide-react';
 import { FaCreditCard, FaUniversity, FaGlobe } from 'react-icons/fa';
 import { useCartStore } from '@/components/store/cartStore';
-import { formatPrice } from '@/utils/format';
-import { post } from '@/utils/apiClient';
+import { formatPrice } from '@/lib/utils/format';
+import { post } from '@/lib/data/client';
 
 /* ── Constants ──────────────────────────────────────────── */
 const SHIPPING_OPTIONS = [
@@ -102,13 +102,13 @@ function StepBar({ current }: { current: number }) {
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
                   done    ? 'bg-purple-600 border-purple-600 text-white'
-                  : active ? 'bg-white border-purple-600 text-purple-600 shadow-[0_0_0_4px_rgba(124,58,237,0.1)]'
+                  : active ? 'bg-white border-purple-600 text-purple-600 shadow-[0_0_0_4px_rgba(97, 73, 145,0.1)]'
                            : 'bg-white border-neutral-200 text-neutral-300'
                 }`}
               >
                 {done ? <Check className="h-3.5 w-3.5" /> : <Icon className="h-3.5 w-3.5" />}
               </div>
-              <span className={`font-worksans text-[0.52rem] tracking-[0.1em] uppercase hidden sm:block ${
+              <span className={`font-sans text-[0.52rem] tracking-[0.1em] uppercase hidden sm:block ${
                 active ? 'text-purple-600 font-semibold' : done ? 'text-neutral-500' : 'text-neutral-300'
               }`}>
                 {step.label}
@@ -125,9 +125,9 @@ function StepBar({ current }: { current: number }) {
 }
 
 /* ── Shared input styling ───────────────────────────────── */
-const inputCls = 'w-full h-11 px-4 border border-neutral-200 rounded-xl font-roboto text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
-const labelCls = 'block font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 mb-1.5';
-const errCls   = 'mt-1 font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+const inputCls = 'w-full h-11 px-4 border border-neutral-200 rounded-xl font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
+const labelCls = 'block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 mb-1.5';
+const errCls   = 'mt-1 font-sans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
 
 /* ── Order summary sidebar ──────────────────────────────── */
 function OrderSummary({
@@ -142,9 +142,9 @@ function OrderSummary({
   const total    = subtotal + shippingCost;
 
   return (
-    <div className="bg-white rounded-2xl border border-black/[0.05] shadow-[0_2px_16px_rgba(0,0,0,0.05)] overflow-hidden sticky top-24">
+    <div className="bg-white rounded-xl border border-black/[0.05] shadow-[0_2px_16px_rgba(0,0,0,0.05)] overflow-hidden sticky top-24">
       <div className="px-6 py-5 border-b border-neutral-100">
-        <p className="font-worksans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500 flex items-center gap-2">
+        <p className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500 flex items-center gap-2">
           <ShoppingBag className="h-3.5 w-3.5" /> Order Summary
         </p>
       </div>
@@ -155,15 +155,15 @@ function OrderSummary({
           <div key={item.id} className="flex gap-3 py-3">
             <div className="relative w-14 h-14 flex-shrink-0 rounded-xl overflow-hidden bg-cream-100 ring-1 ring-black/[0.05]">
               <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
-              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center font-worksans text-[0.52rem] font-bold leading-none">
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-purple-600 text-white flex items-center justify-center font-sans text-[0.52rem] font-bold leading-none">
                 {item.quantity}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-roboto font-medium text-neutral-900 text-xs leading-snug line-clamp-2">{item.name}</p>
-              <p className="font-worksans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5 capitalize">{item.category}</p>
+              <p className="font-sans font-medium text-neutral-900 text-xs leading-snug line-clamp-2">{item.name}</p>
+              <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5 capitalize">{item.category}</p>
             </div>
-            <p className="font-bricolage font-semibold text-neutral-800 text-sm shrink-0">
+            <p className="font-display font-semibold text-neutral-800 text-sm shrink-0">
               {formatPrice(item.price * item.quantity)}
             </p>
           </div>
@@ -173,18 +173,18 @@ function OrderSummary({
       {/* Totals */}
       <div className="px-6 py-4 border-t border-neutral-100 space-y-2.5">
         <div className="flex justify-between">
-          <span className="font-roboto text-neutral-500 text-sm">Subtotal</span>
-          <span className="font-roboto font-medium text-neutral-800 text-sm">{formatPrice(subtotal)}</span>
+          <span className="font-sans text-neutral-500 text-sm">Subtotal</span>
+          <span className="font-sans font-medium text-neutral-800 text-sm">{formatPrice(subtotal)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="font-roboto text-neutral-500 text-sm">Shipping</span>
-          <span className="font-roboto font-medium text-neutral-800 text-sm">
+          <span className="font-sans text-neutral-500 text-sm">Shipping</span>
+          <span className="font-sans font-medium text-neutral-800 text-sm">
             {shippingMethod ? formatPrice(shippingCost) : '—'}
           </span>
         </div>
         <div className="flex justify-between pt-3 border-t border-neutral-100">
-          <span className="font-bricolage font-bold text-neutral-900 text-base">Total</span>
-          <span className="font-bricolage font-bold text-neutral-900 text-xl">{formatPrice(total)}</span>
+          <span className="font-display font-bold text-neutral-900 text-base">Total</span>
+          <span className="font-display font-bold text-neutral-900 text-xl">{formatPrice(total)}</span>
         </div>
       </div>
 
@@ -197,7 +197,7 @@ function OrderSummary({
         ].map(({ icon: Icon, text }) => (
           <div key={text} className="flex items-center gap-2.5">
             <Icon className="h-3.5 w-3.5 text-neutral-300 shrink-0" />
-            <span className="font-worksans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-400">{text}</span>
+            <span className="font-sans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-400">{text}</span>
           </div>
         ))}
       </div>
@@ -217,8 +217,8 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
   return (
     <form onSubmit={handleSubmit(onNext)} className="space-y-6">
       <div>
-        <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Contact Information</h2>
-        <p className="font-roboto text-neutral-500 text-sm">We&apos;ll use this to send your order confirmation and shipping updates.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Contact Information</h2>
+        <p className="font-sans text-neutral-500 text-sm">We&apos;ll use this to send your order confirmation and shipping updates.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -252,7 +252,7 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
       </div>
 
       <div className="pt-2 border-t border-neutral-100">
-        <h3 className="font-bricolage font-semibold text-neutral-800 text-base mb-4">Shipping Address</h3>
+        <h3 className="font-display font-semibold text-neutral-800 text-base mb-4">Shipping Address</h3>
 
         <div className="space-y-4">
           <div>
@@ -290,7 +290,7 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
 
       <button
         type="submit"
-        className="w-full h-12 bg-neutral-900 hover:bg-purple-700 text-white font-worksans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+        className="w-full h-12 bg-neutral-900 hover:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
       >
         Continue to Shipping
         <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -314,8 +314,8 @@ function StepShipping({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Shipping Method</h2>
-        <p className="font-roboto text-neutral-500 text-sm">Choose how you&apos;d like your order delivered.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Shipping Method</h2>
+        <p className="font-sans text-neutral-500 text-sm">Choose how you&apos;d like your order delivered.</p>
       </div>
 
       <div className="space-y-3">
@@ -327,7 +327,7 @@ function StepShipping({
               key={opt.id}
               type="button"
               onClick={() => onSelect(opt.id)}
-              className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 ${
+              className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-300 ${
                 isActive
                   ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-400/30'
                   : 'border-neutral-200 bg-white hover:border-neutral-300'
@@ -339,16 +339,16 @@ function StepShipping({
                     <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
                   </div>
                   <div>
-                    <p className={`font-bricolage font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}>
+                    <p className={`font-display font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}>
                       {opt.label}
                     </p>
-                    <p className="font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5">
+                    <p className="font-sans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5">
                       {opt.duration}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`font-bricolage font-bold text-lg ${isActive ? 'text-purple-700' : 'text-neutral-800'}`}>
+                  <span className={`font-display font-bold text-lg ${isActive ? 'text-purple-700' : 'text-neutral-800'}`}>
                     {formatPrice(opt.price)}
                   </span>
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
@@ -367,14 +367,14 @@ function StepShipping({
         <button
           type="button"
           onClick={onBack}
-          className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-worksans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
+          className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-sans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back
         </button>
         <button
           type="button"
           onClick={onNext}
-          className="flex-1 h-12 bg-neutral-900 hover:bg-purple-700 text-white font-worksans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+          className="flex-1 h-12 bg-neutral-900 hover:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
         >
           Continue to Payment
           <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -399,8 +399,8 @@ function StepPayment({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Payment Method</h2>
-        <p className="font-roboto text-neutral-500 text-sm">Select how you&apos;d like to pay. Your transaction is fully encrypted.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Payment Method</h2>
+        <p className="font-sans text-neutral-500 text-sm">Select how you&apos;d like to pay. Your transaction is fully encrypted.</p>
       </div>
 
       <div className="space-y-3">
@@ -412,7 +412,7 @@ function StepPayment({
               key={method.id}
               type="button"
               onClick={() => onSelect(method.id)}
-              className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 relative ${
+              className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-300 relative ${
                 isActive
                   ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-400/30'
                   : 'border-neutral-200 bg-white hover:border-neutral-300'
@@ -424,17 +424,17 @@ function StepPayment({
                     <Icon className="h-4 w-4" style={{ color: method.color }} />
                   </div>
                   <div>
-                    <p className={`font-bricolage font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}>
+                    <p className={`font-display font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}>
                       {method.label}
                     </p>
-                    <p className="font-worksans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5">
+                    <p className="font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5">
                       {method.sub}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   {!method.live && (
-                    <span className="font-worksans text-[0.5rem] tracking-[0.1em] uppercase bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">
+                    <span className="font-sans text-[0.5rem] tracking-[0.1em] uppercase bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full">
                       Coming soon
                     </span>
                   )}
@@ -451,7 +451,7 @@ function StepPayment({
                 <div className="mt-4 pt-4 border-t border-purple-200">
                   <div className="flex items-start gap-2">
                     <Shield className="h-3.5 w-3.5 text-purple-500 shrink-0 mt-0.5" />
-                    <p className="font-roboto text-xs text-purple-600 leading-relaxed">
+                    <p className="font-sans text-xs text-purple-600 leading-relaxed">
                       You&apos;ll be redirected to Paystack&apos;s secure payment gateway to complete your purchase. Supports cards, bank transfer, and USSD.
                     </p>
                   </div>
@@ -459,7 +459,7 @@ function StepPayment({
               )}
               {isActive && !method.live && (
                 <div className="mt-4 pt-4 border-t border-neutral-200">
-                  <p className="font-roboto text-xs text-neutral-400">
+                  <p className="font-sans text-xs text-neutral-400">
                     This payment method is coming soon. Please choose Paystack to complete your order.
                   </p>
                 </div>
@@ -471,7 +471,7 @@ function StepPayment({
 
       <div className="flex gap-3 pt-2">
         <button type="button" onClick={onBack}
-          className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-worksans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
+          className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-sans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back
         </button>
@@ -479,7 +479,7 @@ function StepPayment({
           type="button"
           onClick={onNext}
           disabled={!PAYMENT_METHODS.find((m) => m.id === selected)?.live}
-          className="flex-1 h-12 bg-neutral-900 hover:bg-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-worksans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+          className="flex-1 h-12 bg-neutral-900 hover:bg-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
         >
           Review Order
           <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -514,8 +514,8 @@ function StepReview({
   const payment  = PAYMENT_METHODS.find((m) => m.id === paymentMethod)!;
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-neutral-50 rounded-2xl p-5">
-      <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-3">{title}</p>
+    <div className="bg-neutral-50 rounded-xl p-5">
+      <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-3">{title}</p>
       {children}
     </div>
   );
@@ -523,15 +523,15 @@ function StepReview({
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-bricolage font-bold text-neutral-900 text-xl tracking-tight mb-1">Review Your Order</h2>
-        <p className="font-roboto text-neutral-500 text-sm">Check everything before placing your order.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Review Your Order</h2>
+        <p className="font-sans text-neutral-500 text-sm">Check everything before placing your order.</p>
       </div>
 
       {/* Contact info */}
       <Section title="Delivery To">
-        <p className="font-bricolage font-semibold text-neutral-900 text-sm">{contact.fullName}</p>
-        <p className="font-roboto text-neutral-500 text-sm mt-0.5">{contact.email} · {contact.phone}</p>
-        <p className="font-roboto text-neutral-500 text-sm mt-0.5">
+        <p className="font-display font-semibold text-neutral-900 text-sm">{contact.fullName}</p>
+        <p className="font-sans text-neutral-500 text-sm mt-0.5">{contact.email} · {contact.phone}</p>
+        <p className="font-sans text-neutral-500 text-sm mt-0.5">
           {contact.address}, {contact.city}, {contact.state}, {contact.country}
           {contact.postalCode ? ` ${contact.postalCode}` : ''}
         </p>
@@ -542,17 +542,17 @@ function StepReview({
         <Section title="Shipping">
           <div className="flex items-center gap-2">
             <shipping.icon className="h-4 w-4 text-purple-600" />
-            <p className="font-bricolage font-semibold text-neutral-900 text-sm">{shipping.label}</p>
+            <p className="font-display font-semibold text-neutral-900 text-sm">{shipping.label}</p>
           </div>
-          <p className="font-worksans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">{shipping.duration}</p>
-          <p className="font-bricolage font-bold text-purple-700 text-base mt-1">{formatPrice(shipping.price)}</p>
+          <p className="font-sans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">{shipping.duration}</p>
+          <p className="font-display font-bold text-purple-700 text-base mt-1">{formatPrice(shipping.price)}</p>
         </Section>
         <Section title="Payment">
           <div className="flex items-center gap-2">
             <payment.icon className="h-4 w-4" style={{ color: payment.color }} />
-            <p className="font-bricolage font-semibold text-neutral-900 text-sm">{payment.label}</p>
+            <p className="font-display font-semibold text-neutral-900 text-sm">{payment.label}</p>
           </div>
-          <p className="font-worksans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">{payment.sub}</p>
+          <p className="font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">{payment.sub}</p>
         </Section>
       </div>
 
@@ -564,26 +564,26 @@ function StepReview({
               <div className="relative w-10 h-10 flex-shrink-0 rounded-lg overflow-hidden bg-white ring-1 ring-black/[0.05]">
                 <Image src={item.image} alt={item.name} fill className="object-cover" sizes="40px" />
               </div>
-              <p className="font-roboto text-neutral-700 text-sm flex-1 line-clamp-1">{item.name}</p>
-              <p className="font-worksans text-[0.58rem] tracking-[0.08em] text-neutral-400">×{item.quantity}</p>
-              <p className="font-bricolage font-semibold text-neutral-900 text-sm">{formatPrice(item.price * item.quantity)}</p>
+              <p className="font-sans text-neutral-700 text-sm flex-1 line-clamp-1">{item.name}</p>
+              <p className="font-sans text-[0.58rem] tracking-[0.08em] text-neutral-400">×{item.quantity}</p>
+              <p className="font-display font-semibold text-neutral-900 text-sm">{formatPrice(item.price * item.quantity)}</p>
             </div>
           ))}
         </div>
       </Section>
 
       {/* Total */}
-      <div className="flex justify-between items-center p-5 bg-neutral-900 rounded-2xl">
+      <div className="flex justify-between items-center p-5 bg-neutral-900 rounded-xl">
         <div>
-          <p className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-0.5">Order Total</p>
-          <p className="font-roboto text-neutral-400 text-xs">incl. {formatPrice(shippingCost)} shipping</p>
+          <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-0.5">Order Total</p>
+          <p className="font-sans text-neutral-400 text-xs">incl. {formatPrice(shippingCost)} shipping</p>
         </div>
-        <p className="font-bricolage font-bold text-white text-2xl">{formatPrice(total)}</p>
+        <p className="font-display font-bold text-white text-2xl">{formatPrice(total)}</p>
       </div>
 
       <div className="flex gap-3">
         <button type="button" onClick={onBack}
-          className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-worksans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
+          className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-sans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back
         </button>
@@ -591,7 +591,7 @@ function StepReview({
           type="button"
           onClick={onPlace}
           disabled={placing}
-          className="flex-1 h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-60 text-white font-worksans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_20px_rgba(124,58,237,0.35)]"
+          className="flex-1 h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-60 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_20px_rgba(97, 73, 145,0.35)]"
         >
           {placing ? 'Placing Order…' : (
             <><CheckCircle2 className="h-3.5 w-3.5" /> Place Order</>
@@ -599,7 +599,7 @@ function StepReview({
         </button>
       </div>
 
-      <p className="text-center font-roboto text-xs text-neutral-400">
+      <p className="text-center font-sans text-xs text-neutral-400">
         By placing your order, you agree to our{' '}
         <Link href="/legal/terms" className="underline hover:text-purple-600 transition-colors">Terms of Service</Link>
         {' '}and{' '}
@@ -628,14 +628,14 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
         <Check className="h-9 w-9 text-green-600" />
       </motion.div>
 
-      <h2 className="font-bricolage font-bold text-neutral-900 text-3xl tracking-tight mb-2">Order Confirmed!</h2>
-      <p className="font-roboto text-neutral-500 text-base mb-6 max-w-sm mx-auto leading-relaxed">
+      <h2 className="font-display font-bold text-neutral-900 text-3xl tracking-tight mb-2">Order Confirmed!</h2>
+      <p className="font-sans text-neutral-500 text-base mb-6 max-w-sm mx-auto leading-relaxed">
         Thank you for your purchase. A confirmation has been sent to <strong className="text-neutral-700">{email}</strong>.
       </p>
 
       <div className="inline-flex items-center gap-2 bg-neutral-100 rounded-xl px-6 py-3 mb-8">
-        <span className="font-worksans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-500">Order ID</span>
-        <span className="font-bricolage font-bold text-neutral-900 text-sm">{orderId}</span>
+        <span className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-500">Order ID</span>
+        <span className="font-display font-bold text-neutral-900 text-sm">{orderId}</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-md mx-auto mb-10">
@@ -646,8 +646,8 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
         ].map(({ icon: Icon, title, sub }) => (
           <div key={title} className="flex flex-col items-center gap-1.5 p-4 bg-neutral-50 rounded-xl">
             <Icon className="h-5 w-5 text-purple-500 mb-1" />
-            <p className="font-bricolage font-semibold text-neutral-800 text-xs">{title}</p>
-            <p className="font-roboto text-neutral-400 text-xs text-center">{sub}</p>
+            <p className="font-display font-semibold text-neutral-800 text-xs">{title}</p>
+            <p className="font-sans text-neutral-400 text-xs text-center">{sub}</p>
           </div>
         ))}
       </div>
@@ -655,13 +655,13 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
       <div className="flex flex-wrap gap-3 justify-center">
         <Link
           href="/store"
-          className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300"
+          className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300"
         >
           Continue Shopping
         </Link>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 font-worksans text-[0.62rem] tracking-[0.2em] uppercase border border-neutral-200 hover:border-purple-300 text-neutral-600 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300"
+          className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase border border-neutral-200 hover:border-purple-300 text-neutral-600 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300"
         >
           Go to Home
         </Link>
@@ -745,11 +745,11 @@ export default function CheckoutPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div>
-              <h1 className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">Checkout</h1>
-              <p className="font-roboto text-neutral-400 text-xs mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''} in your order</p>
+              <h1 className="font-display font-bold text-neutral-900 text-2xl tracking-tight">Checkout</h1>
+              <p className="font-sans text-neutral-400 text-xs mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''} in your order</p>
             </div>
           </div>
-          <Link href="/store" className="hidden sm:flex items-center gap-2 font-worksans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 hover:text-purple-600 transition-colors">
+          <Link href="/store" className="hidden sm:flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 hover:text-purple-600 transition-colors">
             <X className="h-3.5 w-3.5" /> Cancel
           </Link>
         </div>
@@ -760,7 +760,7 @@ export default function CheckoutPage() {
           <div>
             <StepBar current={step} />
 
-            <div className="bg-white rounded-2xl border border-black/[0.04] shadow-[0_2px_16px_rgba(0,0,0,0.05)] p-6 md:p-8">
+            <div className="bg-white rounded-xl border border-black/[0.04] shadow-[0_2px_16px_rgba(0,0,0,0.05)] p-6 md:p-8">
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.div key="step1" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>

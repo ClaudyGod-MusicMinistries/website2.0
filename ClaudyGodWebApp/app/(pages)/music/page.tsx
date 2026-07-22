@@ -1,3 +1,4 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero }          from '@/components/shared/PageHero';
@@ -6,7 +7,7 @@ import { MusicPlayer }       from '@/components/music/MusicPlayer';
 import { CrossPromo }        from '@/components/shared/CrossPromo';
 import { GridSkeleton }      from '@/components/shared/GridSkeleton';
 import { AnimateOnView }     from '@/components/shared/AnimateOnView';
-import { breadcrumb, musicAlbum, itemList } from '@/utils/jsonLd';
+import { breadcrumb, musicAlbum, itemList } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Music & Discography — ClaudyGod | Gospel Albums & Worship Songs',
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     description: "Stream 'Very Glorious', 'You Are Our Everything' & more on all platforms.",
     images:      ['/Bg_13.webp'],
   },
-  alternates: { canonical: 'https://claudygod.com/music' },
+  alternates: { canonical: `${SITE_URL}/music` },
 };
 
 const AlbumGrid = dynamic(
@@ -69,10 +70,10 @@ const schemas = [
     appleUrl:    'https://music.apple.com/ng/song/very-glorious/1789665670',
   }),
   itemList('ClaudyGod Gospel Albums', [
-    { name: 'You Are Our Everything', url: 'https://claudygod.com/music#you-are-our-everything' },
-    { name: 'Very Glorious',          url: 'https://claudygod.com/music#very-glorious'          },
-    { name: 'We Would Reign',         url: 'https://claudygod.com/music#we-would-reign'         },
-    { name: 'Lover of My Soul',       url: 'https://claudygod.com/music#lover-of-my-soul'       },
+    { name: 'You Are Our Everything', url: `${SITE_URL}/music#you-are-our-everything` },
+    { name: 'Very Glorious',          url: `${SITE_URL}/music#very-glorious`          },
+    { name: 'We Would Reign',         url: `${SITE_URL}/music#we-would-reign`         },
+    { name: 'Lover of My Soul',       url: `${SITE_URL}/music#lover-of-my-soul`       },
   ]),
 ];
 

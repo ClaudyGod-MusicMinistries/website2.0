@@ -1,4 +1,8 @@
 import type { Config } from 'tailwindcss';
+import { purple, neutral, gold, cream, surface, brand, status, hexToRgbString } from './lib/theme/colors';
+
+const goldRgb = hexToRgbString(gold[500]);
+const purpleRgb = hexToRgbString(purple[600]);
 
 const config: Config = {
   content: [
@@ -9,74 +13,37 @@ const config: Config = {
     './types/**/*.{ts,tsx}',
   ],
   theme: {
+    // ─── Container ───────────────────────────────────────────────
+    // Formalizes the `max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12`
+    // pattern that was previously hand-typed at ~35 call sites instead
+    // of using a token. Use the `container` utility (or the narrow/wide
+    // variants defined in globals.css) instead of a fresh arbitrary value.
+    container: {
+      center: true,
+      padding: { DEFAULT: '1rem', sm: '1.5rem', lg: '3rem' },
+      screens: { '2xl': '1400px' },
+    },
     extend: {
       // ─── Brand colours ───────────────────────────────────────────
-      colors: {
-        gold: {
-          50:  '#FFFBEB',
-          100: '#FEF3C7',
-          200: '#FDE68A',
-          300: '#FCD34D',
-          400: '#FBBF24',
-          500: '#C9A84C',
-          600: '#A88A2E',
-          700: '#8B6914',
-          800: '#6B4D00',
-          900: '#4A3400',
-        },
-        purple: {
-          50:  '#F5F3FF',
-          100: '#EDE9FE',
-          200: '#DDD6FE',
-          300: '#C4B5FD',
-          400: '#A78BFA',
-          500: '#7C3AED',
-          600: '#6D28D9',
-          700: '#5B21B6',
-          800: '#4C1D95',
-          900: '#2E1065',
-        },
-        cream: {
-          50:  '#FDFCFB',
-          100: '#F8F5F0',
-          200: '#F5F0E8',
-          300: '#EDE4D5',
-          400: '#DDD0BC',
-        },
-        surface: {
-          base:     '#080808',
-          muted:    '#0E0E0E',
-          elevated: '#161616',
-          overlay:  '#1E1E1E',
-          border:   '#2A2A2A',
-          divider:  '#232323',
-        },
-        brand: {
-          gold:    '#C9A84C',
-          goldLight: '#E8C96A',
-          dark:    '#080808',
-          deeper:  '#0E0E0E',
-          accent:  '#8B6914',
-        },
-        status: {
-          success:   '#10B981',
-          warning:   '#F59E0B',
-          error:     '#EF4444',
-          info:      '#3B82F6',
-          successBg: '#052E16',
-          warningBg: '#451A03',
-          errorBg:   '#450A0A',
-          infoBg:    '#0C1A3A',
-        },
-      },
+      // Values live in lib/theme/colors.ts — the single source of truth,
+      // importable from both this config (for Tailwind classes) and from
+      // any component (for raw JS values: inline styles, SVG fills,
+      // gradient strings) via the useTheme() hook in lib/theme/useTheme.ts.
+      // Two-color discipline: `purple` is the entire structural system —
+      // one hue, ten lightness steps. `neutral` overrides Tailwind's true
+      // gray with a purple-tinted scale so no third neutral color sneaks
+      // in. `gold` is a single rare accent, not a structural ramp.
+      colors: { purple, neutral, gold, cream, surface, brand, status },
 
       // ─── Typography ──────────────────────────────────────────────
+      // Two families (next/font/google, see lib/fonts.ts): `display`
+      // and `sans` are the only font-family classes in the codebase —
+      // every call site was migrated off the old 5-family names
+      // (bricolage/abril/raleway/worksans/roboto). Change the actual
+      // typeface only in lib/fonts.ts; these class names should stay put.
       fontFamily: {
-        bricolage: ['BricolageGrotesque', 'sans-serif'],
-        raleway:   ['Raleway', 'sans-serif'],
-        worksans:  ['WorkSans', 'sans-serif'],
-        abril:     ['AbrilFatface', 'serif'],
-        roboto:    ['Roboto', 'sans-serif'],
+        display: ['var(--font-display)', 'serif'],
+        sans:    ['var(--font-sans)', 'sans-serif'],
       },
       fontSize: {
         '2xs': ['0.625rem', { lineHeight: '0.875rem' }],
@@ -118,13 +85,32 @@ const config: Config = {
       },
 
       // ─── Shadows ─────────────────────────────────────────────────
+      // gold/purple values derive from goldRgb/purpleRgb above (in turn
+      // from lib/theme/colors.ts) instead of re-typing the hex as a
+      // separate rgb() string that could silently drift from the token.
       boxShadow: {
-        gold:    '0 0 20px 0 rgb(201 168 76 / 0.25)',
-        'gold-lg': '0 0 40px 0 rgb(201 168 76 / 0.35)',
-        'gold-glow': '0 0 60px 0 rgb(201 168 76 / 0.45)',
+        gold:    `0 0 20px 0 rgb(${goldRgb} / 0.25)`,
+        'gold-lg': `0 0 40px 0 rgb(${goldRgb} / 0.35)`,
+        'gold-glow': `0 0 60px 0 rgb(${goldRgb} / 0.45)`,
         'inner-dark': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.5)',
         card: '0 4px 24px 0 rgb(0 0 0 / 0.4)',
         'card-hover': '0 8px 40px 0 rgb(0 0 0 / 0.6)',
+        header: '0 4px 24px 0 rgb(0 0 0 / 0.08)',
+        // Light-background card shadows — 'card'/'card-hover' above are
+        // tuned for dark surfaces and read as too heavy on white cards.
+        'card-light': '0 2px 12px 0 rgb(0 0 0 / 0.06)',
+        'card-light-hover': '0 8px 32px 0 rgb(0 0 0 / 0.10)',
+        'card-light-lg': '0 20px 60px 0 rgb(0 0 0 / 0.15)',
+        purple: `0 4px 20px 0 rgb(${purpleRgb} / 0.5)`,
+        'purple-lg': `0 6px 28px 0 rgb(${purpleRgb} / 0.6)`,
+        // Centered glows (play buttons, icon badges) vs the offset shadows above.
+        'glow-dark': '0 0 40px 0 rgb(0 0 0 / 0.4)',
+        'glow-purple': `0 0 50px 0 rgb(${purpleRgb} / 0.5)`,
+        // Offset gold shadow for gold CTA buttons — distinct shape from the
+        // centered 'gold'/'gold-lg' glows above.
+        'gold-cta': `0 4px 20px 0 rgb(${goldRgb} / 0.35)`,
+        'gold-cta-hover': `0 6px 28px 0 rgb(${goldRgb} / 0.45)`,
+        popup: '0 24px 64px 0 rgb(0 0 0 / 0.6)',
       },
 
       // ─── Borders ─────────────────────────────────────────────────
@@ -164,8 +150,8 @@ const config: Config = {
           '100%': { backgroundPosition: '200% 0' },
         },
         'pulse-gold': {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgb(201 168 76 / 0.4)' },
-          '50%':      { boxShadow: '0 0 0 12px rgb(201 168 76 / 0)' },
+          '0%, 100%': { boxShadow: `0 0 0 0 rgb(${goldRgb} / 0.4)` },
+          '50%':      { boxShadow: `0 0 0 12px rgb(${goldRgb} / 0)` },
         },
         'spin-slow': {
           from: { transform: 'rotate(0deg)' },
@@ -191,12 +177,12 @@ const config: Config = {
 
       // ─── Gradients (via backgroundImage) ─────────────────────────
       backgroundImage: {
-        'gradient-gold':   'linear-gradient(135deg, #C9A84C 0%, #E8C96A 50%, #C9A84C 100%)',
-        'gradient-dark':   'linear-gradient(180deg, #0E0E0E 0%, #080808 100%)',
-        'gradient-hero':   'linear-gradient(180deg, transparent 0%, rgba(8,8,8,0.8) 70%, #080808 100%)',
-        'gradient-card':   'linear-gradient(135deg, #161616 0%, #1E1E1E 100%)',
-        'gradient-radial-gold': 'radial-gradient(ellipse at center, rgba(201,168,76,0.15) 0%, transparent 70%)',
-        'shimmer-base':    'linear-gradient(90deg, transparent 25%, rgba(201,168,76,0.08) 50%, transparent 75%)',
+        'gradient-gold':   `linear-gradient(135deg, ${gold[500]} 0%, ${gold[300]} 50%, ${gold[500]} 100%)`,
+        'gradient-dark':   `linear-gradient(180deg, ${surface.muted} 0%, ${surface.base} 100%)`,
+        'gradient-hero':   `linear-gradient(180deg, transparent 0%, rgb(${hexToRgbString(surface.base)} / 0.8) 70%, ${surface.base} 100%)`,
+        'gradient-card':   `linear-gradient(135deg, ${surface.elevated} 0%, ${surface.overlay} 100%)`,
+        'gradient-radial-gold': `radial-gradient(ellipse at center, rgb(${goldRgb} / 0.15) 0%, transparent 70%)`,
+        'shimmer-base':    `linear-gradient(90deg, transparent 25%, rgb(${goldRgb} / 0.08) 50%, transparent 75%)`,
       },
 
       // ─── Z-index ─────────────────────────────────────────────────

@@ -50,7 +50,7 @@ export function TeamSection() {
         onKeyDown={onKeyDown}
         tabIndex={-1}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container-site">
 
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 sm:mb-12">
@@ -59,14 +59,14 @@ export function TeamSection() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">The Team</span>
               </div>
-              <h2 className="font-bricolage font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
+              <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
                 Ministry Gallery
               </h2>
-              <p className="mt-2 font-roboto text-neutral-500 text-sm leading-relaxed max-w-md">
+              <p className="mt-2 font-sans text-neutral-500 text-sm leading-relaxed max-w-md">
                 The dedicated people behind the mission — serving with purpose, faith, and joy.
               </p>
             </div>
-            <p className="font-worksans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 shrink-0">
+            <p className="font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 shrink-0">
               {teamMembers.length} photos
             </p>
           </div>
@@ -103,7 +103,7 @@ export function TeamSection() {
                   </div>
                   {/* Photo number badge */}
                   <div className="absolute bottom-0 left-0 right-0 p-2.5 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <p className="font-worksans text-[0.48rem] tracking-[0.12em] uppercase text-white/75 bg-black/40 rounded-md px-2 py-1 inline-block backdrop-blur-sm">
+                    <p className="font-sans text-[0.48rem] tracking-[0.12em] uppercase text-white/75 bg-black/40 rounded-md px-2 py-1 inline-block backdrop-blur-sm">
                       Photo {i + 1}
                     </p>
                   </div>
@@ -139,7 +139,7 @@ export function TeamSection() {
 
                 {/* Top bar */}
                 <div className="flex items-center justify-between mb-3 px-1">
-                  <p className="font-worksans text-[0.54rem] tracking-[0.14em] uppercase text-white/40">
+                  <p className="font-sans text-[0.54rem] tracking-[0.14em] uppercase text-white/40">
                     {lightboxIdx + 1} / {teamMembers.length}
                   </p>
                   <button
@@ -159,7 +159,7 @@ export function TeamSection() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.22 }}
-                    className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                    className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
                   >
                     <Image
                       src={teamMembers[lightboxIdx].image}

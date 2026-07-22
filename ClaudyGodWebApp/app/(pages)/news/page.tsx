@@ -1,10 +1,11 @@
+import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
-import { breadcrumb, event as eventSchema } from '@/utils/jsonLd';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -16,13 +17,13 @@ export const metadata: Metadata = {
   description:
     'Stay updated with ClaudyGod — upcoming gospel concerts and tour dates in Nigeria and the UK, new album releases, media interviews, and ministry announcements. Never miss a ClaudyGod event.',
   keywords: [
-    'ClaudyGod tour dates 2025', 'gospel concerts Nigeria 2025',
-    'ClaudyGod news', 'ClaudyGod new release 2025',
-    'gospel concert Port Harcourt', 'gospel concert Lagos 2025',
+    'ClaudyGod tour dates', 'gospel concerts Nigeria',
+    'ClaudyGod news', 'ClaudyGod new release',
+    'gospel concert Port Harcourt', 'gospel concert Lagos',
     'ClaudyGod Aba concert', 'ClaudyGod Imo concert',
-    'Nigerian gospel tour 2025', 'gospel music events Nigeria',
+    'Nigerian gospel tour', 'gospel music events Nigeria',
     'ClaudyGod media interview', 'ClaudyGod ministry update',
-    'gospel artist tour Nigeria', 'Christian concert Nigeria 2025',
+    'gospel artist tour Nigeria', 'Christian concert Nigeria',
   ],
   openGraph: {
     title:       'ClaudyGod News, Tour Dates & New Releases',
@@ -32,21 +33,22 @@ export const metadata: Metadata = {
   },
   twitter: {
     card:  'summary_large_image',
-    title: 'ClaudyGod News & Tour Dates 2025',
+    title: 'ClaudyGod News & Tour Dates',
     images:['/tour_3.jpg'],
   },
-  alternates: { canonical: 'https://claudygod.com/news' },
+  alternates: { canonical: `${SITE_URL}/news` },
 };
 
 export default async function NewsPage() {
   
 
+  // Event JSON-LD previously hardcoded four 2025 concert dates here — all
+  // now in the past, which makes them invalid for Google's Event rich
+  // results (meant for upcoming events) and duplicates data/events.ts's
+  // separate event list. Removed rather than inventing new fake dates;
+  // real Event schema belongs on the canonical /tour page once it exists.
   const schemas = [
     breadcrumb([{ name: 'News & Tours', href: '/news' }]),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Port Harcourt', startDate: '2025-07-12T17:00:00+01:00', location: 'University of Port Harcourt Auditorium', city: 'Port Harcourt', country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Lagos',         startDate: '2025-08-02T18:00:00+01:00', location: 'Tafawa Balewa Square',                    city: 'Lagos',         country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Aba',           startDate: '2025-08-16T17:00:00+01:00', location: 'Enyimba Cultural Centre',                  city: 'Aba',           country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
-    eventSchema({ name: 'ClaudyGod Live Ministry Concert — Imo',           startDate: '2025-09-06T17:00:00+01:00', location: 'Imo State University',                     city: 'Imo',           country: 'NG', image: 'https://claudygod.com/tour_3.jpg' }),
   ];
 
   return (
@@ -67,18 +69,18 @@ export default async function NewsPage() {
 
       {/* New releases */}
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="container-site">
           <div className="flex items-center gap-4 mb-4">
             <span className="rule-gold" />
             <span className="label-eyebrow">New Releases</span>
           </div>
-          <h2 className="font-bricolage font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
+          <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
             Latest Music
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {newsAlbums.map((album) => (
-              <div key={album.title} className="group bg-white rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
+              <div key={album.title} className="group bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
                 <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
                   <Image
                     src={album.image}
@@ -89,10 +91,10 @@ export default async function NewsPage() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bricolage font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                  <p className="font-display font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
                     {album.title}
                   </p>
-                  <p className="font-worksans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-4">
+                  <p className="font-sans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-4">
                     Available on all platforms
                   </p>
                   <div className="flex items-center gap-3">
@@ -117,7 +119,7 @@ export default async function NewsPage() {
           <div className="mt-10">
             <Link
               href="/music"
-              className="inline-flex items-center gap-2.5 font-worksans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
+              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
             >
               View Full Discography
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -128,14 +130,14 @@ export default async function NewsPage() {
 
       {/* Follow */}
       <section className="bg-white py-16 border-t border-black/[0.05]">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+        <div className="container-site">
           <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-16">
             <div>
               <div className="flex items-center gap-4 mb-2">
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Follow Along</span>
               </div>
-              <p className="font-bricolage font-bold text-neutral-900 text-2xl tracking-tight">
+              <p className="font-display font-bold text-neutral-900 text-2xl tracking-tight">
                 Stay Connected
               </p>
             </div>

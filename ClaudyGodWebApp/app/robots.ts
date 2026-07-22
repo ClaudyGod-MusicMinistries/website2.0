@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/config/site';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/api/',
           '/_next/',
+          '/dev/',
           '/store/cart',
           '/store/checkout',
           '/legal/privacy',
@@ -78,9 +80,9 @@ export default function robots(): MetadataRoute.Robots {
     ],
 
     sitemap: [
-      'https://claudygod.com/sitemap.xml',
+      `${SITE_URL}/sitemap.xml`,
     ],
 
-    host: 'https://claudygod.com',
+    host: SITE_URL,
   };
 }

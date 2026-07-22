@@ -63,7 +63,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              backgroundColor: '#C9A84C',
+              backgroundColor: '#B5651D',
               color: '#080808',
               border: 'none',
               borderRadius: '8px',

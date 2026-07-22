@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { buildCsp, PERMISSIONS_POLICY } from '@/lib/config/csp';
 
 export function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -16,28 +17,13 @@ export function middleware(request: NextRequest) {
     'max-age=31536000; includeSubDomains; preload'
   );
 
-  // Content Security Policy
-  response.headers.set(
-    'Content-Security-Policy',
-    [
-      "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.youtube.com https://s.ytimg.com",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: https: blob:",
-      "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https: wss:",
-      "frame-src 'self' https://www.youtube.com https://www.paystack.co",
-      "object-src 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join('; ')
-  );
+  // Content Security Policy — single source of truth in lib/config/csp.ts,
+  // also used to generate nginx.conf's CSP header (see scripts/generate-nginx-csp.mjs)
+  // so the two layers can't drift apart again.
+  response.headers.set('Content-Security-Policy', buildCsp());
 
   // Permissions Policy (formerly Feature Policy)
-  response.headers.set(
-    'Permissions-Policy',
-    'geolocation=(), microphone=(), camera=(), payment=(self "https://www.paystack.co")'
-  );
+  response.headers.set('Permissions-Policy', PERMISSIONS_POLICY);
 
   return response;
 }

@@ -45,12 +45,12 @@ export function SuccessModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
         {/* Header */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 flex items-start justify-between border-b border-green-100">
           <div className="flex items-start gap-3">
             <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-            <h2 className="font-bricolage font-bold text-lg text-neutral-900">{title}</h2>
+            <h2 className="font-display font-bold text-lg text-neutral-900">{title}</h2>
           </div>
           <button
             onClick={handleClose}
@@ -62,7 +62,7 @@ export function SuccessModal({
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="font-roboto text-sm text-neutral-700 leading-relaxed">{message}</p>
+          <p className="font-sans text-sm text-neutral-700 leading-relaxed">{message}</p>
         </div>
 
         {/* Actions */}
@@ -71,7 +71,7 @@ export function SuccessModal({
             <>
               <button
                 onClick={handleClose}
-                className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-roboto font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
+                className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-sans font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
               >
                 Done
               </button>
@@ -80,7 +80,7 @@ export function SuccessModal({
                   action.onClick();
                   handleClose();
                 }}
-                className="flex-1 px-4 py-2.5 bg-green-600 text-white font-roboto font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
+                className="flex-1 px-4 py-2.5 bg-green-600 text-white font-sans font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
               >
                 {action.label}
               </button>
@@ -88,7 +88,7 @@ export function SuccessModal({
           ) : (
             <button
               onClick={handleClose}
-              className="w-full px-4 py-2.5 bg-green-600 text-white font-roboto font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
+              className="w-full px-4 py-2.5 bg-green-600 text-white font-sans font-semibold text-sm rounded-lg hover:bg-green-700 transition-colors"
             >
               Continue
             </button>

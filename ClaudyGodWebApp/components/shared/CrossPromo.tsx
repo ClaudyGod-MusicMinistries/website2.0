@@ -40,10 +40,10 @@ const promos = [
 
 export function CrossPromo() {
   return (
-    <section className="bg-[#09080f] overflow-hidden">
+    <section className="bg-surface-deep overflow-hidden">
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 md:py-20">
+      <div className="container-site py-12 sm:py-16 md:py-20">
 
         {/* Header */}
         <div className="flex items-center gap-4 mb-8 sm:mb-10">
@@ -57,7 +57,7 @@ export function CrossPromo() {
             <Link
               key={href}
               href={href}
-              className="group relative flex-none snap-start w-[82vw] sm:w-auto overflow-hidden rounded-2xl bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.15] transition-all duration-400 flex flex-col"
+              className="group relative flex-none snap-start w-[82vw] sm:w-auto overflow-hidden rounded-xl bg-white/[0.04] border border-white/[0.07] hover:border-white/[0.15] transition-all duration-400 flex flex-col"
             >
               {/* Image strip */}
               <div className="relative h-44 sm:h-40 lg:h-48 overflow-hidden shrink-0">
@@ -69,10 +69,10 @@ export function CrossPromo() {
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.06] opacity-60 group-hover:opacity-75"
                   sizes="(max-width: 640px) 82vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-[#09080f]/90" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-surface-deep/90" />
 
                 {/* Badge */}
-                <span className={`absolute top-3 left-3 ${accent} text-white font-worksans text-[0.45rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full`}>
+                <span className={`absolute top-3 left-3 ${accent} text-white font-sans text-[0.45rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full`}>
                   {badge}
                 </span>
               </div>
@@ -84,23 +84,23 @@ export function CrossPromo() {
                   <div className="w-8 h-8 rounded-xl bg-white/[0.08] border border-white/[0.1] flex items-center justify-center shrink-0 group-hover:border-purple-400/30 transition-colors duration-300">
                     <Icon className="h-3.5 w-3.5 text-gold-400/80" />
                   </div>
-                  <span className="font-worksans text-[0.48rem] tracking-[0.2em] uppercase text-neutral-500">
+                  <span className="font-sans text-[0.48rem] tracking-[0.2em] uppercase text-neutral-500">
                     {eyebrow}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h3 className="font-bricolage font-bold text-white text-lg sm:text-base lg:text-xl leading-snug mb-2 group-hover:text-purple-200 transition-colors duration-300">
+                <h3 className="font-display font-bold text-white text-lg sm:text-base lg:text-xl leading-snug mb-2 group-hover:text-purple-200 transition-colors duration-300">
                   {title}
                 </h3>
 
                 {/* Body */}
-                <p className="font-roboto text-neutral-400 text-sm sm:text-xs lg:text-sm leading-relaxed flex-1 mb-4 sm:mb-5">
+                <p className="font-sans text-neutral-400 text-sm sm:text-xs lg:text-sm leading-relaxed flex-1 mb-4 sm:mb-5">
                   {body}
                 </p>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 font-worksans text-[0.58rem] sm:text-[0.55rem] tracking-[0.16em] uppercase text-white/70 group-hover:text-white transition-colors duration-300">
+                <div className="flex items-center gap-2 font-sans text-[0.58rem] sm:text-[0.55rem] tracking-[0.16em] uppercase text-white/70 group-hover:text-white transition-colors duration-300">
                   {cta}
                   <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </div>
