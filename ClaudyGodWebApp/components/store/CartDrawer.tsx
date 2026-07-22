@@ -102,7 +102,7 @@ export function CartDrawer() {
                   {items.map((item) => (
                     <li key={item.id} className="py-4 sm:py-5 flex gap-4" role="listitem">
                       {/* Product image */}
-                      <div className="relative w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0 rounded-xl overflow-hidden bg-white/[0.04] border border-white/[0.06]">
+                      <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-xl overflow-hidden bg-white/[0.04] border border-white/[0.06]">
                         <Image
                           src={item.image}
                           alt={item.name}

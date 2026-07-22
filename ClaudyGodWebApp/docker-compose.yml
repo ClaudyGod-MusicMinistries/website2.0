@@ -18,8 +18,9 @@ services:
       # lib/data/backendProxy.ts reads this exact name — it was never set here
       # before (only the unread NEXT_PUBLIC_API_URL build arg was), which made
       # every /api/* proxy call fail with a 502 against the unreachable
-      # http://localhost:8080 fallback.
-      API_BASE_URL: ${API_BASE_URL:-https://api.claudygod.org}
+      # http://localhost:8080 fallback. webApi.claudygod.org is this site's
+      # backend — api.claudygod.org is the separate mobile-app backend.
+      API_BASE_URL: ${API_BASE_URL:-https://webApi.claudygod.org}
       INTERNAL_API_KEY: ${INTERNAL_API_KEY:-}
       VALID_API_KEYS: ${VALID_API_KEYS:-}
       PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY:-sk_live_placeholder}
