@@ -25,15 +25,16 @@ cd "$REPO_ROOT"
 # Filter with a bash case pattern rather than a git pathspec glob — git's `**`
 # pathspec matching needs --glob-pathspecs/core.globPathspecs to behave as
 # expected, which isn't guaranteed on every machine. Plain `case` matching
-# is portable and does the same job here.
-mapfile -t ALL_STAGED < <(git diff --cached --name-only --diff-filter=ACMR)
+# is portable and does the same job here. Uses a `while read` loop instead of
+# `mapfile` — macOS ships bash 3.2 by default, which predates mapfile (bash 4+).
 STAGED_APP_FILES=()
-for f in "${ALL_STAGED[@]}"; do
+while IFS= read -r f; do
+  [[ -z "$f" ]] && continue
   case "$f" in
     ClaudyGodWebApp/*.ts|ClaudyGodWebApp/*.tsx|ClaudyGodWebApp/*.js|ClaudyGodWebApp/*.jsx)
       STAGED_APP_FILES+=("$f") ;;
   esac
-done
+done < <(git diff --cached --name-only --diff-filter=ACMR)
 
 if [[ ${#STAGED_APP_FILES[@]} -eq 0 ]]; then
   info "No staged frontend files — skipping."
