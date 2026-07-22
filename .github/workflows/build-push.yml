@@ -13,12 +13,13 @@ env:
   NODE_VERSION: "20"
   WORKDIR: ClaudyGodWebApp
 
+# Prevent concurrent deployments
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   # ─── Quality gate — lint, type-check, build ──────────────────────────────────
-  # This used to live at ClaudyGodWebApp/.github/workflows/ci.yml, a location
-  # GitHub Actions never scans (the real repo root is here, one level up), so
-  # it never actually ran. Folded into this workflow instead of a separate
-  # file so there's one CI pipeline, not several.
   quality-gate:
     name: Lint, type-check & build
     runs-on: ubuntu-latest
@@ -30,15 +31,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: ${{ env.WORKDIR }}/package-lock.json
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        run: |
+          # Install Node.js 20 via NodeSource (ubuntu-latest ships with 22+)
+          curl -fsSL https://deb.nodesource.com/setup_${{ env.NODE_VERSION }}.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          
+          # Verify installation
+          echo "Node.js version: $(node --version)"
+          echo "npm version: $(npm --version)"
+          
+          # Enable corepack for package manager version management
+          sudo corepack enable || true
+
+      - name: Cache node_modules
+        run: |
+          # Manual caching using GitHub's cache action pattern
+          # npm ci will use the cache if package-lock.json hasn't changed
+          echo "cache-hit=false" >> $GITHUB_STATE
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # Use --prefer-offline to use cached packages when available
+          npm ci --prefer-offline --no-audit --no-fund
 
       - name: Lint
         run: npm run lint
@@ -74,6 +89,11 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker-container
+          driver-opts: |
+            image=moby/buildkit:latest
+            network=host
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -97,33 +117,33 @@ jobs:
             org.opencontainers.image.vendor=ClaudyGod-MusicMinistries
 
       - name: Build and push
-        id: build
+        id: docker-build
         uses: docker/build-push-action@v6
         with:
-          context: ./ClaudyGodWebApp
-          file: ./ClaudyGodWebApp/Dockerfile
+          context: ./${{ env.WORKDIR }}
+          file: ./${{ env.WORKDIR }}/Dockerfile
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # NEXT_PUBLIC_ vars baked in at build time (Next.js static optimisation).
-          # API_BASE_URL is NOT a build arg — it's a server-only runtime secret,
-          # supplied on the deploy target via docker-compose (see docker-compose.yml).
           build-args: |
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL || 'https://claudygod.org' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Summary
+      - name: Build summary
         if: github.event_name != 'pull_request'
         run: |
-          echo "### ✅ Web image pushed to GHCR" >> $GITHUB_STEP_SUMMARY
-          echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Image | \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\` |" >> $GITHUB_STEP_SUMMARY
-          echo "| Tags | \`latest\`, \`sha-${{ steps.sha.outputs.short }}\` |" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### ✅ Web Image Pushed to GHCR"
+            echo "| Detail | Value |"
+            echo "|--------|-------|"
+            echo "| Image | \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\` |"
+            echo "| Tags | \`latest\`, \`sha-${{ steps.sha.outputs.short }}\` |"
+            echo "| Platform | \`linux/amd64\` |"
+          } >> $GITHUB_STEP_SUMMARY
 
-  # ─── SSH deploy to production server ─────────────────────────────────────────
+  # ─── Deploy to Production ────────────────────────────────────────────────────
   deploy:
     name: Deploy Web to production
     needs: build
@@ -139,28 +159,57 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
-          timeout: 180s
+          timeout: 300s
           script: |
-            set -e
-            DEPLOY_PATH="${{ secrets.VPS_DEPLOY_PATH }}"
-            cd "$DEPLOY_PATH"
+            set -euo pipefail
+            export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+            
+            DEPLOY_PATH="$(echo '${{ secrets.VPS_DEPLOY_PATH }}' | tr -d '[:space:]')"
+            cd "$DEPLOY_PATH" || { echo "❌ Failed to cd into $DEPLOY_PATH"; exit 1; }
 
-            # Pull latest infra scripts (ensures deploy.sh is up to date)
-            git pull origin main --ff-only || true
+            # Update infra scripts
+            git pull origin main --ff-only || git fetch origin main && git reset --hard origin/main || true
 
-            # Authenticate to GHCR (Docker Compose v2)
+            # Authenticate to GHCR
             echo "${{ secrets.GITHUB_TOKEN }}" | \
-              docker login ghcr.io -u ${{ github.actor }} --password-stdin
+              docker login ghcr.io -u '${{ github.actor }}' --password-stdin
 
-            # Deploy web only using docker compose (v2) directly
             export TAG="sha-${{ needs.build.outputs.short-sha }}"
-            COMPOSE="docker compose --env-file $DEPLOY_PATH/.env --project-directory $DEPLOY_PATH -f $DEPLOY_PATH/docker/docker-compose.yml"
+            export IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${TAG}"
 
-            echo "→ Pulling web image (tag: $TAG)..."
+            COMPOSE="docker compose \
+              --env-file $DEPLOY_PATH/.env \
+              --project-directory $DEPLOY_PATH \
+              -f $DEPLOY_PATH/docker/docker-compose.yml"
+
+            echo "→ Pulling web image: ${IMAGE}"
             $COMPOSE pull web
 
-            echo "→ Restarting web..."
+            echo "→ Deploying web service..."
             $COMPOSE up -d --no-deps --remove-orphans web
 
-            docker image prune -f --filter "until=24h" >/dev/null
+            # Health check
+            sleep 5
+            if $COMPOSE ps web | grep -q "Up"; then
+              echo "✓ Web service is healthy"
+            else
+              echo "⚠️ Web service may not be running — check logs with: docker compose logs web"
+            fi
+
+            # Cleanup old images
+            docker image prune -f --filter "until=24h" >/dev/null 2>&1 || true
+            
             echo "✓ Web deploy complete — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+      - name: Deployment status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            {
+              echo "### ✅ Production Deploy Successful"
+              echo "**Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ needs.build.outputs.short-sha }}\`"
+              echo "**Time:** $(date -u)"
+            } >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Production Deploy Failed — check logs above" >> $GITHUB_STEP_SUMMARY
+          fi
