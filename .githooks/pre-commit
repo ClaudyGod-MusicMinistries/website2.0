@@ -41,6 +41,36 @@ if [[ ${#STAGED_APP_FILES[@]} -eq 0 ]]; then
   exit 0
 fi
 
+# Git hooks run with a leaner PATH than your interactive shell. If node/npm is
+# managed by nvm, it's normally only put on PATH by ~/.zshrc sourcing nvm.sh —
+# which non-login processes (like this hook) don't do. Source it directly;
+# if that's not how node is installed, fall back to asking your actual
+# login+interactive shell what its real PATH is.
+find_node() {
+  command -v npm >/dev/null 2>&1 && return 0
+
+  if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+    # shellcheck disable=SC1091
+    source "$HOME/.nvm/nvm.sh"
+    nvm use default >/dev/null 2>&1 || nvm use node >/dev/null 2>&1 || true
+  fi
+  command -v npm >/dev/null 2>&1 && return 0
+
+  local user_shell raw shell_path
+  user_shell="${SHELL:-/bin/zsh}"
+  raw="$("$user_shell" -ilc 'echo "@@PATH_START@@${PATH}@@PATH_END@@"' 2>/dev/null || true)"
+  shell_path="$(echo "$raw" | sed -n 's/.*@@PATH_START@@\(.*\)@@PATH_END@@.*/\1/p')"
+  if [[ -n "$shell_path" ]]; then
+    export PATH="$shell_path:$PATH"
+  fi
+
+  command -v npm >/dev/null 2>&1
+}
+
+if ! find_node; then
+  die "npm not found — checked \$HOME/.nvm and even asked \$SHELL (${SHELL:-unset}) for its real PATH, with no luck. Run 'which npm' in your terminal and paste it back so it can be hardcoded into find_node(). To skip this check just once: git commit --no-verify."
+fi
+
 if [[ ! -d "$APP_DIR/node_modules" ]]; then
   die "node_modules not found in ClaudyGodWebApp/ — run 'npm install' there first."
 fi
