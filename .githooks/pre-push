@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# ─────────────────────────────────────────────────────────────────────────────
+# Pre-push — thorough check: full production build + full test suite.
+#
+# This is the last line of defense before code leaves your machine. `npm run
+# build` catches everything a production build would catch (type errors,
+# broken imports, invalid routes) that a dev server silently tolerates.
+# `npm test` runs whatever test suite is configured — currently a placeholder
+# in this repo, so it's a no-op today, but the hook picks up real tests
+# automatically the moment any are added, with no hook changes needed.
+# ─────────────────────────────────────────────────────────────────────────────
+set -euo pipefail
+
+GREEN='\033[0;32m'; RED='\033[0;31m'; NC='\033[0m'
+info()    { echo -e "${GREEN}→${NC} $*"; }
+success() { echo -e "${GREEN}✓${NC} $*"; }
+die()     { echo -e "${RED}✗${NC} $*" >&2; exit 1; }
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+APP_DIR="$REPO_ROOT/ClaudyGodWebApp"
+
+if [[ ! -d "$APP_DIR/node_modules" ]]; then
+  die "node_modules not found in ClaudyGodWebApp/ — run 'npm install' there first."
+fi
+
+cd "$APP_DIR"
+
+info "Building (production)..."
+if ! npm run build; then
+  die "Build failed. Fix the errors above before pushing."
+fi
+
+info "Running test suite..."
+if ! npm test; then
+  die "Tests failed. Fix the failing tests above before pushing."
+fi
+
+success "Build and tests passed — pushing."
