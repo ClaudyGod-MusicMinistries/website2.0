@@ -6,7 +6,7 @@ import { post, BackendError } from '@/lib/data/client';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
-import { getUserFriendlyError } from '@/utils/errorMessages';
+import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 
 interface VolunteerFormData {
   firstName: string;

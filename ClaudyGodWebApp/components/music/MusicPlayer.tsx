@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, ExternalLink, Music2, ListMusic } from 'lucide-react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 interface Track {
   id: string;
@@ -76,7 +76,7 @@ export function MusicPlayer() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
 
           {/* Player frame */}
-          <div className="rounded-2xl overflow-hidden bg-black border border-white/[0.06] shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
+          <div className="rounded-xl overflow-hidden bg-black border border-white/[0.06] shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
             {activeTrack ? (
               <div className="relative aspect-video">
                 <iframe
@@ -140,7 +140,7 @@ export function MusicPlayer() {
 
           {/* Track list */}
           <div className={cn('lg:block', showList ? 'block' : 'hidden')}>
-            <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
+            <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden">
               <div className="px-5 py-4 border-b border-white/[0.05] flex items-center justify-between">
                 <span className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-400">Playlist</span>
                 <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase text-neutral-700">{tracks.length} tracks</span>

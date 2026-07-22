@@ -106,14 +106,48 @@ async function resolveToken(): Promise<string | null> {
 
 // ─── Core fetch helpers ──────────────────────────────────────────────────────
 
+// RFC7807 ProblemDetails shape returned by the backend's ExceptionMiddleware for thrown
+// exceptions (404/409/422/503/etc). Distinct from the ApiResponse<T> envelope used for
+// normal success/failure paths — it has no `success` key, and validation errors live
+// under `errors` as a field-name -> messages map instead of a separate `fieldErrors`.
+interface ProblemDetailsBody {
+  type?: string;
+  title?: string;
+  status?: number;
+  detail?: string;
+  instance?: string;
+  correlationId?: string;
+  errors?: Record<string, string[]>;
+}
+
+function isProblemDetails(body: unknown): body is ProblemDetailsBody {
+  return (
+    typeof body === 'object' &&
+    body !== null &&
+    !('success' in body) &&
+    ('title' in body || 'detail' in body)
+  );
+}
+
 async function handleResponse<T>(res: Response): Promise<T> {
-  let body: ApiResponse<T>;
+  let raw: unknown;
 
   try {
-    body = (await res.json()) as ApiResponse<T>;
+    raw = await res.json();
   } catch {
     throw new BackendError(`HTTP ${res.status}`, res.status);
   }
+
+  if (isProblemDetails(raw)) {
+    throw new BackendError(
+      raw.detail || raw.title || `Request failed (${res.status})`,
+      res.status,
+      [],
+      raw.errors ?? {},
+    );
+  }
+
+  const body = raw as ApiResponse<T>;
 
   if (!res.ok || !body.success) {
     throw new BackendError(

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SlidersHorizontal, Search, X } from 'lucide-react';
-import { products, categories } from '@/data/store';
+import { useStoreProducts } from '@/hooks/useStoreProducts';
+import { toProduct } from '@/lib/data/adapters';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
-import { cn } from '@/utils/cn';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { cn } from '@/lib/utils/cn';
 import type { Product } from '@/types/store';
 
 const sortOptions = [
@@ -35,6 +37,14 @@ const cardVariant = {
 };
 
 export function ProductGrid() {
+  const { products: rawProducts, loading, error } = useStoreProducts();
+  const products = useMemo(() => rawProducts.map(toProduct), [rawProducts]);
+
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(products.map((p) => p.category)));
+    return [{ id: 'all', name: 'All' }, ...unique.map((id) => ({ id, name: id.charAt(0).toUpperCase() + id.slice(1) }))];
+  }, [products]);
+
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeSort,     setActiveSort]     = useState('featured');
   const [query,          setQuery]          = useState('');
@@ -50,6 +60,22 @@ export function ProductGrid() {
     );
 
   const sorted = sortProducts(filtered, activeSort);
+
+  if (loading) return <GridSkeleton cols={4} rows={2} />;
+
+  // The backend has no product-catalog endpoint yet (this store is not live) — a retry
+  // button would be misleading since the request can never succeed. Say so plainly.
+  if (error) {
+    return (
+      <div className="py-20 flex flex-col items-center gap-3 text-center">
+        <Search className="h-10 w-10 text-neutral-300" />
+        <p className="font-sans text-neutral-500 text-lg">Our store is coming soon.</p>
+        <p className="font-sans text-neutral-400 text-sm max-w-sm">
+          We&apos;re putting the finishing touches on checkout. Check back shortly.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <section className="bg-white section-py">

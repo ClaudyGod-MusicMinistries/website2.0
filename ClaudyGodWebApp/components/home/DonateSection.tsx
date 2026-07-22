@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Heart, Music2, Globe2, Mic2 } from 'lucide-react';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { AmbientGlow } from '@/components/ui';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 const impacts = [
   { icon: Mic2,   label: 'Record new worship albums' },
@@ -51,14 +51,14 @@ export function DonateSection() {
 
             <div className="overflow-hidden mb-2">
               <motion.h2 custom={0.1} variants={fadeUp}
-                className="font-display text-white text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
+                className="font-display text-white text-2xl sm:text-3xl md:text-4xl leading-[1.1] tracking-tight"
               >
                 Partner With
               </motion.h2>
             </div>
             <div className="overflow-hidden mb-6 sm:mb-8">
               <motion.h2 custom={0.2} variants={fadeUp}
-                className="font-display text-gold-300/90 text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
+                className="font-display text-gold-300/90 text-2xl sm:text-3xl md:text-4xl leading-[1.1] tracking-tight"
               >
                 the Ministry.
               </motion.h2>
@@ -102,7 +102,7 @@ export function DonateSection() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-2xl overflow-hidden p-5 sm:p-8 md:p-10 backdrop-blur-sm">
+            <div className="relative bg-white/[0.04] border border-white/[0.08] rounded-xl overflow-hidden p-5 sm:p-8 md:p-10 backdrop-blur-sm">
               <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(ellipse_at_top_right,rgba(181, 101, 29,0.07)_0%,transparent_70%)] pointer-events-none" />
 
               <div className="flex items-center gap-4 mb-8">

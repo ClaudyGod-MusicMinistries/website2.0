@@ -11,8 +11,9 @@ export { Display, Heading, Text, Label, Caption, Accent } from './Typography';
 export { Container, Section, Grid, Flex, Stack } from './Layout';
 
 // Decorative primitives
-export { AmbientGlow } from './AmbientGlow';
-export { Particles }   from './Particles';
+export { AmbientGlow }  from './AmbientGlow';
+export { Particles }    from './Particles';
+export { ParallaxLayer } from './ParallaxLayer';
 
 // Card
 export { Card, CardHeader, CardBody, CardFooter } from './Card';
@@ -24,7 +25,6 @@ export { Skeleton, SkeletonText, SkeletonCard, SkeletonAvatar } from './Skeleton
 export { Divider, GoldBar }                 from './Divider';
 
 // Composed
-export { SectionHeader }                    from './SectionHeader';
 export { Dialog }                           from './Dialog';
 
 // Brand

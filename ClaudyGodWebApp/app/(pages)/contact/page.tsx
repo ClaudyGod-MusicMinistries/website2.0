@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { PageHero }    from '@/components/shared/PageHero';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfo } from '@/components/contact/ContactInfo';
-import { breadcrumb, faqPage } from '@/utils/jsonLd';
+import { breadcrumb, faqPage } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Contact ClaudyGod — Bookings, Collaborations & Ministry Enquiries',

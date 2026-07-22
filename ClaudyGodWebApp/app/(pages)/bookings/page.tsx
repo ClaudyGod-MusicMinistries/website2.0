@@ -2,7 +2,7 @@ import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import { PageHero }    from '@/components/shared/PageHero';
 import { BookingForm } from '@/components/bookings/BookingForm';
-import { breadcrumb, service, faqPage } from '@/utils/jsonLd';
+import { breadcrumb, service, faqPage } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Book ClaudyGod — Gospel Artist & Minister for Church & Events',
@@ -89,7 +89,7 @@ export default function BookingsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
             {/* Form */}
-            <div className="bg-white rounded-2xl shadow-[0_4px_32px_rgba(0,0,0,0.07)] border border-black/[0.04] p-8 md:p-10">
+            <div className="bg-white rounded-xl shadow-[0_4px_32px_rgba(0,0,0,0.07)] border border-black/[0.04] p-8 md:p-10">
               <div className="flex items-center gap-4 mb-8">
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Booking Request</span>
@@ -125,7 +125,7 @@ export default function BookingsPage() {
               </div>
 
               {/* Contact card */}
-              <div className="mt-6 bg-white rounded-2xl border border-neutral-200 p-6">
+              <div className="mt-6 bg-white rounded-xl border border-neutral-200 p-6">
                 <p className="font-sans text-xs tracking-[0.12em] uppercase text-neutral-400 mb-1">Questions?</p>
                 <p className="font-display font-bold text-neutral-900 text-lg mb-3">Contact Us Directly</p>
                 <a

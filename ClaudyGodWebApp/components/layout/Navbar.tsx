@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { navigationItems, type NavGroup } from '@/data/navbar';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { CartIcon } from '@/components/store/CartIcon';
 import { Dialog } from '@/components/ui';

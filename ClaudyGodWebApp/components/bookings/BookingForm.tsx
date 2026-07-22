@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 import { post, BackendError } from '@/lib/data/client';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
-import { getUserFriendlyError } from '@/utils/errorMessages';
+import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 
 interface BookingInput {
   firstName: string;

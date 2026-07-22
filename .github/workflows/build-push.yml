@@ -49,7 +49,6 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'https://api.claudygod.org' }}
           NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://claudygod.org' }}
           NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: pk_test_placeholder
 
@@ -107,9 +106,10 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # NEXT_PUBLIC_ vars baked in at build time (Next.js static optimisation)
+          # NEXT_PUBLIC_ vars baked in at build time (Next.js static optimisation).
+          # API_BASE_URL is NOT a build arg — it's a server-only runtime secret,
+          # supplied on the deploy target via docker-compose (see docker-compose.yml).
           build-args: |
-            NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL || 'https://api.claudygod.org' }}
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL || 'https://claudygod.org' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

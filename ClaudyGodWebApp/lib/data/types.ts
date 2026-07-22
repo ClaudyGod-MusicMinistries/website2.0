@@ -3,75 +3,70 @@
  * Ensures consistency and type safety across the application
  */
 
-// Events
-export interface EventHighlightImage {
-  url: string;
-  caption: string;
-}
-
-export interface EventHighlightVideo {
-  videoId: string;
-  caption: string;
-}
-
+// Events — field names match the real EventDto/EventDetailDto JSON (verified against
+// src/ClaudyGod.Application/Features/Events/DTOs/EventDtos.cs).
 export interface Event {
   id: string;
   title: string;
-  description: string;
-  fullDescription?: string;
-  date: string;
-  time?: string;
+  description?: string;
   venue?: string;
-  image: string;
-  ticketUrl?: string;
-  status: 'upcoming' | 'ongoing' | 'completed';
-  attendees?: number;
-  availableSeats?: number;
-  highlights?: {
-    images: EventHighlightImage[];
-    videos: EventHighlightVideo[];
-  };
+  startDate: string;
+  endDate?: string;
+  totalCapacity: number;
+  reservedCount: number;
+  availableSeats: number;
+  isFree: boolean;
+  ticketPrice?: number;
+  status: 'upcoming' | 'ongoing' | 'completed' | string;
+  flyerImagePath?: string;
+  createdAt: string;
 }
 
-// Albums & Music
+export interface EventDetail extends Event {
+  locationCity?: string;
+  locationState?: string;
+  locationCountry?: string;
+}
+
+// Albums & Music — field names match the real AlbumDto JSON (verified against
+// src/ClaudyGod.Application/Features/Albums/DTOs/AlbumDtos.cs). The backend has no
+// `artist`/`description`/`tracks` fields and streaming links are flat url fields, not
+// an array — do not reintroduce those, that was a past bug (adapters.ts::toAlbumView).
 export interface Album {
   id: string;
   title: string;
-  artist: string;
-  releaseDate: string;
-  coverImage: string;
-  description: string;
-  tracks?: Track[];
-  streamingLinks?: StreamingLink[];
+  imageUrl?: string;
+  spotifyUrl?: string;
+  appleUrl?: string;
+  youtubeUrl?: string;
+  deezerUrl?: string;
+  amazonUrl?: string;
+  sortOrder: number;
+  releasedAt?: string;
 }
 
-export interface Track {
-  id: string;
-  title: string;
-  duration: string;
-  featuring?: string;
-}
-
-export interface StreamingLink {
-  platform: string;
-  url: string;
-  icon?: string;
-}
-
-// Blog Posts
+// Blog Posts — field names match the real BlogPostDto/BlogPostDetailDto JSON
+// (System.Text.Json camelCases the backend's PascalCase record properties).
 export interface BlogPost {
   id: string;
   title: string;
   slug: string;
-  excerpt: string;
+  excerpt?: string;
+  featuredImagePath?: string;
+  status: string;
+  publishedAt?: string;
+  authorName?: string;
+  categoryName?: string;
+  tags: string[];
+  viewCount: number;
+  isFeatured: boolean;
+  createdAt: string;
+}
+
+export interface BlogPostDetail extends Omit<BlogPost, 'categoryName'> {
   content: string;
-  featuredImage?: string;
-  author: string;
-  category: string;
-  publishedAt: string;
-  viewCount?: number;
-  isFeatured?: boolean;
-  tags?: string[];
+  categoryId?: string;
+  categoryName?: string;
 }
 
 // Store Products
@@ -96,15 +91,42 @@ export interface StoreCategory {
   image?: string;
 }
 
-// Media/Gallery
+// Media/Gallery — field names match the real MediaItemDto JSON (verified against
+// src/ClaudyGod.Application/Features/Media/DTOs/MediaDtos.cs). Note: the backend filters
+// by `type` (image/video/audio), not `category` — there is no category field at all.
 export interface MediaItem {
   id: string;
   title: string;
-  type: 'image' | 'video';
-  url: string;
-  thumbnail?: string;
-  category?: string;
-  uploadedAt: string;
+  description?: string;
+  type: string;
+  fileName: string;
+  contentType: string;
+  fileSizeBytes: number;
+  publicUrl: string;
+  thumbnailPath?: string;
+  artistName?: string;
+  albumName?: string;
+  durationSeconds?: number;
+  isPublished: boolean;
+  viewCount: number;
+  downloadCount: number;
+  createdAt: string;
+}
+
+// Reels — curated YouTube highlights, distinct from general Media uploads. Field names
+// match the real ReelDto JSON (verified against
+// src/ClaudyGod.Application/Features/Reels/DTOs/ReelDtos.cs). Backend category vocabulary:
+// featured, sermon, teaching, music_video, live, christmas.
+export interface Reel {
+  id: string;
+  title: string;
+  description?: string;
+  videoUrl: string;
+  thumbnailUrl?: string;
+  category: string;
+  isPublished: boolean;
+  publishedAt?: string;
+  sortOrder: number;
 }
 
 // Bookings
@@ -166,10 +188,14 @@ export interface ApiResponse<T> {
   fieldErrors: Record<string, string[]>;
 }
 
+// Field names match the backend's PaginatedResult<T> JSON (System.Text.Json camelCases
+// TotalCount/PageNumber/etc.) — do not rename these to `total`/`page`, that was a past bug.
 export interface PaginatedResponse<T> {
   items: T[];
-  total: number;
-  page: number;
+  totalCount: number;
+  pageNumber: number;
   pageSize: number;
   totalPages: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
 }

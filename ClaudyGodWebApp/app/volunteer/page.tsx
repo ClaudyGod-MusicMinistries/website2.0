@@ -46,7 +46,7 @@ export default function VolunteerPage() {
 
       {/* Form Section */}
       <section className="py-12 px-4">
-        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg border border-neutral-100 p-8">
+        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg border border-neutral-100 p-8">
           <VolunteerForm />
         </div>
       </section>

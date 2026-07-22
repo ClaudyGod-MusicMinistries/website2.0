@@ -4,9 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
-import { albums } from '@/data/music';
+import { useAlbums } from '@/hooks/useAlbums';
+import { toAlbumView } from '@/lib/data/adapters';
 import { buttonVariants } from '@/lib/theme/buttons';
-import { cn } from '@/utils/cn';
+import { Skeleton } from '@/components/ui';
+import { cn } from '@/lib/utils/cn';
 
 const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: FaDeezer } as const;
 
@@ -20,6 +22,11 @@ const cardVariant = {
 };
 
 export function MusicHighlight() {
+  const { albums: rawAlbums, loading, error } = useAlbums();
+  const albums = rawAlbums.slice(0, 3).map(toAlbumView);
+
+  if (error) return null;
+
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
       <div className="container-site">
@@ -30,7 +37,7 @@ export function MusicHighlight() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Discography</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight">
+            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight">
               Albums
             </h2>
           </div>
@@ -42,6 +49,16 @@ export function MusicHighlight() {
           </Link>
         </div>
 
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="flex flex-col gap-4">
+                <Skeleton className="aspect-square w-full" rounded="lg" />
+                <Skeleton className="h-6 w-3/4" />
+              </div>
+            ))}
+          </div>
+        ) : (
         <motion.div
           variants={stagger}
           initial="hidden"
@@ -49,10 +66,10 @@ export function MusicHighlight() {
           viewport={{ once: true, margin: '-60px' }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
         >
-          {albums.slice(0, 3).map((album, idx) => (
-            <motion.div key={album.title} variants={cardVariant} className="group flex flex-col h-full">
+          {albums.map((album, idx) => (
+            <motion.div key={album.id} variants={cardVariant} className="group flex flex-col h-full">
               {/* Album Art Container */}
-              <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-2xl shadow-card-light-hover bg-neutral-100">
+              <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-xl shadow-card-light-hover bg-neutral-100">
                 <Image
                   src={album.image}
                   alt={album.title}
@@ -94,6 +111,7 @@ export function MusicHighlight() {
             </motion.div>
           ))}
         </motion.div>
+        )}
 
         <div className="mt-10 sm:mt-12 flex md:hidden justify-center sm:justify-start">
           <Link

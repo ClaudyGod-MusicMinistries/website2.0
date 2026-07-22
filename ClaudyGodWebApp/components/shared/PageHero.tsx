@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 interface PageHeroProps {
   title: string;

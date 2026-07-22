@@ -59,7 +59,7 @@ export function TeamSection() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">The Team</span>
               </div>
-              <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
+              <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
                 Ministry Gallery
               </h2>
               <p className="mt-2 font-sans text-neutral-500 text-sm leading-relaxed max-w-md">
@@ -159,7 +159,7 @@ export function TeamSection() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.22 }}
-                    className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                    className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
                   >
                     <Image
                       src={teamMembers[lightboxIdx].image}

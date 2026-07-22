@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { Section, AmbientGlow, Particles } from '@/components/ui';
 import { heroContent, heroCTAs } from '@/data/hero';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 const reveal = {
   hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 0 },
@@ -47,7 +47,7 @@ export function Hero() {
       as="section"
       bg="base"
       py="none"
-      className="relative w-full min-h-[100dvh] min-h-screen overflow-hidden"
+      className="relative w-full min-h-[130dvh] sm:min-h-[120dvh] lg:min-h-screen overflow-hidden"
     >
       {/* Animated gradient-mesh canvas — the base layer, visible at the
           edges beyond the capped photo on ultra-wide screens. */}
@@ -99,9 +99,9 @@ export function Hero() {
       {/* Content — below lg (mobile + tablet) the copy sits inside a
           blurred glass box instead of directly on the image; desktop
           (lg+) reverts to the original bottom-anchored, borderless layout. */}
-      <div className="relative z-10 h-full flex flex-col justify-end pb-40 sm:pb-40 lg:pb-32">
+      <div className="absolute inset-0 z-10 flex flex-col justify-end pb-40 sm:pb-40 lg:pb-32">
         <div className="container-site w-full">
-          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-white/[0.07] backdrop-blur-xl border border-white/15 rounded-3xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
+          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-white/[0.07] backdrop-blur-xl border border-white/15 rounded-xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
             <motion.div
               custom={0} variants={fadeUp} initial="hidden" animate="visible"
               className="flex items-center gap-3 mb-6 justify-center sm:justify-start"

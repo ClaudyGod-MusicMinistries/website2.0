@@ -1,6 +1,6 @@
 import { type VariantProps } from 'class-variance-authority';
 import { forwardRef, type HTMLAttributes } from 'react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 import {
   displayVariants, headingVariants, headingTags, textVariants, labelVariants, accentVariants,
   type HeadingLevel,

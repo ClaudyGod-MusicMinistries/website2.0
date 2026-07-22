@@ -260,7 +260,7 @@ export function GallerySection() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.22 }}
-                    className="relative aspect-[4/3] md:aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                    className="relative aspect-[4/3] md:aspect-[16/9] w-full rounded-xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
                   >
                     <Image
                       src={activeImage.src}

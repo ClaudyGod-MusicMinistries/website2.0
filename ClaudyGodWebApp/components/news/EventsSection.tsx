@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Calendar, ExternalLink, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
+import { MapPin, Clock, Calendar, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { post, BackendError } from '@/lib/data/client';
 import { PhoneInput } from '@/components/ui/PhoneInput';
@@ -22,15 +22,20 @@ interface TicketFormData {
 }
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
+// The backend's EventDto has no separate `time` field — derive it from startDate.
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
   return {
     day:  d.toLocaleDateString('en-GB',  { day: '2-digit' }),
     mon:  d.toLocaleDateString('en-GB',  { month: 'short' }).toUpperCase(),
     full: d.toLocaleDateString('en-US',  { year: 'numeric', month: 'long', day: 'numeric' }),
+    time: d.toLocaleTimeString('en-US',  { hour: 'numeric', minute: '2-digit' }),
     past: d < new Date(),
   };
 }
+
+// Placeholder used when an event has no flyer image yet.
+const DEFAULT_EVENT_IMAGE = '/images/events/default-event.jpg';
 
 function isUUID(id: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -38,18 +43,18 @@ function isUUID(id: string) {
 
 /* ── Featured highlight card ─────────────────────────────────────────────── */
 function FeaturedEventCard({ event }: { event: Event }) {
-  const { day, mon, full, past } = formatDate(event.date);
+  const { day, mon, full, time, past } = formatDate(event.startDate);
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
-      className="relative overflow-hidden rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.14)] group"
+      className="relative overflow-hidden rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.14)] group"
     >
       <div className="relative h-[420px] md:h-[520px]">
         <Image
-          src={event.image}
+          src={event.flyerImagePath || DEFAULT_EVENT_IMAGE}
           alt={event.title}
           fill
           className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
@@ -85,7 +90,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
               <div>
                 <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-white/60 mb-0.5">{full}</p>
                 <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-gold-400 flex items-center gap-1">
-                  <Clock className="h-3 w-3" />{event.time}
+                  <Clock className="h-3 w-3" />{time}
                 </p>
               </div>
             </div>
@@ -100,20 +105,10 @@ function FeaturedEventCard({ event }: { event: Event }) {
           </div>
 
           <div className="flex flex-wrap gap-3 shrink-0">
-            {!past && event.ticketUrl !== '#' && (
-              <a
-                href={event.ticketUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-black font-semibold px-7 h-11 rounded-xl transition-all duration-300 shadow-lg"
-              >
-                Get Tickets <ExternalLink className="h-3 w-3" />
-              </a>
-            )}
             {!past && isUUID(event.id) && (
               <a
                 href="#register"
-                className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/25 text-white px-7 h-11 rounded-xl transition-all duration-300"
+                className="inline-flex items-center gap-2 font-sans text-[0.62rem] tracking-[0.2em] uppercase bg-gold-500 hover:bg-gold-400 text-black font-semibold px-7 h-11 rounded-xl transition-all duration-300 shadow-lg"
               >
                 Reserve Ticket
               </a>
@@ -127,18 +122,18 @@ function FeaturedEventCard({ event }: { event: Event }) {
 
 /* ── Compact tour date card ───────────────────────────────────────────────── */
 function TourCard({ event, index }: { event: Event; index: number }) {
-  const { day, mon, full, past } = formatDate(event.date);
+  const { day, mon, full, time, past } = formatDate(event.startDate);
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group relative overflow-hidden rounded-2xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.08)] transition-all duration-300"
+      className="group relative overflow-hidden rounded-xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.08)] transition-all duration-300"
     >
       <div className="relative h-40 overflow-hidden">
         <Image
-          src={event.image}
+          src={event.flyerImagePath || DEFAULT_EVENT_IMAGE}
           alt={event.title}
           fill
           className="object-cover group-hover:scale-[1.05] transition-transform duration-500"
@@ -168,20 +163,10 @@ function TourCard({ event, index }: { event: Event; index: number }) {
             <Calendar className="h-3 w-3" />{full}
           </span>
           <span className="flex items-center gap-1.5 font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
-            <Clock className="h-3 w-3" />{event.time}
+            <Clock className="h-3 w-3" />{time}
           </span>
         </div>
         <div className="flex gap-2.5">
-          {!past && event.ticketUrl !== '#' && (
-            <a
-              href={event.ticketUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-sans text-[0.58rem] tracking-[0.16em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-5 h-9 rounded-xl transition-all duration-300"
-            >
-              Tickets <ExternalLink className="h-3 w-3" />
-            </a>
-          )}
           {!past && isUUID(event.id) && (
             <a
               href="#register"
@@ -198,7 +183,7 @@ function TourCard({ event, index }: { event: Event; index: number }) {
 
 /* ── Ticket reservation form ─────────────────────────────────────────────── */
 function TicketForm({ events }: { events: Event[] }) {
-  const upcoming   = events.filter((e) => !formatDate(e.date).past);
+  const upcoming   = events.filter((e) => !formatDate(e.startDate).past);
   const backendEvt = upcoming.filter((e) => isUUID(e.id));
 
   const [formStatus, setFormStatus]             = useState<'idle' | 'success' | 'error'>('idle');
@@ -252,7 +237,7 @@ function TicketForm({ events }: { events: Event[] }) {
   const hasBackendEvents = backendEvt.length > 0;
 
   return (
-    <div id="register" className="bg-surface-raised rounded-3xl overflow-hidden">
+    <div id="register" className="bg-surface-raised rounded-xl overflow-hidden">
       {/* Header */}
       <div className="relative px-8 pt-10 pb-8 border-b border-white/[0.06]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(97, 73, 145,0.2)_0%,transparent_65%)] pointer-events-none" />
@@ -340,7 +325,7 @@ function TicketForm({ events }: { events: Event[] }) {
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {upcoming.map((event) => {
-                      const { full } = formatDate(event.date);
+                      const { full, time } = formatDate(event.startDate);
                       const isSelected = selectedId === event.id;
                       return (
                         <button
@@ -357,7 +342,7 @@ function TicketForm({ events }: { events: Event[] }) {
                             {event.title}
                           </p>
                           <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
-                            {full} · {event.time}
+                            {full} · {time}
                           </p>
                           {event.availableSeats && event.availableSeats > 0 && (
                             <p className="font-sans text-[0.5rem] tracking-[0.1em] uppercase text-purple-400 mt-1">
@@ -480,8 +465,8 @@ export function EventsSection() {
     );
   }
 
-  const upcoming = events.filter((e) => !formatDate(e.date).past);
-  const past     = events.filter((e) => formatDate(e.date).past);
+  const upcoming = events.filter((e) => !formatDate(e.startDate).past);
+  const past     = events.filter((e) => formatDate(e.startDate).past);
   const featured = upcoming[0] ?? events[0];
 
   if (!featured) {
@@ -568,7 +553,7 @@ export function EventsSection() {
                   </p>
                   <div className="space-y-2">
                     {past.map((event) => {
-                      const { full } = formatDate(event.date);
+                      const { full } = formatDate(event.startDate);
                       return (
                         <div key={event.id} className="flex items-center justify-between py-2 border-b border-black/[0.05]">
                           <span className="font-display font-semibold text-neutral-600 text-sm">{event.title}</span>

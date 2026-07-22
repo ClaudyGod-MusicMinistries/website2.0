@@ -2,7 +2,7 @@
 
 import { cva, type VariantProps } from 'class-variance-authority';
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 const iconButtonVariants = cva(
   [

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
-import { breadcrumb } from '@/utils/jsonLd';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -80,7 +80,7 @@ export default async function NewsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {newsAlbums.map((album) => (
-              <div key={album.title} className="group bg-white rounded-2xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
+              <div key={album.title} className="group bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
                 <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
                   <Image
                     src={album.image}
