@@ -4,14 +4,17 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Play, X, Calendar, MapPin, Clock, ExternalLink, Music2, Mic2, CalendarDays } from 'lucide-react';
+import { Play, X, Calendar, Clock, ExternalLink, Music2, Mic2, BookOpen, ArrowRight } from 'lucide-react';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { PageHero } from '@/components/shared/PageHero';
 import { interviewVideos } from '@/data/interviews';
-import { tourDates, newsAlbums } from '@/data/news';
-import { cn } from '@/utils/cn';
+import { newsAlbums } from '@/data/news';
+import { useBlogPosts } from '@/hooks/useBlogPosts';
+import { Skeleton } from '@/components/ui';
+import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { cn } from '@/lib/utils/cn';
 
-const tabs = ['All', 'Releases', 'Interviews', 'Events & Tours'] as const;
+const tabs = ['All', 'Releases', 'Interviews', 'Journal'] as const;
 type Tab = (typeof tabs)[number];
 
 const stagger = {
@@ -27,7 +30,7 @@ const item = {
 function ReleaseCard({ album }: { album: typeof newsAlbums[number] }) {
   return (
     <motion.div variants={item}>
-      <div className="group bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full">
+      <div className="group bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full">
         {/* Album artwork — fixed height */}
         <div className="relative h-52 overflow-hidden flex-shrink-0 bg-neutral-100">
           <Image
@@ -89,7 +92,7 @@ function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPla
     <motion.button
       variants={item}
       onClick={onPlay}
-      className="group w-full text-left bg-white rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
+      className="group w-full text-left bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
     >
       <div className="relative h-52 overflow-hidden flex-shrink-0">
         <Image
@@ -130,73 +133,54 @@ function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPla
   );
 }
 
-// ── Tour card ─────────────────────────────────────────────────────────────────
-function TourCard({ t }: { t: typeof tourDates[number] }) {
-  const d    = new Date(t.date);
-  const day  = d.toLocaleDateString('en-GB', { day: '2-digit' });
-  const mon  = d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase();
-  const full = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  const past = d < new Date();
-
+// ── Journal card ──────────────────────────────────────────────────────────────
+function JournalCard({ post }: { post: import('@/lib/data/types').BlogPost }) {
   return (
-    <motion.div
-      variants={item}
-      className={cn(
-        'group relative overflow-hidden rounded-2xl border transition-all duration-300 flex flex-col h-full',
-        past
-          ? 'bg-neutral-50 border-neutral-200 opacity-60'
-          : 'bg-white border-neutral-200 hover:border-purple-300 hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.08)]'
-      )}
-    >
-      <div className="relative h-52 overflow-hidden flex-shrink-0">
-        <Image
-          src={t.image}
-          alt={t.city}
-          fill
-          className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
-          sizes="(max-width:768px) 100vw, 50vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/10" />
-        <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg min-w-[52px]">
-          <p className="font-display font-bold text-neutral-900 text-lg leading-none">{day}</p>
-          <p className="font-sans text-[0.5rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
+    <motion.div variants={item}>
+      <Link
+        href={`/blog/${post.slug}`}
+        className="group bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
+      >
+        <div className="relative h-52 overflow-hidden flex-shrink-0 bg-neutral-100">
+          {post.featuredImagePath && (
+            <Image
+              src={post.featuredImagePath}
+              alt={post.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+              sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          {post.categoryName && (
+            <span className="absolute top-3 left-3 font-sans text-[0.52rem] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full font-medium bg-purple-100 text-purple-700">
+              {post.categoryName}
+            </span>
+          )}
         </div>
-        {past && (
-          <span className="absolute top-4 right-4 font-sans text-[0.5rem] tracking-[0.15em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">
-            Past Event
-          </span>
-        )}
-      </div>
 
-      <div className="flex-1 flex flex-col p-5">
-        <p className="font-display font-bold text-neutral-900 text-lg leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300">
-          {t.city}
-        </p>
-        <p className="flex items-center gap-1.5 font-sans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mb-1">
-          <MapPin className="h-3 w-3 shrink-0" />{t.venue}
-        </p>
-        <p className="font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400 mb-4">
-          {full} · {t.time}
-        </p>
-
-        {!past && (
-          <div className="mt-auto">
-            <a
-              href={t.ticketUrl !== '#' ? t.ticketUrl : undefined}
-              onClick={t.ticketUrl === '#' ? (e) => e.preventDefault() : undefined}
-              className={cn(
-                'inline-flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.18em] uppercase px-5 h-9 rounded-xl transition-all duration-300',
-                t.ticketUrl !== '#'
-                  ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                  : 'bg-neutral-100 text-neutral-400 cursor-default'
-              )}
-            >
-              {t.ticketUrl !== '#' ? 'Get Tickets' : 'Coming Soon'}
-              {t.ticketUrl !== '#' && <ExternalLink className="h-3 w-3" />}
-            </a>
+        <div className="flex-1 flex flex-col p-6">
+          <h3 className="font-display font-bold text-neutral-900 text-lg leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+            {post.title}
+          </h3>
+          {post.excerpt && (
+            <p className="font-sans text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4 flex-1">
+              {post.excerpt}
+            </p>
+          )}
+          <div className="flex items-center justify-between mt-auto pt-4 border-t border-black/[0.05]">
+            {post.publishedAt && (
+              <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
+                <Calendar className="h-3 w-3" />
+                {new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.14em] uppercase text-purple-600 group-hover:text-purple-800 transition-colors duration-300 ml-auto">
+              Read <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </span>
           </div>
-        )}
-      </div>
+        </div>
+      </Link>
     </motion.div>
   );
 }
@@ -216,12 +200,13 @@ function SectionTitle({ icon: Icon, label }: { icon: React.ComponentType<{ class
 export default function BlogPage() {
   const [activeTab, setActiveTab] = useState<Tab>('All');
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const { posts, loading: postsLoading, error: postsError } = useBlogPosts();
 
   const tabIcons: Record<Tab, React.ComponentType<{ className?: string }> | null> = {
-    All:              null,
-    Releases:         Music2,
-    Interviews:       Mic2,
-    'Events & Tours': CalendarDays,
+    All:        null,
+    Releases:   Music2,
+    Interviews: Mic2,
+    Journal:    BookOpen,
   };
 
   return (
@@ -303,18 +288,34 @@ export default function BlogPage() {
                 </div>
               )}
 
-              {/* ── EVENTS & TOURS ── */}
-              {(activeTab === 'All' || activeTab === 'Events & Tours') && (
+              {/* ── JOURNAL ── */}
+              {(activeTab === 'All' || activeTab === 'Journal') && (
                 <div>
-                  {activeTab === 'All' && <SectionTitle icon={CalendarDays} label="Events & Tours" />}
-                  <motion.div
-                    variants={stagger}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch"
-                  >
-                    {tourDates.map((t) => <TourCard key={t.id} t={t} />)}
-                  </motion.div>
+                  {activeTab === 'All' && <SectionTitle icon={BookOpen} label="Journal" />}
+                  {postsLoading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {[0, 1, 2].map((i) => (
+                        <div key={i} className="flex flex-col gap-3">
+                          <Skeleton className="h-52 w-full" rounded="lg" />
+                          <Skeleton className="h-5 w-3/4" />
+                          <Skeleton className="h-4 w-1/2" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : postsError ? (
+                    <ErrorMessage message={postsError} />
+                  ) : posts.length === 0 ? (
+                    <p className="font-sans text-neutral-400 text-sm py-8">No journal posts yet — check back soon.</p>
+                  ) : (
+                    <motion.div
+                      variants={stagger}
+                      initial="hidden"
+                      animate="show"
+                      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+                    >
+                      {posts.map((post) => <JournalCard key={post.id} post={post} />)}
+                    </motion.div>
+                  )}
                 </div>
               )}
 
@@ -354,7 +355,7 @@ export default function BlogPage() {
                     <X className="h-4 w-4" />
                   </button>
                 </div>
-                <div className="relative aspect-video rounded-2xl overflow-hidden bg-black ring-1 ring-white/10">
+                <div className="relative aspect-video rounded-xl overflow-hidden bg-black ring-1 ring-white/10">
                   <iframe
                     src={`https://www.youtube.com/embed/${playingId}?autoplay=1&rel=0`}
                     title="Interview"

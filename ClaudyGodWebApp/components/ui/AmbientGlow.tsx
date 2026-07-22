@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 interface AmbientGlowProps {
   /** Brand hue — matches the button/shadow token rgb pairs, not a new value. */

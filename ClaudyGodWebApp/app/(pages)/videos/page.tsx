@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { PageHero }    from '@/components/shared/PageHero';
 import { CrossPromo }  from '@/components/shared/CrossPromo';
 import { GridSkeleton }from '@/components/shared/GridSkeleton';
-import { breadcrumb, videoObject, itemList } from '@/utils/jsonLd';
+import { breadcrumb, videoObject, itemList } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Watch ClaudyGod Videos — Music Videos, Live Worship & More',

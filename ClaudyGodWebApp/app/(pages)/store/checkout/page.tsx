@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { FaCreditCard, FaUniversity, FaGlobe } from 'react-icons/fa';
 import { useCartStore } from '@/components/store/cartStore';
-import { formatPrice } from '@/utils/format';
+import { formatPrice } from '@/lib/utils/format';
 import { post } from '@/lib/data/client';
 
 /* ── Constants ──────────────────────────────────────────── */
@@ -142,7 +142,7 @@ function OrderSummary({
   const total    = subtotal + shippingCost;
 
   return (
-    <div className="bg-white rounded-2xl border border-black/[0.05] shadow-[0_2px_16px_rgba(0,0,0,0.05)] overflow-hidden sticky top-24">
+    <div className="bg-white rounded-xl border border-black/[0.05] shadow-[0_2px_16px_rgba(0,0,0,0.05)] overflow-hidden sticky top-24">
       <div className="px-6 py-5 border-b border-neutral-100">
         <p className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500 flex items-center gap-2">
           <ShoppingBag className="h-3.5 w-3.5" /> Order Summary
@@ -327,7 +327,7 @@ function StepShipping({
               key={opt.id}
               type="button"
               onClick={() => onSelect(opt.id)}
-              className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 ${
+              className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-300 ${
                 isActive
                   ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-400/30'
                   : 'border-neutral-200 bg-white hover:border-neutral-300'
@@ -412,7 +412,7 @@ function StepPayment({
               key={method.id}
               type="button"
               onClick={() => onSelect(method.id)}
-              className={`w-full text-left p-5 rounded-2xl border-2 transition-all duration-300 relative ${
+              className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-300 relative ${
                 isActive
                   ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-400/30'
                   : 'border-neutral-200 bg-white hover:border-neutral-300'
@@ -514,7 +514,7 @@ function StepReview({
   const payment  = PAYMENT_METHODS.find((m) => m.id === paymentMethod)!;
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-neutral-50 rounded-2xl p-5">
+    <div className="bg-neutral-50 rounded-xl p-5">
       <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-3">{title}</p>
       {children}
     </div>
@@ -573,7 +573,7 @@ function StepReview({
       </Section>
 
       {/* Total */}
-      <div className="flex justify-between items-center p-5 bg-neutral-900 rounded-2xl">
+      <div className="flex justify-between items-center p-5 bg-neutral-900 rounded-xl">
         <div>
           <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-0.5">Order Total</p>
           <p className="font-sans text-neutral-400 text-xs">incl. {formatPrice(shippingCost)} shipping</p>
@@ -760,7 +760,7 @@ export default function CheckoutPage() {
           <div>
             <StepBar current={step} />
 
-            <div className="bg-white rounded-2xl border border-black/[0.04] shadow-[0_2px_16px_rgba(0,0,0,0.05)] p-6 md:p-8">
+            <div className="bg-white rounded-xl border border-black/[0.04] shadow-[0_2px_16px_rgba(0,0,0,0.05)] p-6 md:p-8">
               <AnimatePresence mode="wait">
                 {step === 1 && (
                   <motion.div key="step1" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>

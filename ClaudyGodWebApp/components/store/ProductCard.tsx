@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import { ShoppingBag, Star, Eye } from 'lucide-react';
 import { useCartStore } from './cartStore';
-import { formatPrice } from '@/utils/format';
-import { cn } from '@/utils/cn';
+import { formatPrice } from '@/lib/utils/format';
+import { cn } from '@/lib/utils/cn';
 import type { Product } from '@/types/store';
 
 interface ProductCardProps {
@@ -25,7 +25,7 @@ export function ProductCard({ product, onViewDetails }: ProductCardProps) {
 
   return (
     <div
-      className="group bg-white rounded-2xl overflow-hidden shadow-card-light hover:shadow-card-light-hover transition-all duration-400 cursor-pointer border border-black/[0.04] hover:border-purple-200/60 flex flex-col"
+      className="group bg-white rounded-xl overflow-hidden shadow-card-light hover:shadow-card-light-hover transition-all duration-400 cursor-pointer border border-black/[0.04] hover:border-purple-200/60 flex flex-col"
       onClick={onViewDetails}
     >
       {/* Image */}

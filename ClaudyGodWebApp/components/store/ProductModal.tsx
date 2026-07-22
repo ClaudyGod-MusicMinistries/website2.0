@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { X, ShoppingBag, Star } from 'lucide-react';
 import { useCartStore } from './cartStore';
-import { formatPrice } from '@/utils/format';
-import { cn } from '@/utils/cn';
+import { formatPrice } from '@/lib/utils/format';
+import { cn } from '@/lib/utils/cn';
 import type { Product } from '@/types/store';
 
 interface Props {

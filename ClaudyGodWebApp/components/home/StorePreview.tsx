@@ -5,12 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, Minus, Plus, ShoppingBag, Check } from 'lucide-react';
-import { products } from '@/data/store';
-import { formatPrice } from '@/utils/format';
+import { useStoreProducts } from '@/hooks/useStoreProducts';
+import { toProduct } from '@/lib/data/adapters';
+import { formatPrice } from '@/lib/utils/format';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { useCartStore } from '@/components/store/cartStore';
+import { Skeleton } from '@/components/ui';
 import type { Product } from '@/types/store';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 const stagger = {
   hidden: {},
@@ -199,8 +201,11 @@ function AccordionRow({ product, isOpen, onToggle }: AccordionRowProps) {
 }
 
 export function StorePreview() {
-  const preview = products.slice(0, 4);
+  const { products: rawProducts, loading, error } = useStoreProducts();
+  const preview = rawProducts.slice(0, 4).map(toProduct);
   const [openId, setOpenId] = useState<string | null>(null);
+
+  if (error) return null;
 
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
@@ -213,7 +218,7 @@ export function StorePreview() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Merchandise</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight">
+            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
               Official Store
             </h2>
             <p className="mt-2 sm:mt-3 font-sans text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
@@ -230,22 +235,33 @@ export function StorePreview() {
         </div>
 
         {/* Accordion list */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="max-w-3xl mx-auto sm:mx-0 border-t border-black/[0.07]"
-        >
-          {preview.map((product) => (
-            <AccordionRow
-              key={product.id}
-              product={product}
-              isOpen={openId === product.id}
-              onToggle={() => setOpenId((id) => (id === product.id ? null : product.id))}
-            />
-          ))}
-        </motion.div>
+        {loading ? (
+          <div className="max-w-3xl mx-auto sm:mx-0 border-t border-black/[0.07] divide-y divide-black/[0.07]">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center gap-4 sm:gap-5 py-4 sm:py-5">
+                <Skeleton className="w-16 h-16 sm:w-20 sm:h-20 shrink-0" rounded="lg" />
+                <Skeleton className="h-5 flex-1 max-w-xs" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            className="max-w-3xl mx-auto sm:mx-0 border-t border-black/[0.07]"
+          >
+            {preview.map((product) => (
+              <AccordionRow
+                key={product.id}
+                product={product}
+                isOpen={openId === product.id}
+                onToggle={() => setOpenId((id) => (id === product.id ? null : product.id))}
+              />
+            ))}
+          </motion.div>
+        )}
 
         {/* CTA row */}
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">

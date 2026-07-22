@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/components/store/cartStore';
-import { formatPrice } from '@/utils/format';
+import { formatPrice } from '@/lib/utils/format';
 import { Minus, Plus, X, ShoppingBag, ArrowLeft, Shield, Package } from 'lucide-react';
 
 export default function CartPage() {
@@ -58,7 +58,7 @@ export default function CartPage() {
 
           {/* Items */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.04] overflow-hidden divide-y divide-neutral-100">
+            <div className="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.04] overflow-hidden divide-y divide-neutral-100">
               {items.map((item) => (
                 <div key={item.id} className="p-6 flex gap-5">
                   <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-cream-100">
@@ -120,7 +120,7 @@ export default function CartPage() {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.04] p-6">
+            <div className="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.04] p-6">
               <p className="font-sans text-xs tracking-[0.18em] uppercase text-neutral-500 mb-6">
                 Order Summary
               </p>
@@ -156,7 +156,7 @@ export default function CartPage() {
             </div>
 
             {/* Trust badges */}
-            <div className="mt-5 bg-white rounded-2xl border border-black/[0.04] p-5 space-y-3">
+            <div className="mt-5 bg-white rounded-xl border border-black/[0.04] p-5 space-y-3">
               {[
                 { icon: Shield,  text: 'SSL-secured checkout' },
                 { icon: Package, text: 'Fast worldwide shipping' },

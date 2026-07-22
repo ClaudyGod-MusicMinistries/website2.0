@@ -10,8 +10,8 @@ import {
   acceptAll,
   rejectNonEssential,
   type CookiePreferences,
-} from '@/utils/cookieConsent';
-import { cn } from '@/utils/cn';
+} from '@/lib/utils/cookieConsent';
+import { cn } from '@/lib/utils/cn';
 
 // ─── Animations ──────────────────────────────────────────────────────────────
 
@@ -142,7 +142,7 @@ export function CookieConsent() {
             role="region"
             aria-label="Cookie consent"
           >
-            <div className="max-w-[1100px] mx-auto bg-white border border-neutral-200 rounded-2xl shadow-[0_-4px_40px_rgba(0,0,0,0.12)] overflow-hidden">
+            <div className="max-w-[1100px] mx-auto bg-white border border-neutral-200 rounded-xl shadow-[0_-4px_40px_rgba(0,0,0,0.12)] overflow-hidden">
               {/* Purple top accent */}
               <div className="h-[3px] bg-gradient-to-r from-purple-600 via-gold-500 to-purple-600" />
 
@@ -212,7 +212,7 @@ export function CookieConsent() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="w-full max-w-md bg-white rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.18)] border border-neutral-100 overflow-hidden"
+              className="w-full max-w-md bg-white rounded-xl shadow-[0_24px_64px_rgba(0,0,0,0.18)] border border-neutral-100 overflow-hidden"
             >
               {/* Modal header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-100">

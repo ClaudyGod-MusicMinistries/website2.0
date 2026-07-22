@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X } from 'lucide-react';
 import { teachingsData } from '@/data/ministry';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 type Filter = 'All' | 'Live Teachings' | 'CGM Podcasts';
 const filters: Filter[] = ['All', 'Live Teachings', 'CGM Podcasts'];
@@ -25,7 +25,7 @@ export function TeachingsGrid() {
             <span className="rule-gold" />
             <span className="label-eyebrow">Teachings & Podcasts</span>
           </div>
-          <h2 className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight mb-8 sm:mb-10">
+          <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight mb-8 sm:mb-10">
             Ministry Content
           </h2>
 
@@ -53,7 +53,7 @@ export function TeachingsGrid() {
               <button
                 key={teaching.id}
                 onClick={() => setPlayingId(teaching.youtubeId)}
-                className="group relative bg-neutral-900 text-left overflow-hidden rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-shadow duration-300"
+                className="group relative bg-neutral-900 text-left overflow-hidden rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-shadow duration-300"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image

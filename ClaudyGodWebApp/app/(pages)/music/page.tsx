@@ -7,7 +7,7 @@ import { MusicPlayer }       from '@/components/music/MusicPlayer';
 import { CrossPromo }        from '@/components/shared/CrossPromo';
 import { GridSkeleton }      from '@/components/shared/GridSkeleton';
 import { AnimateOnView }     from '@/components/shared/AnimateOnView';
-import { breadcrumb, musicAlbum, itemList } from '@/utils/jsonLd';
+import { breadcrumb, musicAlbum, itemList } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Music & Discography — ClaudyGod | Gospel Albums & Worship Songs',

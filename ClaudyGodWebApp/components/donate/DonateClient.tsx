@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, CheckCircle2, ShieldCheck, Copy, Check, ChevronDown } from 'lucide-react';
 import { usePaystackPayment } from 'react-paystack';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 import { currencyPresets, defaultCurrency, type SupportedCurrency } from '@/data/ministryStats';
 
 const PAYSTACK_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? '';
@@ -142,7 +142,7 @@ export default function DonateClient() {
         </motion.div>
 
         <motion.h2 custom={0.1} variants={fadeUp}
-          className="font-display font-extrabold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight mb-5"
+          className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-5"
         >
           Partner With the <span className="text-purple-600">Mission</span>
         </motion.h2>
@@ -209,7 +209,7 @@ export default function DonateClient() {
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="bg-white rounded-2xl shadow-[0_8px_48px_rgba(0,0,0,0.10)] border border-neutral-100 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-[0_8px_48px_rgba(0,0,0,0.10)] border border-neutral-100 overflow-hidden">
 
           {/* Card header */}
           <div className="bg-gradient-to-r from-purple-700 to-purple-600 px-8 py-6">
@@ -280,7 +280,7 @@ export default function DonateClient() {
                 </div>
 
                 <div>
-                  <h3 className="font-display font-extrabold text-neutral-900 text-3xl mb-2">Thank You!</h3>
+                  <h3 className="font-display font-bold text-neutral-900 text-2xl mb-2">Thank You!</h3>
                   <p className="font-sans text-neutral-500 text-base leading-relaxed max-w-xs">
                     Your gift of{' '}
                     <strong className="font-display font-bold text-purple-600 text-lg">
@@ -328,7 +328,7 @@ export default function DonateClient() {
                         type="button"
                         onClick={() => { setAmount(tier); setCustom(''); setErrors((e) => ({ ...e, amount: '' })); }}
                         className={cn(
-                          'h-12 font-display font-extrabold text-sm rounded-xl border transition-all duration-200',
+                          'h-12 font-display font-semibold text-sm rounded-xl border transition-all duration-200',
                           amount === tier && !custom
                             ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]'
                             : 'border-neutral-200 text-neutral-700 hover:border-purple-400 hover:text-purple-700 bg-white'

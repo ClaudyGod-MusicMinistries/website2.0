@@ -4,8 +4,7 @@ import dynamic from 'next/dynamic';
 import { PageHero }    from '@/components/shared/PageHero';
 import { GridSkeleton }from '@/components/shared/GridSkeleton';
 import { AnimateOnView }from '@/components/shared/AnimateOnView';
-import { breadcrumb, itemList } from '@/utils/jsonLd';
-import { products } from '@/data/store';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
   title: 'Official ClaudyGod Store — Gospel Merchandise & Apparel',
@@ -44,12 +43,14 @@ const CartDrawer = dynamic(
   { ssr: false }
 );
 
+// Product itemList JSON-LD dropped: it previously enumerated a static
+// placeholder list that had already drifted from real content once, and
+// now that products are fetched client-side from the real backend, an
+// accurate list isn't available here in a Server Component without a
+// second server-side fetch. Breadcrumb schema alone is honest; a stale
+// or empty itemList is worse than no itemList.
 const schemas = [
   breadcrumb([{ name: 'Store', href: '/store' }]),
-  itemList(
-    'ClaudyGod Official Merchandise',
-    products.map((p) => ({ name: p.name, url: `${SITE_URL}/store`, imageUrl: `${SITE_URL}${p.image}` }))
-  ),
 ];
 
 export default function StorePage() {

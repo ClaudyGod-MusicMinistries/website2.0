@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils/cn';
 
 /* ── Country data ─────────────────────────────────────────── */
 export interface DialCountry {
@@ -183,7 +183,7 @@ export function PhoneInput({
         <div
           role="dialog"
           aria-label="Select country code"
-          className="absolute top-[calc(100%+6px)] left-0 z-[200] w-72 bg-white border border-neutral-200 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] overflow-hidden"
+          className="absolute top-[calc(100%+6px)] left-0 z-[200] w-72 bg-white border border-neutral-200 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] overflow-hidden"
         >
           {/* Search bar */}
           <div className="p-2.5 border-b border-neutral-100">

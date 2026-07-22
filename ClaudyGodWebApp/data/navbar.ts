@@ -11,6 +11,7 @@ import {
   Mail,
   HandCoins,
   HandHeart,
+  HeartHandshake,
   HelpCircle,
 } from 'lucide-react';
 

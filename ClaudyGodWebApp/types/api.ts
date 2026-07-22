@@ -36,11 +36,12 @@ export interface RegisterRequest {
   password: string;
 }
 
+// Matches the real backend AuthResponseDto — there is no refreshToken in the body
+// (it's set separately as an HttpOnly cookie), and the expiry field is accessTokenExpiresAt.
 export interface TokenResponse {
   accessToken: string;
-  refreshToken: string;
-  expiresAt: string;
   role: string;
+  accessTokenExpiresAt: string;
 }
 
 // ─── Contact ───────────────────────────────────────────────────────────────
@@ -97,6 +98,17 @@ export interface BookingDto {
 export interface SubscribeRequest {
   name: string;
   email: string;
+}
+
+// ─── Prayer Requests ───────────────────────────────────────────────────────
+// Matches the backend's SubmitPrayerRequestDto (PrayerRequestController.cs).
+
+export interface SubmitPrayerRequestRequest {
+  name: string;
+  email: string;
+  subject: string;
+  requestText: string;
+  isConfidential?: boolean;
 }
 
 // ─── Volunteers ────────────────────────────────────────────────────────────
