@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Search, Music, Calendar, ShoppingCart, Users, Heart, Mail, Phone, ExternalLink, Loader2 } from 'lucide-react';
 import { useFAQs } from '@/hooks/useFAQs';
+import { PageHero } from '@/components/shared/PageHero';
 import { cn } from '@/lib/utils/cn';
 
 const ICON_MAP: Record<string, React.ReactNode> = {
@@ -40,38 +41,28 @@ export function HelpPageClient() {
   };
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-neutral-900 via-purple-900/40 to-neutral-900/80 pt-32 pb-16 px-4 sm:px-6 lg:px-12 overflow-hidden">
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl" />
-        </div>
-
-        <div className="relative max-w-4xl mx-auto text-center">
-          <h1 className="font-display font-bold text-white text-4xl md:text-5xl tracking-tight mb-4">
-            Help & FAQ
-          </h1>
-          <p className="font-sans text-neutral-300 text-lg leading-relaxed max-w-2xl mx-auto mb-10">
-            Find answers to common questions about our music, events, bookings, store, and support.
-          </p>
-
-          {/* Search */}
-          <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-500" />
-            <input
-              type="text"
-              placeholder="Search FAQs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-6 py-4 bg-white/10 border border-white/20 text-white placeholder:text-neutral-400 rounded-xl focus:outline-none focus:border-purple-500/60 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
-            />
-          </div>
-        </div>
-      </section>
+    <main>
+      <PageHero
+        eyebrow="Support"
+        title="Help & FAQ"
+        subtitle="Find answers to common questions about our music, events, bookings, store, and support."
+      />
 
       {/* Content Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 py-16">
+      <section className="bg-white section-py">
+        <div className="container-site max-w-4xl mx-auto">
+
+        {/* Search */}
+        <div className="relative max-w-2xl mx-auto mb-10 sm:mb-12">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+          <input
+            type="text"
+            placeholder="Search FAQs..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full h-12 pl-11 pr-6 bg-cream-100 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 rounded-xl font-sans text-sm focus:outline-none focus:border-purple-400 transition-colors duration-300"
+          />
+        </div>
         {/* Category Filter */}
         {!loading && (
           <div className="mb-10">
@@ -179,10 +170,11 @@ export function HelpPageClient() {
             </AnimatePresence>
           </div>
         )}
+        </div>
       </section>
 
       {/* Contact / Support Section */}
-      <section className="bg-gradient-to-r from-purple-50 to-blue-50 py-16 px-4 sm:px-6 lg:px-12 border-t border-neutral-200">
+      <section className="bg-cream-100 section-py border-t border-neutral-200">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-4">
@@ -213,8 +205,8 @@ export function HelpPageClient() {
 
             {/* Live Chat */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
-                <MessageCircleIcon className="h-6 w-6 text-blue-600" />
+              <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
+                <MessageCircleIcon className="h-6 w-6 text-purple-600" />
               </div>
               <h3 className="font-display font-bold text-neutral-900 mb-2">AI Assistant</h3>
               <p className="font-sans text-neutral-600 text-sm mb-5">
@@ -222,7 +214,7 @@ export function HelpPageClient() {
               </p>
               <button
                 onClick={() => window.scrollTo(0, 0)}
-                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-blue-600 hover:text-blue-700 font-semibold"
+                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-700 font-semibold"
               >
                 Open Chat <ExternalLink className="h-3.5 w-3.5" />
               </button>
@@ -230,8 +222,8 @@ export function HelpPageClient() {
 
             {/* Phone */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4">
-                <Phone className="h-6 w-6 text-green-600" />
+              <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
+                <Phone className="h-6 w-6 text-purple-600" />
               </div>
               <h3 className="font-display font-bold text-neutral-900 mb-2">Quick Contact</h3>
               <p className="font-sans text-neutral-600 text-sm mb-5">
@@ -239,7 +231,7 @@ export function HelpPageClient() {
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-green-600 hover:text-green-700 font-semibold"
+                className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-700 font-semibold"
               >
                 Get in Touch <ExternalLink className="h-3.5 w-3.5" />
               </Link>
