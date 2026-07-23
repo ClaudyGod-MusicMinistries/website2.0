@@ -68,7 +68,7 @@ export function MusicPlayer() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Now Playing</span>
             </div>
-            <h2 className="font-display font-bold text-white text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-raleway font-light text-white text-3xl md:text-4xl tracking-normal">
               Music Player
             </h2>
             <p className="font-sans text-neutral-500 text-sm mt-2">

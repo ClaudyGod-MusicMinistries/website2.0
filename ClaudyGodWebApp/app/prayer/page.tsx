@@ -13,7 +13,9 @@ export default function PrayerPage() {
       {/* Hero Section */}
       <section className="pt-20 pb-12 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="font-display font-bold text-5xl text-neutral-900 mb-4">Prayer Requests</h1>
+          <h1 className="font-raleway font-light text-5xl text-neutral-900 mb-4">
+            Prayer Requests
+          </h1>
           <p className="font-sans text-lg text-neutral-600 mb-8">
             We believe in the power of prayer. Share what&apos;s on your heart, and our prayer team
             will intercede for you — in confidence, if you prefer.
@@ -31,7 +33,7 @@ export default function PrayerPage() {
       {/* Info Section */}
       <section className="py-12 px-4 bg-neutral-900 text-white">
         <div className="max-w-2xl mx-auto">
-          <h2 className="font-display font-bold text-3xl mb-8">What Happens Next?</h2>
+          <h2 className="font-raleway font-light text-3xl mb-8">What Happens Next?</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <h3 className="font-display font-semibold text-lg mb-2">We Receive It</h3>

@@ -12,7 +12,7 @@ export default function VolunteerPage() {
       {/* Hero Section */}
       <section className="pt-20 pb-12 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="font-display font-bold text-5xl text-neutral-900 mb-4">
+          <h1 className="font-raleway font-light text-5xl text-neutral-900 mb-4">
             Volunteer With Us
           </h1>
           <p className="font-sans text-lg text-neutral-600 mb-8">
@@ -54,7 +54,7 @@ export default function VolunteerPage() {
       {/* Info Section */}
       <section className="py-12 px-4 bg-neutral-900 text-white">
         <div className="max-w-2xl mx-auto">
-          <h2 className="font-display font-bold text-3xl mb-8">Why Volunteer?</h2>
+          <h2 className="font-raleway font-light text-3xl mb-8">Why Volunteer?</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <h3 className="font-display font-semibold text-lg mb-2">Make an Impact</h3>

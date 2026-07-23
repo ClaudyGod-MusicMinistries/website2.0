@@ -739,7 +739,7 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
         <Check className="h-9 w-9 text-green-600" />
       </motion.div>
 
-      <h2 className="font-display font-bold text-neutral-900 text-3xl tracking-tight mb-2">
+      <h2 className="font-raleway font-light text-neutral-900 text-3xl tracking-normal mb-2">
         Order Confirmed!
       </h2>
       <p className="font-sans text-neutral-500 text-base mb-6 max-w-sm mx-auto leading-relaxed">
@@ -872,7 +872,7 @@ export default function CheckoutPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div>
-              <h1 className="font-display font-bold text-neutral-900 text-2xl tracking-tight">
+              <h1 className="font-raleway font-light text-neutral-900 text-2xl tracking-normal">
                 Checkout
               </h1>
               <p className="font-sans text-neutral-400 text-xs mt-0.5">

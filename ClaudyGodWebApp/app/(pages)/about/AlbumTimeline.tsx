@@ -128,8 +128,24 @@ export function AlbumTimeline() {
   const { albums: rawAlbums, loading, error, refetch } = useAlbums();
   const albums = rawAlbums.map(toAlbumView);
 
-  if (loading) return <GridSkeleton cols={1} rows={3} />;
-  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+  if (loading) {
+    return (
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <GridSkeleton cols={1} rows={3} />
+        </div>
+      </section>
+    );
+  }
+  if (error) {
+    return (
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-cream-100 section-py">
@@ -139,7 +155,7 @@ export function AlbumTimeline() {
           <span className="label-eyebrow">Discography</span>
         </div>
 
-        <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-16">
+        <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-16">
           Albums &amp; Releases
         </h2>
 

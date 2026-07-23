@@ -69,7 +69,7 @@ export function TeamSection() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">The Team</span>
               </div>
-              <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal">
                 Ministry Gallery
               </h2>
               <p className="mt-2 font-sans text-neutral-500 text-sm leading-relaxed max-w-md">

@@ -62,14 +62,14 @@ export function TheArtist() {
               <span className="label-eyebrow">The Artist</span>
             </div>
 
-            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight mb-6">
+            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-6">
               Minister ClaudyGod
             </h2>
 
             <p className="font-sans text-neutral-600 text-base sm:text-lg leading-relaxed mb-6 max-w-xl">
-              A California-based gospel artist of Nigerian and Sierra Leonean heritage, called to
-              ministry in 2003. What began as a season of prayer and fasting for the New Year became
-              her debut album,{' '}
+              A Us-based gospel artist of Nigerian and Sierra Leonean heritage, called to ministry
+              in 2003. What began as a season of prayer and fasting for the New Year became her
+              debut album,{' '}
               <em className="not-italic font-semibold text-neutral-800">
                 &ldquo;Lord of My Heart,&rdquo;
               </em>{' '}
@@ -81,7 +81,7 @@ export function TheArtist() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 py-8 my-2 border-y border-neutral-200">
               {stats.map((s) => (
                 <div key={s.label}>
-                  <p className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl tracking-tight">
+                  <p className="font-raleway font-medium text-neutral-900 text-3xl sm:text-4xl tracking-normal">
                     {s.value}
                   </p>
                   <p className="font-sans text-neutral-500 text-xs mt-1 leading-snug">{s.label}</p>

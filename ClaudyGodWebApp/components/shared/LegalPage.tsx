@@ -39,7 +39,7 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
               Legal
             </span>
           </div>
-          <h1 className="font-display font-extrabold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight">
+          <h1 className="font-raleway font-light text-neutral-900 text-4xl md:text-5xl tracking-normal leading-tight">
             {title}
           </h1>
           <p className="font-sans text-xs tracking-[0.14em] uppercase text-neutral-400 mt-3">

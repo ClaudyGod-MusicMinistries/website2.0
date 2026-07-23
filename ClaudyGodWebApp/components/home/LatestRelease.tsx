@@ -117,7 +117,7 @@ export function LatestRelease() {
                 transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col justify-center order-1 lg:order-2"
               >
-                <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-[1.15] mb-4 sm:mb-5">
+                <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-[1.15] mb-4 sm:mb-5">
                   {latest.title}
                 </h2>
 
