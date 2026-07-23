@@ -143,73 +143,59 @@ jobs:
             echo "| Platform | \`linux/amd64\` |"
           } >> $GITHUB_STEP_SUMMARY
 
-  # ─── Deploy to Production ────────────────────────────────────────────────────
+  # ─── Hand off to the infrastructure repo ────────────────────────────────────
+  # ClaudyGodweb-Infrastructure is the single source of truth for production —
+  # it owns docker-compose.yml and the SSH deploy script. This repo used to SSH
+  # into the VPS itself with a hardcoded compose service name ("web"), which
+  # broke the instant that service was renamed to "claudygod-web" and would
+  # have kept silently deleting the frontend container on every deploy
+  # (--remove-orphans on a single-service `up`). Same class of bug as
+  # CGM-Backend's old direct-SSH deploy job, fixed the same way: build here,
+  # then dispatch to infra's already-existing repository_dispatch listener.
   deploy:
-    name: Deploy Web to production
+    name: Trigger deploy in ClaudyGodweb-Infrastructure
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
 
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT || 22 }}
-          timeout: 300s
-          script: |
-            set -euo pipefail
-            export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
-            
-            DEPLOY_PATH="$(echo '${{ secrets.VPS_DEPLOY_PATH }}' | tr -d '[:space:]')"
-            cd "$DEPLOY_PATH" || { echo "❌ Failed to cd into $DEPLOY_PATH"; exit 1; }
+      - name: Dispatch deploy-web
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          if [ -z "$GH_PAT" ]; then
+            echo "❌ GH_PAT secret is not set (needs repo scope on ClaudyGodweb-Infrastructure)."
+            echo "Add it in GitHub → website2.0 → Settings → Secrets and variables → Actions"
+            exit 1
+          fi
 
-            # Update infra scripts
-            git pull origin main --ff-only || git fetch origin main && git reset --hard origin/main || true
+          TAG="sha-${{ needs.build.outputs.short-sha }}"
+          echo "→ Dispatching deploy-web (tag=$TAG) to ClaudyGodweb-Infrastructure..."
 
-            # Authenticate to GHCR
-            echo "${{ secrets.GITHUB_TOKEN }}" | \
-              docker login ghcr.io -u '${{ github.actor }}' --password-stdin
+          http_code=$(curl -sS -o /tmp/dispatch_response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: token ${GH_PAT}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/ClaudyGod-MusicMinistries/ClaudyGodweb-Infrastructure/dispatches \
+            -d "{\"event_type\":\"deploy-web\",\"client_payload\":{\"service\":\"web\",\"tag\":\"${TAG}\"}}")
 
-            export TAG="sha-${{ needs.build.outputs.short-sha }}"
-            export IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${TAG}"
-
-            COMPOSE="docker compose \
-              --env-file $DEPLOY_PATH/.env \
-              --project-directory $DEPLOY_PATH \
-              -f $DEPLOY_PATH/docker/docker-compose.yml"
-
-            echo "→ Pulling web image: ${IMAGE}"
-            $COMPOSE pull web
-
-            echo "→ Deploying web service..."
-            $COMPOSE up -d --no-deps --remove-orphans web
-
-            # Health check
-            sleep 5
-            if $COMPOSE ps web | grep -q "Up"; then
-              echo "✓ Web service is healthy"
-            else
-              echo "⚠️ Web service may not be running — check logs with: docker compose logs web"
-            fi
-
-            # Cleanup old images
-            docker image prune -f --filter "until=24h" >/dev/null 2>&1 || true
-            
-            echo "✓ Web deploy complete — $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          if [ "$http_code" != "204" ]; then
+            echo "❌ Dispatch failed (HTTP $http_code):"
+            cat /tmp/dispatch_response.json
+            exit 1
+          fi
+          echo "✓ Deploy dispatched — infra repo will pull ${TAG} and restart claudygod-web"
 
       - name: Deployment status
         if: always()
         run: |
           if [ "${{ job.status }}" = "success" ]; then
             {
-              echo "### ✅ Production Deploy Successful"
+              echo "### ✅ Deploy Dispatched"
               echo "**Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ needs.build.outputs.short-sha }}\`"
               echo "**Time:** $(date -u)"
             } >> $GITHUB_STEP_SUMMARY
           else
-            echo "### ❌ Production Deploy Failed — check logs above" >> $GITHUB_STEP_SUMMARY
+            echo "### ❌ Dispatch Failed — check logs above" >> $GITHUB_STEP_SUMMARY
           fi
