@@ -36,7 +36,7 @@ export function MusicHighlight() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Discography</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight">
+            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight">
               Albums
             </h2>
           </div>

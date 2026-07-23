@@ -188,7 +188,7 @@ export function HelpPageClient() {
       <section className="bg-cream-100 section-py border-t border-neutral-200">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-4">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal mb-4">
               Didn&apos;t Find Your Answer?
             </h2>
             <p className="font-sans text-neutral-600 text-lg">

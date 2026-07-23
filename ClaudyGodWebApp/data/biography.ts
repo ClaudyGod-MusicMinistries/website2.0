@@ -1,6 +1,6 @@
 // src/components/Bio/bioData.ts
 export const firstSectionTexts = [
-  `ClaudyGod is an American born, California-based Christian & Gospel music artist
+  `ClaudyGod is an American born, Us-based Christian & Gospel music artist
    of both a Nigerian and Sierra-Leonian ancestry. While growing up in Nigeria, 
    ClaudyGod nursed a passion for music, participating in choral activities in both
     middle and high school. During a session of fellowship with God in Nashville USA 

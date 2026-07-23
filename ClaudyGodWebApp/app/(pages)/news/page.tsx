@@ -88,7 +88,7 @@ export default async function NewsPage() {
             <span className="rule-gold" />
             <span className="label-eyebrow">New Releases</span>
           </div>
-          <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-12">
+          <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal mb-12">
             Latest Music
           </h2>
 

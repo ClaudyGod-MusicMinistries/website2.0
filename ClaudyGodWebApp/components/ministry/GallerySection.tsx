@@ -118,7 +118,7 @@ export function GallerySection() {
 
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
-              <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-2">
+              <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-2">
                 Ministry Moments
               </h2>
               <p className="font-sans text-neutral-500 text-sm leading-relaxed max-w-lg">

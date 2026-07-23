@@ -27,8 +27,24 @@ export function VideoGrid() {
     .map(toVideoView)
     .filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
 
-  if (loading) return <GridSkeleton cols={4} rows={2} />;
-  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+  if (loading) {
+    return (
+      <section className="bg-white section-py">
+        <div className="container-site">
+          <GridSkeleton cols={4} rows={2} />
+        </div>
+      </section>
+    );
+  }
+  if (error) {
+    return (
+      <section className="bg-white section-py">
+        <div className="container-site">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>

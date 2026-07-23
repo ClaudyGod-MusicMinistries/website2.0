@@ -238,7 +238,7 @@ function SectionTitle({
     <div className="flex items-center gap-4 mb-8">
       <span className="block w-8 h-px bg-gold-500 opacity-70" />
       <Icon className="h-5 w-5 text-purple-600" />
-      <h2 className="font-display font-bold text-neutral-900 text-2xl">{label}</h2>
+      <h2 className="font-raleway font-light text-neutral-900 text-2xl">{label}</h2>
     </div>
   );
 }
