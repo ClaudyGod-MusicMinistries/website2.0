@@ -41,7 +41,7 @@ const cardVariant = {
 };
 
 export function ProductGrid() {
-  const { products: rawProducts, loading, error } = useStoreProducts();
+  const { products: rawProducts, loading } = useStoreProducts();
   const products = useMemo(() => rawProducts.map(toProduct), [rawProducts]);
 
   const categories = useMemo(() => {
@@ -71,9 +71,13 @@ export function ProductGrid() {
 
   if (loading) return <GridSkeleton cols={4} rows={2} />;
 
-  // The backend has no product-catalog endpoint yet (this store is not live) — a retry
-  // button would be misleading since the request can never succeed. Say so plainly.
-  if (error) {
+  // useStoreProducts falls back to real curated products on a failed fetch —
+  // checkout's missing x-api-key bug and the missing Products table were both
+  // fixed this session — so this only shows "coming soon" if there's truly
+  // nothing to sell, not on every transient API error (which would otherwise
+  // contradict the homepage StorePreview showing real products from the same
+  // fallback).
+  if (products.length === 0) {
     return (
       <div className="py-20 flex flex-col items-center gap-3 text-center">
         <Search className="h-10 w-10 text-neutral-300" />

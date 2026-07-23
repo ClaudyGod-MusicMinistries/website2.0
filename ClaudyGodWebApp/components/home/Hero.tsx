@@ -112,12 +112,13 @@ export function Hero() {
         <Particles color="gold" glyph="✦" count={8} direction="rise" />
       </div>
 
-      {/* Content — below lg (mobile + tablet) the copy sits in a full-bleed
-          glass panel flush against the bottom edge of the section (no
-          floating card, no radius); desktop (lg+) reverts to the original
-          bottom-anchored, borderless layout with room above the fold. */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-end lg:pb-32 xl:pb-40">
-        <div className="w-full bg-black/30 backdrop-blur-sm border-t border-white/15 pt-8 pb-10 sm:pt-10 sm:pb-12 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:pt-0 lg:pb-0 lg:shadow-none">
+      {/* Content — a frosted glass panel at every breakpoint, not just mobile.
+          The photo's subject sits in the lower portion of the frame, so text
+          printed directly on raw pixels there read as covering her face;
+          blurring the backdrop behind the copy softens that into "text on
+          glass over the photo" instead. */}
+      <div className="absolute inset-0 z-10 flex flex-col justify-end lg:pb-24 xl:pb-28">
+        <div className="w-full bg-black/35 backdrop-blur-md border-t border-white/15 pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-10 lg:pb-14 shadow-popup">
           <div className="container-site w-full">
             <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center sm:text-left mx-auto sm:mx-0">
               <motion.div
