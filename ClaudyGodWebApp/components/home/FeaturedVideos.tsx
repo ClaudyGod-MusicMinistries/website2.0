@@ -109,7 +109,7 @@ export function FeaturedVideos() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-60px' }}
-                className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-3 sm:gap-4 mb-3 sm:mb-4"
+                className="grid grid-cols-1 lg:grid-cols-[1fr_340px] items-start gap-3 sm:gap-4 mb-3 sm:mb-4"
               >
                 {/* Featured large card */}
                 <motion.button
@@ -161,7 +161,7 @@ export function FeaturedVideos() {
                       <button
                         key={video.id}
                         onClick={() => setActiveId(video.id)}
-                        className="group relative flex gap-4 items-center bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.05] hover:border-purple-500/30 p-3.5 rounded-xl transition-all duration-300 cursor-pointer text-left overflow-hidden flex-1"
+                        className="group relative flex gap-4 items-center shrink-0 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.05] hover:border-purple-500/30 p-3.5 rounded-xl transition-all duration-300 cursor-pointer text-left overflow-hidden"
                       >
                         {/* Thumbnail */}
                         <div className="relative w-28 h-16 flex-shrink-0 overflow-hidden rounded-lg">

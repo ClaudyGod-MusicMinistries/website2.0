@@ -233,7 +233,7 @@ export function StorePreview() {
           <Link
             href="/store"
             className={cn(
-              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
               'hidden sm:inline-flex shrink-0 group'
             )}
           >
@@ -286,7 +286,7 @@ export function StorePreview() {
           <Link
             href="/store"
             className={cn(
-              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
               'sm:hidden'
             )}
           >

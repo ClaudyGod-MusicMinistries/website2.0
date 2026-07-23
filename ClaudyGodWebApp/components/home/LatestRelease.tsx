@@ -182,7 +182,7 @@ export function LatestRelease() {
                   <Link
                     href="/videos"
                     className={cn(
-                      buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+                      buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
                       'flex-1'
                     )}
                   >
