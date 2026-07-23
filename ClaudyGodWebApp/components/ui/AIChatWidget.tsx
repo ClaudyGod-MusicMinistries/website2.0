@@ -2,7 +2,17 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Loader2, Bot, User, Sparkles, RotateCcw } from 'lucide-react';
+import {
+  MessageCircle,
+  X,
+  Send,
+  Loader2,
+  Bot,
+  User,
+  Sparkles,
+  RotateCcw,
+  AlertCircle,
+} from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
 type Message = {
@@ -323,9 +333,10 @@ export function AIChatWidget() {
               )}
 
               {error && (
-                <p className="text-center text-xs text-red-400 bg-red-500/10 rounded-lg px-3 py-2">
-                  {error}
-                </p>
+                <div className="flex items-center justify-center gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                  <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                  <p>{error}</p>
+                </div>
               )}
 
               <div ref={bottomRef} />
