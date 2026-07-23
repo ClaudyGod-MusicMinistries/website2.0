@@ -36,7 +36,12 @@ function backendApiKeyHeader(): Record<string, string> {
 
 async function readUpstream(upstream: Response, backendUrl: string): Promise<NextResponse> {
   const contentType = upstream.headers.get('content-type') ?? '';
-  if (!contentType.includes('application/json')) {
+  // Matches "application/json" AND ASP.NET's "application/problem+json" (used
+  // by [ApiController]'s automatic ModelState-invalid responses) — checking
+  // only for the literal "application/json" substring missed every +json
+  // suffix, silently swallowing real validation error details from the
+  // backend into a generic "server error" message.
+  if (!contentType.includes('json')) {
     const text = await upstream.text();
     console.error(
       `[proxy] Non-JSON response from ${backendUrl} (${upstream.status}): ${text.slice(0, 500)}`
