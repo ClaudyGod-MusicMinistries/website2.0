@@ -6,7 +6,7 @@ export function useReels(category?: string) {
     '/reels',
     category ? { category } : undefined,
     [],
-    [category],
+    [category]
   );
   return { reels: data, loading, error, refetch };
 }

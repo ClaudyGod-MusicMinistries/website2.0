@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     if (!contentType.includes('application/json')) {
       return NextResponse.json(
         { success: false, message: 'Session expired. Please log in again.' },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     console.error('[auth/refresh]', err);
     return NextResponse.json(
       { success: false, message: 'Session expired. Please log in again.' },
-      { status: 401 },
+      { status: 401 }
     );
   }
 }

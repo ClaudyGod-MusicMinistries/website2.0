@@ -48,10 +48,25 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
           <h1 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem' }}>
             Critical Error
           </h1>
-          <p style={{ fontSize: '0.875rem', color: '#A8A8A8', lineHeight: '1.6', marginBottom: '2rem' }}>
+          <p
+            style={{
+              fontSize: '0.875rem',
+              color: '#A8A8A8',
+              lineHeight: '1.6',
+              marginBottom: '2rem',
+            }}
+          >
             The application encountered a critical error and could not recover.
             {error.digest && (
-              <span style={{ display: 'block', marginTop: '0.5rem', fontFamily: 'monospace', fontSize: '0.75rem', color: '#6B6B6B' }}>
+              <span
+                style={{
+                  display: 'block',
+                  marginTop: '0.5rem',
+                  fontFamily: 'monospace',
+                  fontSize: '0.75rem',
+                  color: '#6B6B6B',
+                }}
+              >
                 ID: {error.digest}
               </span>
             )}

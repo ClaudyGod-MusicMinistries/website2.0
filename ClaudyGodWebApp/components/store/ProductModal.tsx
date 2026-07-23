@@ -16,7 +16,7 @@ interface Props {
 
 export function ProductModal({ product, onClose }: Props) {
   const addToCart = useCartStore((s) => s.addToCart);
-  const openCart  = useCartStore((s) => s.openCart);
+  const openCart = useCartStore((s) => s.openCart);
   const [activeImage, setActiveImage] = useState(0);
 
   const gallery = product?.images && product.images.length > 1 ? product.images : null;
@@ -101,7 +101,9 @@ export function ProductModal({ product, onClose }: Props) {
                           aria-label={`View ${i === 0 ? 'front' : i === 1 ? 'back' : `view ${i + 1}`}`}
                           className={cn(
                             'relative w-14 h-14 rounded-lg overflow-hidden border-2 transition-colors duration-200 shrink-0',
-                            activeImage === i ? 'border-gold-500' : 'border-white/[0.08] hover:border-white/25'
+                            activeImage === i
+                              ? 'border-gold-500'
+                              : 'border-white/[0.08] hover:border-white/25'
                           )}
                         >
                           <Image src={src} alt="" fill className="object-cover" sizes="56px" />
@@ -148,8 +150,15 @@ export function ProductModal({ product, onClose }: Props) {
 
                   {/* Benefits */}
                   <ul className="space-y-2 mb-8">
-                    {['Premium quality materials', 'Official ClaudyGod merchandise', 'Ships worldwide'].map((b) => (
-                      <li key={b} className="flex items-center gap-2.5 font-sans text-xs text-neutral-600">
+                    {[
+                      'Premium quality materials',
+                      'Official ClaudyGod merchandise',
+                      'Ships worldwide',
+                    ].map((b) => (
+                      <li
+                        key={b}
+                        className="flex items-center gap-2.5 font-sans text-xs text-neutral-600"
+                      >
                         <span className="w-1 h-1 rounded-full bg-gold-500/60 flex-shrink-0" />
                         {b}
                       </li>
@@ -169,7 +178,9 @@ export function ProductModal({ product, onClose }: Props) {
                     >
                       <ShoppingBag className="h-3.5 w-3.5" />
                       Add to Cart
-                      <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                        →
+                      </span>
                     </button>
                   </div>
                 </div>

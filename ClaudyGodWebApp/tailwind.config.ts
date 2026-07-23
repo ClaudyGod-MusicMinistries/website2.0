@@ -1,5 +1,14 @@
 import type { Config } from 'tailwindcss';
-import { purple, neutral, gold, cream, surface, brand, status, hexToRgbString } from './lib/theme/colors';
+import {
+  purple,
+  neutral,
+  gold,
+  cream,
+  surface,
+  brand,
+  status,
+  hexToRgbString,
+} from './lib/theme/colors';
 
 const goldRgb = hexToRgbString(gold[500]);
 const purpleRgb = hexToRgbString(purple[600]);
@@ -43,7 +52,7 @@ const config: Config = {
       // typeface only in lib/fonts.ts; these class names should stay put.
       fontFamily: {
         display: ['var(--font-display)', 'serif'],
-        sans:    ['var(--font-sans)', 'sans-serif'],
+        sans: ['var(--font-sans)', 'sans-serif'],
       },
       fontSize: {
         '2xs': ['0.625rem', { lineHeight: '0.875rem' }],
@@ -54,22 +63,22 @@ const config: Config = {
 
       // ─── Spacing / sizing ────────────────────────────────────────
       spacing: {
-        18:  '4.5rem',
-        22:  '5.5rem',
-        26:  '6.5rem',
-        30:  '7.5rem',
-        34:  '8.5rem',
-        38:  '9.5rem',
-        42:  '10.5rem',
-        50:  '12.5rem',
-        54:  '13.5rem',
-        58:  '14.5rem',
-        62:  '15.5rem',
-        68:  '17rem',
-        72:  '18rem',
-        80:  '20rem',
-        88:  '22rem',
-        96:  '24rem',
+        18: '4.5rem',
+        22: '5.5rem',
+        26: '6.5rem',
+        30: '7.5rem',
+        34: '8.5rem',
+        38: '9.5rem',
+        42: '10.5rem',
+        50: '12.5rem',
+        54: '13.5rem',
+        58: '14.5rem',
+        62: '15.5rem',
+        68: '17rem',
+        72: '18rem',
+        80: '20rem',
+        88: '22rem',
+        96: '24rem',
         104: '26rem',
         112: '28rem',
         120: '30rem',
@@ -80,7 +89,7 @@ const config: Config = {
         '9xl': '96rem',
       },
       minHeight: {
-        hero:    '100dvh',
+        hero: '100dvh',
         section: '60vh',
       },
 
@@ -89,7 +98,7 @@ const config: Config = {
       // from lib/theme/colors.ts) instead of re-typing the hex as a
       // separate rgb() string that could silently drift from the token.
       boxShadow: {
-        gold:    `0 0 20px 0 rgb(${goldRgb} / 0.25)`,
+        gold: `0 0 20px 0 rgb(${goldRgb} / 0.25)`,
         'gold-lg': `0 0 40px 0 rgb(${goldRgb} / 0.35)`,
         'gold-glow': `0 0 60px 0 rgb(${goldRgb} / 0.45)`,
         'inner-dark': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.5)',
@@ -110,7 +119,12 @@ const config: Config = {
         // centered 'gold'/'gold-lg' glows above.
         'gold-cta': `0 4px 20px 0 rgb(${goldRgb} / 0.35)`,
         'gold-cta-hover': `0 6px 28px 0 rgb(${goldRgb} / 0.45)`,
+        // Purple counterpart to 'gold-cta' — for purple-600 CTA buttons.
+        'purple-cta': `0 4px 20px 0 rgb(${purpleRgb} / 0.35)`,
+        'purple-cta-hover': `0 6px 28px 0 rgb(${purpleRgb} / 0.45)`,
         popup: '0 24px 64px 0 rgb(0 0 0 / 0.6)',
+        // Dramatic large-radius drop shadow for full-bleed portrait/gallery images.
+        photo: '0 40px 120px 0 rgb(0 0 0 / 0.8)',
       },
 
       // ─── Borders ─────────────────────────────────────────────────
@@ -122,81 +136,81 @@ const config: Config = {
       // ─── Animations ──────────────────────────────────────────────
       keyframes: {
         'fade-in': {
-          '0%':   { opacity: '0' },
+          '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
         'fade-up': {
-          '0%':   { opacity: '0', transform: 'translateY(24px)' },
+          '0%': { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'fade-down': {
-          '0%':   { opacity: '0', transform: 'translateY(-24px)' },
+          '0%': { opacity: '0', transform: 'translateY(-24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'slide-in-left': {
-          '0%':   { transform: 'translateX(-100%)' },
+          '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(0)' },
         },
         'slide-in-right': {
-          '0%':   { transform: 'translateX(100%)' },
+          '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0)' },
         },
         'scale-in': {
-          '0%':   { opacity: '0', transform: 'scale(0.9)' },
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
         shimmer: {
-          '0%':   { backgroundPosition: '-200% 0' },
+          '0%': { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
         'pulse-gold': {
           '0%, 100%': { boxShadow: `0 0 0 0 rgb(${goldRgb} / 0.4)` },
-          '50%':      { boxShadow: `0 0 0 12px rgb(${goldRgb} / 0)` },
+          '50%': { boxShadow: `0 0 0 12px rgb(${goldRgb} / 0)` },
         },
         'spin-slow': {
           from: { transform: 'rotate(0deg)' },
-          to:   { transform: 'rotate(360deg)' },
+          to: { transform: 'rotate(360deg)' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%':      { transform: 'translateY(-8px)' },
+          '50%': { transform: 'translateY(-8px)' },
         },
       },
       animation: {
-        'fade-in':        'fade-in 0.4s ease forwards',
-        'fade-up':        'fade-up 0.5s ease forwards',
-        'fade-down':      'fade-down 0.5s ease forwards',
-        'slide-in-left':  'slide-in-left 0.4s ease forwards',
+        'fade-in': 'fade-in 0.4s ease forwards',
+        'fade-up': 'fade-up 0.5s ease forwards',
+        'fade-down': 'fade-down 0.5s ease forwards',
+        'slide-in-left': 'slide-in-left 0.4s ease forwards',
         'slide-in-right': 'slide-in-right 0.4s ease forwards',
-        'scale-in':       'scale-in 0.3s ease forwards',
-        shimmer:          'shimmer 1.8s linear infinite',
-        'pulse-gold':     'pulse-gold 2s ease-in-out infinite',
-        'spin-slow':      'spin-slow 3s linear infinite',
-        float:            'float 3s ease-in-out infinite',
+        'scale-in': 'scale-in 0.3s ease forwards',
+        shimmer: 'shimmer 1.8s linear infinite',
+        'pulse-gold': 'pulse-gold 2s ease-in-out infinite',
+        'spin-slow': 'spin-slow 3s linear infinite',
+        float: 'float 3s ease-in-out infinite',
       },
 
       // ─── Gradients (via backgroundImage) ─────────────────────────
       backgroundImage: {
-        'gradient-gold':   `linear-gradient(135deg, ${gold[500]} 0%, ${gold[300]} 50%, ${gold[500]} 100%)`,
-        'gradient-dark':   `linear-gradient(180deg, ${surface.muted} 0%, ${surface.base} 100%)`,
-        'gradient-hero':   `linear-gradient(180deg, transparent 0%, rgb(${hexToRgbString(surface.base)} / 0.8) 70%, ${surface.base} 100%)`,
-        'gradient-card':   `linear-gradient(135deg, ${surface.elevated} 0%, ${surface.overlay} 100%)`,
+        'gradient-gold': `linear-gradient(135deg, ${gold[500]} 0%, ${gold[300]} 50%, ${gold[500]} 100%)`,
+        'gradient-dark': `linear-gradient(180deg, ${surface.muted} 0%, ${surface.base} 100%)`,
+        'gradient-hero': `linear-gradient(180deg, transparent 0%, rgb(${hexToRgbString(surface.base)} / 0.8) 70%, ${surface.base} 100%)`,
+        'gradient-card': `linear-gradient(135deg, ${surface.elevated} 0%, ${surface.overlay} 100%)`,
         'gradient-radial-gold': `radial-gradient(ellipse at center, rgb(${goldRgb} / 0.15) 0%, transparent 70%)`,
-        'shimmer-base':    `linear-gradient(90deg, transparent 25%, rgb(${goldRgb} / 0.08) 50%, transparent 75%)`,
+        'shimmer-base': `linear-gradient(90deg, transparent 25%, rgb(${goldRgb} / 0.08) 50%, transparent 75%)`,
       },
 
       // ─── Z-index ─────────────────────────────────────────────────
       zIndex: {
-        hide:     '-1',
-        base:     '0',
-        raised:   '10',
+        hide: '-1',
+        base: '0',
+        raised: '10',
         dropdown: '100',
-        sticky:   '200',
-        overlay:  '300',
-        modal:    '400',
-        popover:  '500',
-        toast:    '600',
-        tooltip:  '700',
+        sticky: '200',
+        overlay: '300',
+        modal: '400',
+        popover: '500',
+        toast: '600',
+        tooltip: '700',
       },
 
       // ─── Screens ─────────────────────────────────────────────────

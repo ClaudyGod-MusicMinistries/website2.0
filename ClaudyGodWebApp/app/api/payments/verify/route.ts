@@ -6,24 +6,21 @@ export async function GET(req: NextRequest) {
   const reference = req.nextUrl.searchParams.get('reference');
 
   if (!reference) {
-    return NextResponse.json(
-      { success: false, message: 'reference is required' },
-      { status: 400 },
-    );
+    return NextResponse.json({ success: false, message: 'reference is required' }, { status: 400 });
   }
 
   const secretKey = process.env.PAYSTACK_SECRET_KEY;
   if (!secretKey) {
     return NextResponse.json(
       { success: false, message: 'Payment service not configured' },
-      { status: 503 },
+      { status: 503 }
     );
   }
 
   try {
     const paystackRes = await fetch(
       `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
-      { headers: { Authorization: `Bearer ${secretKey}` } },
+      { headers: { Authorization: `Bearer ${secretKey}` } }
     );
 
     const data = await paystackRes.json();
@@ -31,7 +28,7 @@ export async function GET(req: NextRequest) {
     if (!data.status) {
       return NextResponse.json(
         { success: false, message: data.message ?? 'Verification failed' },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -40,8 +37,14 @@ export async function GET(req: NextRequest) {
     // Record successful payment in backend
     if (tx.status === 'success') {
       const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
-      const donorName = tx.metadata?.custom_fields?.find((f: { variable_name: string; value: string }) => f.variable_name === 'donor_name')?.value ?? 'Anonymous';
-      const message = tx.metadata?.custom_fields?.find((f: { variable_name: string; value: string }) => f.variable_name === 'message')?.value ?? undefined;
+      const donorName =
+        tx.metadata?.custom_fields?.find(
+          (f: { variable_name: string; value: string }) => f.variable_name === 'donor_name'
+        )?.value ?? 'Anonymous';
+      const message =
+        tx.metadata?.custom_fields?.find(
+          (f: { variable_name: string; value: string }) => f.variable_name === 'message'
+        )?.value ?? undefined;
 
       try {
         await fetch(`${apiBaseUrl}/api/v1.0/payments/paystack/record`, {
@@ -63,19 +66,16 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({
-      success:   true,
-      status:    tx.status,       // 'success' | 'failed' | 'abandoned'
+      success: true,
+      status: tx.status, // 'success' | 'failed' | 'abandoned'
       reference: tx.reference,
-      amount:    tx.amount / 100, // kobo → naira/dollars
-      currency:  tx.currency,
-      email:     tx.customer?.email ?? '',
-      paidAt:    tx.paid_at ?? null,
+      amount: tx.amount / 100, // kobo → naira/dollars
+      currency: tx.currency,
+      email: tx.customer?.email ?? '',
+      paidAt: tx.paid_at ?? null,
     });
   } catch (err) {
     console.error('[payments/verify]', err);
-    return NextResponse.json(
-      { success: false, message: 'Internal server error' },
-      { status: 500 },
-    );
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
   }
 }

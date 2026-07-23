@@ -12,7 +12,7 @@ export function useApiResource<T>(
   path: string,
   params: Record<string, string | number | undefined> | undefined,
   fallback: T,
-  deps: readonly unknown[],
+  deps: readonly unknown[]
 ) {
   const [data, setData] = useState<T>(fallback);
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,9 @@ export function useApiResource<T>(
       setError(null);
       setData(await get<T>(path, params));
     } catch (err) {
-      setError(err instanceof BackendError ? err.message : 'Something went wrong. Please try again.');
+      setError(
+        err instanceof BackendError ? err.message : 'Something went wrong. Please try again.'
+      );
     } finally {
       setLoading(false);
     }

@@ -15,7 +15,9 @@ export function CartDrawer() {
   /* Close on Escape key */
   useEffect(() => {
     if (!isOpen) return;
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') closeCart(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeCart();
+    };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
   }, [isOpen, closeCart]);
@@ -23,8 +25,10 @@ export function CartDrawer() {
   /* Trap body scroll when open */
   useEffect(() => {
     if (isOpen) document.body.style.overflow = 'hidden';
-    else        document.body.style.overflow = '';
-    return ()  => { document.body.style.overflow = ''; };
+    else document.body.style.overflow = '';
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   return (
@@ -53,7 +57,7 @@ export function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed right-0 top-0 bottom-0 z-[501] w-full max-w-sm bg-[#111015] border-l border-white/[0.08] flex flex-col"
+            className="fixed right-0 top-0 bottom-0 z-[501] w-full max-w-sm bg-surface-raised border-l border-white/[0.08] flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 border-b border-white/[0.07]">
@@ -76,7 +80,11 @@ export function CartDrawer() {
             </div>
 
             {/* Items */}
-            <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-4" role="list" aria-label="Cart items">
+            <div
+              className="flex-1 overflow-y-auto px-5 sm:px-6 py-4"
+              role="list"
+              aria-label="Cart items"
+            >
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-5 text-center py-12">
                   <div className="w-16 h-16 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
@@ -172,9 +180,7 @@ export function CartDrawer() {
                 {/* Subtotal */}
                 <div className="flex items-center justify-between py-1">
                   <p className="font-sans text-sm text-neutral-400">Subtotal</p>
-                  <p className="font-display font-bold text-white text-lg">
-                    {formatPrice(total)}
-                  </p>
+                  <p className="font-display font-bold text-white text-lg">{formatPrice(total)}</p>
                 </div>
                 <p className="font-sans text-xs text-neutral-600 leading-relaxed">
                   Shipping and taxes calculated at checkout.
@@ -184,7 +190,7 @@ export function CartDrawer() {
                 <Link
                   href="/store/checkout"
                   onClick={closeCart}
-                  className="flex items-center justify-center gap-2.5 w-full h-12 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 shadow-[0_4px_16px_rgba(97, 73, 145,0.35)] hover:shadow-[0_6px_24px_rgba(97, 73, 145,0.5)]"
+                  className="flex items-center justify-center gap-2.5 w-full h-12 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-200 shadow-purple-cta hover:shadow-purple-cta-hover"
                   aria-label="Proceed to checkout"
                 >
                   Proceed to Checkout

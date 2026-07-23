@@ -24,8 +24,8 @@ interface AmbientGlowProps {
 }
 
 const GLOW_RGB = {
-  gold: '181, 101, 29',   // gold-500
-  purple: '97, 73, 145',  // purple-600
+  gold: '181, 101, 29', // gold-500
+  purple: '97, 73, 145', // purple-600
 } as const;
 
 /**

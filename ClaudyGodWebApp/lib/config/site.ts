@@ -6,7 +6,10 @@
  * domain, logo, or a social handle ever changes.
  */
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://claudygod.org').replace(/\/$/, '');
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://claudygod.org').replace(
+  /\/$/,
+  ''
+);
 
 export const SITE_NAME = 'ClaudyGod Music Ministries';
 

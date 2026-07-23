@@ -13,24 +13,24 @@
    Tailwind utility classes or import a .ts file. Keep these in sync with
    that file by hand; do not reintroduce a third, divergent palette. */
 :root {
-  --color-gold:       #B5651D; /* gold-500 */
-  --color-gold-light: #CE9962; /* gold-300 */
-  --color-gold-dark:  #834915; /* gold-700 */
-  --color-purple:     #7B62AC; /* purple-500 */
-  --color-surface:    #0C0A16; /* surface.muted */
-  --color-elevated:   #14111F; /* surface.elevated */
-  --color-overlay:    #1D1929; /* surface.overlay */
-  --color-border:     #2C2638; /* surface.border */
+  --color-gold: #b5651d; /* gold-500 */
+  --color-gold-light: #ce9962; /* gold-300 */
+  --color-gold-dark: #834915; /* gold-700 */
+  --color-purple: #7b62ac; /* purple-500 */
+  --color-surface: #0c0a16; /* surface.muted */
+  --color-elevated: #14111f; /* surface.elevated */
+  --color-overlay: #1d1929; /* surface.overlay */
+  --color-border: #2c2638; /* surface.border */
 
   /* Sizes */
   --navbar-height: 4rem;
-  --section-py:    6rem;
+  --section-py: 6rem;
 
   /* Motion */
-  --duration-fast:   150ms;
-  --duration-base:   250ms;
-  --duration-slow:   400ms;
-  --ease-smooth:     cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ─── Base layer ──────────────────────────────────────────────────────────── */
@@ -64,13 +64,20 @@
   }
 
   /* Custom scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--color-surface); }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface);
+  }
   ::-webkit-scrollbar-thumb {
     background: var(--color-border);
     border-radius: 3px;
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-gold-dark); }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold-dark);
+  }
 
   /* Selection */
   ::selection {
@@ -78,7 +85,10 @@
     color: var(--color-gold-light);
   }
 
-  img, video { @apply max-w-full; }
+  img,
+  video {
+    @apply max-w-full;
+  }
 
   a {
     @apply text-inherit no-underline;
@@ -104,9 +114,15 @@
   }
 
   /* Section — responsive editorial spacing */
-  .section-py   { @apply py-12 md:py-20 lg:py-28; }
-  .section-pt   { @apply pt-12 md:pt-20 lg:pt-28; }
-  .section-pb   { @apply pb-12 md:pb-20 lg:pb-28; }
+  .section-py {
+    @apply py-12 md:py-20 lg:py-28;
+  }
+  .section-pt {
+    @apply pt-12 md:pt-20 lg:pt-28;
+  }
+  .section-pb {
+    @apply pb-12 md:pb-20 lg:pb-28;
+  }
 
   /* Eyebrow label */
   .label-eyebrow {
@@ -151,26 +167,42 @@
     background-size: 200% 100%;
     animation: shimmer 1.8s linear infinite;
   }
-
 }
 
 /* ─── Utility layer ───────────────────────────────────────────────────────── */
 @layer utilities {
   /* Visually hidden (accessible) */
-  .sr-only-focusable:focus { @apply not-sr-only; }
+  .sr-only-focusable:focus {
+    @apply not-sr-only;
+  }
 
   /* Aspect ratios */
-  .aspect-portrait  { aspect-ratio: 3/4; }
-  .aspect-landscape { aspect-ratio: 16/9; }
-  .aspect-square    { aspect-ratio: 1/1; }
+  .aspect-portrait {
+    aspect-ratio: 3/4;
+  }
+  .aspect-landscape {
+    aspect-ratio: 16/9;
+  }
+  .aspect-square {
+    aspect-ratio: 1/1;
+  }
 
   /* Smooth hover scale */
-  .hover-scale { @apply transition-transform duration-300 hover:scale-105; }
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
 
   /* Text balance */
-  .text-balance { text-wrap: balance; }
-  .text-pretty  { text-wrap: pretty; }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
 
   /* GPU acceleration */
-  .gpu { transform: translateZ(0); will-change: transform; }
+  .gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
 }

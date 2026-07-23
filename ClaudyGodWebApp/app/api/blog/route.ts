@@ -13,7 +13,13 @@ export async function GET(req: NextRequest) {
     const message = err instanceof Error ? err.message : 'Failed to fetch blog posts';
     console.error('[/api/blog] Error:', message);
     return NextResponse.json(
-      { success: false, message: 'Unable to fetch blog posts', data: null, errors: [message], fieldErrors: {} },
+      {
+        success: false,
+        message: 'Unable to fetch blog posts',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
       { status: 500 }
     );
   }

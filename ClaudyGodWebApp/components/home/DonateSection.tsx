@@ -9,16 +9,17 @@ import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 const impacts = [
-  { icon: Mic2,   label: 'Record new worship albums' },
+  { icon: Mic2, label: 'Record new worship albums' },
   { icon: Globe2, label: 'Fund gospel outreach events' },
   { icon: Music2, label: 'Support ministry tours & concerts' },
-  { icon: Heart,  label: 'Reach communities in need' },
+  { icon: Heart, label: 'Reach communities in need' },
 ] as const;
 
 const fadeUp = {
-  hidden:  { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 24 },
   visible: (d = 0) => ({
-    opacity: 1, y: 0,
+    opacity: 1,
+    y: 0,
     transition: { duration: 0.7, delay: d, ease: [0.16, 1, 0.3, 1] },
   }),
 };
@@ -28,8 +29,21 @@ export function DonateSection() {
     <section className="relative overflow-hidden bg-surface-deep">
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <AmbientGlow color="gold" width={800} height={400} opacity={0.10} animate={false} className="left-1/2 -translate-x-1/2 -top-[200px]" />
-        <AmbientGlow color="purple" size={600} opacity={0.15} animate={false} className="-bottom-[300px] -right-[300px]" />
+        <AmbientGlow
+          color="gold"
+          width={800}
+          height={400}
+          opacity={0.1}
+          animate={false}
+          className="left-1/2 -translate-x-1/2 -top-[200px]"
+        />
+        <AmbientGlow
+          color="purple"
+          size={600}
+          opacity={0.15}
+          animate={false}
+          className="-bottom-[300px] -right-[300px]"
+        />
       </div>
 
       {/* Gold top line */}
@@ -37,7 +51,6 @@ export function DonateSection() {
 
       <div className="relative container-site py-12 sm:py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
-
           {/* Left — copy + impact list */}
           <motion.div
             initial="hidden"
@@ -50,25 +63,32 @@ export function DonateSection() {
             </motion.div>
 
             <div className="overflow-hidden mb-2">
-              <motion.h2 custom={0.1} variants={fadeUp}
+              <motion.h2
+                custom={0.1}
+                variants={fadeUp}
                 className="font-display text-white text-2xl sm:text-3xl md:text-4xl leading-[1.1] tracking-tight"
               >
                 Partner With
               </motion.h2>
             </div>
             <div className="overflow-hidden mb-6 sm:mb-8">
-              <motion.h2 custom={0.2} variants={fadeUp}
+              <motion.h2
+                custom={0.2}
+                variants={fadeUp}
                 className="font-display text-gold-300/90 text-2xl sm:text-3xl md:text-4xl leading-[1.1] tracking-tight"
               >
                 the Ministry.
               </motion.h2>
             </div>
 
-            <motion.p custom={0.3} variants={fadeUp}
+            <motion.p
+              custom={0.3}
+              variants={fadeUp}
               className="font-sans text-neutral-400 text-base leading-[1.85] max-w-md mb-8"
             >
-              Your generous support helps us record new music, reach more lives through concerts and events,
-              and spread the gospel to the ends of the earth. Every gift — large or small — makes a difference.
+              Your generous support helps us record new music, reach more lives through concerts and
+              events, and spread the gospel to the ends of the earth. Every gift — large or small —
+              makes a difference.
             </motion.p>
 
             {/* What your gift does */}
@@ -84,11 +104,13 @@ export function DonateSection() {
             </motion.div>
 
             {/* Scripture */}
-            <motion.blockquote custom={0.55} variants={fadeUp}
+            <motion.blockquote
+              custom={0.55}
+              variants={fadeUp}
               className="font-sans italic text-neutral-600 text-sm leading-relaxed border-l-2 border-gold-500/30 pl-4"
             >
-              &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together and
-              running over, will be poured into your lap.&rdquo;
+              &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken
+              together and running over, will be poured into your lap.&rdquo;
               <span className="not-italic font-sans text-[0.65rem] tracking-[0.15em] uppercase text-gold-500/60 block mt-1.5">
                 Luke 6:38
               </span>
@@ -107,30 +129,51 @@ export function DonateSection() {
 
               <div className="flex items-center gap-4 mb-8">
                 <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
-                  <Image src="/ClaudyGoLogo.webp" alt="ClaudyGod" fill className="object-contain p-1" sizes="56px" />
+                  <Image
+                    src="/ClaudyGoLogo.webp"
+                    alt="ClaudyGod"
+                    fill
+                    className="object-contain p-1"
+                    sizes="56px"
+                  />
                 </div>
                 <div>
-                  <p className="font-display font-bold text-white text-base leading-tight">ClaudyGod Music Ministries</p>
-                  <p className="font-sans text-[0.65rem] tracking-[0.2em] uppercase text-gold-500/60 mt-0.5">Support the Mission</p>
+                  <p className="font-display font-bold text-white text-base leading-tight">
+                    ClaudyGod Music Ministries
+                  </p>
+                  <p className="font-sans text-[0.65rem] tracking-[0.2em] uppercase text-gold-500/60 mt-0.5">
+                    Support the Mission
+                  </p>
                 </div>
               </div>
 
-              <p className="font-display font-semibold text-white text-xl mb-2">Make a Difference Today</p>
+              <p className="font-display font-semibold text-white text-xl mb-2">
+                Make a Difference Today
+              </p>
               <p className="font-sans text-neutral-500 text-sm mb-8">
-                100% of your donation supports the ministry directly. Choose any currency on the Donate page.
+                100% of your donation supports the ministry directly. Choose any currency on the
+                Donate page.
               </p>
 
               <div className="flex flex-col gap-3">
                 <Link
                   href="/donate"
-                  className={cn(buttonVariants({ variant: 'primary', size: 'lg', fullWidth: true }), 'h-14 shadow-gold-cta hover:shadow-gold-cta-hover')}
+                  className={cn(
+                    buttonVariants({ variant: 'primary', size: 'lg', fullWidth: true }),
+                    'h-14 shadow-gold-cta hover:shadow-gold-cta-hover'
+                  )}
                 >
                   <Heart className="h-5 w-5 fill-current" />
                   Donate Now
                 </Link>
                 <Link
                   href="/donate"
-                  className={buttonVariants({ variant: 'ghost', size: 'lg', fullWidth: true, uppercase: true })}
+                  className={buttonVariants({
+                    variant: 'ghost',
+                    size: 'lg',
+                    fullWidth: true,
+                    uppercase: true,
+                  })}
                 >
                   Learn More About Giving
                 </Link>

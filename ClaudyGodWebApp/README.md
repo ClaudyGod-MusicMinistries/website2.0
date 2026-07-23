@@ -24,15 +24,15 @@ To run against the real backend locally, set `API_BASE_URL` in `.env.local` to w
 
 ## Scripts
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Local dev server |
-| `npm run build` | Production build |
-| `npm run lint` / `lint:fix` | ESLint |
-| `npm run type-check` | `tsc --noEmit` |
-| `npm run format` | Prettier |
+| Command                      | What it does                                                                                         |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `npm run dev`                | Local dev server                                                                                     |
+| `npm run build`              | Production build                                                                                     |
+| `npm run lint` / `lint:fix`  | ESLint                                                                                               |
+| `npm run type-check`         | `tsc --noEmit`                                                                                       |
+| `npm run format`             | Prettier                                                                                             |
 | `npm run generate:nginx-csp` | Regenerates `nginx.conf`'s CSP header from `lib/config/csp.ts` (the single source of truth for both) |
-| `npm test` | Stub — no test suite exists yet |
+| `npm test`                   | Stub — no test suite exists yet                                                                      |
 
 ## Project structure
 

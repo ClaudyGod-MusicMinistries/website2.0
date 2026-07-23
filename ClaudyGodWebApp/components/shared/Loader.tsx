@@ -8,15 +8,15 @@ import { AmbientGlow, Particles } from '@/components/ui';
 const burstRings = [0, 1, 2];
 
 export function Loader() {
-  const [visible,  setVisible]  = useState(true);
+  const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const steps = [
-      { target: 35,  delay: 0,    duration: 380  },
-      { target: 65,  delay: 380,  duration: 460  },
-      { target: 88,  delay: 840,  duration: 380  },
-      { target: 100, delay: 1220, duration: 180  },
+      { target: 35, delay: 0, duration: 380 },
+      { target: 65, delay: 380, duration: 460 },
+      { target: 88, delay: 840, duration: 380 },
+      { target: 100, delay: 1220, duration: 180 },
     ];
 
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -30,8 +30,8 @@ export function Loader() {
           const start = Date.now();
           const tick = () => {
             const elapsed = Date.now() - start;
-            const frac    = Math.min(elapsed / duration, 1);
-            const eased   = 1 - Math.pow(1 - frac, 3);
+            const frac = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - frac, 3);
             setProgress(Math.round(from + (target - from) * eased));
             if (frac < 1) requestAnimationFrame(tick);
           };
@@ -60,15 +60,29 @@ export function Loader() {
             style={{ background: 'linear-gradient(135deg, #07060f 0%, #1a0f2e 50%, #07060f 100%)' }}
           />
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <AmbientGlow color="purple" size={700} opacity={0.20} duration={12} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-            <AmbientGlow color="gold" size={320} opacity={0.14} duration={9} delay={0.5} className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-[62%]" />
+            <AmbientGlow
+              color="purple"
+              size={700}
+              opacity={0.2}
+              duration={12}
+              className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+            <AmbientGlow
+              color="gold"
+              size={320}
+              opacity={0.14}
+              duration={9}
+              delay={0.5}
+              className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-[62%]"
+            />
           </div>
 
           {/* Subtle grid texture */}
           <div
             className="absolute inset-0 opacity-[0.025] pointer-events-none"
             style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
               backgroundSize: '48px 48px',
             }}
           />
@@ -78,7 +92,6 @@ export function Loader() {
 
           {/* ── Centre content ───────────────────────────── */}
           <div className="relative z-10 flex flex-col items-center gap-5 sm:gap-8">
-
             {/* Glory burst — concentric rings radiating outward, logo
                 emerging through the light at the burst's peak, rather
                 than a static logo sitting inside a spinning ring. */}
@@ -160,12 +173,21 @@ export function Loader() {
                 <motion.div
                   className="absolute inset-y-0 w-16 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full"
                   animate={{ x: ['-4rem', '14rem'] }}
-                  transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.3 }}
+                  transition={{
+                    duration: 1.4,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    repeatDelay: 0.3,
+                  }}
                 />
               </div>
               <div className="flex justify-between mt-2">
-                <span className="font-sans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-700">Loading</span>
-                <span className="font-sans text-[0.5rem] tracking-[0.1em] text-neutral-600">{progress}%</span>
+                <span className="font-sans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-700">
+                  Loading
+                </span>
+                <span className="font-sans text-[0.5rem] tracking-[0.1em] text-neutral-600">
+                  {progress}%
+                </span>
               </div>
             </motion.div>
 

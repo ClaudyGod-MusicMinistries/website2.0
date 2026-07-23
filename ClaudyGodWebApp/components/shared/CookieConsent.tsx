@@ -3,7 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cookie, X, ShieldCheck, BarChart2, Settings2, Megaphone, ChevronRight } from 'lucide-react';
+import {
+  Cookie,
+  X,
+  ShieldCheck,
+  BarChart2,
+  Settings2,
+  Megaphone,
+  ChevronRight,
+} from 'lucide-react';
 import {
   getStoredConsent,
   saveConsent,
@@ -16,23 +24,27 @@ import { cn } from '@/lib/utils/cn';
 // ─── Animations ──────────────────────────────────────────────────────────────
 
 const bannerAnim = {
-  hidden:  { y: 100, opacity: 0 },
-  visible: { y: 0,   opacity: 1, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
-  exit:    { y: 100, opacity: 0, transition: { duration: 0.3,  ease: [0.4, 0, 1, 1] } },
+  hidden: { y: 100, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+  exit: { y: 100, opacity: 0, transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } },
 };
 
 const modalAnim = {
-  hidden:  { opacity: 0, y: 24, scale: 0.97 },
-  visible: { opacity: 1, y: 0,  scale: 1,   transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-  exit:    { opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } },
+  hidden: { opacity: 0, y: 24, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+  exit: { opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } },
 };
 
 // ─── Toggle ───────────────────────────────────────────────────────────────────
 
 function Toggle({
-  checked, onChange, disabled = false,
+  checked,
+  onChange,
+  disabled = false,
 }: {
-  checked: boolean; onChange: (v: boolean) => void; disabled?: boolean;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  disabled?: boolean;
 }) {
   return (
     <button
@@ -43,16 +55,16 @@ function Toggle({
       onClick={() => !disabled && onChange(!checked)}
       className={cn(
         'relative inline-flex w-10 h-5 rounded-full border-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500',
-        checked
-          ? 'bg-purple-600 border-purple-600'
-          : 'bg-neutral-200 border-neutral-300',
-        disabled && 'opacity-60 cursor-not-allowed',
+        checked ? 'bg-purple-600 border-purple-600' : 'bg-neutral-200 border-neutral-300',
+        disabled && 'opacity-60 cursor-not-allowed'
       )}
     >
-      <span className={cn(
-        'absolute top-0.5 left-0.5 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-transform duration-200',
-        checked ? 'translate-x-5' : 'translate-x-0',
-      )} />
+      <span
+        className={cn(
+          'absolute top-0.5 left-0.5 w-3.5 h-3.5 rounded-full bg-white shadow-sm transition-transform duration-200',
+          checked ? 'translate-x-5' : 'translate-x-0'
+        )}
+      />
     </button>
   );
 }
@@ -60,7 +72,12 @@ function Toggle({
 // ─── Preference row ───────────────────────────────────────────────────────────
 
 function PrefRow({
-  icon: Icon, title, description, checked, onChange, disabled,
+  icon: Icon,
+  title,
+  description,
+  checked,
+  onChange,
+  disabled,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
@@ -94,11 +111,11 @@ function PrefRow({
 
 export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
-  const [showModal,  setShowModal]  = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [prefs, setPrefs] = useState<Omit<CookiePreferences, 'essential' | 'ts'>>({
-    analytics:  true,
+    analytics: true,
     functional: true,
-    marketing:  false,
+    marketing: false,
   });
 
   useEffect(() => {
@@ -142,7 +159,7 @@ export function CookieConsent() {
             role="region"
             aria-label="Cookie consent"
           >
-            <div className="max-w-[1100px] mx-auto bg-white border border-neutral-200 rounded-xl shadow-[0_-4px_40px_rgba(0,0,0,0.12)] overflow-hidden">
+            <div className="max-w-[1100px] mx-auto bg-white border border-neutral-200 rounded-xl shadow-card-light-lg overflow-hidden">
               {/* Purple top accent */}
               <div className="h-[3px] bg-gradient-to-r from-purple-600 via-gold-500 to-purple-600" />
 
@@ -157,8 +174,12 @@ export function CookieConsent() {
                       We use cookies to enhance your experience
                     </p>
                     <p className="font-sans text-neutral-500 text-xs leading-relaxed">
-                      We use essential cookies to make our site work, and optional cookies to improve your experience and analyse traffic.{' '}
-                      <Link href="/legal/cookies" className="text-purple-600 hover:underline underline-offset-2">
+                      We use essential cookies to make our site work, and optional cookies to
+                      improve your experience and analyse traffic.{' '}
+                      <Link
+                        href="/legal/cookies"
+                        className="text-purple-600 hover:underline underline-offset-2"
+                      >
                         Learn more
                       </Link>
                     </p>
@@ -186,7 +207,7 @@ export function CookieConsent() {
                   {/* Accept All — full width on mobile, auto on sm+ */}
                   <button
                     onClick={onAcceptAll}
-                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-[0_2px_12px_rgba(97, 73, 145,0.3)]"
+                    className="w-full sm:w-auto h-9 px-5 bg-purple-600 hover:bg-purple-500 text-white font-sans text-xs tracking-[0.1em] uppercase rounded-xl transition-colors duration-200 shadow-purple"
                   >
                     Accept All
                   </button>
@@ -205,14 +226,16 @@ export function CookieConsent() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.2, delay: 0.15 } }}
             className="fixed inset-0 z-[195] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
-            onClick={(e) => { if (e.target === e.currentTarget) setShowModal(false); }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowModal(false);
+            }}
           >
             <motion.div
               variants={modalAnim}
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="w-full max-w-md bg-white rounded-xl shadow-[0_24px_64px_rgba(0,0,0,0.18)] border border-neutral-100 overflow-hidden"
+              className="w-full max-w-md bg-white rounded-xl shadow-popup border border-neutral-100 overflow-hidden"
             >
               {/* Modal header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-100">
@@ -221,8 +244,12 @@ export function CookieConsent() {
                     <Settings2 className="h-4 w-4 text-purple-600" />
                   </div>
                   <div>
-                    <p className="font-display font-bold text-neutral-900 text-base">Cookie Preferences</p>
-                    <p className="font-sans text-[0.5rem] tracking-[0.14em] uppercase text-neutral-400">Manage your consent</p>
+                    <p className="font-display font-bold text-neutral-900 text-base">
+                      Cookie Preferences
+                    </p>
+                    <p className="font-sans text-[0.5rem] tracking-[0.14em] uppercase text-neutral-400">
+                      Manage your consent
+                    </p>
                   </div>
                 </div>
                 <button
@@ -286,9 +313,19 @@ export function CookieConsent() {
               <div className="px-6 pb-4 text-center">
                 <p className="font-sans text-neutral-400 text-xs">
                   Read our{' '}
-                  <Link href="/legal/cookies" className="text-purple-600 hover:underline underline-offset-2">Cookie Policy</Link>
-                  {' '}and{' '}
-                  <Link href="/legal/privacy" className="text-purple-600 hover:underline underline-offset-2">Privacy Policy</Link>
+                  <Link
+                    href="/legal/cookies"
+                    className="text-purple-600 hover:underline underline-offset-2"
+                  >
+                    Cookie Policy
+                  </Link>{' '}
+                  and{' '}
+                  <Link
+                    href="/legal/privacy"
+                    className="text-purple-600 hover:underline underline-offset-2"
+                  >
+                    Privacy Policy
+                  </Link>
                 </p>
               </div>
             </motion.div>

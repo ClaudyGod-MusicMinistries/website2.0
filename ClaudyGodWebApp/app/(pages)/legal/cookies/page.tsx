@@ -35,7 +35,7 @@ export default function CookiesPage() {
         },
         {
           heading: 'Managing Cookies',
-          body: 'You can control and manage cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of our website. To learn more about managing cookies, visit your browser\'s help section.',
+          body: "You can control and manage cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of our website. To learn more about managing cookies, visit your browser's help section.",
         },
         {
           heading: 'Contact Us',

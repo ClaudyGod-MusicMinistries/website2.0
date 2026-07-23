@@ -3,8 +3,18 @@
   "short_name": "ClaudyGod",
   "description": "Official website of ClaudyGod — Gospel music artist, minister, and worship leader.",
   "icons": [
-    { "src": "/ClaudySocial.jpg", "type": "image/jpeg", "sizes": "192x192", "purpose": "any maskable" },
-    { "src": "/ClaudySocial.jpg", "type": "image/jpeg", "sizes": "512x512", "purpose": "any maskable" }
+    {
+      "src": "/ClaudySocial.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/ClaudySocial.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
   ],
   "start_url": "/",
   "display": "standalone",

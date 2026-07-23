@@ -23,17 +23,17 @@ const variantStyles = {
   center: cn(
     'fixed left-1/2 top-1/2 z-modal w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2',
     'rounded-xl max-h-[85dvh] overflow-y-auto',
-    'data-[state=open]:animate-scale-in',
+    'data-[state=open]:animate-scale-in'
   ),
   /** Side drawer — cart, filters. */
   right: cn(
     'fixed right-0 top-0 bottom-0 z-modal w-full max-w-sm',
-    'data-[state=open]:animate-slide-in-right',
+    'data-[state=open]:animate-slide-in-right'
   ),
   /** Full-bleed overlay — mobile nav, immersive galleries. */
   fullscreen: cn(
     'fixed inset-0 z-modal w-full h-full overflow-y-auto',
-    'data-[state=open]:animate-fade-in',
+    'data-[state=open]:animate-fade-in'
   ),
 } as const;
 
@@ -75,14 +75,12 @@ Dialog.Content = function DialogContent({
 }: DialogContentProps) {
   return (
     <RadixDialog.Portal>
-      <RadixDialog.Overlay
-        className="fixed inset-0 z-overlay bg-black/75 backdrop-blur-sm data-[state=open]:animate-fade-in"
-      />
+      <RadixDialog.Overlay className="fixed inset-0 z-overlay bg-black/75 backdrop-blur-sm data-[state=open]:animate-fade-in" />
       <RadixDialog.Content
         className={cn(
           'bg-surface-raised border border-white/10 shadow-card-hover focus:outline-none',
           variantStyles[variant],
-          className,
+          className
         )}
       >
         <RadixDialog.Title className={hideTitle ? 'sr-only' : undefined}>{title}</RadixDialog.Title>

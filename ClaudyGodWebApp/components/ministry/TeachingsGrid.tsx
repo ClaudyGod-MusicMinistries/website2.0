@@ -38,7 +38,7 @@ export function TeachingsGrid() {
                 className={cn(
                   'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-sans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
                   active === f
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.35)]'
+                    ? 'bg-purple-600 border-purple-600 text-white shadow-purple-cta'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                 )}
               >
@@ -53,7 +53,7 @@ export function TeachingsGrid() {
               <button
                 key={teaching.id}
                 onClick={() => setPlayingId(teaching.youtubeId)}
-                className="group relative bg-neutral-900 text-left overflow-hidden rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-shadow duration-300"
+                className="group relative bg-neutral-900 text-left overflow-hidden rounded-xl shadow-card hover:shadow-card-hover transition-shadow duration-300"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
@@ -90,7 +90,9 @@ export function TeachingsGrid() {
           <>
             <motion.div
               key="backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-0 z-[600] bg-black/92 backdrop-blur-md"
               onClick={() => setPlayingId(null)}

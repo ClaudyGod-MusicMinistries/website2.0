@@ -11,6 +11,12 @@
   },
   "overrides": [
     {
+      "files": ["scripts/**"],
+      "rules": {
+        "no-console": "off"
+      }
+    },
+    {
       "files": ["**/*.tsx"],
       "excludedFiles": ["components/ui/**", "data/**"],
       "rules": {

@@ -26,10 +26,10 @@ interface TicketFormData {
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
   return {
-    day:  d.toLocaleDateString('en-GB',  { day: '2-digit' }),
-    mon:  d.toLocaleDateString('en-GB',  { month: 'short' }).toUpperCase(),
-    full: d.toLocaleDateString('en-US',  { year: 'numeric', month: 'long', day: 'numeric' }),
-    time: d.toLocaleTimeString('en-US',  { hour: 'numeric', minute: '2-digit' }),
+    day: d.toLocaleDateString('en-GB', { day: '2-digit' }),
+    mon: d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase(),
+    full: d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+    time: d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
     past: d < new Date(),
   };
 }
@@ -50,7 +50,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.75, ease: [0.25, 0.1, 0.25, 1] }}
-      className="relative overflow-hidden rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.14)] group"
+      className="relative overflow-hidden rounded-xl shadow-card-light-lg group"
     >
       <div className="relative h-[420px] md:h-[520px]">
         <Image
@@ -84,13 +84,20 @@ function FeaturedEventCard({ event }: { event: Event }) {
           <div>
             <div className="inline-flex items-center gap-3 mb-4">
               <div className="bg-white rounded-xl px-4 py-2 text-center shadow-lg">
-                <p className="font-display font-bold text-neutral-900 text-2xl leading-none">{day}</p>
-                <p className="font-sans text-[0.48rem] tracking-[0.16em] uppercase text-purple-600 mt-0.5">{mon}</p>
+                <p className="font-display font-bold text-neutral-900 text-2xl leading-none">
+                  {day}
+                </p>
+                <p className="font-sans text-[0.48rem] tracking-[0.16em] uppercase text-purple-600 mt-0.5">
+                  {mon}
+                </p>
               </div>
               <div>
-                <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-white/60 mb-0.5">{full}</p>
+                <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-white/60 mb-0.5">
+                  {full}
+                </p>
                 <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-gold-400 flex items-center gap-1">
-                  <Clock className="h-3 w-3" />{time}
+                  <Clock className="h-3 w-3" />
+                  {time}
                 </p>
               </div>
             </div>
@@ -129,7 +136,7 @@ function TourCard({ event, index }: { event: Event; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-      className="group relative overflow-hidden rounded-xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.08)] transition-all duration-300"
+      className="group relative overflow-hidden rounded-xl border border-neutral-200 hover:border-purple-300 bg-white hover:shadow-purple transition-all duration-300"
     >
       <div className="relative h-40 overflow-hidden">
         <Image
@@ -142,7 +149,9 @@ function TourCard({ event, index }: { event: Event; index: number }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-black/5" />
         <div className="absolute top-4 left-4 bg-white rounded-xl px-3 py-2 text-center shadow-lg">
           <p className="font-display font-bold text-neutral-900 text-xl leading-none">{day}</p>
-          <p className="font-sans text-[0.48rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">{mon}</p>
+          <p className="font-sans text-[0.48rem] tracking-[0.15em] uppercase text-purple-600 mt-0.5">
+            {mon}
+          </p>
         </div>
         {past && (
           <span className="absolute top-4 right-4 font-sans text-[0.5rem] tracking-[0.14em] uppercase bg-black/60 text-white/60 px-2.5 py-1 rounded-full backdrop-blur-sm">
@@ -156,14 +165,17 @@ function TourCard({ event, index }: { event: Event; index: number }) {
           {event.title}
         </h3>
         <p className="flex items-center gap-1.5 font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mb-2">
-          <MapPin className="h-3 w-3 shrink-0" />{event.venue}
+          <MapPin className="h-3 w-3 shrink-0" />
+          {event.venue}
         </p>
         <div className="flex items-center gap-4 mb-4">
           <span className="flex items-center gap-1.5 font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
-            <Calendar className="h-3 w-3" />{full}
+            <Calendar className="h-3 w-3" />
+            {full}
           </span>
           <span className="flex items-center gap-1.5 font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
-            <Clock className="h-3 w-3" />{time}
+            <Clock className="h-3 w-3" />
+            {time}
           </span>
         </div>
         <div className="flex gap-2.5">
@@ -183,13 +195,13 @@ function TourCard({ event, index }: { event: Event; index: number }) {
 
 /* ── Ticket reservation form ─────────────────────────────────────────────── */
 function TicketForm({ events }: { events: Event[] }) {
-  const upcoming   = events.filter((e) => !formatDate(e.startDate).past);
+  const upcoming = events.filter((e) => !formatDate(e.startDate).past);
   const backendEvt = upcoming.filter((e) => isUUID(e.id));
 
-  const [formStatus, setFormStatus]             = useState<'idle' | 'success' | 'error'>('idle');
-  const [selectedId, setSelectedId]             = useState<string>(backendEvt[0]?.id ?? upcoming[0]?.id ?? '');
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [selectedId, setSelectedId] = useState<string>(backendEvt[0]?.id ?? upcoming[0]?.id ?? '');
   const [confirmationCode, setConfirmationCode] = useState('');
-  const [apiError, setApiError]                 = useState('');
+  const [apiError, setApiError] = useState('');
 
   const {
     register,
@@ -204,12 +216,12 @@ function TicketForm({ events }: { events: Event[] }) {
     setApiError('');
     try {
       const result = await post<{ confirmationCode: string }>('/tickets', {
-        eventId:   selectedId,
+        eventId: selectedId,
         firstName: data.firstName,
-        lastName:  data.lastName,
-        email:     data.email,
-        phone:     data.phone,
-        quantity:  data.quantity,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        quantity: data.quantity,
       });
       setConfirmationCode(result.confirmationCode ?? '');
       setFormStatus('success');
@@ -261,13 +273,26 @@ function TicketForm({ events }: { events: Event[] }) {
 
           <div className="mt-6 flex flex-wrap gap-6">
             {[
-              { icon: Users,       label: `${upcoming.length} upcoming event${upcoming.length !== 1 ? 's' : ''}` },
-              { icon: CheckCircle2, label: hasBackendEvents ? 'Instant confirmation' : 'Free to register' },
-              { icon: Ticket,      label: hasBackendEvents ? `${backendEvt[0]?.availableSeats ?? 0} seats left` : 'Email updates included' },
+              {
+                icon: Users,
+                label: `${upcoming.length} upcoming event${upcoming.length !== 1 ? 's' : ''}`,
+              },
+              {
+                icon: CheckCircle2,
+                label: hasBackendEvents ? 'Instant confirmation' : 'Free to register',
+              },
+              {
+                icon: Ticket,
+                label: hasBackendEvents
+                  ? `${backendEvt[0]?.availableSeats ?? 0} seats left`
+                  : 'Email updates included',
+              },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2">
                 <Icon className="h-3.5 w-3.5 text-purple-400 shrink-0" />
-                <span className="font-sans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-500">{label}</span>
+                <span className="font-sans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-500">
+                  {label}
+                </span>
               </div>
             ))}
           </div>
@@ -290,11 +315,17 @@ function TicketForm({ events }: { events: Event[] }) {
                 <CheckCircle2 className="h-7 w-7 text-gold-400" />
               </div>
               <div>
-                <p className="font-display font-bold text-white text-xl mb-2">You&apos;re Registered!</p>
+                <p className="font-display font-bold text-white text-xl mb-2">
+                  You&apos;re Registered!
+                </p>
                 {confirmationCode && (
                   <div className="mt-3 mb-4 px-6 py-3 bg-purple-600/10 border border-purple-500/20 rounded-xl">
-                    <p className="font-sans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-1">Confirmation Code</p>
-                    <p className="font-display font-bold text-white text-lg tracking-widest">{confirmationCode}</p>
+                    <p className="font-sans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-1">
+                      Confirmation Code
+                    </p>
+                    <p className="font-display font-bold text-white text-lg tracking-widest">
+                      {confirmationCode}
+                    </p>
                   </div>
                 )}
                 <p className="font-sans text-neutral-400 text-sm leading-relaxed max-w-sm">
@@ -302,7 +333,10 @@ function TicketForm({ events }: { events: Event[] }) {
                 </p>
               </div>
               <button
-                onClick={() => { setFormStatus('idle'); setConfirmationCode(''); }}
+                onClick={() => {
+                  setFormStatus('idle');
+                  setConfirmationCode('');
+                }}
                 className="font-sans text-[0.6rem] tracking-[0.16em] uppercase text-purple-400 hover:text-purple-300 transition-colors duration-300"
               >
                 Reserve another ticket
@@ -338,7 +372,9 @@ function TicketForm({ events }: { events: Event[] }) {
                               : 'border-white/10 bg-white/[0.03] hover:border-white/20'
                           }`}
                         >
-                          <p className={`font-display font-semibold text-sm ${isSelected ? 'text-white' : 'text-neutral-300'}`}>
+                          <p
+                            className={`font-display font-semibold text-sm ${isSelected ? 'text-white' : 'text-neutral-300'}`}
+                          >
                             {event.title}
                           </p>
                           <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-500 mt-0.5">
@@ -371,7 +407,12 @@ function TicketForm({ events }: { events: Event[] }) {
               </div>
 
               <div>
-                <input {...register('email')} type="email" placeholder="Email address" className={inputCls} />
+                <input
+                  {...register('email')}
+                  type="email"
+                  placeholder="Email address"
+                  className={inputCls}
+                />
                 {errors.email && <p className={errCls}>{errors.email.message}</p>}
               </div>
 
@@ -421,10 +462,14 @@ function TicketForm({ events }: { events: Event[] }) {
                 disabled={isSubmitting}
                 className="w-full h-11 bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-sans text-[0.62rem] tracking-[0.22em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group"
               >
-                {isSubmitting ? 'Processing…' : (
+                {isSubmitting ? (
+                  'Processing…'
+                ) : (
                   <>
                     {hasBackendEvents ? 'Reserve Ticket' : 'Register My Spot'}
-                    <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                    <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                      →
+                    </span>
                   </>
                 )}
               </button>
@@ -458,7 +503,7 @@ export function EventsSection() {
     return (
       <div className="py-20 px-4">
         <ErrorMessage
-          message={error || "No events available at this time. Please check back soon."}
+          message={error || 'No events available at this time. Please check back soon.'}
           onRetry={refetch}
         />
       </div>
@@ -466,16 +511,13 @@ export function EventsSection() {
   }
 
   const upcoming = events.filter((e) => !formatDate(e.startDate).past);
-  const past     = events.filter((e) => formatDate(e.startDate).past);
+  const past = events.filter((e) => formatDate(e.startDate).past);
   const featured = upcoming[0] ?? events[0];
 
   if (!featured) {
     return (
       <div className="py-20 px-4">
-        <ErrorMessage
-          message="No events available. Please try again later."
-          onRetry={refetch}
-        />
+        <ErrorMessage message="No events available. Please try again later." onRetry={refetch} />
       </div>
     );
   }
@@ -516,7 +558,6 @@ export function EventsSection() {
       <section className="bg-cream-100 section-py border-t border-black/[0.05]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-
             {/* Left: context */}
             <div className="lg:pt-2">
               <div className="flex items-center gap-4 mb-6">
@@ -527,20 +568,34 @@ export function EventsSection() {
                 Be Part of Every Moment
               </h2>
               <p className="font-sans text-neutral-600 text-base leading-[1.85] mb-8">
-                Register for upcoming ministry events. Get instant confirmation, early notifications, and spiritual preparation guides delivered to your inbox.
+                Register for upcoming ministry events. Get instant confirmation, early
+                notifications, and spiritual preparation guides delivered to your inbox.
               </p>
 
               <div className="space-y-5">
                 {[
-                  { title: 'Instant Confirmation',  body: 'Receive a unique confirmation code for each ticket reserved.' },
-                  { title: 'Event Reminders',        body: 'Automated reminders 7 days and 24 hours before the event.' },
-                  { title: 'Exclusive Content',      body: 'Pre-event worship guides sent directly to registered attendees.' },
+                  {
+                    title: 'Instant Confirmation',
+                    body: 'Receive a unique confirmation code for each ticket reserved.',
+                  },
+                  {
+                    title: 'Event Reminders',
+                    body: 'Automated reminders 7 days and 24 hours before the event.',
+                  },
+                  {
+                    title: 'Exclusive Content',
+                    body: 'Pre-event worship guides sent directly to registered attendees.',
+                  },
                 ].map(({ title, body }) => (
                   <div key={title} className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
                     <div>
-                      <p className="font-display font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
-                      <p className="font-sans text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                      <p className="font-display font-semibold text-neutral-800 text-sm leading-snug">
+                        {title}
+                      </p>
+                      <p className="font-sans text-neutral-500 text-sm leading-relaxed mt-0.5">
+                        {body}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -555,9 +610,16 @@ export function EventsSection() {
                     {past.map((event) => {
                       const { full } = formatDate(event.startDate);
                       return (
-                        <div key={event.id} className="flex items-center justify-between py-2 border-b border-black/[0.05]">
-                          <span className="font-display font-semibold text-neutral-600 text-sm">{event.title}</span>
-                          <span className="font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">{full}</span>
+                        <div
+                          key={event.id}
+                          className="flex items-center justify-between py-2 border-b border-black/[0.05]"
+                        >
+                          <span className="font-display font-semibold text-neutral-600 text-sm">
+                            {event.title}
+                          </span>
+                          <span className="font-sans text-[0.54rem] tracking-[0.1em] uppercase text-neutral-400">
+                            {full}
+                          </span>
                         </div>
                       );
                     })}
