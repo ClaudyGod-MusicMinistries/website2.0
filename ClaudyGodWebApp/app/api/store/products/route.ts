@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
-    let path = '/store';
+    let path = '/store/products';
     if (category) path += `?category=${encodeURIComponent(category)}`;
     const backendRes = await proxyGet(req, path);
     return backendRes;

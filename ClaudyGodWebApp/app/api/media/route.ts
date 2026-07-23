@@ -4,9 +4,9 @@ import { proxyGet } from '@/lib/data/backendProxy';
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get('category');
+    const type = searchParams.get('type');
     let path = '/media';
-    if (category) path += `?category=${encodeURIComponent(category)}`;
+    if (type) path += `?type=${encodeURIComponent(type)}`;
     const backendRes = await proxyGet(req, path);
     return backendRes;
   } catch (err) {
