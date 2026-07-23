@@ -1,6 +1,7 @@
 import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 
 const lineItemSchema = z.object({
   id: z.string(),
@@ -80,16 +81,20 @@ export async function POST(req: NextRequest) {
     }
 
     // Persist order to backend with proper error handling
-    const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
+    const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080';
     let backendOrderId: string | null = null;
 
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000); // 15-second timeout
 
+      const internalKey = getInternalApiKey();
       const backendRes = await fetch(`${apiBaseUrl}/api/v1.0/store/checkout`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(internalKey ? { 'x-api-key': internalKey } : {}),
+        },
         body: JSON.stringify({
           items: data.items,
           shipping: {
