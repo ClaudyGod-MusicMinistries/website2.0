@@ -4,6 +4,9 @@ const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
 
 export async function POST(req: NextRequest) {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
     // Forward the HTTP-only refresh cookie to the backend
     const upstream = await fetch(`${API_BASE}/api/v1.0/auth/refresh`, {
       method: 'POST',
@@ -12,7 +15,9 @@ export async function POST(req: NextRequest) {
         // Forward the cookie header so the backend can read cgm_rt
         Cookie: req.headers.get('cookie') ?? '',
       },
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
 
     const contentType = upstream.headers.get('content-type') ?? '';
     if (!contentType.includes('application/json')) {

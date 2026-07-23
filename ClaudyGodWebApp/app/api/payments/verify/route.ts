@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,7 +37,7 @@ export async function GET(req: NextRequest) {
 
     // Record successful payment in backend
     if (tx.status === 'success') {
-      const apiBaseUrl = process.env.API_BASE_URL || 'http://api:8080';
+      const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080';
       const donorName =
         tx.metadata?.custom_fields?.find(
           (f: { variable_name: string; value: string }) => f.variable_name === 'donor_name'
@@ -47,9 +48,16 @@ export async function GET(req: NextRequest) {
         )?.value ?? undefined;
 
       try {
-        await fetch(`${apiBaseUrl}/api/v1.0/payments/paystack/record`, {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+        const internalKey = getInternalApiKey();
+
+        const recordRes = await fetch(`${apiBaseUrl}/api/v1.0/payments/paystack/record`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(internalKey ? { 'x-api-key': internalKey } : {}),
+          },
           body: JSON.stringify({
             donorName,
             donorEmail: tx.customer?.email ?? '',
@@ -58,7 +66,17 @@ export async function GET(req: NextRequest) {
             reference: tx.reference,
             message,
           }),
+          signal: controller.signal,
         });
+        clearTimeout(timeout);
+
+        if (!recordRes.ok) {
+          const errorText = await recordRes.text();
+          console.error(
+            `[verify] Backend rejected payment record (${recordRes.status}):`,
+            errorText.slice(0, 200)
+          );
+        }
       } catch (err) {
         console.error('[verify] Failed to record payment in backend:', err);
         // Still return success as Paystack verified it
