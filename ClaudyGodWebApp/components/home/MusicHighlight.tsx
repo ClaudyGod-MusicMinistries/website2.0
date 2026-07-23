@@ -46,7 +46,7 @@ export function MusicHighlight() {
           <Link
             href="/music"
             className={cn(
-              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
               'hidden md:inline-flex whitespace-nowrap'
             )}
           >
