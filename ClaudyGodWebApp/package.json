@@ -13,7 +13,7 @@
     "test": "echo 'No tests configured yet'",
     "validate:env": "bash scripts/validate-env.sh",
     "setup:security": "bash scripts/setup-security.sh",
-    "generate:nginx-csp": "tsx scripts/generate-nginx-csp.ts",
+    "seed:content": "tsx scripts/seed-content.ts",
     "setup-hooks": "git config core.hooksPath .githooks && echo '✓ Git hooks configured'",
     "prepare": "npm run setup-hooks"
   },
