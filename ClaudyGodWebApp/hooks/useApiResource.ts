@@ -7,6 +7,14 @@ import { get, BackendError } from '@/lib/data/client';
  * hook in this app (albums, events, blog posts, ...) is a thin wrapper
  * around this so there's one place that owns fetch/error semantics instead
  * of six copies drifting apart.
+ *
+ * `fallback` serves double duty: it's the value shown before the first
+ * fetch resolves, AND what `data` reverts to if the fetch fails. Passing
+ * curated, real, properly-shaped content (rather than an empty list) means
+ * a section keeps showing something genuine during a backend hiccup instead
+ * of going blank — callers that want "hide on error" instead (the right
+ * call for anything time-sensitive, like live event dates) should keep
+ * passing an empty fallback.
  */
 export function useApiResource<T>(
   path: string,
@@ -28,6 +36,7 @@ export function useApiResource<T>(
       setError(
         err instanceof BackendError ? err.message : 'Something went wrong. Please try again.'
       );
+      setData(fallback);
     } finally {
       setLoading(false);
     }

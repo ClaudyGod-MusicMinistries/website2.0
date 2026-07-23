@@ -23,13 +23,15 @@ import { cn } from '@/lib/utils/cn';
  * overlapping "watch a video" experiences.
  */
 export function LatestRelease() {
-  const { media, loading, error } = useMedia('video');
+  const { media, loading } = useMedia('video');
   const [videoOpen, setVideoOpen] = useState(false);
 
   const videos = media.map(toVideoView).filter((v) => v.youtubeId !== null);
   const latest = videos[0];
 
-  if (error || (!loading && !latest)) return null;
+  // `error` no longer hides the section — useMedia falls back to real curated
+  // videos on a failed fetch, so only bail out if there's truly nothing to show.
+  if (!loading && !latest) return null;
 
   return (
     <>

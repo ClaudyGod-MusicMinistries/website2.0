@@ -1,4 +1,5 @@
 import { useApiResource } from '@/hooks/useApiResource';
+import { fallbackVideos } from '@/data/fallback';
 import type { MediaItem, PaginatedResponse } from '@/lib/data/types';
 
 const EMPTY: PaginatedResponse<MediaItem> = {
@@ -11,6 +12,14 @@ const EMPTY: PaginatedResponse<MediaItem> = {
   hasNextPage: false,
 };
 
+// Only ever called with type: 'video' today — the fallback below is
+// video-specific. If a call site ever passes a different type, it'll fall
+// back to an empty list rather than showing mismatched fallback content.
+function fallbackFor(type?: string): PaginatedResponse<MediaItem> {
+  if (type !== 'video') return EMPTY;
+  return { ...EMPTY, items: fallbackVideos, totalCount: fallbackVideos.length };
+}
+
 /**
  * `type` matches the backend's `MediaType` enum (e.g. 'video', 'music',
  * 'photo') — ASP.NET Core binds query-string enums case-insensitively, so
@@ -21,7 +30,7 @@ export function useMedia(type?: string) {
   const { data, loading, error, refetch } = useApiResource<PaginatedResponse<MediaItem>>(
     '/media',
     type ? { type } : undefined,
-    EMPTY,
+    fallbackFor(type),
     [type]
   );
   return { media: data.items, loading, error, refetch };
