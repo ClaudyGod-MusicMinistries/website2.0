@@ -1,14 +1,10 @@
 /**
- * Single source of truth for the Content-Security-Policy.
- *
- * Previously this policy was hand-maintained in two places — `middleware.ts`
- * and `nginx.conf` — and they had drifted apart (nginx's script-src was
- * missing cdn.jsdelivr.net/s.ytimg.com, its connect-src was missing the
- * broader `https:`/`wss:` allowance). `middleware.ts` now imports and
- * applies this object directly; `scripts/generate-nginx-csp.mjs` renders
- * the same object into the `add_header Content-Security-Policy` line nginx
- * needs, so nginx.conf is generated, not hand-edited, and the two can never
- * disagree again.
+ * Single source of truth for the Content-Security-Policy. `middleware.ts`
+ * imports and applies this object directly. There used to be a second,
+ * hand-maintained copy of this policy in an nginx.conf — nginx was never
+ * actually part of the deployed image (the Dockerfile runs `node server.js`
+ * directly), so that file only ever drifted out of sync with no runtime
+ * effect. It's been removed; this object is the only copy now.
  */
 
 export const CSP_DIRECTIVES: Record<string, string[]> = {

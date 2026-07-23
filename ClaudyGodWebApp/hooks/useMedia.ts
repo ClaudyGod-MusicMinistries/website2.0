@@ -11,12 +11,18 @@ const EMPTY: PaginatedResponse<MediaItem> = {
   hasNextPage: false,
 };
 
-export function useMedia(category?: string) {
+/**
+ * `type` matches the backend's `MediaType` enum (e.g. 'video', 'music',
+ * 'photo') — ASP.NET Core binds query-string enums case-insensitively, so
+ * lowercase call sites like `useMedia('video')` reach `MediaType.Video`.
+ * Previously sent as `category`, a param the backend never read.
+ */
+export function useMedia(type?: string) {
   const { data, loading, error, refetch } = useApiResource<PaginatedResponse<MediaItem>>(
     '/media',
-    category ? { category } : undefined,
+    type ? { type } : undefined,
     EMPTY,
-    [category]
+    [type]
   );
   return { media: data.items, loading, error, refetch };
 }
