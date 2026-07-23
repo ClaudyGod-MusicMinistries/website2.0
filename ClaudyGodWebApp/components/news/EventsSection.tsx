@@ -104,7 +104,7 @@ function FeaturedEventCard({ event }: { event: Event }) {
               </div>
             </div>
 
-            <h3 className="font-display font-bold text-white text-3xl md:text-4xl tracking-tight leading-tight mb-2">
+            <h3 className="font-raleway font-light text-white text-3xl md:text-4xl tracking-normal leading-tight mb-2">
               {event.title}
             </h3>
             <p className="flex items-center gap-1.5 font-sans text-white/70 text-sm">
@@ -259,7 +259,7 @@ function TicketForm({ events }: { events: Event[] }) {
               {hasBackendEvents ? 'Reserve Your Ticket' : 'Event Registration'}
             </span>
           </div>
-          <h3 className="font-display font-bold text-white text-2xl md:text-3xl tracking-tight mb-2">
+          <h3 className="font-raleway font-light text-white text-2xl md:text-3xl tracking-normal mb-2">
             {hasBackendEvents ? 'Secure Your Spot' : 'Register for a Tour Date'}
           </h3>
           <p className="font-sans text-neutral-400 text-sm leading-relaxed max-w-md">
@@ -491,20 +491,20 @@ export function EventsSection() {
 
   if (loading) {
     return (
-      <div className="py-20 px-4">
+      <section className="bg-white py-20 px-4">
         <LoadingSpinner size="lg" text="Loading ministry events..." />
-      </div>
+      </section>
     );
   }
 
   if (error || !events || events.length === 0) {
     return (
-      <div className="py-20 px-4">
+      <section className="bg-white py-20 px-4">
         <ErrorMessage
           message={error || 'No events available at this time. Please check back soon.'}
           onRetry={refetch}
         />
-      </div>
+      </section>
     );
   }
 
@@ -514,9 +514,9 @@ export function EventsSection() {
 
   if (!featured) {
     return (
-      <div className="py-20 px-4">
+      <section className="bg-white py-20 px-4">
         <ErrorMessage message="No events available. Please try again later." onRetry={refetch} />
-      </div>
+      </section>
     );
   }
 
@@ -530,7 +530,7 @@ export function EventsSection() {
             <span className="label-eyebrow">Tour Highlights</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal">
               2025 Ministry Tour
             </h2>
             {upcoming.length > 0 && (
@@ -562,7 +562,7 @@ export function EventsSection() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">Join the Tour</span>
               </div>
-              <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-6">
+              <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-6">
                 Be Part of Every Moment
               </h2>
               <p className="font-sans text-neutral-600 text-base leading-[1.85] mb-8">

@@ -1,4 +1,8 @@
+'use client';
+
 import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 interface PageHeroProps {
@@ -14,6 +18,22 @@ interface PageHeroProps {
   className?: string;
 }
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (d = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay: d, ease: [0.25, 0.1, 0.25, 1] },
+  }),
+};
+
+/**
+ * The compact counterpart to the homepage Hero — same type scale (Raleway
+ * Light), same gold accent language, same entrance motion — just shorter,
+ * since every inner page needs its content visible without a full viewport
+ * banner. Keep eyebrow/title/subtitle short: this is a banner, not a place
+ * for paragraph copy.
+ */
 export function PageHero({
   title,
   subtitle,
@@ -25,7 +45,7 @@ export function PageHero({
   return (
     <div
       className={cn(
-        'relative w-full min-h-[48vh] sm:min-h-[55vh] md:min-h-[62vh] lg:min-h-[68vh] flex items-end pb-10 sm:pb-14 md:pb-20 lg:pb-24 pt-[var(--navbar-height)]',
+        'relative w-full min-h-[48vh] sm:min-h-[55vh] md:min-h-[62vh] lg:min-h-[68vh] flex items-end pb-10 sm:pb-14 md:pb-20 lg:pb-24 pt-[var(--navbar-height)] overflow-hidden',
         className
       )}
     >
@@ -49,30 +69,65 @@ export function PageHero({
           <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/35 via-transparent to-transparent" />
         </>
       ) : (
-        <div className="absolute inset-0 bg-surface-deep">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_30%_100%,rgba(97, 73, 145,0.20)_0%,transparent_70%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(181, 101, 29,0.06)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-surface-deep overflow-hidden pointer-events-none">
+          <AmbientGlow
+            color="purple"
+            size={600}
+            opacity={0.18}
+            animate={false}
+            className="-bottom-[220px] -left-[160px]"
+          />
+          <AmbientGlow
+            color="gold"
+            size={380}
+            opacity={0.07}
+            animate={false}
+            className="-top-[140px] -right-[120px]"
+          />
         </div>
       )}
 
-      {/* Gold bottom line */}
+      {/* Gold bottom line — the seam into the page content below */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 w-full container-site">
         {eyebrow && (
-          <div className="flex items-center gap-3 mb-3 sm:mb-5">
-            <span className="rule-gold" />
-            <span className="label-eyebrow text-white/70">{eyebrow}</span>
-          </div>
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center gap-3 mb-3 sm:mb-5"
+          >
+            <motion.span
+              initial={{ width: 0 }}
+              animate={{ width: '2.5rem' }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="h-px bg-gold-500/80"
+            />
+            <span className="label-eyebrow text-gold-400">{eyebrow}</span>
+          </motion.div>
         )}
-        <h1 className="font-display font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tight leading-[1.05] max-w-3xl">
+        <motion.h1
+          custom={0.1}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl tracking-normal leading-[1.15] max-w-3xl"
+        >
           {title}
-        </h1>
+        </motion.h1>
         {subtitle && (
-          <p className="mt-3 sm:mt-5 font-sans text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
+          <motion.p
+            custom={0.2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mt-3 sm:mt-5 font-sans text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl line-clamp-2"
+          >
             {subtitle}
-          </p>
+          </motion.p>
         )}
       </div>
     </div>

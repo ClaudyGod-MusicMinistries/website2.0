@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo, useId } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Play, X } from 'lucide-react';
+import { Play, X, Search, SearchX } from 'lucide-react';
 import { teachingsData } from '@/data/ministry';
 import { cn } from '@/lib/utils/cn';
 
@@ -21,17 +21,20 @@ const cardReveal = {
 };
 
 export function TeachingsGrid() {
+  const pillLayoutId = useId();
   const [active, setActive] = useState<Filter>('All');
+  const [query, setQuery] = useState('');
   const [playingId, setPlayingId] = useState<string | null>(null);
 
-  const counts: Record<Filter, number> = {
-    All: teachingsData.length,
-    'Live Teachings': teachingsData.filter((t) => t.scripture === 'Live Teachings').length,
-    'CGM Podcasts': teachingsData.filter((t) => t.scripture === 'CGM Podcasts').length,
-  };
-
-  const filtered =
+  const byCategory =
     active === 'All' ? teachingsData : teachingsData.filter((t) => t.scripture === active);
+
+  const q = query.trim().toLowerCase();
+  const filtered = useMemo(
+    () => (q ? byCategory.filter((t) => t.title.toLowerCase().includes(q)) : byCategory),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [byCategory, q]
+  );
 
   return (
     <>
@@ -41,35 +44,57 @@ export function TeachingsGrid() {
             <span className="rule-gold" />
             <span className="label-eyebrow">Teachings & Podcasts</span>
           </div>
-          <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight mb-8 sm:mb-10">
+          <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-8 sm:mb-10">
             Ministry Content
           </h2>
 
-          {/* Filter tabs — pill style, horizontal scroll on mobile */}
-          <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-10 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
-            {filters.map((f) => (
-              <button
-                key={f}
-                onClick={() => setActive(f)}
-                aria-pressed={active === f}
-                className={cn(
-                  'shrink-0 inline-flex items-center gap-2 px-4 sm:px-5 h-10 sm:h-11 rounded-full font-sans text-[0.6rem] sm:text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300',
-                  active === f
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-purple-cta'
-                    : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
-                )}
-              >
-                {f}
-                <span
+          {/* Toolbar — search + segmented filter control */}
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 sm:mb-10">
+            {/* Segmented control — single sliding indicator, no counts */}
+            <div className="relative inline-flex items-center gap-1 p-1 bg-white border border-neutral-200 rounded-full shadow-sm w-full sm:w-auto overflow-x-auto">
+              {filters.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setActive(f)}
+                  aria-pressed={active === f}
                   className={cn(
-                    'inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full text-[0.55rem] font-semibold normal-case tracking-normal',
-                    active === f ? 'bg-white/20 text-white' : 'bg-neutral-100 text-neutral-500'
+                    'relative z-10 shrink-0 flex-1 sm:flex-none px-5 h-10 rounded-full font-sans text-xs font-semibold tracking-[0.08em] uppercase transition-colors duration-300',
+                    active === f ? 'text-white' : 'text-neutral-500 hover:text-purple-600'
                   )}
                 >
-                  {counts[f]}
-                </span>
-              </button>
-            ))}
+                  {active === f && (
+                    <motion.span
+                      layoutId={pillLayoutId}
+                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                      className="absolute inset-0 -z-10 bg-purple-600 rounded-full shadow-purple-cta"
+                    />
+                  )}
+                  {f}
+                </button>
+              ))}
+            </div>
+
+            {/* Search */}
+            <div className="relative w-full lg:max-w-xs">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search teachings & podcasts…"
+                aria-label="Search teachings and podcasts"
+                className="w-full h-11 pl-11 pr-10 bg-white border border-neutral-200 rounded-full font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery('')}
+                  aria-label="Clear search"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Grid — animates in on filter change instead of swapping instantly */}
@@ -117,14 +142,34 @@ export function TeachingsGrid() {
                 ))}
               </motion.div>
             ) : (
-              <motion.p
+              <motion.div
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center font-sans text-neutral-500 text-sm py-16"
+                className="flex flex-col items-center gap-4 py-20"
               >
-                No content in this category yet — check back soon.
-              </motion.p>
+                <div className="w-14 h-14 rounded-full bg-neutral-100 flex items-center justify-center">
+                  <SearchX className="h-6 w-6 text-neutral-400" />
+                </div>
+                <div className="text-center">
+                  <p className="font-display font-semibold text-neutral-800 text-base mb-1">
+                    {q ? 'No matches found' : 'Nothing here yet'}
+                  </p>
+                  <p className="font-sans text-neutral-500 text-sm">
+                    {q
+                      ? `Nothing matches “${query.trim()}”. Try a different search term.`
+                      : 'Check back soon — new content is added regularly.'}
+                  </p>
+                </div>
+                {q && (
+                  <button
+                    onClick={() => setQuery('')}
+                    className="font-sans text-xs font-semibold tracking-[0.08em] uppercase text-purple-600 hover:text-purple-700 transition-colors"
+                  >
+                    Clear search
+                  </button>
+                )}
+              </motion.div>
             )}
           </AnimatePresence>
         </div>

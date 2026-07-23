@@ -19,8 +19,24 @@ export function AlbumGrid() {
   const { albums: rawAlbums, loading, error, refetch } = useAlbums();
   const albums = rawAlbums.map(toAlbumView);
 
-  if (loading) return <GridSkeleton cols={3} rows={2} />;
-  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+  if (loading) {
+    return (
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <GridSkeleton cols={3} rows={2} />
+        </div>
+      </section>
+    );
+  }
+  if (error) {
+    return (
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-cream-100 section-py">

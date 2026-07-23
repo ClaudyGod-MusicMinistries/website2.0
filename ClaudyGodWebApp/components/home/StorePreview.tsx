@@ -223,7 +223,7 @@ export function StorePreview() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Merchandise</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal">
               Official Store
             </h2>
             <p className="mt-2 sm:mt-3 font-sans text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">

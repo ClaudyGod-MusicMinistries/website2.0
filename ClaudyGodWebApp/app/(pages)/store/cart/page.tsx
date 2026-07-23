@@ -40,7 +40,7 @@ export default function CartPage() {
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-4">
             <span className="rule-gold" />
-            <h1 className="font-display font-bold text-neutral-900 text-3xl tracking-tight">
+            <h1 className="font-raleway font-light text-neutral-900 text-3xl tracking-normal">
               Your Cart
             </h1>
           </div>

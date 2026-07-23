@@ -88,7 +88,7 @@ export function NewsletterBanner() {
                 <span className="label-eyebrow">Stay Connected</span>
               </div>
 
-              <h2 className="font-display font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-[1.08] tracking-tight mb-3 sm:mb-5">
+              <h2 className="font-raleway font-light text-white text-2xl sm:text-3xl md:text-4xl leading-[1.08] tracking-normal mb-3 sm:mb-5">
                 Join the Ministry
                 <br />
                 <span className="text-purple-300">Community.</span>

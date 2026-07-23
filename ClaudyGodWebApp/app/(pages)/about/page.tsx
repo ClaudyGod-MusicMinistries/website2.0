@@ -79,7 +79,7 @@ function Biography() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Biography</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-8">
               Called to Worship
             </h2>
             <div className="space-y-5">
@@ -128,7 +128,7 @@ function Biography() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Ministry</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-8">
               Spreading God&apos;s Love
             </h2>
             <div className="space-y-5">
