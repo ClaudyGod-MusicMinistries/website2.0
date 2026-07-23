@@ -8,6 +8,8 @@ import { post, BackendError } from '@/lib/data/client';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
+import { ErrorModal } from '@/components/ui/ErrorModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 interface NewsletterInput {
   name: string;
@@ -22,7 +24,7 @@ const benefits = [
 
 export function NewsletterBanner() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [apiError, setApiError] = useState('');
+  const { error, handleApiError, closeError } = useErrorHandler();
   const {
     register,
     handleSubmit,
@@ -32,23 +34,18 @@ export function NewsletterBanner() {
   } = useForm<NewsletterInput>();
 
   const onSubmit = async (data: NewsletterInput) => {
-    setApiError('');
     try {
       await post('/subscribers', { name: data.name, email: data.email });
       setStatus('success');
       reset();
     } catch (err) {
-      if (err instanceof BackendError) {
+      if (err instanceof BackendError && Object.keys(err.fieldErrors).length > 0) {
         Object.entries(err.fieldErrors).forEach(([field, messages]) => {
           setError(field as keyof NewsletterInput, { message: messages[0] });
         });
-        if (Object.keys(err.fieldErrors).length === 0) {
-          setApiError(err.message || 'Something went wrong. Please try again.');
-        }
       } else {
-        setApiError('Something went wrong. Please try again.');
+        handleApiError(err, 'Unable to Subscribe');
       }
-      setStatus('error');
     }
   };
 
@@ -217,12 +214,6 @@ export function NewsletterBanner() {
                           </>
                         )}
                       </button>
-
-                      {apiError && (
-                        <p className="font-sans text-[0.65rem] tracking-[0.1em] uppercase text-red-400/80">
-                          {apiError}
-                        </p>
-                      )}
                     </form>
                   </motion.div>
                 )}
@@ -298,6 +289,13 @@ export function NewsletterBanner() {
           </>
         )}
       </AnimatePresence>
+
+      <ErrorModal
+        isOpen={error?.isOpen ?? false}
+        title={error?.title}
+        message={error?.message ?? ''}
+        onClose={closeError}
+      />
     </>
   );
 }

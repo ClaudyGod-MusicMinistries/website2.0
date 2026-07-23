@@ -28,6 +28,8 @@ import { FaCreditCard, FaUniversity, FaGlobe } from 'react-icons/fa';
 import { useCartStore } from '@/components/store/cartStore';
 import { formatPrice } from '@/lib/utils/format';
 import { post } from '@/lib/data/client';
+import { ErrorModal } from '@/components/ui/ErrorModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 
 /* ── Constants ──────────────────────────────────────────── */
 const SHIPPING_OPTIONS = [
@@ -798,6 +800,7 @@ export default function CheckoutPage() {
   const [placing, setPlacing] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const { error, handleApiError, closeError } = useErrorHandler();
 
   useEffect(() => {
     setMounted(true);
@@ -836,8 +839,8 @@ export default function CheckoutPage() {
       });
       setOrderId(res.orderId);
       clearCart();
-    } catch {
-      alert('Something went wrong. Please try again.');
+    } catch (err) {
+      handleApiError(err, 'Unable to Place Order');
     } finally {
       setPlacing(false);
     }
@@ -969,6 +972,13 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+
+      <ErrorModal
+        isOpen={error?.isOpen ?? false}
+        title={error?.title}
+        message={error?.message ?? ''}
+        onClose={closeError}
+      />
     </div>
   );
 }
