@@ -19,6 +19,7 @@ interface BookingInput {
   organization: string;
   orgType: string;
   eventType: string;
+  eventTypeOther?: string;
   eventDate: string;
   eventDetails?: string;
   address1: string;
@@ -40,6 +41,27 @@ const orgTypeOptions = [
   { value: 'private', label: 'Private Event' },
   { value: 'other', label: 'Other' },
 ];
+
+const eventTypeOptions = [
+  { value: 'Sunday Service', label: 'Sunday Service' },
+  { value: 'Concert', label: 'Concert' },
+  { value: 'Conference', label: 'Conference' },
+  { value: 'Crusade / Revival', label: 'Crusade / Revival' },
+  { value: 'Youth Event', label: 'Youth Event' },
+  { value: 'Wedding', label: 'Wedding' },
+  { value: 'Corporate Event', label: 'Corporate Event' },
+  { value: 'other', label: 'Other (please specify)' },
+];
+
+const EVENT_DETAILS_MIN_LENGTH = 10;
+
+// Backend requires eventDate strictly greater than the current instant — tomorrow
+// is the earliest date that stays valid regardless of timezone or time-of-day.
+function tomorrowDateString(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
 
 const countryOptions = [
   { value: 'US', label: 'United States' },
@@ -105,15 +127,18 @@ export function BookingForm() {
     trigger,
     control,
     reset,
+    watch,
     formState: { errors, isSubmitting, isValidating },
   } = useForm<BookingInput>({
     mode: 'onTouched',
     defaultValues: { agreeTerms: false },
   });
 
+  const selectedEventType = watch('eventType');
+
   const stepFields: (keyof BookingInput)[][] = [
     ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'],
-    ['eventType', 'eventDate', 'eventDetails'],
+    ['eventType', 'eventTypeOther', 'eventDate', 'eventDetails'],
     ['address1', 'address2', 'city', 'state', 'zipCode', 'country', 'agreeTerms'],
   ];
 
@@ -134,7 +159,7 @@ export function BookingForm() {
         countryCode: data.country,
         organization: data.organization,
         orgType: data.orgType,
-        eventType: data.eventType,
+        eventType: data.eventType === 'other' ? data.eventTypeOther!.trim() : data.eventType,
         eventDetails: data.eventDetails,
         eventDate: new Date(data.eventDate).toISOString(),
         addressLine1: data.address1,
@@ -335,28 +360,67 @@ export function BookingForm() {
           <div className="space-y-5">
             <div>
               <Label required>Event Type</Label>
-              <input
-                {...register('eventType', { required: 'Event type is required' })}
-                placeholder="e.g. Sunday service, Concert, Conference…"
-                className={inputClass}
-              />
+              <div className="relative">
+                <select
+                  {...register('eventType', { required: 'Event type is required' })}
+                  defaultValue=""
+                  className={selectClass}
+                >
+                  <option value="" disabled>
+                    Select event type…
+                  </option>
+                  {eventTypeOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 rotate-90 pointer-events-none" />
+              </div>
               <FieldError message={errors.eventType?.message} />
             </div>
+            {selectedEventType === 'other' && (
+              <div>
+                <Label required>Please Specify Event Type</Label>
+                <input
+                  {...register('eventTypeOther', {
+                    required: 'Please specify the event type',
+                    minLength: { value: 2, message: 'Please enter a valid event type' },
+                  })}
+                  placeholder="e.g. Baptism Service, Choir Concert…"
+                  className={inputClass}
+                />
+                <FieldError message={errors.eventTypeOther?.message} />
+              </div>
+            )}
             <div>
               <Label required>Event Date</Label>
               <input
-                {...register('eventDate', { required: 'Event date is required' })}
+                {...register('eventDate', {
+                  required: 'Event date is required',
+                  validate: (value) =>
+                    new Date(value) > new Date() || 'Event date must be in the future.',
+                })}
                 type="date"
+                min={tomorrowDateString()}
                 className={inputClass}
               />
               <FieldError message={errors.eventDate?.message} />
             </div>
             <div>
-              <Label>
-                Event Details <span className="font-normal text-neutral-400">(optional)</span>
-              </Label>
+              <Label required>Event Details</Label>
               <textarea
-                {...register('eventDetails')}
+                {...register('eventDetails', {
+                  required: 'Please describe your event.',
+                  minLength: {
+                    value: EVENT_DETAILS_MIN_LENGTH,
+                    message: `Please describe your event in more detail (minimum ${EVENT_DETAILS_MIN_LENGTH} characters).`,
+                  },
+                  maxLength: {
+                    value: 2000,
+                    message: 'Event details must be under 2000 characters.',
+                  },
+                })}
                 rows={5}
                 placeholder="Tell us more about your event — theme, expected attendance, set duration…"
                 className={textareaClass}
