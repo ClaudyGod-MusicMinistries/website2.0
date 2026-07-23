@@ -13,7 +13,13 @@ export async function GET(req: NextRequest) {
     const message = err instanceof Error ? err.message : 'Failed to fetch products';
     console.error('[/api/store/products] Error:', message);
     return NextResponse.json(
-      { success: false, message: 'Unable to fetch products', data: null, errors: [message], fieldErrors: {} },
+      {
+        success: false,
+        message: 'Unable to fetch products',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
       { status: 500 }
     );
   }

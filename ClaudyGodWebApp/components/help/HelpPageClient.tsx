@@ -3,7 +3,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Search, Music, Calendar, ShoppingCart, Users, Heart, Mail, Phone, ExternalLink, Loader2 } from 'lucide-react';
+import {
+  ChevronDown,
+  Search,
+  Music,
+  Calendar,
+  ShoppingCart,
+  Users,
+  Heart,
+  Mail,
+  Phone,
+  ExternalLink,
+  Loader2,
+} from 'lucide-react';
 import { useFAQs } from '@/hooks/useFAQs';
 import { PageHero } from '@/components/shared/PageHero';
 import { cn } from '@/lib/utils/cn';
@@ -13,7 +25,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   'Events & Attendance': <Calendar className="h-5 w-5" />,
   'Bookings & Services': <Calendar className="h-5 w-5" />,
   'Store & Purchases': <ShoppingCart className="h-5 w-5" />,
-  'Volunteering': <Users className="h-5 w-5" />,
+  Volunteering: <Users className="h-5 w-5" />,
   'Support & Donations': <Heart className="h-5 w-5" />,
   'Technical Support': <Mail className="h-5 w-5" />,
 };
@@ -24,13 +36,13 @@ export function HelpPageClient() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const categories = faqs.length > 0
-    ? ['All', ...Array.from(new Set(faqs.map(f => f.category)))]
-    : ['All'];
+  const categories =
+    faqs.length > 0 ? ['All', ...Array.from(new Set(faqs.map((f) => f.category)))] : ['All'];
 
-  const filtered = faqs.filter(faq => {
+  const filtered = faqs.filter((faq) => {
     const matchCategory = activeCategory === 'All' || faq.category === activeCategory;
-    const matchSearch = searchQuery === '' ||
+    const matchSearch =
+      searchQuery === '' ||
       faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
       faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCategory && matchSearch;
@@ -51,125 +63,124 @@ export function HelpPageClient() {
       {/* Content Section */}
       <section className="bg-white section-py">
         <div className="container-site max-w-4xl mx-auto">
-
-        {/* Search */}
-        <div className="relative max-w-2xl mx-auto mb-10 sm:mb-12">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
-          <input
-            type="text"
-            placeholder="Search FAQs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-12 pl-11 pr-6 bg-cream-100 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 rounded-xl font-sans text-sm focus:outline-none focus:border-purple-400 transition-colors duration-300"
-          />
-        </div>
-        {/* Category Filter */}
-        {!loading && (
-          <div className="mb-10">
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={cn(
-                    'px-5 py-2.5 rounded-xl font-sans text-[0.65rem] tracking-[0.12em] uppercase transition-all duration-300',
-                    activeCategory === cat
-                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
-                      : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                  )}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
+          {/* Search */}
+          <div className="relative max-w-2xl mx-auto mb-10 sm:mb-12">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
+            <input
+              type="text"
+              placeholder="Search FAQs..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full h-12 pl-11 pr-6 bg-cream-100 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 rounded-xl font-sans text-sm focus:outline-none focus:border-purple-400 transition-colors duration-300"
+            />
           </div>
-        )}
-
-        {/* Loading State */}
-        {loading && (
-          <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 text-purple-600 animate-spin mb-4" />
-            <p className="font-sans text-neutral-600">Loading FAQs...</p>
-          </div>
-        )}
-
-        {/* Error State */}
-        {error && !loading && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
-            <p className="font-sans text-red-700">{error}</p>
-          </div>
-        )}
-
-        {/* FAQ List */}
-        {!loading && !error && (
-          <div className="space-y-3">
-            <AnimatePresence mode="wait">
-              {filtered.length > 0 ? (
-                filtered.map((faq, idx) => (
-                  <motion.div
-                    key={faq.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3, delay: idx * 0.05 }}
-                    className="border border-neutral-200 rounded-xl overflow-hidden hover:border-purple-300 transition-colors duration-300"
+          {/* Category Filter */}
+          {!loading && (
+            <div className="mb-10">
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={cn(
+                      'px-5 py-2.5 rounded-xl font-sans text-[0.65rem] tracking-[0.12em] uppercase transition-all duration-300',
+                      activeCategory === cat
+                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                    )}
                   >
-                    <button
-                      onClick={() => toggleExpand(faq.id)}
-                      className="w-full px-6 py-5 flex items-center gap-4 hover:bg-neutral-50 transition-colors duration-300"
-                    >
-                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">
-                        {ICON_MAP[faq.category] || <Mail className="h-5 w-5" />}
-                      </div>
-                      <div className="flex-1 text-left">
-                        <p className="font-display font-semibold text-neutral-900 text-sm leading-snug">
-                          {faq.question}
-                        </p>
-                        <p className="font-sans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-500 mt-1">
-                          {faq.category}
-                        </p>
-                      </div>
-                      <ChevronDown
-                        className={cn(
-                          'h-5 w-5 text-neutral-400 transition-transform duration-300 shrink-0',
-                          expanded === faq.id && 'rotate-180'
-                        )}
-                      />
-                    </button>
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
-                    <AnimatePresence>
-                      {expanded === faq.id && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="px-6 py-5 border-t border-neutral-100 bg-neutral-50">
-                            <p className="font-sans text-neutral-700 text-sm leading-relaxed">
-                              {faq.answer}
-                            </p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+          {/* Loading State */}
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="h-8 w-8 text-purple-600 animate-spin mb-4" />
+              <p className="font-sans text-neutral-600">Loading FAQs...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
+              <p className="font-sans text-red-700">{error}</p>
+            </div>
+          )}
+
+          {/* FAQ List */}
+          {!loading && !error && (
+            <div className="space-y-3">
+              <AnimatePresence mode="wait">
+                {filtered.length > 0 ? (
+                  filtered.map((faq, idx) => (
+                    <motion.div
+                      key={faq.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3, delay: idx * 0.05 }}
+                      className="border border-neutral-200 rounded-xl overflow-hidden hover:border-purple-300 transition-colors duration-300"
+                    >
+                      <button
+                        onClick={() => toggleExpand(faq.id)}
+                        className="w-full px-6 py-5 flex items-center gap-4 hover:bg-neutral-50 transition-colors duration-300"
+                      >
+                        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">
+                          {ICON_MAP[faq.category] || <Mail className="h-5 w-5" />}
+                        </div>
+                        <div className="flex-1 text-left">
+                          <p className="font-display font-semibold text-neutral-900 text-sm leading-snug">
+                            {faq.question}
+                          </p>
+                          <p className="font-sans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-500 mt-1">
+                            {faq.category}
+                          </p>
+                        </div>
+                        <ChevronDown
+                          className={cn(
+                            'h-5 w-5 text-neutral-400 transition-transform duration-300 shrink-0',
+                            expanded === faq.id && 'rotate-180'
+                          )}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {expanded === faq.id && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-6 py-5 border-t border-neutral-100 bg-neutral-50">
+                              <p className="font-sans text-neutral-700 text-sm leading-relaxed">
+                                {faq.answer}
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ))
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-12"
+                  >
+                    <p className="font-sans text-neutral-500">
+                      No FAQs match your search. Try different keywords.
+                    </p>
                   </motion.div>
-                ))
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-12"
-                >
-                  <p className="font-sans text-neutral-500">
-                    No FAQs match your search. Try different keywords.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
+                )}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </section>
 

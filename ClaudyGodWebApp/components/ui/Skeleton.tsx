@@ -7,18 +7,13 @@ interface SkeletonProps extends HTMLAttributes<HTMLDivElement> {
 
 export function Skeleton({ rounded = 'md', className, ...props }: SkeletonProps) {
   const roundedClass = {
-    sm:   'rounded',
-    md:   'rounded-md',
-    lg:   'rounded-xl',
+    sm: 'rounded',
+    md: 'rounded-md',
+    lg: 'rounded-xl',
     full: 'rounded-full',
   }[rounded];
 
-  return (
-    <div
-      className={cn('skeleton', roundedClass, className)}
-      {...props}
-    />
-  );
+  return <div className={cn('skeleton', roundedClass, className)} {...props} />;
 }
 
 // ─── Preset skeleton shapes ────────────────────────────────────────────────
@@ -27,11 +22,7 @@ export function SkeletonText({ lines = 3, className }: { lines?: number; classNa
   return (
     <div className={cn('flex flex-col gap-2', className)}>
       {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton
-          key={i}
-          className="h-4"
-          style={{ width: i === lines - 1 ? '60%' : '100%' }}
-        />
+        <Skeleton key={i} className="h-4" style={{ width: i === lines - 1 ? '60%' : '100%' }} />
       ))}
     </div>
   );

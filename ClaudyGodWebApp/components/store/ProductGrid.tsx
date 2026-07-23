@@ -20,10 +20,14 @@ const sortOptions = [
 
 function sortProducts(list: Product[], sortId: string): Product[] {
   switch (sortId) {
-    case 'price-asc':  return [...list].sort((a, b) => a.price - b.price);
-    case 'price-desc': return [...list].sort((a, b) => b.price - a.price);
-    case 'rating':     return [...list].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
-    default:           return list;
+    case 'price-asc':
+      return [...list].sort((a, b) => a.price - b.price);
+    case 'price-desc':
+      return [...list].sort((a, b) => b.price - a.price);
+    case 'rating':
+      return [...list].sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+    default:
+      return list;
   }
 }
 
@@ -33,7 +37,7 @@ const staggerContainer = {
 };
 const cardVariant = {
   hidden: { opacity: 0, y: 20 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
 export function ProductGrid() {
@@ -42,21 +46,25 @@ export function ProductGrid() {
 
   const categories = useMemo(() => {
     const unique = Array.from(new Set(products.map((p) => p.category)));
-    return [{ id: 'all', name: 'All' }, ...unique.map((id) => ({ id, name: id.charAt(0).toUpperCase() + id.slice(1) }))];
+    return [
+      { id: 'all', name: 'All' },
+      ...unique.map((id) => ({ id, name: id.charAt(0).toUpperCase() + id.slice(1) })),
+    ];
   }, [products]);
 
   const [activeCategory, setActiveCategory] = useState('all');
-  const [activeSort,     setActiveSort]     = useState('featured');
-  const [query,          setQuery]          = useState('');
-  const [showFilters,    setShowFilters]    = useState(false);
-  const [modalProduct,   setModalProduct]   = useState<Product | null>(null);
+  const [activeSort, setActiveSort] = useState('featured');
+  const [query, setQuery] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [modalProduct, setModalProduct] = useState<Product | null>(null);
 
   const filtered = products
     .filter((p) => activeCategory === 'all' || p.category === activeCategory)
-    .filter((p) =>
-      query.trim() === '' ||
-      p.name.toLowerCase().includes(query.toLowerCase()) ||
-      p.description.toLowerCase().includes(query.toLowerCase())
+    .filter(
+      (p) =>
+        query.trim() === '' ||
+        p.name.toLowerCase().includes(query.toLowerCase()) ||
+        p.description.toLowerCase().includes(query.toLowerCase())
     );
 
   const sorted = sortProducts(filtered, activeSort);
@@ -80,7 +88,6 @@ export function ProductGrid() {
   return (
     <section className="bg-white section-py">
       <div className="container-site">
-
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-10">
           {/* Search */}
@@ -111,7 +118,9 @@ export function ProductGrid() {
               className="h-11 px-3 bg-white border border-neutral-200 rounded-xl text-neutral-700 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors cursor-pointer"
             >
               {sortOptions.map((o) => (
-                <option key={o.id} value={o.id}>{o.label}</option>
+                <option key={o.id} value={o.id}>
+                  {o.label}
+                </option>
               ))}
             </select>
 
@@ -131,13 +140,7 @@ export function ProductGrid() {
         </div>
 
         {/* Category tabs */}
-        <div
-          className={cn(
-            'mb-10',
-            'sm:block',
-            showFilters ? 'block' : 'hidden'
-          )}
-        >
+        <div className={cn('mb-10', 'sm:block', showFilters ? 'block' : 'hidden')}>
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => (
               <button
@@ -146,7 +149,7 @@ export function ProductGrid() {
                 className={cn(
                   'px-5 h-10 rounded-full font-sans text-xs tracking-[0.12em] uppercase border transition-all duration-300',
                   activeCategory === cat.id
-                    ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]'
+                    ? 'bg-purple-600 border-purple-600 text-white shadow-purple-cta'
                     : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                 )}
               >
@@ -159,7 +162,8 @@ export function ProductGrid() {
         {/* Result count */}
         <p className="font-sans text-[0.65rem] tracking-[0.18em] uppercase text-neutral-400 mb-6">
           {sorted.length} {sorted.length === 1 ? 'product' : 'products'}
-          {activeCategory !== 'all' && ` in ${categories.find((c) => c.id === activeCategory)?.name}`}
+          {activeCategory !== 'all' &&
+            ` in ${categories.find((c) => c.id === activeCategory)?.name}`}
           {query && ` matching "${query}"`}
         </p>
 
@@ -175,10 +179,7 @@ export function ProductGrid() {
             >
               {sorted.map((product) => (
                 <motion.div key={product.id} variants={cardVariant}>
-                  <ProductCard
-                    product={product}
-                    onViewDetails={() => setModalProduct(product)}
-                  />
+                  <ProductCard product={product} onViewDetails={() => setModalProduct(product)} />
                 </motion.div>
               ))}
             </motion.div>
@@ -192,7 +193,10 @@ export function ProductGrid() {
               <Search className="h-10 w-10 text-neutral-300" />
               <p className="font-sans text-neutral-400 text-lg">No products found</p>
               <button
-                onClick={() => { setQuery(''); setActiveCategory('all'); }}
+                onClick={() => {
+                  setQuery('');
+                  setActiveCategory('all');
+                }}
                 className="font-sans text-xs tracking-[0.15em] uppercase text-purple-600 hover:text-purple-800 underline underline-offset-4 transition-colors"
               >
                 Clear filters
@@ -204,15 +208,17 @@ export function ProductGrid() {
         {/* Trust row */}
         <div className="mt-16 pt-10 border-t border-black/[0.06] grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { icon: '🔒', label: 'Secure Checkout',    sub: 'SSL encrypted payment' },
-            { icon: '📦', label: 'Fast Shipping',       sub: 'Worldwide delivery' },
-            { icon: '↩️',  label: 'Easy Returns',       sub: '30-day return policy' },
-            { icon: '🎵', label: 'Digital Downloads',   sub: 'Instant access' },
+            { icon: '🔒', label: 'Secure Checkout', sub: 'SSL encrypted payment' },
+            { icon: '📦', label: 'Fast Shipping', sub: 'Worldwide delivery' },
+            { icon: '↩️', label: 'Easy Returns', sub: '30-day return policy' },
+            { icon: '🎵', label: 'Digital Downloads', sub: 'Instant access' },
           ].map((item) => (
             <div key={item.label} className="flex items-start gap-3">
               <span className="text-2xl mt-0.5">{item.icon}</span>
               <div>
-                <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-800 font-medium">{item.label}</p>
+                <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-800 font-medium">
+                  {item.label}
+                </p>
                 <p className="font-sans text-neutral-500 text-xs mt-0.5">{item.sub}</p>
               </div>
             </div>

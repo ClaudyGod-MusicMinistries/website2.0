@@ -32,7 +32,10 @@ export function AlbumGrid() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
           {albums.map((album, i) => (
-            <div key={album.title} className="group flex flex-col h-full bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.07)] hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] overflow-hidden transition-shadow duration-400 border border-black/[0.04]">
+            <div
+              key={album.title}
+              className="group flex flex-col h-full bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover overflow-hidden transition-shadow duration-400 border border-black/[0.04]"
+            >
               {/* Album art container */}
               <div className="relative w-full aspect-square overflow-hidden bg-neutral-100">
                 <Image
@@ -88,7 +91,9 @@ export function AlbumGrid() {
                     className="inline-flex items-center gap-2 font-sans text-[0.55rem] sm:text-[0.6rem] tracking-[0.18em] uppercase text-neutral-700 hover:text-purple-600 transition-colors duration-300 group/cta"
                   >
                     Stream Now
-                    <span className="transition-transform duration-300 group-hover/cta:translate-x-0.5">→</span>
+                    <span className="transition-transform duration-300 group-hover/cta:translate-x-0.5">
+                      →
+                    </span>
                   </a>
                 </div>
               </div>

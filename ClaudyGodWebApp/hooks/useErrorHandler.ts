@@ -13,14 +13,10 @@ export function useErrorHandler() {
   const [error, setError] = useState<ErrorState | null>(null);
 
   const showError = useCallback(
-    (
-      title: string,
-      message: string,
-      fieldErrors?: Record<string, string>,
-    ) => {
+    (title: string, message: string, fieldErrors?: Record<string, string>) => {
       setError({ isOpen: true, title, message, fieldErrors });
     },
-    [],
+    []
   );
 
   const closeError = useCallback(() => {
@@ -43,7 +39,7 @@ export function useErrorHandler() {
           showError(
             `${context} — Please Review`,
             `Please check the following:\n${fieldList}`,
-            transformedFieldErrors,
+            transformedFieldErrors
           );
         } else {
           showError(context, err.message || 'Something went wrong. Please try again.');
@@ -54,7 +50,7 @@ export function useErrorHandler() {
         showError(context, getUserFriendlyError(null));
       }
     },
-    [showError],
+    [showError]
   );
 
   return {

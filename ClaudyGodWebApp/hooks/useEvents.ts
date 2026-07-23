@@ -2,8 +2,13 @@ import { useApiResource } from '@/hooks/useApiResource';
 import type { Event, PaginatedResponse } from '@/lib/data/types';
 
 const EMPTY: PaginatedResponse<Event> = {
-  items: [], totalCount: 0, pageNumber: 1, pageSize: 10, totalPages: 0,
-  hasPreviousPage: false, hasNextPage: false,
+  items: [],
+  totalCount: 0,
+  pageNumber: 1,
+  pageSize: 10,
+  totalPages: 0,
+  hasPreviousPage: false,
+  hasNextPage: false,
 };
 
 export function useEvents(status?: 'upcoming' | 'ongoing' | 'completed') {
@@ -11,7 +16,7 @@ export function useEvents(status?: 'upcoming' | 'ongoing' | 'completed') {
     '/events',
     status ? { status } : undefined,
     EMPTY,
-    [status],
+    [status]
   );
   return { events: data.items, loading, error, refetch };
 }

@@ -5,10 +5,14 @@ const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
 
 // Warn at startup if using the insecure default — visible in container logs
 if (!process.env.API_BASE_URL) {
-  console.warn('[backendProxy] API_BASE_URL is not set — falling back to http://localhost:8080. Set API_BASE_URL=http://api:8080 in the container environment.');
+  console.warn(
+    '[backendProxy] API_BASE_URL is not set — falling back to http://localhost:8080. Set API_BASE_URL=http://api:8080 in the container environment.'
+  );
 }
 if (!getInternalApiKey()) {
-  console.warn('[backendProxy] INTERNAL_API_KEY is not set — backend calls to non-public endpoints will be rejected with 401.');
+  console.warn(
+    '[backendProxy] INTERNAL_API_KEY is not set — backend calls to non-public endpoints will be rejected with 401.'
+  );
 }
 const API_PREFIX = '/api/v1.0';
 
@@ -34,7 +38,9 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
   const contentType = upstream.headers.get('content-type') ?? '';
   if (!contentType.includes('application/json')) {
     const text = await upstream.text();
-    console.error(`[proxy] Non-JSON response from ${backendUrl} (${upstream.status}): ${text.slice(0, 500)}`);
+    console.error(
+      `[proxy] Non-JSON response from ${backendUrl} (${upstream.status}): ${text.slice(0, 500)}`
+    );
 
     // If it's a 5xx error, provide specific message
     if (upstream.status >= 500) {
@@ -46,7 +52,7 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
           errors: ['Server error. Our team has been notified.'],
           fieldErrors: {},
         },
-        { status: 503 },
+        { status: 503 }
       );
     }
 
@@ -59,7 +65,7 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
         errors: [`Server error (${upstream.status})`],
         fieldErrors: {},
       },
-      { status: upstream.status === 0 ? 502 : upstream.status },
+      { status: upstream.status === 0 ? 502 : upstream.status }
     );
   }
 
@@ -77,7 +83,7 @@ async function proxyWithBody(
   method: 'POST' | 'PUT' | 'PATCH',
   req: NextRequest,
   backendResource: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   try {
     const body = await req.json();
@@ -116,7 +122,7 @@ async function proxyWithBody(
           errors: ['Request timeout'],
           fieldErrors: {},
         },
-        { status: 504 },
+        { status: 504 }
       );
     }
 
@@ -129,7 +135,7 @@ async function proxyWithBody(
         errors: [message],
         fieldErrors: {},
       },
-      { status: 502 },
+      { status: 502 }
     );
   }
 }
@@ -137,7 +143,7 @@ async function proxyWithBody(
 export async function proxyPost(
   req: NextRequest,
   backendResource: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   return proxyWithBody('POST', req, backendResource, opts);
 }
@@ -145,7 +151,7 @@ export async function proxyPost(
 export async function proxyPut(
   req: NextRequest,
   backendResource: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   return proxyWithBody('PUT', req, backendResource, opts);
 }
@@ -153,7 +159,7 @@ export async function proxyPut(
 export async function proxyPatch(
   req: NextRequest,
   backendResource: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   return proxyWithBody('PATCH', req, backendResource, opts);
 }
@@ -161,7 +167,7 @@ export async function proxyPatch(
 export async function proxyGet(
   req: NextRequest,
   backendResource: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   try {
     const search = req.nextUrl.searchParams.toString();
@@ -186,15 +192,27 @@ export async function proxyGet(
     if (message.includes('AbortError') || message.includes('timeout')) {
       console.error(`[proxy GET ${backendUrl}] Timeout after 30 seconds`);
       return NextResponse.json(
-        { success: false, message: 'Request took too long. Please try again.', data: null, errors: ['Request timeout'], fieldErrors: {} },
-        { status: 504 },
+        {
+          success: false,
+          message: 'Request took too long. Please try again.',
+          data: null,
+          errors: ['Request timeout'],
+          fieldErrors: {},
+        },
+        { status: 504 }
       );
     }
 
     console.error(`[proxy GET ${backendUrl}]`, message);
     return NextResponse.json(
-      { success: false, message: 'Unable to reach the server. Please check your connection and try again.', data: null, errors: [message], fieldErrors: {} },
-      { status: 502 },
+      {
+        success: false,
+        message: 'Unable to reach the server. Please check your connection and try again.',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
+      { status: 502 }
     );
   }
 }
@@ -202,7 +220,7 @@ export async function proxyGet(
 export async function proxyDelete(
   req: NextRequest,
   backendResource: string,
-  opts: ProxyOptions = {},
+  opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   try {
     const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
@@ -225,15 +243,27 @@ export async function proxyDelete(
     if (message.includes('AbortError') || message.includes('timeout')) {
       console.error(`[proxy DELETE ${backendUrl}] Timeout after 30 seconds`);
       return NextResponse.json(
-        { success: false, message: 'Request took too long. Please try again.', data: null, errors: ['Request timeout'], fieldErrors: {} },
-        { status: 504 },
+        {
+          success: false,
+          message: 'Request took too long. Please try again.',
+          data: null,
+          errors: ['Request timeout'],
+          fieldErrors: {},
+        },
+        { status: 504 }
       );
     }
 
     console.error(`[proxy DELETE ${backendUrl}]`, message);
     return NextResponse.json(
-      { success: false, message: 'Unable to reach the server. Please check your connection and try again.', data: null, errors: [message], fieldErrors: {} },
-      { status: 502 },
+      {
+        success: false,
+        message: 'Unable to reach the server. Please check your connection and try again.',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
+      { status: 502 }
     );
   }
 }

@@ -23,10 +23,10 @@ export async function POST(req: NextRequest) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': req.headers.get('authorization') || '',
+          Authorization: req.headers.get('authorization') || '',
         },
         body: JSON.stringify({ email }),
-      },
+      }
     );
 
     const backendRes = await proxyPost(backendReq, '/subscribers');
@@ -35,8 +35,6 @@ export async function POST(req: NextRequest) {
     // If successful, the backend would typically send the email
     // For now, we prepare a confirmation response
     if (backendRes.ok || backendData.success !== false) {
-      console.log(`[newsletter] New subscriber: ${email}`);
-
       // In production, the backend should handle sending the welcome email
       // Here we acknowledge the subscription
       return NextResponse.json(
@@ -47,7 +45,7 @@ export async function POST(req: NextRequest) {
           errors: [],
           fieldErrors: {},
         },
-        { status: 201 },
+        { status: 201 }
       );
     } else {
       // Handle backend error (duplicate, validation, etc.)
@@ -59,14 +57,12 @@ export async function POST(req: NextRequest) {
           errors: backendData.errors || ['Subscription failed'],
           fieldErrors: backendData.fieldErrors || {},
         },
-        { status: backendRes.status || 400 },
+        { status: backendRes.status || 400 }
       );
     }
   } catch (err) {
     if (err instanceof z.ZodError) {
-      const fieldErrors = Object.fromEntries(
-        err.errors.map((e) => [e.path[0], [e.message]]),
-      );
+      const fieldErrors = Object.fromEntries(err.errors.map((e) => [e.path[0], [e.message]]));
 
       return NextResponse.json(
         {
@@ -76,7 +72,7 @@ export async function POST(req: NextRequest) {
           errors: ['Please check your information'],
           fieldErrors,
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -91,7 +87,7 @@ export async function POST(req: NextRequest) {
         errors: [message],
         fieldErrors: {},
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -107,6 +103,6 @@ export async function GET() {
       message: 'Newsletter subscription endpoint is operational',
       data: null,
     },
-    { status: 200 },
+    { status: 200 }
   );
 }

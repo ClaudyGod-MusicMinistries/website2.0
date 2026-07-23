@@ -52,8 +52,7 @@ const iconButtonVariants = cva(
 );
 
 export interface IconButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof iconButtonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof iconButtonVariants> {
   label: string;
 }
 

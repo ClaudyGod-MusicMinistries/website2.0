@@ -16,10 +16,7 @@ interface YoutubeEmbedRequest {
  * Securely proxy YouTube embed links to prevent direct access
  * Requires: x-api-key header with valid API key
  */
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { videoId: string } },
-) {
+export async function POST(req: NextRequest, { params }: { params: { videoId: string } }) {
   // Validate API key
   const keyValidation = requireApiKey(req);
   if (keyValidation) return keyValidation;
@@ -37,12 +34,16 @@ export async function POST(
           errors: ['Video ID must be 11 alphanumeric characters'],
           fieldErrors: {},
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     const body = await req.json().catch(() => ({}));
-    const { autoplay = false, controls = true, modestBranding = true } = body as YoutubeEmbedRequest;
+    const {
+      autoplay = false,
+      controls = true,
+      modestBranding = true,
+    } = body as YoutubeEmbedRequest;
 
     // Generate secure YouTube embed URL (uses youtube-nocookie.com for privacy)
     const embedUrl = new URL(`https://${YOUTUBE_SECURE_DOMAIN}/embed/${videoId}`);
@@ -52,9 +53,6 @@ export async function POST(
     embedUrl.searchParams.set('rel', '0'); // Prevent related videos
     embedUrl.searchParams.set('fs', '1'); // Allow fullscreen
     embedUrl.searchParams.set('iv_load_policy', '3'); // Hide annotations
-
-    // Log access for security monitoring
-    console.log(`[youtube-proxy] Video access: ${videoId.slice(-4)}... via API key`);
 
     return NextResponse.json(
       {
@@ -75,7 +73,7 @@ export async function POST(
           'Cache-Control': 'private, max-age=300', // Cache for 5 minutes
           'X-Content-Type-Options': 'nosniff',
         },
-      },
+      }
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
@@ -89,7 +87,7 @@ export async function POST(
         errors: ['Unable to process video request'],
         fieldErrors: {},
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -98,10 +96,7 @@ export async function POST(
  * GET /api/media/youtube/[videoId]
  * Get pre-generated embed URL (uses cached data)
  */
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { videoId: string } },
-) {
+export async function GET(req: NextRequest, { params }: { params: { videoId: string } }) {
   const keyValidation = requireApiKey(req);
   if (keyValidation) return keyValidation;
 
@@ -117,7 +112,7 @@ export async function GET(
           errors: ['Video ID must be 11 alphanumeric characters'],
           fieldErrors: {},
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -142,7 +137,7 @@ export async function GET(
         headers: {
           'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
         },
-      },
+      }
     );
   } catch (err) {
     return NextResponse.json(
@@ -153,7 +148,7 @@ export async function GET(
         errors: [],
         fieldErrors: {},
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -5,12 +5,12 @@ import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 const roles = [
-  { icon: Mic,         label: 'Worship / Vocals', desc: 'Lead & worship singers' },
-  { icon: Mic2,        label: 'Backup Vocals',    desc: 'Harmony & background singers' },
-  { icon: Camera,      label: 'Media & Tech',     desc: 'Video, audio & photography' },
-  { icon: Users,       label: 'Protocol Team',    desc: 'Ushers & hospitality' },
-  { icon: ShieldCheck, label: 'Security',         desc: 'Safety & crowd management' },
-  { icon: Sparkles,    label: 'Other',            desc: 'Any other area of service' },
+  { icon: Mic, label: 'Worship / Vocals', desc: 'Lead & worship singers' },
+  { icon: Mic2, label: 'Backup Vocals', desc: 'Harmony & background singers' },
+  { icon: Camera, label: 'Media & Tech', desc: 'Video, audio & photography' },
+  { icon: Users, label: 'Protocol Team', desc: 'Ushers & hospitality' },
+  { icon: ShieldCheck, label: 'Security', desc: 'Safety & crowd management' },
+  { icon: Sparkles, label: 'Other', desc: 'Any other area of service' },
 ] as const;
 
 /**
@@ -24,8 +24,20 @@ export function VolunteerCTA() {
   return (
     <section className="relative bg-surface-deep overflow-hidden">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <AmbientGlow color="purple" size={500} opacity={0.12} animate={false} className="-top-[200px] -left-[200px]" />
-        <AmbientGlow color="gold" size={400} opacity={0.06} animate={false} className="-bottom-[150px] -right-[150px]" />
+        <AmbientGlow
+          color="purple"
+          size={500}
+          opacity={0.12}
+          animate={false}
+          className="-top-[200px] -left-[200px]"
+        />
+        <AmbientGlow
+          color="gold"
+          size={400}
+          opacity={0.06}
+          animate={false}
+          className="-bottom-[150px] -right-[150px]"
+        />
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
 
@@ -39,8 +51,8 @@ export function VolunteerCTA() {
             Serve With the Ministry
           </h2>
           <p className="font-sans text-neutral-400 text-sm leading-relaxed">
-            Every gift matters. Join a team of passionate believers advancing the Kingdom
-            through music, media, and community outreach.
+            Every gift matters. Join a team of passionate believers advancing the Kingdom through
+            music, media, and community outreach.
           </p>
         </div>
 
@@ -60,7 +72,10 @@ export function VolunteerCTA() {
         <div className="flex justify-center">
           <Link
             href="/volunteer"
-            className={cn(buttonVariants({ variant: 'primary', size: 'lg', uppercase: true }), 'group shadow-gold-cta hover:shadow-gold-cta-hover')}
+            className={cn(
+              buttonVariants({ variant: 'primary', size: 'lg', uppercase: true }),
+              'group shadow-gold-cta hover:shadow-gold-cta-hover'
+            )}
           >
             Apply to Volunteer
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />

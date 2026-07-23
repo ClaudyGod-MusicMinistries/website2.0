@@ -2,8 +2,13 @@ import { useApiResource } from '@/hooks/useApiResource';
 import type { MediaItem, PaginatedResponse } from '@/lib/data/types';
 
 const EMPTY: PaginatedResponse<MediaItem> = {
-  items: [], totalCount: 0, pageNumber: 1, pageSize: 10, totalPages: 0,
-  hasPreviousPage: false, hasNextPage: false,
+  items: [],
+  totalCount: 0,
+  pageNumber: 1,
+  pageSize: 10,
+  totalPages: 0,
+  hasPreviousPage: false,
+  hasNextPage: false,
 };
 
 export function useMedia(category?: string) {
@@ -11,7 +16,7 @@ export function useMedia(category?: string) {
     '/media',
     category ? { category } : undefined,
     EMPTY,
-    [category],
+    [category]
   );
   return { media: data.items, loading, error, refetch };
 }

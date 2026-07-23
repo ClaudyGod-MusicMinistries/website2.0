@@ -9,10 +9,9 @@ import { buttonVariants } from '@/lib/theme/buttons';
 export { buttonVariants };
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
-  leftIcon?:  React.ReactNode;
+  leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
 }
 
@@ -39,9 +38,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className={cn(buttonVariants({ variant, size, fullWidth, uppercase }), className)}
       {...props}
     >
-      {isLoading ? (
-        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-      ) : leftIcon}
+      {isLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : leftIcon}
       {children}
       {!isLoading && rightIcon}
     </button>

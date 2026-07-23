@@ -3,36 +3,36 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 const lineItemSchema = z.object({
-  id:       z.string(),
-  name:     z.string(),
-  price:    z.number().positive(),
+  id: z.string(),
+  name: z.string(),
+  price: z.number().positive(),
   quantity: z.number().int().positive(),
-  image:    z.string(),
+  image: z.string(),
   category: z.string(),
   description: z.string(),
 });
 
 const shippingSchema = z.object({
-  fullName:   z.string().min(2).max(100),
-  email:      z.string().email(),
-  phone:      z.string().min(6).max(20),
-  address:    z.string().min(4).max(200),
-  city:       z.string().min(2).max(80),
-  state:      z.string().min(2).max(80),
-  country:    z.string().min(2).max(60),
+  fullName: z.string().min(2).max(100),
+  email: z.string().email(),
+  phone: z.string().min(6).max(20),
+  address: z.string().min(4).max(200),
+  city: z.string().min(2).max(80),
+  state: z.string().min(2).max(80),
+  country: z.string().min(2).max(60),
   postalCode: z.string().optional(),
 });
 
 const schema = z.object({
-  items:          z.array(lineItemSchema).min(1),
-  shipping:       shippingSchema,
+  items: z.array(lineItemSchema).min(1),
+  shipping: shippingSchema,
   shippingMethod: z.enum(['standard', 'express']),
-  paymentMethod:  z.enum(['paystack', 'card', 'bank_transfer', 'paypal']),
-  subtotal:       z.number().positive(),
-  shippingCost:   z.number().min(0),
-  total:          z.number().positive(),
-  currency:       z.string().default('USD'),
-  paystackRef:    z.string().optional(), // populated after Paystack callback
+  paymentMethod: z.enum(['paystack', 'card', 'bank_transfer', 'paypal']),
+  subtotal: z.number().positive(),
+  shippingCost: z.number().min(0),
+  total: z.number().positive(),
+  currency: z.string().default('USD'),
+  paystackRef: z.string().optional(), // populated after Paystack callback
 });
 
 function generateOrderId(): string {
@@ -52,20 +52,20 @@ export async function POST(req: NextRequest) {
       if (!secretKey) {
         return NextResponse.json(
           { success: false, message: 'Payment service not configured' },
-          { status: 503 },
+          { status: 503 }
         );
       }
 
       const verifyRes = await fetch(
         `https://api.paystack.co/transaction/verify/${encodeURIComponent(data.paystackRef)}`,
-        { headers: { Authorization: `Bearer ${secretKey}` } },
+        { headers: { Authorization: `Bearer ${secretKey}` } }
       );
       const verifyData = await verifyRes.json();
 
       if (!verifyData.status || verifyData.data?.status !== 'success') {
         return NextResponse.json(
           { success: false, message: 'Payment verification failed. Please contact support.' },
-          { status: 402 },
+          { status: 402 }
         );
       }
 
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
         console.error(`[checkout] Amount mismatch: paid ${paidAmount}, expected ${data.total}`);
         return NextResponse.json(
           { success: false, message: 'Payment amount does not match order total.' },
-          { status: 400 },
+          { status: 400 }
         );
       }
     }
@@ -117,16 +117,13 @@ export async function POST(req: NextRequest) {
 
       if (!backendRes.ok) {
         const errorText = await backendRes.text();
-        console.error(
-          `[checkout] Backend returned ${backendRes.status}:`,
-          errorText.slice(0, 200),
-        );
+        console.error(`[checkout] Backend returned ${backendRes.status}:`, errorText.slice(0, 200));
         return NextResponse.json(
           {
             success: false,
             message: 'Failed to process order. Please contact support if this persists.',
           },
-          { status: 503 },
+          { status: 503 }
         );
       }
 
@@ -137,7 +134,7 @@ export async function POST(req: NextRequest) {
         console.error('[checkout] Backend response missing order ID:', backendData);
         return NextResponse.json(
           { success: false, message: 'Order processing error. Please contact support.' },
-          { status: 500 },
+          { status: 500 }
         );
       }
     } catch (err) {
@@ -148,15 +145,16 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: 'The order is taking too long to process. Please try again or contact support.',
+            message:
+              'The order is taking too long to process. Please try again or contact support.',
           },
-          { status: 504 },
+          { status: 504 }
         );
       }
 
       return NextResponse.json(
         { success: false, message: 'Unable to save your order. Please try again.' },
-        { status: 503 },
+        { status: 503 }
       );
     }
 
@@ -165,15 +163,16 @@ export async function POST(req: NextRequest) {
         success: true,
         orderId: backendOrderId || orderId,
         message: 'Order received successfully',
-        estimatedDelivery: data.shippingMethod === 'express' ? '3-5 business days' : '7-14 business days',
+        estimatedDelivery:
+          data.shippingMethod === 'express' ? '3-5 business days' : '7-14 business days',
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (err) {
     if (err instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, message: 'Invalid order data', errors: err.issues },
-        { status: 422 },
+        { status: 422 }
       );
     }
     console.error('[store/checkout]', err);

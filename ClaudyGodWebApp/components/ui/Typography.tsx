@@ -2,19 +2,30 @@ import { type VariantProps } from 'class-variance-authority';
 import { forwardRef, type HTMLAttributes } from 'react';
 import { cn } from '@/lib/utils/cn';
 import {
-  displayVariants, headingVariants, headingTags, textVariants, labelVariants, accentVariants,
+  displayVariants,
+  headingVariants,
+  headingTags,
+  textVariants,
+  labelVariants,
+  accentVariants,
   type HeadingLevel,
 } from '@/lib/theme/typography';
 
 // ─── Display ───────────────────────────────────────────────────────────────
 
 interface DisplayProps
-  extends Omit<HTMLAttributes<HTMLHeadingElement>, 'color'>,
-    VariantProps<typeof displayVariants> {
+  extends Omit<HTMLAttributes<HTMLHeadingElement>, 'color'>, VariantProps<typeof displayVariants> {
   as?: 'h1' | 'h2';
 }
 
-export function Display({ as: Tag = 'h1', size, color, className, children, ...props }: DisplayProps) {
+export function Display({
+  as: Tag = 'h1',
+  size,
+  color,
+  className,
+  children,
+  ...props
+}: DisplayProps) {
   return (
     <Tag className={cn(displayVariants({ size, color }), className)} {...props}>
       {children}
@@ -25,8 +36,7 @@ export function Display({ as: Tag = 'h1', size, color, className, children, ...p
 // ─── Heading ───────────────────────────────────────────────────────────────
 
 interface HeadingProps
-  extends Omit<HTMLAttributes<HTMLHeadingElement>, 'color'>,
-    VariantProps<typeof headingVariants> {
+  extends Omit<HTMLAttributes<HTMLHeadingElement>, 'color'>, VariantProps<typeof headingVariants> {
   level?: HeadingLevel;
 }
 
@@ -46,8 +56,7 @@ Heading.displayName = 'Heading';
 // ─── Text ──────────────────────────────────────────────────────────────────
 
 interface TextProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'color'>,
-    VariantProps<typeof textVariants> {
+  extends Omit<HTMLAttributes<HTMLElement>, 'color'>, VariantProps<typeof textVariants> {
   as?: 'p' | 'span' | 'div' | 'li' | 'label';
 }
 
@@ -71,8 +80,7 @@ Text.displayName = 'Text';
 // ─── Label ─────────────────────────────────────────────────────────────────
 
 interface LabelProps
-  extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'>,
-    VariantProps<typeof labelVariants> {}
+  extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'>, VariantProps<typeof labelVariants> {}
 
 export function Label({ size, color, className, children, ...props }: LabelProps) {
   return (
@@ -96,12 +104,18 @@ export function Caption({ className, children, ...props }: HTMLAttributes<HTMLSp
 // ─── Accent ────────────────────────────────────────────────────────────────
 
 interface AccentProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'color'>,
-    VariantProps<typeof accentVariants> {
+  extends Omit<HTMLAttributes<HTMLElement>, 'color'>, VariantProps<typeof accentVariants> {
   as?: 'p' | 'blockquote' | 'span';
 }
 
-export function Accent({ as: Tag = 'blockquote', size, color, className, children, ...props }: AccentProps) {
+export function Accent({
+  as: Tag = 'blockquote',
+  size,
+  color,
+  className,
+  children,
+  ...props
+}: AccentProps) {
   return (
     <Tag className={cn(accentVariants({ size, color }), className)} {...props}>
       {children}

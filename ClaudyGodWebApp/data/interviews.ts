@@ -50,8 +50,7 @@ export const interviewVideos: VideoItem[] = [
   },
   {
     id: 'knstGZFNOOY',
-    title:
-      'Exciting & Insightful Radio Interview with Buzz FM 89.7 Aba, Nigeria',
+    title: 'Exciting & Insightful Radio Interview with Buzz FM 89.7 Aba, Nigeria',
     description: 'ClaudyGod Music Tour - Nigeria',
     date: 'July 12, 2025',
     duration: '32:15',

@@ -10,19 +10,35 @@ import { currencyPresets, defaultCurrency, type SupportedCurrency } from '@/data
 const PAYSTACK_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? '';
 
 const fadeUp = {
-  hidden:  { opacity: 0, y: 20 },
-  visible: (d = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: d, ease: [0.16, 1, 0.3, 1] } }),
+  hidden: { opacity: 0, y: 20 },
+  visible: (d = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, delay: d, ease: [0.16, 1, 0.3, 1] },
+  }),
 };
 
 function InputField({
-  label, required, id, error, children,
+  label,
+  required,
+  id,
+  error,
+  children,
 }: {
-  label: string; required?: boolean; id: string; error?: string; children: React.ReactNode;
+  label: string;
+  required?: boolean;
+  id: string;
+  error?: string;
+  children: React.ReactNode;
 }) {
   return (
     <div>
-      <label htmlFor={id} className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-        {label}{required && <span className="text-purple-500 ml-0.5">*</span>}
+      <label
+        htmlFor={id}
+        className="font-display font-semibold text-neutral-800 text-sm block mb-2"
+      >
+        {label}
+        {required && <span className="text-purple-500 ml-0.5">*</span>}
       </label>
       {children}
       {error && (
@@ -36,23 +52,23 @@ function InputField({
 }
 
 export default function DonateClient() {
-  const [currency,  setCurrency]  = useState<SupportedCurrency>(defaultCurrency);
-  const [amount,    setAmount]    = useState<number>(currencyPresets[defaultCurrency].amounts[2]);
-  const [custom,    setCustom]    = useState('');
-  const [name,      setName]      = useState('');
-  const [email,     setEmail]     = useState('');
-  const [message,   setMessage]   = useState('');
-  const [errors,    setErrors]    = useState<Record<string, string>>({});
-  const [txRef,     setTxRef]     = useState('');
-  const [txAmount,  setTxAmount]  = useState(0);
+  const [currency, setCurrency] = useState<SupportedCurrency>(defaultCurrency);
+  const [amount, setAmount] = useState<number>(currencyPresets[defaultCurrency].amounts[2]);
+  const [custom, setCustom] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [txRef, setTxRef] = useState('');
+  const [txAmount, setTxAmount] = useState(0);
   const [txCurrency, setTxCurrency] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [copied,    setCopied]    = useState(false);
+  const [copied, setCopied] = useState(false);
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
 
   const { symbol, amounts: presets, code } = currencyPresets[currency];
-  const finalAmount  = custom ? parseFloat(custom) || 0 : amount;
-  const amountValid  = finalAmount >= 1;
+  const finalAmount = custom ? parseFloat(custom) || 0 : amount;
+  const amountValid = finalAmount >= 1;
 
   const initializePayment = usePaystackPayment({ publicKey: PAYSTACK_KEY });
 
@@ -67,7 +83,8 @@ export default function DonateClient() {
   const validate = () => {
     const errs: Record<string, string> = {};
     if (!name.trim() || name.trim().length < 2) errs.name = 'Please enter your name';
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Please enter a valid email address';
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errs.email = 'Please enter a valid email address';
     if (!amountValid) errs.amount = 'Please select or enter a valid amount';
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -76,7 +93,10 @@ export default function DonateClient() {
   const handlePay = () => {
     if (!validate()) return;
     const bytes = crypto.getRandomValues(new Uint8Array(8));
-    const reference = `CGM-${Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+    const reference = `CGM-${Array.from(bytes)
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('')
+      .toUpperCase()}`;
 
     // Paystack expects amount in subunits (kobo for NGN, cents for USD/GBP/EUR)
     const amountInSubunits = Math.round(finalAmount * 100);
@@ -88,12 +108,14 @@ export default function DonateClient() {
         currency: code,
         reference,
         firstname: name.split(' ')[0],
-        lastname:  name.split(' ').slice(1).join(' ') || undefined,
+        lastname: name.split(' ').slice(1).join(' ') || undefined,
         metadata: {
           custom_fields: [
-            { display_name: 'Donor Name',  variable_name: 'donor_name', value: name },
-            { display_name: 'Currency',    variable_name: 'currency',   value: code },
-            ...(message ? [{ display_name: 'Message', variable_name: 'message', value: message }] : []),
+            { display_name: 'Donor Name', variable_name: 'donor_name', value: name },
+            { display_name: 'Currency', variable_name: 'currency', value: code },
+            ...(message
+              ? [{ display_name: 'Message', variable_name: 'message', value: message }]
+              : []),
           ],
         },
       },
@@ -129,30 +151,29 @@ export default function DonateClient() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-
       {/* ── Left — why donate ── */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-      >
+      <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }}>
         <motion.div custom={0} variants={fadeUp} className="flex items-center gap-4 mb-5">
           <span className="rule-gold" />
           <span className="label-eyebrow">Your Gift Matters</span>
         </motion.div>
 
-        <motion.h2 custom={0.1} variants={fadeUp}
+        <motion.h2
+          custom={0.1}
+          variants={fadeUp}
           className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-5"
         >
           Partner With the <span className="text-purple-600">Mission</span>
         </motion.h2>
 
-        <motion.p custom={0.2} variants={fadeUp}
+        <motion.p
+          custom={0.2}
+          variants={fadeUp}
           className="font-sans text-neutral-500 text-base leading-relaxed mb-10"
         >
-          ClaudyGod Music Ministries spreads the love of God through spirit-filled music, teachings, and
-          community outreach. Your donation funds music production, ministry tours, and free worship events
-          across Nigeria and beyond.
+          ClaudyGod Music Ministries spreads the love of God through spirit-filled music, teachings,
+          and community outreach. Your donation funds music production, ministry tours, and free
+          worship events across Nigeria and beyond.
         </motion.p>
 
         <motion.div custom={0.3} variants={fadeUp} className="space-y-2.5">
@@ -168,19 +189,28 @@ export default function DonateClient() {
             <button
               key={tier}
               type="button"
-              onClick={() => { setAmount(tier); setCustom(''); setErrors((e) => ({ ...e, amount: '' })); }}
+              onClick={() => {
+                setAmount(tier);
+                setCustom('');
+                setErrors((e) => ({ ...e, amount: '' }));
+              }}
               className={cn(
                 'w-full flex items-center gap-4 px-5 py-4 rounded-xl border text-left transition-all duration-200 group',
                 amount === tier && !custom
-                  ? 'bg-purple-50 border-purple-300 shadow-[0_2px_12px_rgba(97, 73, 145,0.12)]'
+                  ? 'bg-purple-50 border-purple-300 shadow-purple'
                   : 'bg-white border-neutral-200 hover:border-purple-200 hover:bg-purple-50/40'
               )}
             >
-              <span className={cn(
-                'font-display font-extrabold text-xl w-20 shrink-0 transition-colors',
-                amount === tier && !custom ? 'text-purple-700' : 'text-neutral-800 group-hover:text-purple-600',
-              )}>
-                {symbol}{tier.toLocaleString()}
+              <span
+                className={cn(
+                  'font-display font-extrabold text-xl w-20 shrink-0 transition-colors',
+                  amount === tier && !custom
+                    ? 'text-purple-700'
+                    : 'text-neutral-800 group-hover:text-purple-600'
+                )}
+              >
+                {symbol}
+                {tier.toLocaleString()}
               </span>
               <span className="w-px h-8 bg-neutral-200 shrink-0" />
               <span className="font-sans text-neutral-500 text-sm leading-snug">{note}</span>
@@ -191,11 +221,13 @@ export default function DonateClient() {
           ))}
         </motion.div>
 
-        <motion.blockquote custom={0.5} variants={fadeUp}
+        <motion.blockquote
+          custom={0.5}
+          variants={fadeUp}
           className="mt-10 font-sans italic text-neutral-500 text-sm leading-relaxed border-l-2 border-gold-500/40 pl-5"
         >
-          &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together and
-          running over, will be poured into your lap.&rdquo;
+          &ldquo;Give, and it will be given to you. A good measure, pressed down, shaken together
+          and running over, will be poured into your lap.&rdquo;
           <span className="not-italic block mt-2 font-sans text-xs tracking-[0.16em] uppercase text-gold-500/70">
             Luke 6:38
           </span>
@@ -209,8 +241,7 @@ export default function DonateClient() {
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="bg-white rounded-xl shadow-[0_8px_48px_rgba(0,0,0,0.10)] border border-neutral-100 overflow-hidden">
-
+        <div className="bg-white rounded-xl shadow-card-light-lg border border-neutral-100 overflow-hidden">
           {/* Card header */}
           <div className="bg-gradient-to-r from-purple-700 to-purple-600 px-8 py-6">
             <div className="flex items-center justify-between">
@@ -219,8 +250,12 @@ export default function DonateClient() {
                   <Heart className="h-5 w-5 text-white fill-white/80" />
                 </div>
                 <div>
-                  <p className="font-display font-bold text-white text-lg leading-tight">Make a Donation</p>
-                  <p className="font-sans text-xs tracking-[0.16em] uppercase text-purple-200 mt-0.5">Secure · All gifts support the ministry</p>
+                  <p className="font-display font-bold text-white text-lg leading-tight">
+                    Make a Donation
+                  </p>
+                  <p className="font-sans text-xs tracking-[0.16em] uppercase text-purple-200 mt-0.5">
+                    Secure · All gifts support the ministry
+                  </p>
                 </div>
               </div>
 
@@ -232,7 +267,12 @@ export default function DonateClient() {
                   className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-3 py-2 rounded-lg font-sans text-xs tracking-[0.12em] uppercase transition-colors duration-200"
                 >
                   {symbol} {code}
-                  <ChevronDown className={cn('h-3 w-3 transition-transform duration-200', showCurrencyPicker && 'rotate-180')} />
+                  <ChevronDown
+                    className={cn(
+                      'h-3 w-3 transition-transform duration-200',
+                      showCurrencyPicker && 'rotate-180'
+                    )}
+                  />
                 </button>
                 <AnimatePresence>
                   {showCurrencyPicker && (
@@ -241,7 +281,7 @@ export default function DonateClient() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: -4, scale: 0.97 }}
                       transition={{ duration: 0.18 }}
-                      className="absolute right-0 top-full mt-1.5 bg-white rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.18)] border border-neutral-100 overflow-hidden z-20 min-w-[140px]"
+                      className="absolute right-0 top-full mt-1.5 bg-white rounded-xl shadow-card-light-lg border border-neutral-100 overflow-hidden z-20 min-w-[140px]"
                     >
                       {Object.entries(currencyPresets).map(([c, { symbol: s, code: cd }]) => (
                         <button
@@ -280,11 +320,14 @@ export default function DonateClient() {
                 </div>
 
                 <div>
-                  <h3 className="font-display font-bold text-neutral-900 text-2xl mb-2">Thank You!</h3>
+                  <h3 className="font-display font-bold text-neutral-900 text-2xl mb-2">
+                    Thank You!
+                  </h3>
                   <p className="font-sans text-neutral-500 text-base leading-relaxed max-w-xs">
                     Your gift of{' '}
                     <strong className="font-display font-bold text-purple-600 text-lg">
-                      {txCurrency}{txAmount.toLocaleString()}
+                      {txCurrency}
+                      {txAmount.toLocaleString()}
                     </strong>{' '}
                     is sowing into the kingdom. God bless you abundantly.
                   </p>
@@ -292,15 +335,23 @@ export default function DonateClient() {
 
                 {txRef && (
                   <div className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-5 py-4">
-                    <p className="font-sans text-xs tracking-[0.16em] uppercase text-neutral-400 mb-2">Transaction Reference</p>
+                    <p className="font-sans text-xs tracking-[0.16em] uppercase text-neutral-400 mb-2">
+                      Transaction Reference
+                    </p>
                     <div className="flex items-center justify-between gap-3">
-                      <code className="font-display font-semibold text-neutral-700 text-sm truncate">{txRef}</code>
+                      <code className="font-display font-semibold text-neutral-700 text-sm truncate">
+                        {txRef}
+                      </code>
                       <button
                         onClick={copyRef}
                         className="shrink-0 p-1.5 rounded-lg hover:bg-neutral-200 transition-colors text-neutral-400 hover:text-neutral-700"
                         aria-label="Copy reference"
                       >
-                        {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                        {copied ? (
+                          <Check className="h-4 w-4 text-green-500" />
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -314,8 +365,12 @@ export default function DonateClient() {
                 </button>
               </motion.div>
             ) : (
-              <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }} className="px-8 py-8 space-y-6">
-
+              <motion.div
+                key="form"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="px-8 py-8 space-y-6"
+              >
                 {/* Amount presets */}
                 <div>
                   <p className="font-display font-bold text-neutral-800 text-sm uppercase tracking-widest mb-3">
@@ -326,15 +381,20 @@ export default function DonateClient() {
                       <button
                         key={tier}
                         type="button"
-                        onClick={() => { setAmount(tier); setCustom(''); setErrors((e) => ({ ...e, amount: '' })); }}
+                        onClick={() => {
+                          setAmount(tier);
+                          setCustom('');
+                          setErrors((e) => ({ ...e, amount: '' }));
+                        }}
                         className={cn(
                           'h-12 font-display font-semibold text-sm rounded-xl border transition-all duration-200',
                           amount === tier && !custom
-                            ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]'
+                            ? 'bg-purple-600 border-purple-600 text-white shadow-purple-cta'
                             : 'border-neutral-200 text-neutral-700 hover:border-purple-400 hover:text-purple-700 bg-white'
                         )}
                       >
-                        {symbol}{tier.toLocaleString()}
+                        {symbol}
+                        {tier.toLocaleString()}
                       </button>
                     ))}
                   </div>
@@ -372,9 +432,12 @@ export default function DonateClient() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center justify-between bg-purple-50 border border-purple-100 rounded-xl px-5 py-3.5"
                   >
-                    <span className="font-sans text-sm tracking-wide text-purple-600 uppercase">Your gift</span>
+                    <span className="font-sans text-sm tracking-wide text-purple-600 uppercase">
+                      Your gift
+                    </span>
                     <span className="font-display font-extrabold text-purple-700 text-2xl">
-                      {symbol}{finalAmount.toLocaleString()}
+                      {symbol}
+                      {finalAmount.toLocaleString()}
                     </span>
                   </motion.div>
                 )}
@@ -386,7 +449,10 @@ export default function DonateClient() {
                     type="text"
                     placeholder="Full name"
                     value={name}
-                    onChange={(e) => { setName(e.target.value); setErrors((er) => ({ ...er, name: '' })); }}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      setErrors((er) => ({ ...er, name: '' }));
+                    }}
                     className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                   />
                 </InputField>
@@ -398,15 +464,24 @@ export default function DonateClient() {
                     type="email"
                     placeholder="you@example.com"
                     value={email}
-                    onChange={(e) => { setEmail(e.target.value); setErrors((er) => ({ ...er, email: '' })); }}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setErrors((er) => ({ ...er, email: '' }));
+                    }}
                     className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
                   />
                 </InputField>
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="donor-message" className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-                    Message <span className="font-sans font-normal text-neutral-400 text-sm">(optional)</span>
+                  <label
+                    htmlFor="donor-message"
+                    className="font-display font-semibold text-neutral-800 text-sm block mb-2"
+                  >
+                    Message{' '}
+                    <span className="font-sans font-normal text-neutral-400 text-sm">
+                      (optional)
+                    </span>
                   </label>
                   <textarea
                     id="donor-message"
@@ -422,7 +497,7 @@ export default function DonateClient() {
                 <button
                   type="button"
                   onClick={handlePay}
-                  className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-display font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_4px_24px_rgba(97, 73, 145,0.40)] hover:shadow-[0_8px_32px_rgba(97, 73, 145,0.50)] active:scale-[0.99]"
+                  className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-display font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-purple-cta hover:shadow-purple-cta-hover active:scale-[0.99]"
                 >
                   <Heart className="h-5 w-5 fill-white/90" />
                   {amountValid
@@ -437,7 +512,6 @@ export default function DonateClient() {
                     Secured by Paystack · NGN, USD, GBP, EUR, GHS &amp; ZAR supported
                   </p>
                 </div>
-
               </motion.div>
             )}
           </AnimatePresence>

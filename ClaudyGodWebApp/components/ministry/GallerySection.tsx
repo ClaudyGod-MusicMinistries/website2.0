@@ -7,15 +7,17 @@ import { X, ChevronLeft, ChevronRight, ZoomIn, Grid3X3 } from 'lucide-react';
 import { galleryCategories } from '@/data/music';
 
 /* ── Flatten all images with metadata ───────────────────── */
-const allImages = galleryCategories.flatMap((cat, catIdx) =>
-  cat.images.map((src, imgIdx) => ({
-    src,
-    label:       cat.title,
-    description: cat.description,
-    catIdx,
-    globalIdx:   0, // filled below
-  }))
-).map((img, i) => ({ ...img, globalIdx: i }));
+const allImages = galleryCategories
+  .flatMap((cat, catIdx) =>
+    cat.images.map((src, imgIdx) => ({
+      src,
+      label: cat.title,
+      description: cat.description,
+      catIdx,
+      globalIdx: 0, // filled below
+    }))
+  )
+  .map((img, i) => ({ ...img, globalIdx: i }));
 
 /* ── Per-category image sets for tabs ───────────────────── */
 type TabId = 'all' | string;
@@ -31,8 +33,13 @@ const gridVariants = {
   visible: { transition: { staggerChildren: 0.06 } },
 };
 const itemVariants = {
-  hidden:  { opacity: 0, y: 18, scale: 0.96 },
-  visible: { opacity: 1, y: 0,  scale: 1, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
+  hidden: { opacity: 0, y: 18, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+  },
 };
 
 /* ── Aspect ratio cycle for visual variety ───────────────── */
@@ -48,25 +55,21 @@ const aspectCycle = [
 ];
 
 export function GallerySection() {
-  const [activeTab,   setActiveTab]   = useState<TabId>('all');
+  const [activeTab, setActiveTab] = useState<TabId>('all');
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
   /* Filtered images for active tab */
   const filtered = useMemo(
-    () =>
-      activeTab === 'all'
-        ? allImages
-        : allImages.filter((img) => img.label === activeTab),
+    () => (activeTab === 'all' ? allImages : allImages.filter((img) => img.label === activeTab)),
     [activeTab]
   );
 
   /* Lightbox helpers — navigate within the filtered set */
-  const openAt   = (globalIdx: number) => setLightboxIdx(globalIdx);
-  const closeLB  = () => setLightboxIdx(null);
+  const openAt = (globalIdx: number) => setLightboxIdx(globalIdx);
+  const closeLB = () => setLightboxIdx(null);
 
-  const filteredIdx = lightboxIdx !== null
-    ? filtered.findIndex((img) => img.globalIdx === lightboxIdx)
-    : -1;
+  const filteredIdx =
+    lightboxIdx !== null ? filtered.findIndex((img) => img.globalIdx === lightboxIdx) : -1;
 
   const prevLB = useCallback(() => {
     if (filteredIdx < 0) return;
@@ -80,22 +83,24 @@ export function GallerySection() {
     setLightboxIdx(filtered[next].globalIdx);
   }, [filteredIdx, filtered]);
 
-  const activeImage = lightboxIdx !== null
-    ? allImages.find((img) => img.globalIdx === lightboxIdx) ?? null
-    : null;
+  const activeImage =
+    lightboxIdx !== null ? (allImages.find((img) => img.globalIdx === lightboxIdx) ?? null) : null;
 
   /* Keyboard nav */
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowLeft')  prevLB();
-    if (e.key === 'ArrowRight') nextLB();
-    if (e.key === 'Escape')     closeLB();
-  }, [prevLB, nextLB]);
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prevLB();
+      if (e.key === 'ArrowRight') nextLB();
+      if (e.key === 'Escape') closeLB();
+    },
+    [prevLB, nextLB]
+  );
 
   /* Find active category description */
   const catDescription =
     activeTab === 'all'
       ? 'A visual journey through ministry moments, worship gatherings, and community impact.'
-      : galleryCategories.find((c) => c.title === activeTab)?.description ?? '';
+      : (galleryCategories.find((c) => c.title === activeTab)?.description ?? '');
 
   return (
     <>
@@ -105,7 +110,6 @@ export function GallerySection() {
         tabIndex={-1}
       >
         <div className="container-site">
-
           {/* Header */}
           <div className="flex items-center gap-4 mb-4">
             <span className="rule-gold" />
@@ -168,7 +172,13 @@ export function GallerySection() {
                   <button
                     onClick={() => openAt(img.globalIdx)}
                     className="group relative w-full overflow-hidden rounded-xl bg-cream-100 block"
-                    style={{ aspectRatio: aspectCycle[i % aspectCycle.length].replace('aspect-[', '').replace(']', '').replace('/', ':').replace('aspect-square', '1') }}
+                    style={{
+                      aspectRatio: aspectCycle[i % aspectCycle.length]
+                        .replace('aspect-[', '')
+                        .replace(']', '')
+                        .replace('/', ':')
+                        .replace('aspect-square', '1'),
+                    }}
                     aria-label={`View ${img.label} photo ${i + 1}`}
                   >
                     <div className={`relative w-full ${aspectCycle[i % aspectCycle.length]}`}>
@@ -234,11 +244,12 @@ export function GallerySection() {
               className="fixed inset-0 z-[701] flex flex-col items-center justify-center p-4 md:p-8 pointer-events-none"
             >
               <div className="w-full max-w-5xl pointer-events-auto">
-
                 {/* Header bar */}
                 <div className="flex items-center justify-between mb-4 px-1">
                   <div>
-                    <p className="font-display font-semibold text-white text-sm">{activeImage.label}</p>
+                    <p className="font-display font-semibold text-white text-sm">
+                      {activeImage.label}
+                    </p>
                     <p className="font-sans text-[0.54rem] tracking-[0.14em] uppercase text-white/40 mt-0.5">
                       {filteredIdx + 1} of {filtered.length}
                     </p>
@@ -260,7 +271,7 @@ export function GallerySection() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.22 }}
-                    className="relative aspect-[4/3] md:aspect-[16/9] w-full rounded-xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                    className="relative aspect-[4/3] md:aspect-[16/9] w-full rounded-xl overflow-hidden shadow-photo"
                   >
                     <Image
                       src={activeImage.src}
@@ -289,10 +300,19 @@ export function GallerySection() {
                         onClick={() => setLightboxIdx(img.globalIdx)}
                         aria-label={`View photo ${i + 1}`}
                         className={`relative w-12 h-12 shrink-0 rounded-lg overflow-hidden transition-all duration-200 ring-2 ${
-                          isActive ? 'ring-gold-400 opacity-100' : 'ring-transparent opacity-40 hover:opacity-70'
+                          isActive
+                            ? 'ring-gold-400 opacity-100'
+                            : 'ring-transparent opacity-40 hover:opacity-70'
                         }`}
                       >
-                        <Image src={img.src} alt="" fill unoptimized className="object-cover" sizes="48px" />
+                        <Image
+                          src={img.src}
+                          alt=""
+                          fill
+                          unoptimized
+                          className="object-cover"
+                          sizes="48px"
+                        />
                       </button>
                     );
                   })}

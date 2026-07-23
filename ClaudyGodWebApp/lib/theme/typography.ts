@@ -22,7 +22,7 @@ export const displayVariants = cva('font-display text-balance', {
     },
     color: {
       white: 'text-white',
-      gold:  'text-gradient-gold',
+      gold: 'text-gradient-gold',
       muted: 'text-neutral-300',
     },
   },
@@ -41,9 +41,9 @@ export const headingVariants = cva('font-display font-semibold text-balance', {
       6: 'text-sm  md:text-base leading-normal',
     },
     color: {
-      white:   'text-white',
-      gold:    'text-gold-500',
-      muted:   'text-neutral-300',
+      white: 'text-white',
+      gold: 'text-gold-500',
+      muted: 'text-neutral-300',
       inherit: 'text-inherit',
     },
   },
@@ -52,7 +52,12 @@ export const headingVariants = cva('font-display font-semibold text-balance', {
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export const headingTags: Record<HeadingLevel, string> = {
-  1: 'h1', 2: 'h2', 3: 'h3', 4: 'h4', 5: 'h5', 6: 'h6',
+  1: 'h1',
+  2: 'h2',
+  3: 'h3',
+  4: 'h4',
+  5: 'h5',
+  6: 'h6',
 };
 
 // ─── Text — Inter, body copy and UI text ────────────────────────────────────
@@ -60,47 +65,47 @@ export const textVariants = cva('font-sans', {
   variants: {
     size: {
       '2xs': 'text-[0.625rem] leading-tight',
-      xs:    'text-xs',
-      sm:    'text-sm',
-      base:  'text-base',
-      lg:    'text-lg',
+      xs: 'text-xs',
+      sm: 'text-sm',
+      base: 'text-base',
+      lg: 'text-lg',
     },
     weight: {
-      light:    'font-light',
-      regular:  'font-normal',
-      medium:   'font-medium',
+      light: 'font-light',
+      regular: 'font-normal',
+      medium: 'font-medium',
       semibold: 'font-semibold',
-      bold:     'font-bold',
+      bold: 'font-bold',
     },
     color: {
-      primary:   'text-white',
+      primary: 'text-white',
       secondary: 'text-neutral-300',
-      muted:     'text-neutral-400',
-      dim:       'text-neutral-500',
-      gold:      'text-gold-500',
+      muted: 'text-neutral-400',
+      dim: 'text-neutral-500',
+      gold: 'text-gold-500',
       goldLight: 'text-gold-300',
-      error:     'text-status-error',
-      success:   'text-status-success',
-      inherit:   'text-inherit',
+      error: 'text-status-error',
+      success: 'text-status-success',
+      inherit: 'text-inherit',
     },
     align: {
-      left:    'text-left',
-      center:  'text-center',
-      right:   'text-right',
+      left: 'text-left',
+      center: 'text-center',
+      right: 'text-right',
       justify: 'text-justify',
     },
     leading: {
-      tight:   'leading-tight',
-      snug:    'leading-snug',
-      normal:  'leading-normal',
+      tight: 'leading-tight',
+      snug: 'leading-snug',
+      normal: 'leading-normal',
       relaxed: 'leading-relaxed',
-      loose:   'leading-loose',
+      loose: 'leading-loose',
     },
   },
   defaultVariants: {
-    size:    'base',
-    weight:  'regular',
-    color:   'secondary',
+    size: 'base',
+    weight: 'regular',
+    color: 'secondary',
     leading: 'relaxed',
   },
 });
@@ -109,12 +114,12 @@ export const textVariants = cva('font-sans', {
 export const labelVariants = cva('font-sans font-medium uppercase tracking-widest', {
   variants: {
     size: {
-      sm:   'text-[0.625rem]',
+      sm: 'text-[0.625rem]',
       base: 'text-xs',
-      lg:   'text-sm',
+      lg: 'text-sm',
     },
     color: {
-      gold:  'text-gold-500',
+      gold: 'text-gold-500',
       muted: 'text-neutral-400',
       white: 'text-white',
     },
@@ -132,7 +137,7 @@ export const accentVariants = cva('font-display italic text-balance', {
     },
     color: {
       white: 'text-white',
-      gold:  'text-gold-400',
+      gold: 'text-gold-400',
       muted: 'text-neutral-300',
     },
   },
