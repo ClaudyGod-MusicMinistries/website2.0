@@ -42,6 +42,13 @@ export const buttonVariants = cva(
           'bg-transparent text-purple-200 border-purple-400/50',
           'hover:bg-purple-600 hover:text-white hover:border-purple-600',
         ],
+        // Same role as `outline`, for use on white/cream section
+        // backgrounds — `outline`'s text-purple-200 is tuned for dark
+        // surfaces and reads as nearly invisible on a light one.
+        'outline-dark': [
+          'bg-transparent text-purple-700 border-purple-300',
+          'hover:bg-purple-600 hover:text-white hover:border-purple-600',
+        ],
         ghost: [
           'bg-transparent text-white border-transparent',
           'hover:bg-surface-elevated hover:text-gold-400',

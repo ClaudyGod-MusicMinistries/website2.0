@@ -63,6 +63,7 @@ function toFallbackVideo(id: string, title: string, youtubeId: string): MediaIte
 }
 
 export const fallbackVideos: MediaItem[] = [
+  toFallbackVideo('fallback-video-0', 'Not Be Moved', '2JV1k5GGjmk'),
   toFallbackVideo('fallback-video-1', 'Nothing Compares To You', 'Dw5S-jzzboA'),
   toFallbackVideo('fallback-video-2', 'Dwelling Place (Forever God)', 'KoVkhbrRjf8'),
   toFallbackVideo('fallback-video-3', 'Look To You', '7BN7i4puuis'),
