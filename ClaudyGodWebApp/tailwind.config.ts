@@ -52,6 +52,7 @@ const config: Config = {
       // typeface only in lib/fonts.ts; these class names should stay put.
       fontFamily: {
         display: ['var(--font-display)', 'serif'],
+        raleway: ['var(--font-raleway)', 'sans-serif'],
         sans: ['var(--font-sans)', 'sans-serif'],
       },
       fontSize: {

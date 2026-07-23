@@ -1,8 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { Section, AmbientGlow, Particles } from '@/components/ui';
@@ -10,11 +11,12 @@ import { heroContent, heroCTAs } from '@/data/hero';
 import { cn } from '@/lib/utils/cn';
 
 const reveal = {
-  hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 0 },
+  hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 0, letterSpacing: '0.06em' },
   visible: (d = 0) => ({
     clipPath: 'inset(0 0 0% 0)',
     opacity: 1,
-    transition: { duration: 1.0, delay: d, ease: [0.16, 1, 0.3, 1] },
+    letterSpacing: '0em',
+    transition: { duration: 1.1, delay: d, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
@@ -33,21 +35,27 @@ const fadeUp = {
  * with a single hero message and puts direct action right there — not a
  * rotating set of competing messages that dilute the first three seconds.
  *
- * The photo layer is capped at max-w-[1700px] rather than stretched true
- * full-bleed: past that width (ultra-wide/4K viewports) the source photo
- * would be upscaled beyond its native resolution and read as soft/blurry.
- * The animated gradient-mesh canvas behind it fills the remaining edges,
- * so the cap reads as an intentional "framed portrait" instead of a seam.
- * Below 1700px — i.e. every phone, tablet, and normal desktop — this is
- * visually identical to a true full-bleed background.
+ * The photo layer is true full-bleed (no max-width cap) — Next/Image's
+ * `sizes="100vw"` requests a source large enough for the viewport at every
+ * breakpoint, so there's no upscaling artifact to guard against even on
+ * ultra-wide/4K screens.
  */
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '18%']);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+
   return (
     <Section
       as="section"
+      ref={sectionRef}
       bg="base"
       py="none"
-      className="relative w-full min-h-[130dvh] sm:min-h-[120dvh] lg:min-h-screen overflow-hidden"
+      className="relative w-full min-h-[100dvh] lg:min-h-[100vh] xl:min-h-[110vh] overflow-hidden"
     >
       {/* Animated gradient-mesh canvas — the base layer, visible at the
           edges beyond the capped photo on ultra-wide screens. */}
@@ -80,117 +88,124 @@ export function Hero() {
         }}
       />
 
-      {/* Capped-width photo layer */}
-      <div className="absolute inset-0 flex justify-center">
-        <div className="relative h-full w-full max-w-[1700px]">
-          <motion.div
-            className="absolute inset-0"
-            initial={{ scale: 1 }}
-            animate={{ scale: 1.06 }}
-            transition={{ duration: 14, ease: 'linear' }}
-          >
-            <Image
-              src={heroContent.backgroundImage}
-              alt=""
-              fill
-              priority
-              className="object-cover object-[center_18%] sm:object-[center_14%] md:object-[center_10%] lg:object-center"
-              sizes="(min-width: 1700px) 1700px, 100vw"
-            />
-          </motion.div>
+      {/* Full-bleed photo layer — edge to edge at every breakpoint.
+          Scroll-linked parallax (drift + slow scale) instead of a fixed
+          timed animation, so the motion reads as depth rather than a loop. */}
+      <div className="absolute inset-0">
+        <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale }}>
+          <Image
+            src={heroContent.backgroundImage}
+            alt=""
+            fill
+            priority
+            className="object-cover object-[center_18%]"
+            sizes="100vw"
+          />
+        </motion.div>
 
-          {/* Legibility gradients — scoped to the photo box */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-transparent to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+        {/* Legibility gradients */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
 
-          {/* Floating gold particles rising through the frame */}
-          <Particles color="gold" glyph="✦" count={8} direction="rise" />
-        </div>
+        {/* Floating gold particles rising through the frame */}
+        <Particles color="gold" glyph="✦" count={8} direction="rise" />
       </div>
 
-      {/* Content — below lg (mobile + tablet) the copy sits inside a
-          blurred glass box instead of directly on the image; desktop
-          (lg+) reverts to the original bottom-anchored, borderless layout. */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-end pb-40 sm:pb-40 lg:pb-32">
-        <div className="container-site w-full">
-          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-black/25 backdrop-blur-sm border border-white/15 rounded-xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
-            <motion.div
-              custom={0}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex items-center gap-3 mb-6 justify-center sm:justify-start"
-            >
-              <span className="hidden sm:block w-10 h-px bg-gold-500/80" />
-              <span className="label-eyebrow">{heroContent.eyebrow}</span>
-            </motion.div>
-
-            <div className="overflow-hidden mb-3">
-              <motion.h1
-                custom={0.12}
-                variants={reveal}
+      {/* Content — below lg (mobile + tablet) the copy sits in a full-bleed
+          glass panel flush against the bottom edge of the section (no
+          floating card, no radius); desktop (lg+) reverts to the original
+          bottom-anchored, borderless layout with room above the fold. */}
+      <div className="absolute inset-0 z-10 flex flex-col justify-end lg:pb-32 xl:pb-40">
+        <div className="w-full bg-black/30 backdrop-blur-sm border-t border-white/15 pt-8 pb-10 sm:pt-10 sm:pb-12 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:pt-0 lg:pb-0 lg:shadow-none">
+          <div className="container-site w-full">
+            <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center sm:text-left mx-auto sm:mx-0">
+              <motion.div
+                custom={0}
+                variants={fadeUp}
                 initial="hidden"
                 animate="visible"
-                className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
+                className="flex items-center gap-3 mb-5 lg:mb-7 justify-center sm:justify-start"
               >
-                {heroContent.headingLine1}
-                <span className="block text-gold-300">{heroContent.headingLine2}</span>
-              </motion.h1>
-            </div>
+                <motion.span
+                  initial={{ width: 0 }}
+                  animate={{ width: '2.5rem' }}
+                  transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  className="hidden sm:block h-px bg-gold-500/80"
+                />
+                <span className="label-eyebrow lg:text-sm text-gold-400">
+                  {heroContent.eyebrow}
+                </span>
+              </motion.div>
 
-            <motion.p
-              custom={0.4}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="font-sans text-neutral-300 text-base md:text-lg leading-relaxed max-w-lg mb-9 mx-auto sm:mx-0"
-            >
-              {heroContent.subtitle}
-            </motion.p>
+              <div className="overflow-hidden mb-4 lg:mb-6">
+                <motion.h1
+                  custom={0.12}
+                  variants={reveal}
+                  initial="hidden"
+                  animate="visible"
+                  className="font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.2] tracking-normal"
+                >
+                  {heroContent.headingLine1}
+                  <span className="block text-gold-300">{heroContent.headingLine2}</span>
+                </motion.h1>
+              </div>
 
-            <motion.div
-              custom={0.6}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex items-center flex-wrap gap-3 justify-center sm:justify-start"
-            >
-              {heroCTAs.map((cta) => {
-                const Icon = cta.icon;
-                if (cta.variant === 'link') {
+              <motion.p
+                custom={0.4}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="font-sans text-neutral-300 text-base md:text-lg lg:text-lg leading-relaxed max-w-lg lg:max-w-xl mb-9 lg:mb-11 mx-auto sm:mx-0"
+              >
+                {heroContent.subtitle}
+              </motion.p>
+
+              <motion.div
+                custom={0.6}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="flex items-center flex-wrap gap-3 justify-center sm:justify-start"
+              >
+                {heroCTAs.map((cta) => {
+                  const Icon = cta.icon;
                   return (
-                    <Link
+                    <motion.div
                       key={cta.href}
-                      href={cta.href}
-                      className={cn(
-                        buttonVariants({ variant: 'link', uppercase: true }),
-                        'text-white/80 hover:text-white gap-2.5 group'
-                      )}
+                      whileHover={{ scale: 1.035 }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                      className="relative inline-flex"
                     >
-                      {Icon && <Icon className="h-3.5 w-3.5" />}
-                      {cta.label}
-                      <span className="text-gold-400 transition-transform duration-300 group-hover:translate-x-1">
-                        →
-                      </span>
-                    </Link>
+                      {cta.variant === 'primary' && (
+                        <motion.span
+                          aria-hidden="true"
+                          animate={{ opacity: [0.45, 0.85, 0.45] }}
+                          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+                          className="absolute inset-0 rounded-lg bg-gold-500/40 blur-md -z-10"
+                        />
+                      )}
+                      <Link
+                        href={cta.href}
+                        className={cn(
+                          buttonVariants({ variant: cta.variant, size: 'lg', uppercase: true }),
+                          'group',
+                          cta.variant === 'primary' && 'shadow-gold-cta hover:shadow-gold-cta-hover'
+                        )}
+                      >
+                        {Icon && (
+                          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-surface-base/90 group-hover:bg-surface-base shrink-0 transition-colors duration-200">
+                            <Icon className="h-2.5 w-2.5 text-gold-400 fill-current" />
+                          </span>
+                        )}
+                        {cta.label}
+                      </Link>
+                    </motion.div>
                   );
-                }
-                return (
-                  <Link
-                    key={cta.href}
-                    href={cta.href}
-                    className={cn(
-                      buttonVariants({ variant: cta.variant, size: 'lg', uppercase: true }),
-                      cta.variant === 'primary' && 'shadow-gold-cta hover:shadow-gold-cta-hover'
-                    )}
-                  >
-                    {Icon && <Icon className="h-3.5 w-3.5 fill-current" />}
-                    {cta.label}
-                  </Link>
-                );
-              })}
-            </motion.div>
+                })}
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
