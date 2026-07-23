@@ -10,6 +10,8 @@ import { PhoneInput } from '@/components/ui/PhoneInput';
 import { useEvents } from '@/hooks/useEvents';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { ErrorModal } from '@/components/ui/ErrorModal';
+import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { Event } from '@/lib/data/types';
 
 interface TicketFormData {
@@ -201,7 +203,7 @@ function TicketForm({ events }: { events: Event[] }) {
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [selectedId, setSelectedId] = useState<string>(backendEvt[0]?.id ?? upcoming[0]?.id ?? '');
   const [confirmationCode, setConfirmationCode] = useState('');
-  const [apiError, setApiError] = useState('');
+  const { error, handleApiError, closeError } = useErrorHandler();
 
   const {
     register,
@@ -213,7 +215,6 @@ function TicketForm({ events }: { events: Event[] }) {
   } = useForm<TicketFormData>({ defaultValues: { quantity: 1, eventId: selectedId } });
 
   const onSubmit = async (data: TicketFormData) => {
-    setApiError('');
     try {
       const result = await post<{ confirmationCode: string }>('/tickets', {
         eventId: selectedId,
@@ -227,17 +228,13 @@ function TicketForm({ events }: { events: Event[] }) {
       setFormStatus('success');
       reset();
     } catch (err) {
-      if (err instanceof BackendError) {
+      if (err instanceof BackendError && Object.keys(err.fieldErrors).length > 0) {
         Object.entries(err.fieldErrors).forEach(([field, messages]) => {
           setError(field as keyof TicketFormData, { message: messages[0] });
         });
-        if (Object.keys(err.fieldErrors).length === 0) {
-          setApiError(err.message || 'Something went wrong. Please try again.');
-        }
       } else {
-        setApiError('Something went wrong. Please try again.');
+        handleApiError(err, 'Unable to Reserve Ticket');
       }
-      setFormStatus('error');
     }
   };
 
@@ -451,12 +448,6 @@ function TicketForm({ events }: { events: Event[] }) {
                 {errors.quantity && <p className={errCls}>{errors.quantity.message}</p>}
               </div>
 
-              {apiError && (
-                <p className="text-center font-sans text-[0.58rem] tracking-[0.1em] uppercase text-red-400/80">
-                  {apiError}
-                </p>
-              )}
-
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -483,6 +474,13 @@ function TicketForm({ events }: { events: Event[] }) {
           )}
         </AnimatePresence>
       </div>
+
+      <ErrorModal
+        isOpen={error?.isOpen ?? false}
+        title={error?.title}
+        message={error?.message ?? ''}
+        onClose={closeError}
+      />
     </div>
   );
 }
