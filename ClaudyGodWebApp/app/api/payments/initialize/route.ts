@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
           errors: ['email, amount, and name are required'],
           fieldErrors: {},
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
           errors: ['Payment service not configured'],
           fieldErrors: {},
         },
-        { status: 503 },
+        { status: 503 }
       );
     }
 
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
           errors: [data.message ?? 'Initialization failed'],
           fieldErrors: {},
         },
-        { status: 502 },
+        { status: 502 }
       );
     }
 
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
           errors: ['Timeout connecting to payment service'],
           fieldErrors: {},
         },
-        { status: 504 },
+        { status: 504 }
       );
     }
 
@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
         errors: [errorMsg],
         fieldErrors: {},
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

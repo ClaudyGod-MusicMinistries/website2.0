@@ -18,14 +18,16 @@ const conf = readFileSync(nginxConfPath, 'utf8');
 const cspBlockPattern = /add_header Content-Security-Policy\n( *)"[^"]*"\n *always;/;
 
 if (!cspBlockPattern.test(conf)) {
-  console.error('[generate-nginx-csp] Could not find the Content-Security-Policy add_header block in nginx.conf — aborting so nothing gets corrupted.');
+  console.error(
+    '[generate-nginx-csp] Could not find the Content-Security-Policy add_header block in nginx.conf — aborting so nothing gets corrupted.'
+  );
   process.exit(1);
 }
 
 const indent = conf.match(cspBlockPattern)![1];
 const updated = conf.replace(
   cspBlockPattern,
-  `add_header Content-Security-Policy\n${indent}"${csp}"\n${indent}always;`,
+  `add_header Content-Security-Policy\n${indent}"${csp}"\n${indent}always;`
 );
 
 writeFileSync(nginxConfPath, updated);

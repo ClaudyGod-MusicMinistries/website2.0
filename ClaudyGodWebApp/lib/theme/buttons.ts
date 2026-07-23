@@ -61,10 +61,7 @@ export const buttonVariants = cva(
           'bg-transparent text-white border-white/30 backdrop-blur-sm',
           'hover:border-white/70 hover:bg-white/10',
         ],
-        danger: [
-          'bg-status-error text-white border-transparent',
-          'hover:brightness-110',
-        ],
+        danger: ['bg-status-error text-white border-transparent', 'hover:brightness-110'],
         link: [
           'bg-transparent border-transparent text-gold-500 underline-offset-4',
           'hover:underline hover:text-gold-400',
@@ -75,11 +72,11 @@ export const buttonVariants = cva(
       // and padding grow. A button reading text-base/uppercase/tracked
       // was consistently the "buttons feel too big" complaint.
       size: {
-        xs:   'h-7  px-3   text-[0.7rem] gap-1',
-        sm:   'h-8  px-3.5 text-xs',
-        md:   'h-9  px-4   text-xs',
-        lg:   'h-10 px-5   text-sm',
-        xl:   'h-11 px-6   text-sm',
+        xs: 'h-7  px-3   text-[0.7rem] gap-1',
+        sm: 'h-8  px-3.5 text-xs',
+        md: 'h-9  px-4   text-xs',
+        lg: 'h-10 px-5   text-sm',
+        xl: 'h-11 px-6   text-sm',
         icon: 'h-9  w-9    p-0',
       },
       fullWidth: { true: 'w-full' },

@@ -23,12 +23,19 @@ export function useTheme() {
   return {
     colors,
     /** Hex string for a token step, e.g. theme.hex('purple', 600) -> '#614991'. */
-    hex(token: Exclude<keyof typeof colors, 'brand' | 'status'>, step: keyof typeof colors['purple']): string {
+    hex(
+      token: Exclude<keyof typeof colors, 'brand' | 'status'>,
+      step: keyof (typeof colors)['purple']
+    ): string {
       const scale = colors[token] as Record<string | number, string>;
       return scale[step];
     },
     /** `rgb(r g b / alpha)` string for a token step, ready to drop into an inline style or gradient. */
-    rgba(token: Exclude<keyof typeof colors, 'brand' | 'status'>, step: keyof typeof colors['purple'], alpha: number): string {
+    rgba(
+      token: Exclude<keyof typeof colors, 'brand' | 'status'>,
+      step: keyof (typeof colors)['purple'],
+      alpha: number
+    ): string {
       const scale = colors[token] as Record<string | number, string>;
       return `rgb(${hexToRgbString(scale[step])} / ${alpha})`;
     },

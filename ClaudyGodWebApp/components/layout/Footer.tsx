@@ -6,7 +6,7 @@ import { socialLinks } from '@/data/socials';
 
 const legalLinks = [
   { href: '/legal/privacy', label: 'Privacy' },
-  { href: '/legal/terms',   label: 'Terms'   },
+  { href: '/legal/terms', label: 'Terms' },
   { href: '/legal/cookies', label: 'Cookies' },
 ];
 
@@ -19,11 +19,36 @@ const GROUP_LABELS: Record<NavGroup, string> = {
 const GROUP_ORDER: NavGroup[] = ['explore', 'connect', 'support'];
 
 const streamingLinks = [
-  { Icon: FaSpotify, label: 'Spotify',      href: 'https://open.spotify.com/artist/claudygod',                 color: '#1DB954' },
-  { Icon: FaApple,   label: 'Apple Music',  href: 'https://music.apple.com/artist/claudygod',                  color: '#FC3C44' },
-  { Icon: FaYoutube, label: 'YouTube',      href: 'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ', color: '#FF0000' },
-  { Icon: FaDeezer,  label: 'Deezer',       href: 'https://www.deezer.com/us/album/695949191',                  color: '#FEAA2D' },
-  { Icon: FaAmazon,  label: 'Amazon Music', href: 'https://music.amazon.com/albums/B0DSM7QGLF',                color: '#FF9900' },
+  {
+    Icon: FaSpotify,
+    label: 'Spotify',
+    href: 'https://open.spotify.com/artist/claudygod',
+    color: '#1DB954',
+  },
+  {
+    Icon: FaApple,
+    label: 'Apple Music',
+    href: 'https://music.apple.com/artist/claudygod',
+    color: '#FC3C44',
+  },
+  {
+    Icon: FaYoutube,
+    label: 'YouTube',
+    href: 'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
+    color: '#FF0000',
+  },
+  {
+    Icon: FaDeezer,
+    label: 'Deezer',
+    href: 'https://www.deezer.com/us/album/695949191',
+    color: '#FEAA2D',
+  },
+  {
+    Icon: FaAmazon,
+    label: 'Amazon Music',
+    href: 'https://music.amazon.com/albums/B0DSM7QGLF',
+    color: '#FF9900',
+  },
 ];
 
 export function Footer() {
@@ -49,7 +74,8 @@ export function Footer() {
             <span className="hidden md:block flex-1 h-px bg-gradient-to-r from-transparent to-gold-500/25" />
             <div className="text-center max-w-2xl">
               <p className="font-display italic text-white/80 text-lg md:text-xl lg:text-2xl leading-relaxed font-light">
-                &ldquo;Sing praises to God, sing praises;<br className="hidden sm:block" /> sing praises to our King, sing praises.&rdquo;
+                &ldquo;Sing praises to God, sing praises;
+                <br className="hidden sm:block" /> sing praises to our King, sing praises.&rdquo;
               </p>
               <p className="mt-3 font-sans text-[0.58rem] tracking-[0.22em] uppercase text-gold-500/70">
                 Psalm 47:6
@@ -85,7 +111,9 @@ export function Footer() {
                   className="flex items-center gap-2.5 h-10 px-4 rounded-xl border border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 hover:bg-[var(--brand)]/[0.06] transition-all duration-300"
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />
-                  <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase hidden sm:block">{label}</span>
+                  <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase hidden sm:block">
+                    {label}
+                  </span>
                 </a>
               ))}
             </div>
@@ -96,7 +124,6 @@ export function Footer() {
       {/* Main footer body */}
       <div className="container-site py-10 sm:py-14 md:py-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-10 mb-10 lg:mb-14">
-
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-2">
             <Link href="/" className="mb-7 w-fit block group">
@@ -111,14 +138,19 @@ export function Footer() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="font-display font-semibold text-white text-lg tracking-tight leading-none">ClaudyGod</span>
-                  <span className="font-sans text-[0.5rem] tracking-[0.22em] uppercase text-gold-500/70 leading-none mt-0.5">Music Ministries</span>
+                  <span className="font-display font-semibold text-white text-lg tracking-tight leading-none">
+                    ClaudyGod
+                  </span>
+                  <span className="font-sans text-[0.5rem] tracking-[0.22em] uppercase text-gold-500/70 leading-none mt-0.5">
+                    Music Ministries
+                  </span>
                 </div>
               </div>
             </Link>
 
             <p className="font-sans text-neutral-400 text-sm leading-[1.8] max-w-xs mb-8">
-              Spirit-filled gospel music, ministry, and worship — spreading the love of God to the ends of the earth.
+              Spirit-filled gospel music, ministry, and worship — spreading the love of God to the
+              ends of the earth.
             </p>
 
             {/* Social icons */}

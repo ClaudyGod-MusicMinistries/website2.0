@@ -138,7 +138,7 @@ Priority: HIGH
 
 - [ ] **components/layout/Navbar.tsx** - Static (nav structure)
 - [ ] **components/layout/Footer.tsx** - Static (footer structure)
-- [ ] **components/ui/*** - Reusable UI components (no changes)
+- [ ] **components/ui/\*** - Reusable UI components (no changes)
 
 ---
 
@@ -147,6 +147,7 @@ Priority: HIGH
 For each component, follow this process:
 
 ### Step 1: Identify Current Data Source
+
 ```typescript
 // Current (BAD)
 import { MOCK_EVENTS } from '@/data/events';
@@ -157,21 +158,23 @@ export function EventsPage() {
 ```
 
 ### Step 2: Add Hook
+
 ```typescript
 // Updated (GOOD)
 import { useEvents } from '@/hooks';
 
 export function EventsPageClient() {
   const { events, loading, error, refetch } = useEvents();
-  
+
   if (loading) return <LoadingSpinner />;
   if (error) return <ErrorMessage onRetry={refetch} />;
-  
+
   return events.map(...)
 }
 ```
 
 ### Step 3: Fix Responsive Design
+
 ```typescript
 // Ensure responsive classes
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -180,6 +183,7 @@ export function EventsPageClient() {
 ```
 
 ### Step 4: Test
+
 - [ ] Mobile (360px)
 - [ ] Tablet (768px)
 - [ ] Desktop (1024px)
@@ -187,6 +191,7 @@ export function EventsPageClient() {
 - [ ] Data loads from API
 
 ### Step 5: Delete Mock Data
+
 ```bash
 rm data/old-mock-file.ts
 ```
@@ -195,14 +200,14 @@ rm data/old-mock-file.ts
 
 ## 📊 Data Migration Matrix
 
-| Data Type | File | API Route | Hook | Status |
-|-----------|------|-----------|------|--------|
-| Events | `data/events.ts` | `/api/events` | `useEvents()` | ⏳ Ready |
-| Albums | `data/music.tsx` | `/api/albums` | `useAlbums()` | ⏳ Ready |
-| Blog Posts | `data/news.ts` | `/api/blog` | `useBlogPosts()` | ⏳ Ready |
-| Store Products | `data/store.ts` | `/api/store/products` | `useStoreProducts()` | ⏳ Ready |
-| Media Items | `data/interviews.ts` | `/api/media` | `useMedia()` | ⏳ Ready |
-| FAQs | None | `/api/faqs` | `useFAQs()` | ✅ Done |
+| Data Type      | File                 | API Route             | Hook                 | Status   |
+| -------------- | -------------------- | --------------------- | -------------------- | -------- |
+| Events         | `data/events.ts`     | `/api/events`         | `useEvents()`        | ⏳ Ready |
+| Albums         | `data/music.tsx`     | `/api/albums`         | `useAlbums()`        | ⏳ Ready |
+| Blog Posts     | `data/news.ts`       | `/api/blog`           | `useBlogPosts()`     | ⏳ Ready |
+| Store Products | `data/store.ts`      | `/api/store/products` | `useStoreProducts()` | ⏳ Ready |
+| Media Items    | `data/interviews.ts` | `/api/media`          | `useMedia()`         | ⏳ Ready |
+| FAQs           | None                 | `/api/faqs`           | `useFAQs()`          | ✅ Done  |
 
 ---
 
@@ -268,15 +273,18 @@ data/
 ## 🎯 Priority Order
 
 ### Tier 1 (Start Here)
+
 1. EventsSection / EventsPage
 2. Music / Albums
 3. Blog / News
 
 ### Tier 2 (Next)
+
 4. Store / Products
 5. Media / Videos
 
 ### Tier 3 (Final)
+
 6. Utility components polish
 7. Responsive design refinements
 
@@ -285,6 +293,7 @@ data/
 ## ✅ Completion Checklist
 
 ### Phase 1: Data Migration
+
 - [ ] Events migrated
 - [ ] Albums migrated
 - [ ] Blog posts migrated
@@ -292,6 +301,7 @@ data/
 - [ ] Media items migrated
 
 ### Phase 2: Responsive Design
+
 - [ ] Mobile (360px) tested
 - [ ] Tablet (768px) tested
 - [ ] Desktop (1024px) tested
@@ -299,6 +309,7 @@ data/
 - [ ] All grids responsive
 
 ### Phase 3: Cleanup
+
 - [ ] Mock data files deleted
 - [ ] No console errors
 - [ ] Lighthouse score 90+
@@ -306,6 +317,7 @@ data/
 - [ ] API calls successful
 
 ### Phase 4: Testing
+
 - [ ] Manual testing complete
 - [ ] E2E tests passing
 - [ ] Performance metrics good
@@ -336,13 +348,13 @@ npm run lighthouse
 
 ## ⚠️ Common Issues & Solutions
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Data not loading | API not running | Check backend, verify endpoint |
-| Layout breaking | Missing responsive classes | Add `grid-cols-1 sm:grid-cols-2` |
-| Images not showing | Missing sizes prop | Add `sizes="(max-width:768px) 100vw, 50vw"` |
-| Slow loading | No pagination | Add pagination to list endpoints |
-| CORS error | API mismatch | Verify API routes exist |
+| Issue              | Cause                      | Solution                                    |
+| ------------------ | -------------------------- | ------------------------------------------- |
+| Data not loading   | API not running            | Check backend, verify endpoint              |
+| Layout breaking    | Missing responsive classes | Add `grid-cols-1 sm:grid-cols-2`            |
+| Images not showing | Missing sizes prop         | Add `sizes="(max-width:768px) 100vw, 50vw"` |
+| Slow loading       | No pagination              | Add pagination to list endpoints            |
+| CORS error         | API mismatch               | Verify API routes exist                     |
 
 ---
 

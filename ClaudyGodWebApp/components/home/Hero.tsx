@@ -53,8 +53,21 @@ export function Hero() {
           edges beyond the capped photo on ultra-wide screens. */}
       <div className="absolute inset-0 bg-gradient-to-br from-surface-base via-purple-900 to-surface-base" />
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <AmbientGlow color="purple" size={900} opacity={0.18} duration={20} className="-bottom-52 -left-40" />
-        <AmbientGlow color="gold" size={650} opacity={0.10} duration={24} delay={3} className="-top-40 -right-32" />
+        <AmbientGlow
+          color="purple"
+          size={900}
+          opacity={0.18}
+          duration={20}
+          className="-bottom-52 -left-40"
+        />
+        <AmbientGlow
+          color="gold"
+          size={650}
+          opacity={0.1}
+          duration={24}
+          delay={3}
+          className="-top-40 -right-32"
+        />
       </div>
 
       {/* Fine grid texture — subtle graphical depth, matches the Loader's treatment */}
@@ -103,7 +116,10 @@ export function Hero() {
         <div className="container-site w-full">
           <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0 bg-black/25 backdrop-blur-sm border border-white/15 rounded-xl p-6 sm:p-8 shadow-popup lg:bg-transparent lg:backdrop-blur-none lg:border-none lg:rounded-none lg:p-0 lg:shadow-none">
             <motion.div
-              custom={0} variants={fadeUp} initial="hidden" animate="visible"
+              custom={0}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
               className="flex items-center gap-3 mb-6 justify-center sm:justify-start"
             >
               <span className="hidden sm:block w-10 h-px bg-gold-500/80" />
@@ -112,7 +128,10 @@ export function Hero() {
 
             <div className="overflow-hidden mb-3">
               <motion.h1
-                custom={0.12} variants={reveal} initial="hidden" animate="visible"
+                custom={0.12}
+                variants={reveal}
+                initial="hidden"
+                animate="visible"
                 className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight"
               >
                 {heroContent.headingLine1}
@@ -121,14 +140,20 @@ export function Hero() {
             </div>
 
             <motion.p
-              custom={0.4} variants={fadeUp} initial="hidden" animate="visible"
+              custom={0.4}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
               className="font-sans text-neutral-300 text-base md:text-lg leading-relaxed max-w-lg mb-9 mx-auto sm:mx-0"
             >
               {heroContent.subtitle}
             </motion.p>
 
             <motion.div
-              custom={0.6} variants={fadeUp} initial="hidden" animate="visible"
+              custom={0.6}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
               className="flex items-center flex-wrap gap-3 justify-center sm:justify-start"
             >
               {heroCTAs.map((cta) => {
@@ -138,11 +163,16 @@ export function Hero() {
                     <Link
                       key={cta.href}
                       href={cta.href}
-                      className={cn(buttonVariants({ variant: 'link', uppercase: true }), 'text-white/80 hover:text-white gap-2.5 group')}
+                      className={cn(
+                        buttonVariants({ variant: 'link', uppercase: true }),
+                        'text-white/80 hover:text-white gap-2.5 group'
+                      )}
                     >
                       {Icon && <Icon className="h-3.5 w-3.5" />}
                       {cta.label}
-                      <span className="text-gold-400 transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      <span className="text-gold-400 transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
                     </Link>
                   );
                 }

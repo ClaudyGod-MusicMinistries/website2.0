@@ -6,7 +6,7 @@ export function useFAQs(category?: string) {
     '/faqs',
     category ? { category } : undefined,
     [],
-    [category],
+    [category]
   );
   return { faqs: data, loading, error, refetch };
 }

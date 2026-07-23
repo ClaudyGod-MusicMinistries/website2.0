@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 };
 
 const QUICK_LINKS = [
-  { href: '/',        label: 'Home',    icon: Home  },
-  { href: '/music',   label: 'Music',   icon: Music },
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/music', label: 'Music', icon: Music },
   { href: '/contact', label: 'Contact', icon: Phone },
 ] as const;
 
@@ -26,12 +26,10 @@ export default function NotFoundPage() {
           <Search className="h-6 w-6 text-gold-500" strokeWidth={1.5} />
         </div>
 
-        <h1 className="font-display text-2xl font-bold text-white mb-3">
-          Page not found
-        </h1>
+        <h1 className="font-display text-2xl font-bold text-white mb-3">Page not found</h1>
         <p className="text-sm text-neutral-400 leading-relaxed mb-10">
-          The page you&apos;re looking for doesn&apos;t exist or may have been moved.
-          Head back home or use one of the quick links below.
+          The page you&apos;re looking for doesn&apos;t exist or may have been moved. Head back home
+          or use one of the quick links below.
         </p>
 
         {/* Primary CTA */}

@@ -1,6 +1,6 @@
 import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
-import { PageHero }    from '@/components/shared/PageHero';
+import { PageHero } from '@/components/shared/PageHero';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfo } from '@/components/contact/ContactInfo';
 import { breadcrumb, faqPage } from '@/lib/utils/jsonLd';
@@ -10,23 +10,31 @@ export const metadata: Metadata = {
   description:
     'Contact ClaudyGod Music Ministries for event bookings, media interviews, ministry collaborations, gospel music partnerships, or prayer requests. We respond within 1–3 business days.',
   keywords: [
-    'contact ClaudyGod', 'ClaudyGod contact email', 'ClaudyGod booking enquiry',
-    'gospel artist contact Nigeria', 'ClaudyGod collaboration',
-    'ClaudyGod media interview request', 'gospel ministry contact',
-    'Christian artist collaboration Nigeria', 'ClaudyGod prayer request',
-    'gospel music partnership', 'book ClaudyGod email',
-    'ClaudyGod ministry contact', 'Nigerian gospel artist email',
+    'contact ClaudyGod',
+    'ClaudyGod contact email',
+    'ClaudyGod booking enquiry',
+    'gospel artist contact Nigeria',
+    'ClaudyGod collaboration',
+    'ClaudyGod media interview request',
+    'gospel ministry contact',
+    'Christian artist collaboration Nigeria',
+    'ClaudyGod prayer request',
+    'gospel music partnership',
+    'book ClaudyGod email',
+    'ClaudyGod ministry contact',
+    'Nigerian gospel artist email',
   ],
   openGraph: {
-    title:       'Contact ClaudyGod Music Ministries',
-    description: 'Bookings, collaborations, media enquiries & more — get in touch with ClaudyGod Music Ministries.',
-    url:         '/contact',
+    title: 'Contact ClaudyGod Music Ministries',
+    description:
+      'Bookings, collaborations, media enquiries & more — get in touch with ClaudyGod Music Ministries.',
+    url: '/contact',
     images: [{ url: '/manBack.jpg', width: 1920, height: 1280, alt: 'Contact ClaudyGod' }],
   },
   twitter: {
-    card:  'summary_large_image',
+    card: 'summary_large_image',
     title: 'Contact ClaudyGod Music Ministries',
-    images:['/manBack.jpg'],
+    images: ['/manBack.jpg'],
   },
   alternates: { canonical: `${SITE_URL}/contact` },
 };
@@ -36,19 +44,23 @@ const schemas = [
   faqPage([
     {
       question: 'How can I contact ClaudyGod for a booking?',
-      answer:   'You can submit a booking request through our Bookings page or send a general enquiry via our Contact form. We respond within 1–3 business days.',
+      answer:
+        'You can submit a booking request through our Bookings page or send a general enquiry via our Contact form. We respond within 1–3 business days.',
     },
     {
       question: 'How do I request a media interview with ClaudyGod?',
-      answer:   'Use the contact form on this page, select "Media Enquiry" as the subject, and provide your media outlet details. Our team will review and respond promptly.',
+      answer:
+        'Use the contact form on this page, select "Media Enquiry" as the subject, and provide your media outlet details. Our team will review and respond promptly.',
     },
     {
       question: 'Can I collaborate with ClaudyGod on a gospel music project?',
-      answer:   "We welcome collaboration requests from gospel artists, producers, and ministries. Please reach out through the contact form with details about your project.",
+      answer:
+        'We welcome collaboration requests from gospel artists, producers, and ministries. Please reach out through the contact form with details about your project.',
     },
     {
       question: 'How quickly will I receive a response?',
-      answer:   'Our team typically responds within 1–3 business days for general enquiries. For urgent bookings, please indicate the event date in your message.',
+      answer:
+        'Our team typically responds within 1–3 business days for general enquiries. For urgent bookings, please indicate the event date in your message.',
     },
   ]),
 ];
@@ -57,7 +69,11 @@ export default function ContactPage() {
   return (
     <>
       {schemas.map((s, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+        />
       ))}
       <PageHero
         eyebrow="Contact"

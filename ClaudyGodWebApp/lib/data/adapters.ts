@@ -84,7 +84,8 @@ export function toVideoView(m: MediaItem): VideoView {
     title: m.title,
     youtubeId,
     duration: formatDuration(m.durationSeconds),
-    thumbnailUrl: m.thumbnailPath || (youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : ''),
+    thumbnailUrl:
+      m.thumbnailPath || (youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : ''),
     createdAt: m.createdAt,
   };
 }

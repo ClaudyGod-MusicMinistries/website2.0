@@ -13,15 +13,20 @@ const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
 
 const backdrop = {
-  hidden:  { opacity: 0 },
+  hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.35 } },
-  exit:    { opacity: 0, transition: { duration: 0.25, delay: 0.1 } },
+  exit: { opacity: 0, transition: { duration: 0.25, delay: 0.1 } },
 };
 
 const panel = {
-  hidden:  { opacity: 0, y: 32, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 } },
-  exit:    { opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } },
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.05 },
+  },
+  exit: { opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } },
 };
 
 export function WelcomeModal() {
@@ -48,7 +53,9 @@ export function WelcomeModal() {
   }, []);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
     if (open) document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [open, close]);
@@ -66,198 +73,218 @@ export function WelcomeModal() {
 
   return (
     <>
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          variants={backdrop}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-sm"
-          onClick={(e) => { if (e.target === e.currentTarget) close(); }}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Welcome to ClaudyGod Music Ministries"
-        >
+      <AnimatePresence>
+        {open && (
           <motion.div
-            variants={panel}
+            variants={backdrop}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="relative w-full sm:max-w-lg bg-surface-raised rounded-t-xl sm:rounded-xl overflow-hidden shadow-popup border border-white/[0.07] flex flex-col max-h-[92svh]"
+            className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) close();
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Welcome to ClaudyGod Music Ministries"
           >
-            {/* Close */}
-            <button
-              onClick={close}
-              aria-label="Close"
-              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/[0.08] flex items-center justify-center transition-colors duration-200"
+            <motion.div
+              variants={panel}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="relative w-full sm:max-w-lg bg-surface-raised rounded-t-xl sm:rounded-xl overflow-hidden shadow-popup border border-white/[0.07] flex flex-col max-h-[92svh]"
             >
-              <X className="h-3.5 w-3.5 text-white/70" />
-            </button>
+              {/* Close */}
+              <button
+                onClick={close}
+                aria-label="Close"
+                className="absolute top-3 right-3 z-10 w-8 h-8 rounded-xl bg-white/[0.07] hover:bg-white/[0.14] border border-white/[0.08] flex items-center justify-center transition-colors duration-200"
+              >
+                <X className="h-3.5 w-3.5 text-white/70" />
+              </button>
 
-            {/* ── Hero band — shrinks naturally, fixed on mobile ── */}
-            {latestVideo && (
-            <button
-              onClick={() => setVideoOpen(true)}
-              className="relative h-36 sm:h-52 overflow-hidden shrink-0 w-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
-            >
-              <Image
-                src={latestVideo.thumbnailUrl}
-                alt={latestVideo.title}
-                fill
-                unoptimized
-                className="object-cover object-top"
-                sizes="576px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-surface-raised/40 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 to-transparent" />
+              {/* ── Hero band — shrinks naturally, fixed on mobile ── */}
+              {latestVideo && (
+                <button
+                  onClick={() => setVideoOpen(true)}
+                  className="relative h-36 sm:h-52 overflow-hidden shrink-0 w-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                >
+                  <Image
+                    src={latestVideo.thumbnailUrl}
+                    alt={latestVideo.title}
+                    fill
+                    unoptimized
+                    className="object-cover object-top"
+                    sizes="576px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface-raised via-surface-raised/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 to-transparent" />
 
-              {/* Play badge */}
-              <div className="absolute bottom-3 left-4 flex items-center gap-2.5">
-                <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-purple transition-colors duration-200">
-                  <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
-                </div>
-                <div className="text-left">
-                  <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">Latest Release</p>
-                  <p className="font-display font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">{latestVideo.title}</p>
-                </div>
-              </div>
-
-              {/* New badge */}
-              <div className="absolute top-3 left-4 bg-gold-500/90 text-surface-deep font-sans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
-                New Release
-              </div>
-            </button>
-            )}
-
-            {/* ── Scrollable body ── */}
-            <div className="overflow-y-auto flex-1 px-4 pb-4 pt-3 sm:px-6 sm:pb-6">
-
-              {/* Logo + headline */}
-              <div className="flex items-center gap-2.5 mb-3">
-                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
-                  <Image src="/ClaudyGoLogo.webp" alt="ClaudyGod" fill className="object-contain p-1" sizes="40px" />
-                </div>
-                <div>
-                  <p className="font-display font-bold text-white text-sm sm:text-base leading-tight">Welcome to ClaudyGod</p>
-                  <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-500/60">Music Ministries</p>
-                </div>
-              </div>
-
-              <p className="font-sans text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
-                Spirit-filled gospel music, worship videos, and ministry content — created to bless your soul and spread the love of God.
-              </p>
-
-              {/* Newsletter */}
-              <div className="mb-3 sm:mb-4 p-3 sm:p-4 rounded-xl bg-white/[0.04] border border-white/[0.07]">
-                <div className="flex items-center gap-2 mb-2.5">
-                  <Bell className="h-3.5 w-3.5 text-gold-400 shrink-0" />
-                  <p className="font-display font-semibold text-white text-xs sm:text-sm">Stay Connected</p>
-                </div>
-
-                {subscribed ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2 py-1.5"
-                  >
-                    <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
-                      <span className="text-green-400 text-[0.6rem]">✓</span>
+                  {/* Play badge */}
+                  <div className="absolute bottom-3 left-4 flex items-center gap-2.5">
+                    <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-600 hover:bg-purple-500 flex items-center justify-center shadow-purple transition-colors duration-200">
+                      <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-white fill-white ml-0.5" />
                     </div>
-                    <p className="font-sans text-neutral-300 text-xs sm:text-sm">
-                      You&apos;re subscribed! Welcome to the community.
-                    </p>
-                  </motion.div>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="your@email.com"
-                      className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-sans text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                    <div className="text-left">
+                      <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.22em] uppercase text-gold-400/80 mb-0.5">
+                        Latest Release
+                      </p>
+                      <p className="font-display font-bold text-white text-xs sm:text-sm leading-tight line-clamp-1">
+                        {latestVideo.title}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* New badge */}
+                  <div className="absolute top-3 left-4 bg-gold-500/90 text-surface-deep font-sans font-bold text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full">
+                    New Release
+                  </div>
+                </button>
+              )}
+
+              {/* ── Scrollable body ── */}
+              <div className="overflow-y-auto flex-1 px-4 pb-4 pt-3 sm:px-6 sm:pb-6">
+                {/* Logo + headline */}
+                <div className="flex items-center gap-2.5 mb-3">
+                  <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
+                    <Image
+                      src="/ClaudyGoLogo.webp"
+                      alt="ClaudyGod"
+                      fill
+                      className="object-contain p-1"
+                      sizes="40px"
                     />
-                    <button
-                      type="submit"
-                      className="h-9 sm:h-10 w-full bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.6rem] tracking-[0.14em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
-                    >
-                      <Bell className="h-3 w-3 shrink-0" />
-                      Subscribe
-                    </button>
-                  </form>
-                )}
-              </div>
+                  </div>
+                  <div>
+                    <p className="font-display font-bold text-white text-sm sm:text-base leading-tight">
+                      Welcome to ClaudyGod
+                    </p>
+                    <p className="font-sans text-[0.48rem] sm:text-[0.5rem] tracking-[0.2em] uppercase text-gold-500/60">
+                      Music Ministries
+                    </p>
+                  </div>
+                </div>
 
-              {/* CTAs */}
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/music"
-                  onClick={close}
-                  className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-display font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
-                >
-                  <Music className="h-3.5 w-3.5 shrink-0" />
-                  Listen Now
-                </Link>
-                <button
-                  onClick={close}
-                  className="w-full h-10 border border-white/[0.1] hover:border-white/[0.25] text-neutral-400 hover:text-white font-sans text-[0.6rem] tracking-[0.12em] uppercase rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200"
-                >
-                  Explore the Site
-                  <ArrowRight className="h-3 w-3 shrink-0" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-
-    {/* Video lightbox modal */}
-    <AnimatePresence>
-      {videoOpen && latestVideo?.youtubeId && (
-        <>
-          <motion.div
-            key="backdrop"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[800] bg-black/94 backdrop-blur-md"
-            onClick={() => setVideoOpen(false)}
-          />
-          <motion.div
-            key="modal"
-            initial={{ opacity: 0, scale: 0.94, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 10 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-[801] flex items-center justify-center p-4 md:p-8 pointer-events-none"
-          >
-            <div className="relative w-full max-w-5xl pointer-events-auto">
-              <div className="flex items-center justify-between mb-3">
-                <p className="font-display font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
-                  {latestVideo.title}
+                <p className="font-sans text-neutral-400 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">
+                  Spirit-filled gospel music, worship videos, and ministry content — created to
+                  bless your soul and spread the love of God.
                 </p>
-                <button
-                  onClick={() => setVideoOpen(false)}
-                  aria-label="Close"
-                  className="flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+
+                {/* Newsletter */}
+                <div className="mb-3 sm:mb-4 p-3 sm:p-4 rounded-xl bg-white/[0.04] border border-white/[0.07]">
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <Bell className="h-3.5 w-3.5 text-gold-400 shrink-0" />
+                    <p className="font-display font-semibold text-white text-xs sm:text-sm">
+                      Stay Connected
+                    </p>
+                  </div>
+
+                  {subscribed ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-2 py-1.5"
+                    >
+                      <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center shrink-0">
+                        <span className="text-green-400 text-[0.6rem]">✓</span>
+                      </div>
+                      <p className="font-sans text-neutral-300 text-xs sm:text-sm">
+                        You&apos;re subscribed! Welcome to the community.
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="your@email.com"
+                        className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-sans text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                      />
+                      <button
+                        type="submit"
+                        className="h-9 sm:h-10 w-full bg-purple-600 hover:bg-purple-500 text-white font-sans text-[0.6rem] tracking-[0.14em] uppercase rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5"
+                      >
+                        <Bell className="h-3 w-3 shrink-0" />
+                        Subscribe
+                      </button>
+                    </form>
+                  )}
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-col gap-2">
+                  <Link
+                    href="/music"
+                    onClick={close}
+                    className="w-full h-10 bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-surface-deep font-display font-bold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
+                  >
+                    <Music className="h-3.5 w-3.5 shrink-0" />
+                    Listen Now
+                  </Link>
+                  <button
+                    onClick={close}
+                    className="w-full h-10 border border-white/[0.1] hover:border-white/[0.25] text-neutral-400 hover:text-white font-sans text-[0.6rem] tracking-[0.12em] uppercase rounded-xl flex items-center justify-center gap-1.5 transition-all duration-200"
+                  >
+                    Explore the Site
+                    <ArrowRight className="h-3 w-3 shrink-0" />
+                  </button>
+                </div>
               </div>
-              <div className="relative aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10">
-                <iframe
-                  src={`https://www.youtube.com/embed/${latestVideo.youtubeId}?autoplay=1&rel=0`}
-                  title={latestVideo.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+
+      {/* Video lightbox modal */}
+      <AnimatePresence>
+        {videoOpen && latestVideo?.youtubeId && (
+          <>
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-[800] bg-black/94 backdrop-blur-md"
+              onClick={() => setVideoOpen(false)}
+            />
+            <motion.div
+              key="modal"
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 10 }}
+              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              className="fixed inset-0 z-[801] flex items-center justify-center p-4 md:p-8 pointer-events-none"
+            >
+              <div className="relative w-full max-w-5xl pointer-events-auto">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="font-display font-semibold text-white/80 text-sm line-clamp-1 max-w-[80%]">
+                    {latestVideo.title}
+                  </p>
+                  <button
+                    onClick={() => setVideoOpen(false)}
+                    aria-label="Close"
+                    className="flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div className="relative aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${latestVideo.youtubeId}?autoplay=1&rel=0`}
+                    title={latestVideo.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }

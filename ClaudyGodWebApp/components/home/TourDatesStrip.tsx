@@ -86,7 +86,10 @@ export function TourDatesStrip() {
           </div>
           <Link
             href="/events"
-            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'hidden sm:inline-flex group shrink-0')}
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              'hidden sm:inline-flex group shrink-0'
+            )}
           >
             Full Schedule
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -109,8 +112,12 @@ export function TourDatesStrip() {
                   className="group flex items-center gap-5 sm:gap-8 py-5 sm:py-6 hover:bg-white/[0.02] transition-colors duration-300 px-2 -mx-2 rounded-lg"
                 >
                   <div className="shrink-0 w-14 text-center">
-                    <span className="block font-display font-bold text-white text-2xl leading-none">{day}</span>
-                    <span className="block font-sans text-[0.65rem] tracking-[0.12em] uppercase text-gold-400 mt-1">{mon}</span>
+                    <span className="block font-display font-bold text-white text-2xl leading-none">
+                      {day}
+                    </span>
+                    <span className="block font-sans text-[0.65rem] tracking-[0.12em] uppercase text-gold-400 mt-1">
+                      {mon}
+                    </span>
                   </div>
 
                   <div className="min-w-0 flex-1">

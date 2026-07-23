@@ -9,14 +9,14 @@ const chatSchema = z.object({
       z.object({
         role: z.enum(['user', 'assistant']),
         content: z.string(),
-      }),
+      })
     )
     .optional(),
 });
 
 // Smart conversational responses with direct links
 const FALLBACK_RESPONSES: Record<string, string> = {
-  'music': `🎵 Oh, you're interested in our music! That's wonderful!
+  music: `🎵 Oh, you're interested in our music! That's wonderful!
 
 ClaudyGod has released **7 beautiful gospel albums** filled with spirit-filled worship and ministry. Our latest works include:
 - **"Very Glorious"**
@@ -31,7 +31,7 @@ Or visit our **[Music Page](/music)** to explore all albums with beautiful artwo
 
 Which album would you like to hear more about? 😊`,
 
-  'booking': `📅 Great! I'd love to help you book Minister ClaudyGod!
+  booking: `📅 Great! I'd love to help you book Minister ClaudyGod!
 
 For **events, concerts, and ministry engagements**, we have a dedicated booking system:
 
@@ -45,7 +45,7 @@ Our amazing team will get back to you within **24-48 hours** with all the detail
 
 What type of event are you planning? We'd love to be part of it! 🎤`,
 
-  'event': `🎪 We have some amazing events coming up!
+  event: `🎪 We have some amazing events coming up!
 
 Visit our **[Events Page](/events)** to explore:
 ✅ **Upcoming Events** - Register for future concerts and ministry tours
@@ -60,7 +60,7 @@ Each event page includes:
 
 What kind of event interests you most? I can help you find the perfect one! 🙌`,
 
-  'donate': `💝 Thank you so much for your generous heart! Your support truly makes a difference.
+  donate: `💝 Thank you so much for your generous heart! Your support truly makes a difference.
 
 Your donations help us:
 ✨ Spread the gospel through music
@@ -74,7 +74,7 @@ We're deeply grateful for every contribution, no matter the size. Each gift is a
 
 Is there anything else you'd like to know about our work? 🙏`,
 
-  'volunteer': `🙌 That's incredible! We always need passionate volunteers like you!
+  volunteer: `🙌 That's incredible! We always need passionate volunteers like you!
 
 We have exciting roles in:
 📹 **Media** - Video production, photography, live streaming
@@ -89,7 +89,7 @@ Our team reviews applications within **3-5 business days** and will reach out wi
 
 What area speaks to your heart? 💪`,
 
-  'store': `🛍️ Oh, you want to check out our store! Awesome!
+  store: `🛍️ Oh, you want to check out our store! Awesome!
 
 Visit our **[Online Store](/store)** to browse:
 🎵 **Music** - Albums, EPs, and exclusive recordings
@@ -103,7 +103,7 @@ Visit our **[Online Store](/store)** to browse:
 
 Is there something specific you're looking for? I'd love to help! 🎁`,
 
-  'help': `👋 Hey there! I'm so glad you're here!
+  help: `👋 Hey there! I'm so glad you're here!
 
 I'm your **ClaudyGod Assistant** and I'm here to help with anything you need:
 
@@ -248,7 +248,7 @@ export async function POST(req: NextRequest) {
           errors: ['Request body must be valid JSON'],
           fieldErrors: {},
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -267,7 +267,10 @@ export async function POST(req: NextRequest) {
         return backendRes;
       }
     } catch (err) {
-      console.warn('[chat] Backend unavailable, using fallback:', err instanceof Error ? err.message : 'Unknown error');
+      console.warn(
+        '[chat] Backend unavailable, using fallback:',
+        err instanceof Error ? err.message : 'Unknown error'
+      );
     }
 
     // Fallback response when backend is unavailable
@@ -283,13 +286,11 @@ export async function POST(req: NextRequest) {
         errors: [],
         fieldErrors: {},
       },
-      { status: 200 },
+      { status: 200 }
     );
   } catch (err) {
     if (err instanceof z.ZodError) {
-      const fieldErrors = Object.fromEntries(
-        err.errors.map((e) => [e.path[0], [e.message]]),
-      );
+      const fieldErrors = Object.fromEntries(err.errors.map((e) => [e.path[0], [e.message]]));
 
       return NextResponse.json(
         {
@@ -299,7 +300,7 @@ export async function POST(req: NextRequest) {
           errors: ['Please check your message'],
           fieldErrors,
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -314,7 +315,7 @@ export async function POST(req: NextRequest) {
         errors: [message],
         fieldErrors: {},
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

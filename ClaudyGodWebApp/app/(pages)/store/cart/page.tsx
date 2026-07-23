@@ -20,9 +20,7 @@ export default function CartPage() {
           <p className="font-display font-bold text-neutral-900 text-2xl tracking-tight mb-2">
             Your cart is empty
           </p>
-          <p className="font-sans text-neutral-500 text-sm">
-            Browse the store and add some items.
-          </p>
+          <p className="font-sans text-neutral-500 text-sm">Browse the store and add some items.</p>
         </div>
         <Link
           href="/store"
@@ -38,12 +36,13 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-cream-100 pt-[var(--navbar-height)]">
       <div className="container-site py-16 md:py-20">
-
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-4">
             <span className="rule-gold" />
-            <h1 className="font-display font-bold text-neutral-900 text-3xl tracking-tight">Your Cart</h1>
+            <h1 className="font-display font-bold text-neutral-900 text-3xl tracking-tight">
+              Your Cart
+            </h1>
           </div>
           <Link
             href="/store"
@@ -55,10 +54,9 @@ export default function CartPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-
           {/* Items */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.04] overflow-hidden divide-y divide-neutral-100">
+            <div className="bg-white rounded-xl shadow-card-light border border-black/[0.04] overflow-hidden divide-y divide-neutral-100">
               {items.map((item) => (
                 <div key={item.id} className="p-6 flex gap-5">
                   <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-cream-100">
@@ -120,7 +118,7 @@ export default function CartPage() {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.04] p-6">
+            <div className="bg-white rounded-xl shadow-card-light border border-black/[0.04] p-6">
               <p className="font-sans text-xs tracking-[0.18em] uppercase text-neutral-500 mb-6">
                 Order Summary
               </p>
@@ -137,12 +135,16 @@ export default function CartPage() {
                 ))}
               </div>
               <div className="border-t border-neutral-100 pt-4 flex justify-between mb-6">
-                <p className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-500">Total</p>
-                <p className="font-display font-bold text-neutral-900 text-xl">{formatPrice(total)}</p>
+                <p className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-500">
+                  Total
+                </p>
+                <p className="font-display font-bold text-neutral-900 text-xl">
+                  {formatPrice(total)}
+                </p>
               </div>
               <Link
                 href="/store/checkout"
-                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-sans text-xs font-semibold tracking-[0.12em] uppercase rounded-xl transition-all duration-300 shadow-[0_4px_14px_rgba(97, 73, 145,0.35)] hover:shadow-[0_6px_20px_rgba(97, 73, 145,0.45)] flex items-center justify-center"
+                className="w-full h-12 bg-purple-600 hover:bg-purple-700 text-white font-sans text-xs font-semibold tracking-[0.12em] uppercase rounded-xl transition-all duration-300 shadow-purple-cta hover:shadow-purple-cta-hover flex items-center justify-center"
               >
                 Proceed to Checkout
               </Link>
@@ -158,12 +160,14 @@ export default function CartPage() {
             {/* Trust badges */}
             <div className="mt-5 bg-white rounded-xl border border-black/[0.04] p-5 space-y-3">
               {[
-                { icon: Shield,  text: 'SSL-secured checkout' },
+                { icon: Shield, text: 'SSL-secured checkout' },
                 { icon: Package, text: 'Fast worldwide shipping' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3">
                   <Icon className="h-4 w-4 text-neutral-300 shrink-0" />
-                  <p className="font-sans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-400">{text}</p>
+                  <p className="font-sans text-[0.6rem] tracking-[0.1em] uppercase text-neutral-400">
+                    {text}
+                  </p>
                 </div>
               ))}
             </div>

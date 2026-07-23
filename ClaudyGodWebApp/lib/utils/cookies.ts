@@ -41,9 +41,7 @@ export function setCookie(name: string, value: string, options: CookieOptions = 
 export function getCookie(name: string): string | null {
   if (!isBrowser()) return null;
   const key = encodeURIComponent(name);
-  const match = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith(`${key}=`));
+  const match = document.cookie.split('; ').find((row) => row.startsWith(`${key}=`));
   if (!match) return null;
   try {
     return decodeURIComponent(match.split('=').slice(1).join('='));

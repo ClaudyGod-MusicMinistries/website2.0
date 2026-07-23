@@ -15,15 +15,14 @@ interface LegalPageProps {
 }
 
 const legalNav = [
-  { href: '/legal/privacy', label: 'Privacy Policy',  icon: ShieldCheck },
-  { href: '/legal/terms',   label: 'Terms of Service', icon: Scale       },
-  { href: '/legal/cookies', label: 'Cookie Policy',   icon: Cookie      },
+  { href: '/legal/privacy', label: 'Privacy Policy', icon: ShieldCheck },
+  { href: '/legal/terms', label: 'Terms of Service', icon: Scale },
+  { href: '/legal/cookies', label: 'Cookie Policy', icon: Cookie },
 ];
 
 export function LegalPage({ title, lastUpdated, intro, sections, active }: LegalPageProps) {
   return (
     <div className="min-h-screen bg-neutral-50 pt-[var(--navbar-height)]">
-
       {/* ── Header band ── */}
       <div className="bg-white border-b border-neutral-100">
         <div className="max-w-[1100px] mx-auto px-6 lg:px-12 py-10">
@@ -36,7 +35,9 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
           </Link>
           <div className="flex items-center gap-3 mb-2">
             <span className="block w-6 h-px bg-gold-500/70" />
-            <span className="font-sans text-[0.6rem] tracking-[0.22em] uppercase text-gold-500/70">Legal</span>
+            <span className="font-sans text-[0.6rem] tracking-[0.22em] uppercase text-gold-500/70">
+              Legal
+            </span>
           </div>
           <h1 className="font-display font-extrabold text-neutral-900 text-4xl md:text-5xl tracking-tight leading-tight">
             {title}
@@ -49,7 +50,6 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
 
       <div className="max-w-[1100px] mx-auto px-6 lg:px-12 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
-
           {/* ── Sidebar nav ── */}
           <aside className="lg:w-56 shrink-0">
             <div className="lg:sticky lg:top-28">
@@ -77,8 +77,7 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
 
           {/* ── Content ── */}
           <div className="flex-1 min-w-0">
-            <div className="bg-white rounded-xl border border-neutral-100 shadow-[0_2px_24px_rgba(0,0,0,0.05)] overflow-hidden">
-
+            <div className="bg-white rounded-xl border border-neutral-100 shadow-card-light overflow-hidden">
               {intro && (
                 <div className="px-8 py-8 border-b border-neutral-100 bg-neutral-50/50">
                   <p className="font-sans text-neutral-600 text-base leading-[1.85]">{intro}</p>
@@ -100,15 +99,17 @@ export function LegalPage({ title, lastUpdated, intro, sections, active }: Legal
               <div className="px-8 py-6 bg-neutral-50 border-t border-neutral-100">
                 <p className="font-sans text-neutral-400 text-sm">
                   Questions about our legal policies?{' '}
-                  <Link href="/contact" className="text-purple-600 hover:underline underline-offset-2 transition-colors">
+                  <Link
+                    href="/contact"
+                    className="text-purple-600 hover:underline underline-offset-2 transition-colors"
+                  >
                     Contact us
-                  </Link>
-                  {' '}and we&apos;ll be happy to help.
+                  </Link>{' '}
+                  and we&apos;ll be happy to help.
                 </p>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ function isCacheValid(cached: unknown): boolean {
 
 export async function getYoutubeEmbedUrl(
   videoId: string,
-  options: YoutubeEmbedOptions = {},
+  options: YoutubeEmbedOptions = {}
 ): Promise<YoutubeEmbedData> {
   // Validate videoId format
   if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
@@ -47,7 +47,6 @@ export async function getYoutubeEmbedUrl(
     try {
       const data = JSON.parse(cached) as YoutubeEmbedData & { timestamp: number };
       if (isCacheValid(data)) {
-        console.log(`[youtubeClient] Using cached embed URL for ${videoId}`);
         return {
           videoId: data.videoId,
           embedUrl: data.embedUrl,
@@ -72,9 +71,7 @@ export async function getYoutubeEmbedUrl(
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      throw new Error(
-        error.message || `Failed to fetch YouTube embed (${response.status})`,
-      );
+      throw new Error(error.message || `Failed to fetch YouTube embed (${response.status})`);
     }
 
     const data = await response.json();
@@ -116,8 +113,5 @@ export function buildYoutubeEmbedHtml(embedUrl: string, width = 560, height = 31
 export function clearYoutubeCache(): void {
   if (!localStorage) return;
   const keys = Object.keys(localStorage);
-  keys
-    .filter((k) => k.startsWith(CACHE_KEY))
-    .forEach((k) => localStorage.removeItem(k));
-  console.log('[youtubeClient] Cache cleared');
+  keys.filter((k) => k.startsWith(CACHE_KEY)).forEach((k) => localStorage.removeItem(k));
 }

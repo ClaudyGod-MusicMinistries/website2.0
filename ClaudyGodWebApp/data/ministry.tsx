@@ -85,8 +85,7 @@ export const teachingsData: TeachingType[] = [
   },
   {
     id: 7,
-    title:
-      'Getting to know ClaudyGod the Gospel Music Artist - Interviewed by Mr. Ken Fred',
+    title: 'Getting to know ClaudyGod the Gospel Music Artist - Interviewed by Mr. Ken Fred',
     youtubeId: 'Q7Q9Ztlb0EM',
     scripture: 'Live Teachings',
     teacher: 'ClaudyGodTeachings',
@@ -122,8 +121,7 @@ export const teachingsData: TeachingType[] = [
   },
   {
     id: 10,
-    title:
-      'How to identify a demon in a person. What is God will for such person.',
+    title: 'How to identify a demon in a person. What is God will for such person.',
     youtubeId: 'ZmIt4Pk1y2o',
     scripture: 'CGM Podcasts',
     teacher: 'Min. Claudy',
@@ -268,8 +266,7 @@ export const teachingsData: TeachingType[] = [
   },
   {
     id: 22,
-    title:
-      "How's your ASK?(You do not have what you want because you don't ask)",
+    title: "How's your ASK?(You do not have what you want because you don't ask)",
     youtubeId: 'SHwQVf35oxM',
     scripture: 'CGM Podcasts',
     teacher: 'Min. Claudy',
@@ -329,8 +326,7 @@ export const teachingsData: TeachingType[] = [
   },
   {
     id: 27,
-    title:
-      'What kind of relationship do you have with God - a Mary or Martha kind?',
+    title: 'What kind of relationship do you have with God - a Mary or Martha kind?',
     youtubeId: 'PhVKzo1IKrU',
     scripture: 'CGM Podcasts',
     teacher: 'Min. Claudy',

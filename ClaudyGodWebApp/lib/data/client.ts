@@ -11,7 +11,7 @@ export class BackendError extends Error {
     message: string,
     public readonly statusCode: number,
     public readonly errors: string[] = [],
-    public readonly fieldErrors: Record<string, string[]> = {},
+    public readonly fieldErrors: Record<string, string[]> = {}
   ) {
     super(message);
     this.name = 'BackendError';
@@ -71,14 +71,14 @@ async function refreshToken(): Promise<string> {
 
       clearTimeout(timeout);
 
-      const body = (await res.json()) as ApiResponse<{ accessToken: string; accessTokenExpiresAt: string }>;
+      const body = (await res.json()) as ApiResponse<{
+        accessToken: string;
+        accessTokenExpiresAt: string;
+      }>;
 
       if (!res.ok || !body.success || !body.data) {
         clearAccessToken();
-        throw new BackendError(
-          body.message || 'Session expired. Please log in again.',
-          res.status,
-        );
+        throw new BackendError(body.message || 'Session expired. Please log in again.', res.status);
       }
 
       setAccessToken(body.data.accessToken, body.data.accessTokenExpiresAt);
@@ -143,7 +143,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
       raw.detail || raw.title || `Request failed (${res.status})`,
       res.status,
       [],
-      raw.errors ?? {},
+      raw.errors ?? {}
     );
   }
 
@@ -154,7 +154,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
       body.message || `Request failed (${res.status})`,
       res.status,
       body.errors ?? [],
-      body.fieldErrors ?? {},
+      body.fieldErrors ?? {}
     );
   }
 
@@ -170,14 +170,14 @@ function authHeaders(token: string | null): Record<string, string> {
 export async function get<T = unknown>(
   path: string,
   params?: Record<string, string | number | undefined>,
-  authenticated = false,
+  authenticated = false
 ): Promise<T> {
   let url = `${BASE}${path}`;
   if (params) {
     const qs = new URLSearchParams(
       Object.entries(params)
         .filter(([, v]) => v !== undefined)
-        .map(([k, v]) => [k, String(v)]),
+        .map(([k, v]) => [k, String(v)])
     ).toString();
     if (qs) url += `?${qs}`;
   }
@@ -197,7 +197,7 @@ export async function get<T = unknown>(
 export async function post<T = unknown>(
   path: string,
   body: unknown,
-  authenticated = false,
+  authenticated = false
 ): Promise<T> {
   const token = authenticated ? await resolveToken() : null;
 
@@ -218,7 +218,7 @@ export async function post<T = unknown>(
 export async function put<T = unknown>(
   path: string,
   body: unknown,
-  authenticated = false,
+  authenticated = false
 ): Promise<T> {
   const token = authenticated ? await resolveToken() : null;
 
@@ -239,7 +239,7 @@ export async function put<T = unknown>(
 export async function patch<T = unknown>(
   path: string,
   body: unknown,
-  authenticated = false,
+  authenticated = false
 ): Promise<T> {
   const token = authenticated ? await resolveToken() : null;
 
@@ -257,10 +257,7 @@ export async function patch<T = unknown>(
   return handleResponse<T>(res);
 }
 
-export async function del<T = unknown>(
-  path: string,
-  authenticated = false,
-): Promise<T> {
+export async function del<T = unknown>(path: string, authenticated = false): Promise<T> {
   const token = authenticated ? await resolveToken() : null;
 
   const res = await fetch(`${BASE}${path}`, {

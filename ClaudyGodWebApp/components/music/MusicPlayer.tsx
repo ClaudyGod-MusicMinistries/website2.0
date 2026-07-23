@@ -14,23 +14,38 @@ interface Track {
 }
 
 const tracks: Track[] = [
-  { id: '1',  title: 'VERY GLORIOUS (Live Recording)',   youtubeId: 'xY4508hwPfw', category: 'Live Session' },
-  { id: '2',  title: 'STEP ASIDE',                       youtubeId: '3nvGauo7kjA', category: 'Music Video'  },
-  { id: '3',  title: 'Nothing Compares To You',           youtubeId: 'Dw5S-jzzboA', category: 'Visualizer'  },
-  { id: '4',  title: 'Dwelling Place (Forever God)',      youtubeId: 'KoVkhbrRjf8', category: 'Live Session' },
-  { id: '5',  title: 'I Love You Lord',                  youtubeId: 'SqaOeGLDPLY', category: 'Music Video'  },
-  { id: '6',  title: "It's A New Day (Thank You For Today)", youtubeId: 'Ak0LZgfHMa0', category: 'Music Video' },
-  { id: '7',  title: 'All of Me',                        youtubeId: 'L-AVa2qC5Ic', category: 'Music Video'  },
-  { id: '8',  title: 'King of the Nations',              youtubeId: 'UZPaupINXYI', category: 'Music Video'  },
-  { id: '9',  title: 'Love Me So Much',                  youtubeId: 'uro0EWsYdxc', category: 'Music Video'  },
-  { id: '10', title: 'Joyful Alleluia',                  youtubeId: 'ih4SrEgnV60', category: 'Music Video'  },
-  { id: '11', title: 'Look To You',                      youtubeId: '7BN7i4puuis', category: 'Visualizer'   },
-  { id: '12', title: 'Affirmation',                      youtubeId: 'bVOAeBAer4U', category: 'Music Video'  },
+  {
+    id: '1',
+    title: 'VERY GLORIOUS (Live Recording)',
+    youtubeId: 'xY4508hwPfw',
+    category: 'Live Session',
+  },
+  { id: '2', title: 'STEP ASIDE', youtubeId: '3nvGauo7kjA', category: 'Music Video' },
+  { id: '3', title: 'Nothing Compares To You', youtubeId: 'Dw5S-jzzboA', category: 'Visualizer' },
+  {
+    id: '4',
+    title: 'Dwelling Place (Forever God)',
+    youtubeId: 'KoVkhbrRjf8',
+    category: 'Live Session',
+  },
+  { id: '5', title: 'I Love You Lord', youtubeId: 'SqaOeGLDPLY', category: 'Music Video' },
+  {
+    id: '6',
+    title: "It's A New Day (Thank You For Today)",
+    youtubeId: 'Ak0LZgfHMa0',
+    category: 'Music Video',
+  },
+  { id: '7', title: 'All of Me', youtubeId: 'L-AVa2qC5Ic', category: 'Music Video' },
+  { id: '8', title: 'King of the Nations', youtubeId: 'UZPaupINXYI', category: 'Music Video' },
+  { id: '9', title: 'Love Me So Much', youtubeId: 'uro0EWsYdxc', category: 'Music Video' },
+  { id: '10', title: 'Joyful Alleluia', youtubeId: 'ih4SrEgnV60', category: 'Music Video' },
+  { id: '11', title: 'Look To You', youtubeId: '7BN7i4puuis', category: 'Visualizer' },
+  { id: '12', title: 'Affirmation', youtubeId: 'bVOAeBAer4U', category: 'Music Video' },
 ];
 
 export function MusicPlayer() {
-  const [activeId,  setActiveId]  = useState<string | null>(null);
-  const [showList,  setShowList]  = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [showList, setShowList] = useState(false);
   const activeTrack = tracks.find((t) => t.id === activeId) ?? null;
 
   const play = (id: string) => setActiveId(id);
@@ -46,7 +61,6 @@ export function MusicPlayer() {
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/30 to-transparent mb-0 absolute top-0 left-0" />
 
       <div className="relative container-site">
-
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div>
@@ -65,7 +79,9 @@ export function MusicPlayer() {
             onClick={() => setShowList((v) => !v)}
             className={cn(
               'sm:hidden inline-flex items-center gap-2 px-5 h-10 rounded-xl border font-sans text-xs tracking-[0.12em] uppercase transition-all duration-300',
-              showList ? 'bg-purple-600 border-purple-600 text-white' : 'bg-white/10 border-white/10 text-white/70'
+              showList
+                ? 'bg-purple-600 border-purple-600 text-white'
+                : 'bg-white/10 border-white/10 text-white/70'
             )}
           >
             <ListMusic className="h-3.5 w-3.5" />
@@ -74,9 +90,8 @@ export function MusicPlayer() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
-
           {/* Player frame */}
-          <div className="rounded-xl overflow-hidden bg-black border border-white/[0.06] shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
+          <div className="rounded-xl overflow-hidden bg-black border border-white/[0.06] shadow-card-hover">
             {activeTrack ? (
               <div className="relative aspect-video">
                 <iframe
@@ -98,7 +113,9 @@ export function MusicPlayer() {
                   className="rounded-full opacity-40"
                 />
                 <div className="text-center">
-                  <p className="font-display font-semibold text-white/40 text-lg mb-1">Select a track to play</p>
+                  <p className="font-display font-semibold text-white/40 text-lg mb-1">
+                    Select a track to play
+                  </p>
                   <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-700">
                     {tracks.length} tracks available
                   </p>
@@ -114,8 +131,12 @@ export function MusicPlayer() {
                     <Music2 className="h-3.5 w-3.5 text-purple-400" />
                   </div>
                   <div className="min-w-0">
-                    <p className="font-display font-semibold text-white text-sm truncate">{activeTrack.title}</p>
-                    <p className="font-sans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-600">ClaudyGod Music Ministries</p>
+                    <p className="font-display font-semibold text-white text-sm truncate">
+                      {activeTrack.title}
+                    </p>
+                    <p className="font-sans text-[0.5rem] tracking-[0.12em] uppercase text-neutral-600">
+                      ClaudyGod Music Ministries
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -142,8 +163,12 @@ export function MusicPlayer() {
           <div className={cn('lg:block', showList ? 'block' : 'hidden')}>
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden">
               <div className="px-5 py-4 border-b border-white/[0.05] flex items-center justify-between">
-                <span className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-400">Playlist</span>
-                <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase text-neutral-700">{tracks.length} tracks</span>
+                <span className="font-sans text-xs tracking-[0.15em] uppercase text-neutral-400">
+                  Playlist
+                </span>
+                <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase text-neutral-700">
+                  {tracks.length} tracks
+                </span>
               </div>
               <div className="divide-y divide-white/[0.04] max-h-[420px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
                 {tracks.map((track, i) => (
@@ -181,10 +206,14 @@ export function MusicPlayer() {
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <p className={cn(
-                        'font-sans font-medium text-sm truncate transition-colors duration-200',
-                        activeId === track.id ? 'text-purple-300' : 'text-neutral-300 group-hover:text-white'
-                      )}>
+                      <p
+                        className={cn(
+                          'font-sans font-medium text-sm truncate transition-colors duration-200',
+                          activeId === track.id
+                            ? 'text-purple-300'
+                            : 'text-neutral-300 group-hover:text-white'
+                        )}
+                      >
                         {track.title}
                       </p>
                       <p className="font-sans text-[0.48rem] tracking-[0.1em] uppercase text-neutral-700 mt-0.5">

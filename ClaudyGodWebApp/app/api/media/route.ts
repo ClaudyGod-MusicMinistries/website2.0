@@ -13,7 +13,13 @@ export async function GET(req: NextRequest) {
     const message = err instanceof Error ? err.message : 'Failed to fetch media';
     console.error('[/api/media] Error:', message);
     return NextResponse.json(
-      { success: false, message: 'Unable to fetch media', data: null, errors: [message], fieldErrors: {} },
+      {
+        success: false,
+        message: 'Unable to fetch media',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
       { status: 500 }
     );
   }

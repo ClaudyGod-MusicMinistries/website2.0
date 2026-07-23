@@ -24,9 +24,9 @@ Closes #
 
 <!-- List the specific changes -->
 
-- 
-- 
-- 
+-
+-
+-
 
 ## Testing
 
@@ -60,13 +60,13 @@ Closes #
 <!-- Describe any performance implications -->
 
 - Impact: None / Minor / Moderate / Significant
-- Metrics: 
+- Metrics:
 
 ## Environment Variables Required
 
 <!-- List any new environment variables -->
 
-- 
+-
 
 ## Deployment Notes
 

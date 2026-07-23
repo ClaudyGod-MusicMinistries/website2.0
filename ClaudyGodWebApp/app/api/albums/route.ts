@@ -9,7 +9,13 @@ export async function GET(req: NextRequest) {
     const message = err instanceof Error ? err.message : 'Failed to fetch albums';
     console.error('[/api/albums] Error:', message);
     return NextResponse.json(
-      { success: false, message: 'Unable to fetch albums', data: null, errors: [message], fieldErrors: {} },
+      {
+        success: false,
+        message: 'Unable to fetch albums',
+        data: null,
+        errors: [message],
+        fieldErrors: {},
+      },
       { status: 500 }
     );
   }

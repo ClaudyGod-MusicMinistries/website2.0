@@ -3,7 +3,8 @@ import { PrayerRequestForm } from '@/components/prayer/PrayerRequestForm';
 
 export const metadata: Metadata = {
   title: 'Prayer Request | ClaudyGod Ministry',
-  description: 'Share your prayer request with our ministry team — we believe in the power of prayer and will intercede for you.',
+  description:
+    'Share your prayer request with our ministry team — we believe in the power of prayer and will intercede for you.',
 };
 
 export default function PrayerPage() {
@@ -12,12 +13,10 @@ export default function PrayerPage() {
       {/* Hero Section */}
       <section className="pt-20 pb-12 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h1 className="font-display font-bold text-5xl text-neutral-900 mb-4">
-            Prayer Requests
-          </h1>
+          <h1 className="font-display font-bold text-5xl text-neutral-900 mb-4">Prayer Requests</h1>
           <p className="font-sans text-lg text-neutral-600 mb-8">
-            We believe in the power of prayer. Share what&apos;s on your heart, and our
-            prayer team will intercede for you — in confidence, if you prefer.
+            We believe in the power of prayer. Share what&apos;s on your heart, and our prayer team
+            will intercede for you — in confidence, if you prefer.
           </p>
         </div>
       </section>

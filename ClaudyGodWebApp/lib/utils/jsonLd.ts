@@ -4,7 +4,14 @@
  *   <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
  */
 
-import { SITE_URL, SITE_NAME, OG_IMAGE, LOGO_URL, SOCIAL_URLS, CONTACT_EMAIL } from '@/lib/config/site';
+import {
+  SITE_URL,
+  SITE_NAME,
+  OG_IMAGE,
+  LOGO_URL,
+  SOCIAL_URLS,
+  CONTACT_EMAIL,
+} from '@/lib/config/site';
 
 export { SITE_URL, SITE_NAME, OG_IMAGE, LOGO_URL };
 
@@ -35,7 +42,8 @@ export function webSite() {
     '@type': 'WebSite',
     name: SITE_NAME,
     url: SITE_URL,
-    description: 'Official website of ClaudyGod — Nigerian gospel music artist, minister, and worship leader.',
+    description:
+      'Official website of ClaudyGod — Nigerian gospel music artist, minister, and worship leader.',
     inLanguage: 'en-US',
     publisher: {
       '@type': 'Organization',
@@ -135,12 +143,12 @@ export function person() {
 /* ── MusicAlbum ─────────────────────────────────────────────────────────────
    Enables music-specific rich results and Knowledge Panel album listings.   */
 export interface AlbumData {
-  name:        string;
+  name: string;
   description: string;
-  imageUrl:    string;
-  releaseDate: string;   // ISO date e.g. "2024-01-01"
+  imageUrl: string;
+  releaseDate: string; // ISO date e.g. "2024-01-01"
   spotifyUrl?: string;
-  appleUrl?:   string;
+  appleUrl?: string;
   youtubeUrl?: string;
 }
 
@@ -159,12 +167,14 @@ export function musicAlbum(album: AlbumData) {
     datePublished: album.releaseDate,
     genre: ['Gospel', 'Christian Music', 'Worship'],
     url: `${SITE_URL}/music`,
-    offers: album.spotifyUrl ? {
-      '@type': 'Offer',
-      url: album.spotifyUrl,
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
-    } : undefined,
+    offers: album.spotifyUrl
+      ? {
+          '@type': 'Offer',
+          url: album.spotifyUrl,
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+        }
+      : undefined,
   };
 }
 
@@ -172,7 +182,7 @@ export function musicAlbum(album: AlbumData) {
    Tells Google about a collection of items (albums, videos, products).      */
 export function itemList(
   name: string,
-  items: Array<{ name: string; url: string; imageUrl?: string }>,
+  items: Array<{ name: string; url: string; imageUrl?: string }>
 ) {
   return {
     '@context': 'https://schema.org',
@@ -192,12 +202,12 @@ export function itemList(
 /* ── VideoObject ────────────────────────────────────────────────────────────
    Enables rich video results in Google Search and Google Discover.          */
 export interface VideoData {
-  name:          string;
-  description:   string;
-  thumbnailUrl:  string;
-  uploadDate:    string;  // ISO date
-  youtubeId:     string;
-  duration?:     string;  // ISO 8601 PT#M#S e.g. "PT4M20S"
+  name: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate: string; // ISO date
+  youtubeId: string;
+  duration?: string; // ISO 8601 PT#M#S e.g. "PT4M20S"
 }
 
 export function videoObject(v: VideoData) {
@@ -226,13 +236,13 @@ export function videoObject(v: VideoData) {
 /* ── Event ──────────────────────────────────────────────────────────────────
    Shows events in Google Events search tab.                                 */
 export interface EventData {
-  name:       string;
-  startDate:  string;   // ISO datetime
-  location:   string;
-  city:       string;
-  country:    string;
+  name: string;
+  startDate: string; // ISO datetime
+  location: string;
+  city: string;
+  country: string;
   ticketUrl?: string;
-  image?:     string;
+  image?: string;
 }
 
 export function event(e: EventData) {
@@ -241,7 +251,7 @@ export function event(e: EventData) {
     '@type': 'Event',
     name: e.name,
     startDate: e.startDate,
-    endDate: e.startDate,  // single-day event
+    endDate: e.startDate, // single-day event
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
@@ -265,17 +275,20 @@ export function event(e: EventData) {
       name: SITE_NAME,
       url: SITE_URL,
     },
-    offers: e.ticketUrl && e.ticketUrl !== '#' ? {
-      '@type': 'Offer',
-      url: e.ticketUrl,
-      availability: 'https://schema.org/InStock',
-      priceCurrency: 'NGN',
-    } : {
-      '@type': 'Offer',
-      availability: 'https://schema.org/LimitedAvailability',
-      priceCurrency: 'NGN',
-      name: 'Contact for ticket information',
-    },
+    offers:
+      e.ticketUrl && e.ticketUrl !== '#'
+        ? {
+            '@type': 'Offer',
+            url: e.ticketUrl,
+            availability: 'https://schema.org/InStock',
+            priceCurrency: 'NGN',
+          }
+        : {
+            '@type': 'Offer',
+            availability: 'https://schema.org/LimitedAvailability',
+            priceCurrency: 'NGN',
+            name: 'Contact for ticket information',
+          },
   };
 }
 
@@ -308,7 +321,12 @@ export function service() {
       url: SITE_URL,
       logo: LOGO_URL,
     },
-    serviceType: ['Live Gospel Performance', 'Ministry Speaking', 'Worship Leading', 'Evangelistic Concert'],
+    serviceType: [
+      'Live Gospel Performance',
+      'Ministry Speaking',
+      'Worship Leading',
+      'Evangelistic Concert',
+    ],
     areaServed: ['Nigeria', 'United Kingdom', 'United States', 'International'],
     availableChannel: {
       '@type': 'ServiceChannel',
@@ -353,24 +371,19 @@ export function organization() {
         availableLanguage: 'English',
       },
     ],
-    sameAs: [
-      SOCIAL_URLS.facebook,
-      SOCIAL_URLS.instagram,
-      SOCIAL_URLS.twitter,
-      SOCIAL_URLS.youtube,
-    ],
+    sameAs: [SOCIAL_URLS.facebook, SOCIAL_URLS.instagram, SOCIAL_URLS.twitter, SOCIAL_URLS.youtube],
   };
 }
 
 /* ── Product (for store page) ───────────────────────────────────────────── */
 export interface ProductData {
-  name:        string;
+  name: string;
   description: string;
-  imageUrl:    string;
-  price:       number;
-  currency?:   string;
-  sku?:        string;
-  url:         string;
+  imageUrl: string;
+  price: number;
+  currency?: string;
+  sku?: string;
+  url: string;
 }
 
 export function product(p: ProductData) {

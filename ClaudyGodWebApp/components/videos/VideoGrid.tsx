@@ -16,14 +16,16 @@ const stagger = {
 };
 const cardAnim = {
   hidden: { opacity: 0, y: 18 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
 export function VideoGrid() {
   const { media, loading, error, refetch } = useMedia('video');
   const [playingId, setPlayingId] = useState<string | null>(null);
 
-  const videos = media.map(toVideoView).filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
+  const videos = media
+    .map(toVideoView)
+    .filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
 
   if (loading) return <GridSkeleton cols={4} rows={2} />;
   if (error) return <ErrorMessage message={error} onRetry={refetch} />;
@@ -32,7 +34,6 @@ export function VideoGrid() {
     <>
       <section className="bg-white section-py">
         <div className="container-site">
-
           {/* Section header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
             <div>
@@ -72,7 +73,9 @@ export function VideoGrid() {
               className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase border border-neutral-300 hover:border-purple-600 text-neutral-700 hover:text-purple-700 px-8 h-11 rounded-xl transition-all duration-300 group"
             >
               See All on YouTube
-              <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-0.5">
+                →
+              </span>
             </Link>
           </div>
         </div>
@@ -84,7 +87,9 @@ export function VideoGrid() {
           <>
             <motion.div
               key="backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-0 z-[600] bg-black/94 backdrop-blur-md"
               onClick={() => setPlayingId(null)}
@@ -128,11 +133,17 @@ export function VideoGrid() {
   );
 }
 
-function VideoCard({ video, onPlay }: { video: VideoView & { youtubeId: string }; onPlay: () => void }) {
+function VideoCard({
+  video,
+  onPlay,
+}: {
+  video: VideoView & { youtubeId: string };
+  onPlay: () => void;
+}) {
   return (
     <button
       onClick={onPlay}
-      className="group w-full text-left overflow-hidden rounded-xl bg-neutral-950 shadow-[0_2px_12px_rgba(0,0,0,0.12)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.22)] transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
+      className="group w-full text-left overflow-hidden rounded-xl bg-neutral-950 shadow-card hover:shadow-card-hover transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">

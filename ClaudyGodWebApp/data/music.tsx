@@ -155,7 +155,8 @@ export const socialPlatforms = [
 export const galleryCategories = [
   {
     title: 'Tour Photos',
-    description: 'Memorable moments from our worship tours and ministry events across different cities and venues.',
+    description:
+      'Memorable moments from our worship tours and ministry events across different cities and venues.',
     images: [
       '/Tour_Ph_1.webp',
       '/Tour_Ph_2.webp',
@@ -175,32 +176,26 @@ export const galleryCategories = [
   },
   {
     title: 'ClaudyGod with Students',
-    description: 'Engaging with the next generation of worshippers in universities and youth gatherings across Port Harcourt.',
-    images: [
-      '/mum1.jpg',
-      '/aboutUs.webp',
-      '/manBack.jpg',
-    ],
+    description:
+      'Engaging with the next generation of worshippers in universities and youth gatherings across Port Harcourt.',
+    images: ['/mum1.jpg', '/aboutUs.webp', '/manBack.jpg'],
   },
   {
     title: 'Worship Moments',
-    description: 'Powerful moments of praise and worship that transformed lives and brought heaven to earth.',
+    description:
+      'Powerful moments of praise and worship that transformed lives and brought heaven to earth.',
     images: ['/resize_abt.webp', '/tour_1.jpg'],
   },
   {
     title: 'Min. ClaudyGod With Guests',
-    description: 'Collaborative moments with ministry partners and guest worshippers who joined our gatherings.',
-    images: [
-      '/manBack.jpg',
-      '/mum1.jpg',
-      '/aboutUs.webp',
-      '/tour_1.jpg',
-      '/resize_abt.webp',
-    ],
+    description:
+      'Collaborative moments with ministry partners and guest worshippers who joined our gatherings.',
+    images: ['/manBack.jpg', '/mum1.jpg', '/aboutUs.webp', '/tour_1.jpg', '/resize_abt.webp'],
   },
   {
     title: 'Community Impact',
-    description: 'Touching lives beyond the worship center through outreach and community transformation programs.',
+    description:
+      'Touching lives beyond the worship center through outreach and community transformation programs.',
     images: ['/tour_1.jpg', '/manBack.jpg'],
   },
 ];
@@ -238,7 +233,7 @@ export const teamMembers = [
     id: 5,
     name: 'Team Member',
     role: 'Ministry Team',
-    description: 'Inspired by God\'s love to serve with purpose and joy.',
+    description: "Inspired by God's love to serve with purpose and joy.",
     image: '/team_ph_5.webp',
   },
   {

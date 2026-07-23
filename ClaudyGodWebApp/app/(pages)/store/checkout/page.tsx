@@ -10,9 +10,19 @@ import { PhoneInput } from '@/components/ui/PhoneInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
-  ChevronRight, Check, ShoppingBag, MapPin, CreditCard,
-  ClipboardCheck, ArrowLeft, Package, Shield, Truck, Zap,
-  CheckCircle2, X,
+  ChevronRight,
+  Check,
+  ShoppingBag,
+  MapPin,
+  CreditCard,
+  ClipboardCheck,
+  ArrowLeft,
+  Package,
+  Shield,
+  Truck,
+  Zap,
+  CheckCircle2,
+  X,
 } from 'lucide-react';
 import { FaCreditCard, FaUniversity, FaGlobe } from 'react-icons/fa';
 import { useCartStore } from '@/components/store/cartStore';
@@ -22,61 +32,61 @@ import { post } from '@/lib/data/client';
 /* ── Constants ──────────────────────────────────────────── */
 const SHIPPING_OPTIONS = [
   {
-    id:       'standard' as const,
-    label:    'Standard Shipping',
+    id: 'standard' as const,
+    label: 'Standard Shipping',
     duration: '7–14 business days',
-    price:    9.99,
-    icon:     Truck,
+    price: 9.99,
+    icon: Truck,
   },
   {
-    id:       'express' as const,
-    label:    'Express Shipping',
+    id: 'express' as const,
+    label: 'Express Shipping',
     duration: '3–5 business days',
-    price:    19.99,
-    icon:     Zap,
+    price: 19.99,
+    icon: Zap,
   },
 ] as const;
 
-type ShippingMethod = typeof SHIPPING_OPTIONS[number]['id'];
+type ShippingMethod = (typeof SHIPPING_OPTIONS)[number]['id'];
 
 const PAYMENT_METHODS = [
   {
-    id:    'paystack' as const,
+    id: 'paystack' as const,
     label: 'Paystack',
-    sub:   'Cards, bank transfer, USSD (Africa)',
-    icon:  FaGlobe,
+    sub: 'Cards, bank transfer, USSD (Africa)',
+    icon: FaGlobe,
     color: '#00C3F7',
-    live:  true,
+    live: true,
   },
   {
-    id:    'card' as const,
+    id: 'card' as const,
     label: 'Credit / Debit Card',
-    sub:   'Visa, Mastercard, Amex',
-    icon:  FaCreditCard,
+    sub: 'Visa, Mastercard, Amex',
+    icon: FaCreditCard,
     color: '#3B82F6',
-    live:  false,
+    live: false,
   },
   {
-    id:    'bank_transfer' as const,
+    id: 'bank_transfer' as const,
     label: 'Bank Transfer',
-    sub:   'Nigerian bank transfer',
-    icon:  FaUniversity,
+    sub: 'Nigerian bank transfer',
+    icon: FaUniversity,
     color: '#10B981',
-    live:  false,
+    live: false,
   },
 ] as const;
 
-type PaymentMethod = typeof PAYMENT_METHODS[number]['id'];
+type PaymentMethod = (typeof PAYMENT_METHODS)[number]['id'];
 
 /* ── Validation schemas ─────────────────────────────────── */
 const contactSchema = z.object({
-  fullName:   z.string().min(2, 'Full name is required'),
-  email:      z.string().email('Valid email is required'),
-  phone:      z.string().min(6, 'Phone number is required'),
-  address:    z.string().min(4, 'Street address is required'),
-  city:       z.string().min(2, 'City is required'),
-  state:      z.string().min(2, 'State / region is required'),
-  country:    z.string().min(2, 'Country is required'),
+  fullName: z.string().min(2, 'Full name is required'),
+  email: z.string().email('Valid email is required'),
+  phone: z.string().min(6, 'Phone number is required'),
+  address: z.string().min(4, 'Street address is required'),
+  city: z.string().min(2, 'City is required'),
+  state: z.string().min(2, 'State / region is required'),
+  country: z.string().min(2, 'Country is required'),
   postalCode: z.string().optional(),
 });
 type ContactData = z.infer<typeof contactSchema>;
@@ -84,38 +94,48 @@ type ContactData = z.infer<typeof contactSchema>;
 /* ── Step indicator ─────────────────────────────────────── */
 const STEPS = [
   { id: 1, label: 'Information', icon: MapPin },
-  { id: 2, label: 'Shipping',    icon: Truck },
-  { id: 3, label: 'Payment',     icon: CreditCard },
-  { id: 4, label: 'Review',      icon: ClipboardCheck },
+  { id: 2, label: 'Shipping', icon: Truck },
+  { id: 3, label: 'Payment', icon: CreditCard },
+  { id: 4, label: 'Review', icon: ClipboardCheck },
 ];
 
 function StepBar({ current }: { current: number }) {
   return (
     <div className="flex items-center gap-0 mb-10">
       {STEPS.map((step, i) => {
-        const done    = current > step.id;
-        const active  = current === step.id;
-        const Icon    = step.icon;
+        const done = current > step.id;
+        const active = current === step.id;
+        const Icon = step.icon;
         return (
           <div key={step.id} className="flex items-center flex-1">
             <div className="flex flex-col items-center gap-1.5 relative z-10">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                  done    ? 'bg-purple-600 border-purple-600 text-white'
-                  : active ? 'bg-white border-purple-600 text-purple-600 shadow-[0_0_0_4px_rgba(97, 73, 145,0.1)]'
-                           : 'bg-white border-neutral-200 text-neutral-300'
+                  done
+                    ? 'bg-purple-600 border-purple-600 text-white'
+                    : active
+                      ? 'bg-white border-purple-600 text-purple-600 ring-4 ring-purple-600/10'
+                      : 'bg-white border-neutral-200 text-neutral-300'
                 }`}
               >
                 {done ? <Check className="h-3.5 w-3.5" /> : <Icon className="h-3.5 w-3.5" />}
               </div>
-              <span className={`font-sans text-[0.52rem] tracking-[0.1em] uppercase hidden sm:block ${
-                active ? 'text-purple-600 font-semibold' : done ? 'text-neutral-500' : 'text-neutral-300'
-              }`}>
+              <span
+                className={`font-sans text-[0.52rem] tracking-[0.1em] uppercase hidden sm:block ${
+                  active
+                    ? 'text-purple-600 font-semibold'
+                    : done
+                      ? 'text-neutral-500'
+                      : 'text-neutral-300'
+                }`}
+              >
                 {step.label}
               </span>
             </div>
             {i < STEPS.length - 1 && (
-              <div className={`flex-1 h-px mx-2 transition-colors duration-500 ${done ? 'bg-purple-400' : 'bg-neutral-200'}`} />
+              <div
+                className={`flex-1 h-px mx-2 transition-colors duration-500 ${done ? 'bg-purple-400' : 'bg-neutral-200'}`}
+              />
             )}
           </div>
         );
@@ -125,9 +145,11 @@ function StepBar({ current }: { current: number }) {
 }
 
 /* ── Shared input styling ───────────────────────────────── */
-const inputCls = 'w-full h-11 px-4 border border-neutral-200 rounded-xl font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
-const labelCls = 'block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 mb-1.5';
-const errCls   = 'mt-1 font-sans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+const inputCls =
+  'w-full h-11 px-4 border border-neutral-200 rounded-xl font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
+const labelCls =
+  'block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 mb-1.5';
+const errCls = 'mt-1 font-sans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
 
 /* ── Order summary sidebar ──────────────────────────────── */
 function OrderSummary({
@@ -139,10 +161,10 @@ function OrderSummary({
 }) {
   const { items, cartTotal } = useCartStore();
   const subtotal = cartTotal();
-  const total    = subtotal + shippingCost;
+  const total = subtotal + shippingCost;
 
   return (
-    <div className="bg-white rounded-xl border border-black/[0.05] shadow-[0_2px_16px_rgba(0,0,0,0.05)] overflow-hidden sticky top-24">
+    <div className="bg-white rounded-xl border border-black/[0.05] shadow-card-light overflow-hidden sticky top-24">
       <div className="px-6 py-5 border-b border-neutral-100">
         <p className="font-sans text-[0.6rem] tracking-[0.18em] uppercase text-neutral-500 flex items-center gap-2">
           <ShoppingBag className="h-3.5 w-3.5" /> Order Summary
@@ -160,8 +182,12 @@ function OrderSummary({
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-sans font-medium text-neutral-900 text-xs leading-snug line-clamp-2">{item.name}</p>
-              <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5 capitalize">{item.category}</p>
+              <p className="font-sans font-medium text-neutral-900 text-xs leading-snug line-clamp-2">
+                {item.name}
+              </p>
+              <p className="font-sans text-[0.52rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5 capitalize">
+                {item.category}
+              </p>
             </div>
             <p className="font-display font-semibold text-neutral-800 text-sm shrink-0">
               {formatPrice(item.price * item.quantity)}
@@ -174,7 +200,9 @@ function OrderSummary({
       <div className="px-6 py-4 border-t border-neutral-100 space-y-2.5">
         <div className="flex justify-between">
           <span className="font-sans text-neutral-500 text-sm">Subtotal</span>
-          <span className="font-sans font-medium text-neutral-800 text-sm">{formatPrice(subtotal)}</span>
+          <span className="font-sans font-medium text-neutral-800 text-sm">
+            {formatPrice(subtotal)}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="font-sans text-neutral-500 text-sm">Shipping</span>
@@ -184,20 +212,24 @@ function OrderSummary({
         </div>
         <div className="flex justify-between pt-3 border-t border-neutral-100">
           <span className="font-display font-bold text-neutral-900 text-base">Total</span>
-          <span className="font-display font-bold text-neutral-900 text-xl">{formatPrice(total)}</span>
+          <span className="font-display font-bold text-neutral-900 text-xl">
+            {formatPrice(total)}
+          </span>
         </div>
       </div>
 
       {/* Trust badges */}
       <div className="px-6 py-4 border-t border-neutral-100 flex flex-col gap-2.5">
         {[
-          { icon: Shield,  text: 'SSL-secured checkout' },
+          { icon: Shield, text: 'SSL-secured checkout' },
           { icon: Package, text: 'Worldwide shipping' },
-          { icon: Check,   text: '100% authentic merchandise' },
+          { icon: Check, text: '100% authentic merchandise' },
         ].map(({ icon: Icon, text }) => (
           <div key={text} className="flex items-center gap-2.5">
             <Icon className="h-3.5 w-3.5 text-neutral-300 shrink-0" />
-            <span className="font-sans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-400">{text}</span>
+            <span className="font-sans text-[0.58rem] tracking-[0.08em] uppercase text-neutral-400">
+              {text}
+            </span>
           </div>
         ))}
       </div>
@@ -217,8 +249,12 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
   return (
     <form onSubmit={handleSubmit(onNext)} className="space-y-6">
       <div>
-        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Contact Information</h2>
-        <p className="font-sans text-neutral-500 text-sm">We&apos;ll use this to send your order confirmation and shipping updates.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">
+          Contact Information
+        </h2>
+        <p className="font-sans text-neutral-500 text-sm">
+          We&apos;ll use this to send your order confirmation and shipping updates.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -229,7 +265,12 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
         </div>
         <div>
           <label className={labelCls}>Email Address</label>
-          <input {...register('email')} type="email" placeholder="jane@example.com" className={inputCls} />
+          <input
+            {...register('email')}
+            type="email"
+            placeholder="jane@example.com"
+            className={inputCls}
+          />
           {errors.email && <p className={errCls}>{errors.email.message}</p>}
         </div>
       </div>
@@ -252,7 +293,9 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
       </div>
 
       <div className="pt-2 border-t border-neutral-100">
-        <h3 className="font-display font-semibold text-neutral-800 text-base mb-4">Shipping Address</h3>
+        <h3 className="font-display font-semibold text-neutral-800 text-base mb-4">
+          Shipping Address
+        </h3>
 
         <div className="space-y-4">
           <div>
@@ -281,7 +324,10 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
               {errors.country && <p className={errCls}>{errors.country.message}</p>}
             </div>
             <div>
-              <label className={labelCls}>Postal / ZIP Code <span className="normal-case tracking-normal text-neutral-400">(optional)</span></label>
+              <label className={labelCls}>
+                Postal / ZIP Code{' '}
+                <span className="normal-case tracking-normal text-neutral-400">(optional)</span>
+              </label>
               <input {...register('postalCode')} placeholder="500001" className={inputCls} />
             </div>
           </div>
@@ -314,13 +360,17 @@ function StepShipping({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Shipping Method</h2>
-        <p className="font-sans text-neutral-500 text-sm">Choose how you&apos;d like your order delivered.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">
+          Shipping Method
+        </h2>
+        <p className="font-sans text-neutral-500 text-sm">
+          Choose how you&apos;d like your order delivered.
+        </p>
       </div>
 
       <div className="space-y-3">
         {SHIPPING_OPTIONS.map((opt) => {
-          const Icon     = opt.icon;
+          const Icon = opt.icon;
           const isActive = selected === opt.id;
           return (
             <button
@@ -335,11 +385,15 @@ function StepShipping({
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-purple-600' : 'bg-neutral-100'}`}>
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center ${isActive ? 'bg-purple-600' : 'bg-neutral-100'}`}
+                  >
                     <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
                   </div>
                   <div>
-                    <p className={`font-display font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}>
+                    <p
+                      className={`font-display font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}
+                    >
                       {opt.label}
                     </p>
                     <p className="font-sans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5">
@@ -348,12 +402,16 @@ function StepShipping({
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`font-display font-bold text-lg ${isActive ? 'text-purple-700' : 'text-neutral-800'}`}>
+                  <span
+                    className={`font-display font-bold text-lg ${isActive ? 'text-purple-700' : 'text-neutral-800'}`}
+                  >
                     {formatPrice(opt.price)}
                   </span>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                    isActive ? 'border-purple-600 bg-purple-600' : 'border-neutral-300'
-                  }`}>
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                      isActive ? 'border-purple-600 bg-purple-600' : 'border-neutral-300'
+                    }`}
+                  >
                     {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
                   </div>
                 </div>
@@ -399,13 +457,17 @@ function StepPayment({
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Payment Method</h2>
-        <p className="font-sans text-neutral-500 text-sm">Select how you&apos;d like to pay. Your transaction is fully encrypted.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">
+          Payment Method
+        </h2>
+        <p className="font-sans text-neutral-500 text-sm">
+          Select how you&apos;d like to pay. Your transaction is fully encrypted.
+        </p>
       </div>
 
       <div className="space-y-3">
         {PAYMENT_METHODS.map((method) => {
-          const Icon     = method.icon;
+          const Icon = method.icon;
           const isActive = selected === method.id;
           return (
             <button
@@ -424,7 +486,9 @@ function StepPayment({
                     <Icon className="h-4 w-4" style={{ color: method.color }} />
                   </div>
                   <div>
-                    <p className={`font-display font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}>
+                    <p
+                      className={`font-display font-semibold text-sm ${isActive ? 'text-purple-800' : 'text-neutral-800'}`}
+                    >
                       {method.label}
                     </p>
                     <p className="font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-0.5">
@@ -438,9 +502,11 @@ function StepPayment({
                       Coming soon
                     </span>
                   )}
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                    isActive ? 'border-purple-600 bg-purple-600' : 'border-neutral-300'
-                  }`}>
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                      isActive ? 'border-purple-600 bg-purple-600' : 'border-neutral-300'
+                    }`}
+                  >
                     {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
                   </div>
                 </div>
@@ -452,7 +518,8 @@ function StepPayment({
                   <div className="flex items-start gap-2">
                     <Shield className="h-3.5 w-3.5 text-purple-500 shrink-0 mt-0.5" />
                     <p className="font-sans text-xs text-purple-600 leading-relaxed">
-                      You&apos;ll be redirected to Paystack&apos;s secure payment gateway to complete your purchase. Supports cards, bank transfer, and USSD.
+                      You&apos;ll be redirected to Paystack&apos;s secure payment gateway to
+                      complete your purchase. Supports cards, bank transfer, and USSD.
                     </p>
                   </div>
                 </div>
@@ -460,7 +527,8 @@ function StepPayment({
               {isActive && !method.live && (
                 <div className="mt-4 pt-4 border-t border-neutral-200">
                   <p className="font-sans text-xs text-neutral-400">
-                    This payment method is coming soon. Please choose Paystack to complete your order.
+                    This payment method is coming soon. Please choose Paystack to complete your
+                    order.
                   </p>
                 </div>
               )}
@@ -470,7 +538,9 @@ function StepPayment({
       </div>
 
       <div className="flex gap-3 pt-2">
-        <button type="button" onClick={onBack}
+        <button
+          type="button"
+          onClick={onBack}
           className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-sans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back
@@ -499,23 +569,25 @@ function StepReview({
   onPlace,
   placing,
 }: {
-  contact:        ContactData;
+  contact: ContactData;
   shippingMethod: ShippingMethod;
-  paymentMethod:  PaymentMethod;
-  shippingCost:   number;
-  onBack:         () => void;
-  onPlace:        () => void;
-  placing:        boolean;
+  paymentMethod: PaymentMethod;
+  shippingCost: number;
+  onBack: () => void;
+  onPlace: () => void;
+  placing: boolean;
 }) {
   const { items, cartTotal } = useCartStore();
   const subtotal = cartTotal();
-  const total    = subtotal + shippingCost;
+  const total = subtotal + shippingCost;
   const shipping = SHIPPING_OPTIONS.find((o) => o.id === shippingMethod)!;
-  const payment  = PAYMENT_METHODS.find((m) => m.id === paymentMethod)!;
+  const payment = PAYMENT_METHODS.find((m) => m.id === paymentMethod)!;
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="bg-neutral-50 rounded-xl p-5">
-      <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-3">{title}</p>
+      <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-3">
+        {title}
+      </p>
       {children}
     </div>
   );
@@ -523,14 +595,20 @@ function StepReview({
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">Review Your Order</h2>
-        <p className="font-sans text-neutral-500 text-sm">Check everything before placing your order.</p>
+        <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">
+          Review Your Order
+        </h2>
+        <p className="font-sans text-neutral-500 text-sm">
+          Check everything before placing your order.
+        </p>
       </div>
 
       {/* Contact info */}
       <Section title="Delivery To">
         <p className="font-display font-semibold text-neutral-900 text-sm">{contact.fullName}</p>
-        <p className="font-sans text-neutral-500 text-sm mt-0.5">{contact.email} · {contact.phone}</p>
+        <p className="font-sans text-neutral-500 text-sm mt-0.5">
+          {contact.email} · {contact.phone}
+        </p>
         <p className="font-sans text-neutral-500 text-sm mt-0.5">
           {contact.address}, {contact.city}, {contact.state}, {contact.country}
           {contact.postalCode ? ` ${contact.postalCode}` : ''}
@@ -544,15 +622,21 @@ function StepReview({
             <shipping.icon className="h-4 w-4 text-purple-600" />
             <p className="font-display font-semibold text-neutral-900 text-sm">{shipping.label}</p>
           </div>
-          <p className="font-sans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">{shipping.duration}</p>
-          <p className="font-display font-bold text-purple-700 text-base mt-1">{formatPrice(shipping.price)}</p>
+          <p className="font-sans text-[0.58rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">
+            {shipping.duration}
+          </p>
+          <p className="font-display font-bold text-purple-700 text-base mt-1">
+            {formatPrice(shipping.price)}
+          </p>
         </Section>
         <Section title="Payment">
           <div className="flex items-center gap-2">
             <payment.icon className="h-4 w-4" style={{ color: payment.color }} />
             <p className="font-display font-semibold text-neutral-900 text-sm">{payment.label}</p>
           </div>
-          <p className="font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">{payment.sub}</p>
+          <p className="font-sans text-[0.56rem] tracking-[0.1em] uppercase text-neutral-400 mt-1">
+            {payment.sub}
+          </p>
         </Section>
       </div>
 
@@ -562,11 +646,21 @@ function StepReview({
           {items.map((item) => (
             <div key={item.id} className="flex items-center gap-3">
               <div className="relative w-10 h-10 flex-shrink-0 rounded-lg overflow-hidden bg-white ring-1 ring-black/[0.05]">
-                <Image src={item.image} alt={item.name} fill className="object-cover" sizes="40px" />
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  className="object-cover"
+                  sizes="40px"
+                />
               </div>
               <p className="font-sans text-neutral-700 text-sm flex-1 line-clamp-1">{item.name}</p>
-              <p className="font-sans text-[0.58rem] tracking-[0.08em] text-neutral-400">×{item.quantity}</p>
-              <p className="font-display font-semibold text-neutral-900 text-sm">{formatPrice(item.price * item.quantity)}</p>
+              <p className="font-sans text-[0.58rem] tracking-[0.08em] text-neutral-400">
+                ×{item.quantity}
+              </p>
+              <p className="font-display font-semibold text-neutral-900 text-sm">
+                {formatPrice(item.price * item.quantity)}
+              </p>
             </div>
           ))}
         </div>
@@ -575,14 +669,20 @@ function StepReview({
       {/* Total */}
       <div className="flex justify-between items-center p-5 bg-neutral-900 rounded-xl">
         <div>
-          <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-0.5">Order Total</p>
-          <p className="font-sans text-neutral-400 text-xs">incl. {formatPrice(shippingCost)} shipping</p>
+          <p className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-400 mb-0.5">
+            Order Total
+          </p>
+          <p className="font-sans text-neutral-400 text-xs">
+            incl. {formatPrice(shippingCost)} shipping
+          </p>
         </div>
         <p className="font-display font-bold text-white text-2xl">{formatPrice(total)}</p>
       </div>
 
       <div className="flex gap-3">
-        <button type="button" onClick={onBack}
+        <button
+          type="button"
+          onClick={onBack}
           className="h-12 px-6 border border-neutral-200 hover:border-neutral-300 text-neutral-600 font-sans text-[0.6rem] tracking-[0.18em] uppercase rounded-xl transition-all duration-300 flex items-center gap-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back
@@ -591,19 +691,28 @@ function StepReview({
           type="button"
           onClick={onPlace}
           disabled={placing}
-          className="flex-1 h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-60 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_4px_20px_rgba(97, 73, 145,0.35)]"
+          className="flex-1 h-12 bg-purple-600 hover:bg-purple-500 disabled:opacity-60 text-white font-sans text-[0.62rem] tracking-[0.2em] uppercase rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group shadow-purple-cta"
         >
-          {placing ? 'Placing Order…' : (
-            <><CheckCircle2 className="h-3.5 w-3.5" /> Place Order</>
+          {placing ? (
+            'Placing Order…'
+          ) : (
+            <>
+              <CheckCircle2 className="h-3.5 w-3.5" /> Place Order
+            </>
           )}
         </button>
       </div>
 
       <p className="text-center font-sans text-xs text-neutral-400">
         By placing your order, you agree to our{' '}
-        <Link href="/legal/terms" className="underline hover:text-purple-600 transition-colors">Terms of Service</Link>
-        {' '}and{' '}
-        <Link href="/legal/privacy" className="underline hover:text-purple-600 transition-colors">Privacy Policy</Link>.
+        <Link href="/legal/terms" className="underline hover:text-purple-600 transition-colors">
+          Terms of Service
+        </Link>{' '}
+        and{' '}
+        <Link href="/legal/privacy" className="underline hover:text-purple-600 transition-colors">
+          Privacy Policy
+        </Link>
+        .
       </p>
     </div>
   );
@@ -628,23 +737,31 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
         <Check className="h-9 w-9 text-green-600" />
       </motion.div>
 
-      <h2 className="font-display font-bold text-neutral-900 text-3xl tracking-tight mb-2">Order Confirmed!</h2>
+      <h2 className="font-display font-bold text-neutral-900 text-3xl tracking-tight mb-2">
+        Order Confirmed!
+      </h2>
       <p className="font-sans text-neutral-500 text-base mb-6 max-w-sm mx-auto leading-relaxed">
-        Thank you for your purchase. A confirmation has been sent to <strong className="text-neutral-700">{email}</strong>.
+        Thank you for your purchase. A confirmation has been sent to{' '}
+        <strong className="text-neutral-700">{email}</strong>.
       </p>
 
       <div className="inline-flex items-center gap-2 bg-neutral-100 rounded-xl px-6 py-3 mb-8">
-        <span className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-500">Order ID</span>
+        <span className="font-sans text-[0.58rem] tracking-[0.14em] uppercase text-neutral-500">
+          Order ID
+        </span>
         <span className="font-display font-bold text-neutral-900 text-sm">{orderId}</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-md mx-auto mb-10">
         {[
-          { icon: Package,  title: 'Processing',   sub: 'Order being prepared' },
-          { icon: Truck,    title: 'Shipping',      sub: 'We\'ll email tracking' },
-          { icon: CheckCircle2, title: 'Delivery',  sub: 'Arrives at your door' },
+          { icon: Package, title: 'Processing', sub: 'Order being prepared' },
+          { icon: Truck, title: 'Shipping', sub: "We'll email tracking" },
+          { icon: CheckCircle2, title: 'Delivery', sub: 'Arrives at your door' },
         ].map(({ icon: Icon, title, sub }) => (
-          <div key={title} className="flex flex-col items-center gap-1.5 p-4 bg-neutral-50 rounded-xl">
+          <div
+            key={title}
+            className="flex flex-col items-center gap-1.5 p-4 bg-neutral-50 rounded-xl"
+          >
             <Icon className="h-5 w-5 text-purple-500 mb-1" />
             <p className="font-display font-semibold text-neutral-800 text-xs">{title}</p>
             <p className="font-sans text-neutral-400 text-xs text-center">{sub}</p>
@@ -672,17 +789,19 @@ function OrderSuccess({ orderId, email }: { orderId: string; email: string }) {
 
 /* ── Main page ──────────────────────────────────────────── */
 export default function CheckoutPage() {
-  const router           = useRouter();
+  const router = useRouter();
   const { items, clearCart, cartTotal } = useCartStore();
-  const [step,           setStep]           = useState(1);
-  const [contact,        setContact]        = useState<ContactData | null>(null);
+  const [step, setStep] = useState(1);
+  const [contact, setContact] = useState<ContactData | null>(null);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('standard');
-  const [paymentMethod,  setPaymentMethod]  = useState<PaymentMethod>('paystack');
-  const [placing,        setPlacing]        = useState(false);
-  const [orderId,        setOrderId]        = useState<string | null>(null);
-  const [mounted,        setMounted]        = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('paystack');
+  const [placing, setPlacing] = useState(false);
+  const [orderId, setOrderId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Redirect to store if cart is empty (only after mount)
   useEffect(() => {
@@ -698,16 +817,22 @@ export default function CheckoutPage() {
     setPlacing(true);
     try {
       const res = await post<{ orderId: string }>('/store/checkout', {
-        items:          items.map(({ id, name, price, quantity, image, category, description }) => ({
-                          id, name, price, quantity, image, category, description,
-                        })),
-        shipping:       contact,
+        items: items.map(({ id, name, price, quantity, image, category, description }) => ({
+          id,
+          name,
+          price,
+          quantity,
+          image,
+          category,
+          description,
+        })),
+        shipping: contact,
         shippingMethod,
         paymentMethod,
-        subtotal:       cartTotal(),
+        subtotal: cartTotal(),
         shippingCost,
-        total:          cartTotal() + shippingCost,
-        currency:       'USD',
+        total: cartTotal() + shippingCost,
+        currency: 'USD',
       });
       setOrderId(res.orderId);
       clearCart();
@@ -734,7 +859,6 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-cream-100 pt-[var(--navbar-height)]">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-12 py-14 md:py-20">
-
         {/* Page header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
@@ -745,30 +869,53 @@ export default function CheckoutPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div>
-              <h1 className="font-display font-bold text-neutral-900 text-2xl tracking-tight">Checkout</h1>
-              <p className="font-sans text-neutral-400 text-xs mt-0.5">{items.length} item{items.length !== 1 ? 's' : ''} in your order</p>
+              <h1 className="font-display font-bold text-neutral-900 text-2xl tracking-tight">
+                Checkout
+              </h1>
+              <p className="font-sans text-neutral-400 text-xs mt-0.5">
+                {items.length} item{items.length !== 1 ? 's' : ''} in your order
+              </p>
             </div>
           </div>
-          <Link href="/store" className="hidden sm:flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 hover:text-purple-600 transition-colors">
+          <Link
+            href="/store"
+            className="hidden sm:flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.14em] uppercase text-neutral-400 hover:text-purple-600 transition-colors"
+          >
             <X className="h-3.5 w-3.5" /> Cancel
           </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10">
-
           {/* Left — steps */}
           <div>
             <StepBar current={step} />
 
-            <div className="bg-white rounded-xl border border-black/[0.04] shadow-[0_2px_16px_rgba(0,0,0,0.05)] p-6 md:p-8">
+            <div className="bg-white rounded-xl border border-black/[0.04] shadow-card-light p-6 md:p-8">
               <AnimatePresence mode="wait">
                 {step === 1 && (
-                  <motion.div key="step1" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>
-                    <StepContact onNext={(data) => { setContact(data); setStep(2); }} />
+                  <motion.div
+                    key="step1"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -16 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <StepContact
+                      onNext={(data) => {
+                        setContact(data);
+                        setStep(2);
+                      }}
+                    />
                   </motion.div>
                 )}
                 {step === 2 && (
-                  <motion.div key="step2" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>
+                  <motion.div
+                    key="step2"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -16 }}
+                    transition={{ duration: 0.25 }}
+                  >
                     <StepShipping
                       selected={shippingMethod}
                       onSelect={setShippingMethod}
@@ -778,7 +925,13 @@ export default function CheckoutPage() {
                   </motion.div>
                 )}
                 {step === 3 && (
-                  <motion.div key="step3" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>
+                  <motion.div
+                    key="step3"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -16 }}
+                    transition={{ duration: 0.25 }}
+                  >
                     <StepPayment
                       selected={paymentMethod}
                       onSelect={setPaymentMethod}
@@ -788,7 +941,13 @@ export default function CheckoutPage() {
                   </motion.div>
                 )}
                 {step === 4 && contact && (
-                  <motion.div key="step4" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}>
+                  <motion.div
+                    key="step4"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -16 }}
+                    transition={{ duration: 0.25 }}
+                  >
                     <StepReview
                       contact={contact}
                       shippingMethod={shippingMethod}

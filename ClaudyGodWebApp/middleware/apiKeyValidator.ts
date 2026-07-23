@@ -38,7 +38,7 @@ export function requireApiKey(req: NextRequest): NextResponse | null {
         errors: ['Invalid or missing API key'],
         fieldErrors: {},
       },
-      { status: 401 },
+      { status: 401 }
     );
   }
 

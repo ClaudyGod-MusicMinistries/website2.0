@@ -50,7 +50,9 @@ export function Particles({
   const seeds = useMemo(() => generateSeeds(count), [count]);
 
   return (
-    <div className={cn('absolute inset-0 pointer-events-none overflow-hidden select-none', className)}>
+    <div
+      className={cn('absolute inset-0 pointer-events-none overflow-hidden select-none', className)}
+    >
       {seeds.map((p, i) => (
         <motion.div
           key={i}

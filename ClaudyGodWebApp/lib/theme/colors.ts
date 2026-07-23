@@ -16,7 +16,7 @@
  */
 
 export const purple = {
-  50:  '#F7F5FB',
+  50: '#F7F5FB',
   100: '#EEEAF6',
   200: '#D9D0EA',
   300: '#BCADD9',
@@ -30,7 +30,7 @@ export const purple = {
 
 /** Purple-tinted grayscale — overrides Tailwind's default `neutral`. */
 export const neutral = {
-  50:  '#FAFAFC',
+  50: '#FAFAFC',
   100: '#F1F0F4',
   200: '#E2E0E8',
   300: '#C9C6D2',
@@ -43,7 +43,7 @@ export const neutral = {
 } as const;
 
 export const gold = {
-  50:  '#F6E9DC',
+  50: '#F6E9DC',
   100: '#EFD9C0',
   200: '#DEB68C',
   300: '#CE9962',
@@ -57,7 +57,7 @@ export const gold = {
 
 /** Light-section backgrounds — purple-tinted, not true off-white cream. */
 export const cream = {
-  50:  '#FAF9FC',
+  50: '#FAF9FC',
   100: '#F2F0F6',
   200: '#E5E1ED',
   300: '#D2CBDE',
@@ -66,33 +66,33 @@ export const cream = {
 
 /** Dark-mode backgrounds — purple-tinted near-black, not true black. */
 export const surface = {
-  base:     '#07060F',
-  muted:    '#0C0A16',
+  base: '#07060F',
+  muted: '#0C0A16',
   elevated: '#14111F',
-  overlay:  '#1D1929',
-  border:   '#2C2638',
-  divider:  '#241F30',
-  deep:     '#07060F',
-  raised:   '#0D0B1A',
+  overlay: '#1D1929',
+  border: '#2C2638',
+  divider: '#241F30',
+  deep: '#07060F',
+  raised: '#0D0B1A',
 } as const;
 
 export const status = {
-  success:   '#10B981',
-  warning:   '#F59E0B',
-  error:     '#EF4444',
-  info:      '#3B82F6',
+  success: '#10B981',
+  warning: '#F59E0B',
+  error: '#EF4444',
+  info: '#3B82F6',
   successBg: '#052E16',
   warningBg: '#451A03',
-  errorBg:   '#450A0A',
-  infoBg:    '#0C1A3A',
+  errorBg: '#450A0A',
+  infoBg: '#0C1A3A',
 } as const;
 
 export const brand = {
-  gold:      gold[500],
+  gold: gold[500],
   goldLight: gold[300],
-  dark:      surface.base,
-  deeper:    surface.muted,
-  accent:    gold[700],
+  dark: surface.base,
+  deeper: surface.muted,
+  accent: gold[700],
 } as const;
 
 export const colors = { purple, neutral, gold, cream, surface, status, brand } as const;
