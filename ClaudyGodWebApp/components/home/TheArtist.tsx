@@ -29,7 +29,6 @@ export function TheArtist() {
     <section className="bg-white section-py">
       <div className="container-site">
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1fr] gap-10 sm:gap-14 lg:gap-20 items-center">
-
           {/* Portrait */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
@@ -70,8 +69,11 @@ export function TheArtist() {
             <p className="font-sans text-neutral-600 text-base sm:text-lg leading-relaxed mb-6 max-w-xl">
               A California-based gospel artist of Nigerian and Sierra Leonean heritage, called to
               ministry in 2003. What began as a season of prayer and fasting for the New Year became
-              her debut album, <em className="not-italic font-semibold text-neutral-800">&ldquo;Lord of My Heart,&rdquo;</em> in
-              2018 — the first of seven records carrying a single message: God&rsquo;s love for a
+              her debut album,{' '}
+              <em className="not-italic font-semibold text-neutral-800">
+                &ldquo;Lord of My Heart,&rdquo;
+              </em>{' '}
+              in 2018 — the first of seven records carrying a single message: God&rsquo;s love for a
               searching world.
             </p>
 
@@ -82,9 +84,7 @@ export function TheArtist() {
                   <p className="font-display font-bold text-neutral-900 text-3xl sm:text-4xl tracking-tight">
                     {s.value}
                   </p>
-                  <p className="font-sans text-neutral-500 text-xs mt-1 leading-snug">
-                    {s.label}
-                  </p>
+                  <p className="font-sans text-neutral-500 text-xs mt-1 leading-snug">{s.label}</p>
                 </div>
               ))}
             </div>

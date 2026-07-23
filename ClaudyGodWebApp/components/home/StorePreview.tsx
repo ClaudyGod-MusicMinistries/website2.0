@@ -124,7 +124,9 @@ function AccordionRow({ product, isOpen, onToggle }: AccordionRowProps) {
                         aria-label={`View ${i === 0 ? 'front' : i === 1 ? 'back' : `view ${i + 1}`}`}
                         className={cn(
                           'relative w-10 h-10 rounded-lg overflow-hidden border-2 transition-colors duration-200 shrink-0',
-                          activeImage === i ? 'border-purple-600' : 'border-black/[0.08] hover:border-purple-300'
+                          activeImage === i
+                            ? 'border-purple-600'
+                            : 'border-black/[0.08] hover:border-purple-300'
                         )}
                       >
                         <Image src={src} alt="" fill className="object-cover" sizes="40px" />
@@ -159,7 +161,11 @@ function AccordionRow({ product, isOpen, onToggle }: AccordionRowProps) {
                   onClick={handleAdd}
                   whileTap={{ scale: 0.96 }}
                   className={cn(
-                    buttonVariants({ variant: added ? 'secondary' : 'primary', size: 'sm', uppercase: true }),
+                    buttonVariants({
+                      variant: added ? 'secondary' : 'primary',
+                      size: 'sm',
+                      uppercase: true,
+                    }),
                     'min-w-[132px]'
                   )}
                 >
@@ -210,7 +216,6 @@ export function StorePreview() {
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
       <div className="container-site">
-
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-6 mb-8 sm:mb-12 lg:mb-14">
           <div>
@@ -227,7 +232,10 @@ export function StorePreview() {
           </div>
           <Link
             href="/store"
-            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'hidden sm:inline-flex shrink-0 group')}
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              'hidden sm:inline-flex shrink-0 group'
+            )}
           >
             Browse All
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -267,14 +275,20 @@ export function StorePreview() {
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
           <Link
             href="/store"
-            className={cn(buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }), 'group')}
+            className={cn(
+              buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }),
+              'group'
+            )}
           >
             Visit Official Store
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
           <Link
             href="/store"
-            className={cn(buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }), 'sm:hidden')}
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              'sm:hidden'
+            )}
           >
             Browse All Products
           </Link>

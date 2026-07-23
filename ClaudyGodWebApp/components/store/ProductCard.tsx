@@ -14,8 +14,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onViewDetails }: ProductCardProps) {
   const addToCart = useCartStore((s) => s.addToCart);
-  const openCart  = useCartStore((s) => s.openCart);
-  const gallery   = product.images && product.images.length > 1 ? product.images : null;
+  const openCart = useCartStore((s) => s.openCart);
+  const gallery = product.images && product.images.length > 1 ? product.images : null;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();

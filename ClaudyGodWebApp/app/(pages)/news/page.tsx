@@ -7,9 +7,15 @@ import { EventsSection } from '@/components/news/EventsSection';
 import { newsAlbums, socialShareLinks } from '@/data/news';
 import { breadcrumb } from '@/lib/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
+import { platformColors } from '@/lib/utils/platformColors';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple,
+  FaFacebookF,
+  FaYoutube,
+  FaXTwitter,
+  FaTiktok,
+  FaSpotify,
+  FaApple,
 };
 
 export const metadata: Metadata = {
@@ -17,44 +23,52 @@ export const metadata: Metadata = {
   description:
     'Stay updated with ClaudyGod — upcoming gospel concerts and tour dates in Nigeria and the UK, new album releases, media interviews, and ministry announcements. Never miss a ClaudyGod event.',
   keywords: [
-    'ClaudyGod tour dates', 'gospel concerts Nigeria',
-    'ClaudyGod news', 'ClaudyGod new release',
-    'gospel concert Port Harcourt', 'gospel concert Lagos',
-    'ClaudyGod Aba concert', 'ClaudyGod Imo concert',
-    'Nigerian gospel tour', 'gospel music events Nigeria',
-    'ClaudyGod media interview', 'ClaudyGod ministry update',
-    'gospel artist tour Nigeria', 'Christian concert Nigeria',
+    'ClaudyGod tour dates',
+    'gospel concerts Nigeria',
+    'ClaudyGod news',
+    'ClaudyGod new release',
+    'gospel concert Port Harcourt',
+    'gospel concert Lagos',
+    'ClaudyGod Aba concert',
+    'ClaudyGod Imo concert',
+    'Nigerian gospel tour',
+    'gospel music events Nigeria',
+    'ClaudyGod media interview',
+    'ClaudyGod ministry update',
+    'gospel artist tour Nigeria',
+    'Christian concert Nigeria',
   ],
   openGraph: {
-    title:       'ClaudyGod News, Tour Dates & New Releases',
-    description: 'Upcoming gospel concerts across Nigeria, new music releases, and ministry updates from Minister ClaudyGod.',
-    url:         '/news',
+    title: 'ClaudyGod News, Tour Dates & New Releases',
+    description:
+      'Upcoming gospel concerts across Nigeria, new music releases, and ministry updates from Minister ClaudyGod.',
+    url: '/news',
     images: [{ url: '/tour_3.jpg', width: 1920, height: 1080, alt: 'ClaudyGod Tour Dates & News' }],
   },
   twitter: {
-    card:  'summary_large_image',
+    card: 'summary_large_image',
     title: 'ClaudyGod News & Tour Dates',
-    images:['/tour_3.jpg'],
+    images: ['/tour_3.jpg'],
   },
   alternates: { canonical: `${SITE_URL}/news` },
 };
 
 export default async function NewsPage() {
-  
-
   // Event JSON-LD previously hardcoded four 2025 concert dates here — all
   // now in the past, which makes them invalid for Google's Event rich
   // results (meant for upcoming events) and duplicates data/events.ts's
   // separate event list. Removed rather than inventing new fake dates;
   // real Event schema belongs on the canonical /tour page once it exists.
-  const schemas = [
-    breadcrumb([{ name: 'News & Tours', href: '/news' }]),
-  ];
+  const schemas = [breadcrumb([{ name: 'News & Tours', href: '/news' }])];
 
   return (
     <>
       {schemas.map((s, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+        />
       ))}
       <PageHero
         eyebrow="News & Updates"
@@ -80,7 +94,10 @@ export default async function NewsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {newsAlbums.map((album) => (
-              <div key={album.title} className="group bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300">
+              <div
+                key={album.title}
+                className="group bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300"
+              >
                 <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
                   <Image
                     src={album.image}
@@ -98,16 +115,30 @@ export default async function NewsPage() {
                     Available on all platforms
                   </p>
                   <div className="flex items-center gap-3">
-                    <a href={album.links.spotify} target="_blank" rel="noopener noreferrer"
-                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-[#1DB954] hover:border-[#1DB954]/40 transition-all duration-300">
+                    <a
+                      href={album.links.spotify}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ '--brand': platformColors.spotify } as React.CSSProperties}
+                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 transition-all duration-300"
+                    >
                       <FaSpotify className="h-4 w-4" />
                     </a>
-                    <a href={album.links.apple} target="_blank" rel="noopener noreferrer"
-                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-neutral-900 hover:border-neutral-400 transition-all duration-300">
+                    <a
+                      href={album.links.apple}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-neutral-900 hover:border-neutral-400 transition-all duration-300"
+                    >
                       <FaApple className="h-4 w-4" />
                     </a>
-                    <a href={album.links.youtube} target="_blank" rel="noopener noreferrer"
-                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-[#FF0000] hover:border-[#FF0000]/40 transition-all duration-300">
+                    <a
+                      href={album.links.youtube}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ '--brand': platformColors.youtube } as React.CSSProperties}
+                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 transition-all duration-300"
+                    >
                       <FaYoutube className="h-4 w-4" />
                     </a>
                   </div>

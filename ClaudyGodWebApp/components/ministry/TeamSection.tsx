@@ -21,27 +21,38 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.07 } },
 };
 const item = {
-  hidden:  { opacity: 0, y: 18, scale: 0.96 },
-  visible: { opacity: 1, y: 0,  scale: 1, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
+  hidden: { opacity: 0, y: 18, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
+  },
 };
 
 export function TeamSection() {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
-  const prev = useCallback(() =>
-    setLightboxIdx((i) => i !== null ? (i - 1 + teamMembers.length) % teamMembers.length : null),
-    [],
+  const prev = useCallback(
+    () =>
+      setLightboxIdx((i) =>
+        i !== null ? (i - 1 + teamMembers.length) % teamMembers.length : null
+      ),
+    []
   );
-  const next = useCallback(() =>
-    setLightboxIdx((i) => i !== null ? (i + 1) % teamMembers.length : null),
-    [],
+  const next = useCallback(
+    () => setLightboxIdx((i) => (i !== null ? (i + 1) % teamMembers.length : null)),
+    []
   );
 
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowLeft')  prev();
-    if (e.key === 'ArrowRight') next();
-    if (e.key === 'Escape')     setLightboxIdx(null);
-  }, [prev, next]);
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'Escape') setLightboxIdx(null);
+    },
+    [prev, next]
+  );
 
   return (
     <>
@@ -51,7 +62,6 @@ export function TeamSection() {
         tabIndex={-1}
       >
         <div className="container-site">
-
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 sm:mb-12">
             <div>
@@ -80,7 +90,11 @@ export function TeamSection() {
             className="columns-2 md:columns-3 lg:columns-4 gap-3 sm:gap-4 space-y-3 sm:space-y-4"
           >
             {teamMembers.map((member, i) => (
-              <motion.div key={member.id} variants={item} className="break-inside-avoid mb-3 sm:mb-4">
+              <motion.div
+                key={member.id}
+                variants={item}
+                className="break-inside-avoid mb-3 sm:mb-4"
+              >
                 <button
                   onClick={() => setLightboxIdx(i)}
                   className={`group relative w-full overflow-hidden rounded-xl bg-neutral-100 block ${aspectCycle[i % aspectCycle.length]}`}
@@ -111,7 +125,6 @@ export function TeamSection() {
               </motion.div>
             ))}
           </motion.div>
-
         </div>
       </section>
 
@@ -121,7 +134,9 @@ export function TeamSection() {
           <>
             <motion.div
               key="lb-backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
               className="fixed inset-0 z-[700] bg-black/96 backdrop-blur-md"
               onClick={() => setLightboxIdx(null)}
@@ -136,7 +151,6 @@ export function TeamSection() {
               className="fixed inset-0 z-[701] flex flex-col items-center justify-center p-4 md:p-8 pointer-events-none"
             >
               <div className="w-full max-w-xl pointer-events-auto">
-
                 {/* Top bar */}
                 <div className="flex items-center justify-between mb-3 px-1">
                   <p className="font-sans text-[0.54rem] tracking-[0.14em] uppercase text-white/40">
@@ -159,7 +173,7 @@ export function TeamSection() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.22 }}
-                    className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.8)]"
+                    className="relative aspect-[4/5] w-full rounded-xl overflow-hidden shadow-photo"
                   >
                     <Image
                       src={teamMembers[lightboxIdx].image}
@@ -181,10 +195,19 @@ export function TeamSection() {
                       onClick={() => setLightboxIdx(i)}
                       aria-label={`View photo ${i + 1}`}
                       className={`relative w-10 h-10 shrink-0 rounded-lg overflow-hidden transition-all duration-200 ring-2 ${
-                        i === lightboxIdx ? 'ring-gold-400 opacity-100' : 'ring-transparent opacity-40 hover:opacity-70'
+                        i === lightboxIdx
+                          ? 'ring-gold-400 opacity-100'
+                          : 'ring-transparent opacity-40 hover:opacity-70'
                       }`}
                     >
-                      <Image src={m.image} alt="" fill unoptimized className="object-cover" sizes="40px" />
+                      <Image
+                        src={m.image}
+                        alt=""
+                        fill
+                        unoptimized
+                        className="object-cover"
+                        sizes="40px"
+                      />
                     </button>
                   ))}
                 </div>

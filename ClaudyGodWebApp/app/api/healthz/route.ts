@@ -7,17 +7,18 @@ export async function GET() {
 
   try {
     const apiBase = process.env.API_BASE_URL ?? 'http://api:8080';
-    const ctrl    = new AbortController();
-    const timer   = setTimeout(() => ctrl.abort(), 3000);
-    const r       = await fetch(`${apiBase}/healthz`, { signal: ctrl.signal })
-                         .finally(() => clearTimeout(timer));
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 3000);
+    const r = await fetch(`${apiBase}/healthz`, { signal: ctrl.signal }).finally(() =>
+      clearTimeout(timer)
+    );
     backend = r.ok ? 'healthy' : 'degraded';
   } catch {
     backend = 'unreachable';
   }
 
   return NextResponse.json({
-    status:    'healthy',
+    status: 'healthy',
     backend,
     timestamp: new Date().toISOString(),
   });

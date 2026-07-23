@@ -1,9 +1,9 @@
 import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { PageHero }    from '@/components/shared/PageHero';
-import { GridSkeleton }from '@/components/shared/GridSkeleton';
-import { AnimateOnView }from '@/components/shared/AnimateOnView';
+import { PageHero } from '@/components/shared/PageHero';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { AnimateOnView } from '@/components/shared/AnimateOnView';
 import { breadcrumb } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
@@ -11,24 +11,34 @@ export const metadata: Metadata = {
   description:
     'Shop exclusive ClaudyGod merchandise — gospel music T-shirts, hoodies, caps, tote bags, and accessories. Wear your faith. International shipping available.',
   keywords: [
-    'ClaudyGod merchandise', 'gospel music store Nigeria',
-    'ClaudyGod T-shirt', 'ClaudyGod hoodie', 'ClaudyGod cap',
-    'Christian apparel Nigeria', 'gospel ministry store',
-    'buy ClaudyGod merch', 'worship tote bag', 'gospel music gift',
-    'Christian clothing Nigeria', 'ClaudyGod official store',
-    'Nigeria gospel merchandise', 'gospel artist merchandise',
-    'faith wear Nigeria', 'ministry apparel',
+    'ClaudyGod merchandise',
+    'gospel music store Nigeria',
+    'ClaudyGod T-shirt',
+    'ClaudyGod hoodie',
+    'ClaudyGod cap',
+    'Christian apparel Nigeria',
+    'gospel ministry store',
+    'buy ClaudyGod merch',
+    'worship tote bag',
+    'gospel music gift',
+    'Christian clothing Nigeria',
+    'ClaudyGod official store',
+    'Nigeria gospel merchandise',
+    'gospel artist merchandise',
+    'faith wear Nigeria',
+    'ministry apparel',
   ],
   openGraph: {
-    title:       'ClaudyGod Official Store — Gospel Merchandise & Apparel',
-    description: 'Shop exclusive ClaudyGod merchandise — T-shirts, hoodies, caps & accessories. International shipping available.',
-    url:         '/store',
+    title: 'ClaudyGod Official Store — Gospel Merchandise & Apparel',
+    description:
+      'Shop exclusive ClaudyGod merchandise — T-shirts, hoodies, caps & accessories. International shipping available.',
+    url: '/store',
     images: [{ url: '/Bg_13.webp', width: 1920, height: 1080, alt: 'ClaudyGod Official Store' }],
   },
   twitter: {
-    card:  'summary_large_image',
+    card: 'summary_large_image',
     title: 'ClaudyGod Official Store — Gospel Merch',
-    images:['/Bg_13.webp'],
+    images: ['/Bg_13.webp'],
   },
   alternates: { canonical: `${SITE_URL}/store` },
 };
@@ -49,15 +59,17 @@ const CartDrawer = dynamic(
 // accurate list isn't available here in a Server Component without a
 // second server-side fetch. Breadcrumb schema alone is honest; a stale
 // or empty itemList is worse than no itemList.
-const schemas = [
-  breadcrumb([{ name: 'Store', href: '/store' }]),
-];
+const schemas = [breadcrumb([{ name: 'Store', href: '/store' }])];
 
 export default function StorePage() {
   return (
     <>
       {schemas.map((s, i) => (
-        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }} />
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(s) }}
+        />
       ))}
       <PageHero
         eyebrow="Store"
@@ -66,7 +78,9 @@ export default function StorePage() {
         backgroundImage="/Bg_13.webp"
         objectPosition="center center"
       />
-      <AnimateOnView><ProductGrid /></AnimateOnView>
+      <AnimateOnView>
+        <ProductGrid />
+      </AnimateOnView>
       <CartDrawer />
     </>
   );

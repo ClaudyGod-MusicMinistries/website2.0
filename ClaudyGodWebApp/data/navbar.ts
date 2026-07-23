@@ -16,7 +16,10 @@ import {
 } from 'lucide-react';
 
 export type NavIcon = ForwardRefExoticComponent<
-  Omit<SVGProps<SVGSVGElement>, 'ref'> & { title?: string; titleId?: string } & RefAttributes<SVGSVGElement>
+  Omit<SVGProps<SVGSVGElement>, 'ref'> & {
+    title?: string;
+    titleId?: string;
+  } & RefAttributes<SVGSVGElement>
 >;
 
 /**
@@ -47,18 +50,116 @@ export interface NavItem {
 }
 
 export const navigationItems: NavItem[] = [
-  { href: '/music',     label: 'Music',     icon: Music2,       priority: 'primary',   group: 'explore', header: 'tablet'  },
-  { href: '/events',    label: 'Events',    icon: CalendarDays, priority: 'primary',   group: 'explore', header: 'tablet'  },
-  { href: '/about',     label: 'About',     icon: User,         priority: 'primary',   group: 'explore', header: 'desktop' },
-  { href: '/videos',    label: 'Videos',    icon: Film,         priority: 'primary',   group: 'explore', header: 'desktop' },
-  { href: '/ministry',  label: 'Ministry',  icon: Heart,        priority: 'primary',   group: 'explore', header: 'desktop' },
-  { href: '/store',     label: 'Store',     icon: ShoppingBag,  priority: 'primary',   group: 'support', header: 'none'    },
-  { href: '/contact',   label: 'Contact',   icon: Mail,         priority: 'primary',   group: 'connect', header: 'none'    },
-  { href: '/blog',      label: 'Blog',      icon: BookOpen,     priority: 'secondary', group: 'explore', header: 'none'    },
-  { href: '/news',      label: 'News',      icon: Newspaper,    priority: 'secondary', group: 'connect', header: 'none'    },
-  { href: '/bookings',  label: 'Bookings',  icon: CalendarDays, priority: 'secondary', group: 'connect', header: 'none'    },
-  { href: '/volunteer', label: 'Volunteer', icon: HandHeart,    priority: 'secondary', group: 'connect', header: 'none'    },
-  { href: '/prayer',    label: 'Prayer',    icon: HeartHandshake, priority: 'secondary', group: 'connect', header: 'none' },
-  { href: '/donate',    label: 'Donate',    icon: HandCoins,    priority: 'secondary', group: 'support', header: 'none'    },
-  { href: '/help',      label: 'Help',      icon: HelpCircle,   priority: 'secondary', group: 'support', header: 'none'    },
+  {
+    href: '/music',
+    label: 'Music',
+    icon: Music2,
+    priority: 'primary',
+    group: 'explore',
+    header: 'tablet',
+  },
+  {
+    href: '/events',
+    label: 'Events',
+    icon: CalendarDays,
+    priority: 'primary',
+    group: 'explore',
+    header: 'tablet',
+  },
+  {
+    href: '/about',
+    label: 'About',
+    icon: User,
+    priority: 'primary',
+    group: 'explore',
+    header: 'desktop',
+  },
+  {
+    href: '/videos',
+    label: 'Videos',
+    icon: Film,
+    priority: 'primary',
+    group: 'explore',
+    header: 'desktop',
+  },
+  {
+    href: '/ministry',
+    label: 'Ministry',
+    icon: Heart,
+    priority: 'primary',
+    group: 'explore',
+    header: 'desktop',
+  },
+  {
+    href: '/store',
+    label: 'Store',
+    icon: ShoppingBag,
+    priority: 'primary',
+    group: 'support',
+    header: 'none',
+  },
+  {
+    href: '/contact',
+    label: 'Contact',
+    icon: Mail,
+    priority: 'primary',
+    group: 'connect',
+    header: 'none',
+  },
+  {
+    href: '/blog',
+    label: 'Blog',
+    icon: BookOpen,
+    priority: 'secondary',
+    group: 'explore',
+    header: 'none',
+  },
+  {
+    href: '/news',
+    label: 'News',
+    icon: Newspaper,
+    priority: 'secondary',
+    group: 'connect',
+    header: 'none',
+  },
+  {
+    href: '/bookings',
+    label: 'Bookings',
+    icon: CalendarDays,
+    priority: 'secondary',
+    group: 'connect',
+    header: 'none',
+  },
+  {
+    href: '/volunteer',
+    label: 'Volunteer',
+    icon: HandHeart,
+    priority: 'secondary',
+    group: 'connect',
+    header: 'none',
+  },
+  {
+    href: '/prayer',
+    label: 'Prayer',
+    icon: HeartHandshake,
+    priority: 'secondary',
+    group: 'connect',
+    header: 'none',
+  },
+  {
+    href: '/donate',
+    label: 'Donate',
+    icon: HandCoins,
+    priority: 'secondary',
+    group: 'support',
+    header: 'none',
+  },
+  {
+    href: '/help',
+    label: 'Help',
+    icon: HelpCircle,
+    priority: 'secondary',
+    group: 'support',
+    header: 'none',
+  },
 ];

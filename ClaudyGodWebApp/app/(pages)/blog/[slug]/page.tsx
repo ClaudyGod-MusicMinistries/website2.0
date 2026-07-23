@@ -29,14 +29,18 @@ function readTime(content: string): string {
 
 function formatDate(iso?: string): string {
   if (!iso) return '';
-  return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 const categoryColors: Record<string, string> = {
   Devotional: 'bg-purple-100 text-purple-700',
-  Ministry:   'bg-amber-100 text-amber-700',
-  Music:      'bg-blue-100 text-blue-700',
-  News:       'bg-green-100 text-green-700',
+  Ministry: 'bg-amber-100 text-amber-700',
+  Music: 'bg-blue-100 text-blue-700',
+  News: 'bg-green-100 text-green-700',
 };
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -60,7 +64,9 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center">
           <span className="text-2xl">📄</span>
         </div>
-        <p className="font-display font-bold text-neutral-900 text-2xl tracking-tight">Post not found</p>
+        <p className="font-display font-bold text-neutral-900 text-2xl tracking-tight">
+          Post not found
+        </p>
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 font-sans text-xs tracking-[0.15em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-6 h-10 rounded-xl transition-colors"
@@ -77,7 +83,6 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-white pt-[var(--navbar-height)]">
       <div className="max-w-[760px] mx-auto px-6 lg:px-8 py-16 md:py-24">
-
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.15em] uppercase text-neutral-400 hover:text-purple-600 transition-colors mb-12"
@@ -89,17 +94,21 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-6 flex-wrap">
             {post.categoryName && (
-              <span className={`font-sans text-[0.52rem] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full font-medium ${catColor}`}>
+              <span
+                className={`font-sans text-[0.52rem] tracking-[0.14em] uppercase px-2.5 py-1 rounded-full font-medium ${catColor}`}
+              >
                 {post.categoryName}
               </span>
             )}
             {post.publishedAt && (
               <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-                <Calendar className="h-3 w-3" />{formatDate(post.publishedAt)}
+                <Calendar className="h-3 w-3" />
+                {formatDate(post.publishedAt)}
               </span>
             )}
             <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-              <Clock className="h-3 w-3" />{readTime(post.content)}
+              <Clock className="h-3 w-3" />
+              {readTime(post.content)}
             </span>
           </div>
           <h1 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.08] mb-6">

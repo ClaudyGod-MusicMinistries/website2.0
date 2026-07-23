@@ -56,7 +56,10 @@ export function PrayerRequestForm() {
           Object.entries(err.fieldErrors).forEach(([field, messages]) => {
             setError(field as keyof PrayerRequestFormData, { message: messages[0] });
           });
-          showError('Please Check Your Information', 'We found some issues with your request. Please review and try again.');
+          showError(
+            'Please Check Your Information',
+            'We found some issues with your request. Please review and try again.'
+          );
         } else {
           showError('Unable to Submit Request', getUserFriendlyError(err));
         }
@@ -149,7 +152,9 @@ export function PrayerRequestForm() {
             placeholder="Share what's on your heart. Our prayer team will hold this in confidence and intercede for you..."
             className={`${textareaClass} ${errors.requestText ? 'border-red-400 bg-red-50' : 'border-neutral-200'}`}
           />
-          {errors.requestText && <p className="mt-1 text-sm text-red-500">{errors.requestText.message}</p>}
+          {errors.requestText && (
+            <p className="mt-1 text-sm text-red-500">{errors.requestText.message}</p>
+          )}
         </div>
 
         <div className="flex items-start gap-3">
@@ -160,7 +165,8 @@ export function PrayerRequestForm() {
             className="mt-1 w-4 h-4 rounded border-neutral-300 text-purple-600 cursor-pointer"
           />
           <label htmlFor="isConfidential" className="text-sm text-neutral-700">
-            Keep this request confidential — only share it with the prayer team, not the wider congregation.
+            Keep this request confidential — only share it with the prayer team, not the wider
+            congregation.
           </label>
         </div>
 
@@ -175,7 +181,7 @@ export function PrayerRequestForm() {
         <button
           type="submit"
           disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(97,73,145,0.35)]"
+          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-purple-cta"
         >
           {isSubmitting ? 'Submitting Request…' : 'Submit Prayer Request'}
         </button>

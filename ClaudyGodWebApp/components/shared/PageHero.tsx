@@ -15,8 +15,12 @@ interface PageHeroProps {
 }
 
 export function PageHero({
-  title, subtitle, eyebrow, backgroundImage,
-  objectPosition = 'center top', className,
+  title,
+  subtitle,
+  eyebrow,
+  backgroundImage,
+  objectPosition = 'center top',
+  className,
 }: PageHeroProps) {
   return (
     <div

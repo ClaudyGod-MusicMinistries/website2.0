@@ -12,7 +12,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 const platformIcons = {
   spotify: FaSpotify,
-  apple:   FaApple,
+  apple: FaApple,
   youtube: FaYoutube,
 } as const;
 
@@ -53,7 +53,7 @@ function AlbumArtVisual({ album, isEven }: { album: AlbumView; isEven: boolean }
         <motion.div
           whileHover={{ scale: 1.05, y: -5 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-xl overflow-hidden shadow-[0_28px_80px_rgba(0,0,0,0.18)] ring-1 ring-black/10 cursor-pointer"
+          className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-xl overflow-hidden shadow-card-light-lg ring-1 ring-black/10 cursor-pointer"
         >
           <Image
             src={album.image}
@@ -81,7 +81,7 @@ function AlbumArtVisual({ album, isEven }: { album: AlbumView; isEven: boolean }
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 + idx * 0.12, duration: 0.5, ease: 'easeOut' }}
                 whileHover={{ scale: 1.18, x: -3 }}
-                className="w-11 h-11 rounded-full bg-white shadow-[0_6px_20px_rgba(0,0,0,0.13)] border border-black/[0.06] flex items-center justify-center transition-shadow duration-300 hover:shadow-[0_8px_28px_rgba(0,0,0,0.18)]"
+                className="w-11 h-11 rounded-full bg-white shadow-card-light-hover border border-black/[0.06] flex items-center justify-center transition-shadow duration-300 hover:shadow-card-light-lg"
               >
                 <Icon className="h-4 w-4" style={{ color: platformColors[key] }} />
               </motion.a>
@@ -97,7 +97,7 @@ function AlbumArtVisual({ album, isEven }: { album: AlbumView; isEven: boolean }
           transition={{ delay: 0.65, duration: 0.6, ease: 'easeOut' }}
           className="absolute -bottom-7 left-1/2 -translate-x-1/2"
         >
-          <div className="flex items-center gap-2.5 bg-white rounded-full px-5 py-2.5 shadow-[0_6px_24px_rgba(0,0,0,0.11)] border border-black/[0.05] whitespace-nowrap">
+          <div className="flex items-center gap-2.5 bg-white rounded-full px-5 py-2.5 shadow-card-light-hover border border-black/[0.05] whitespace-nowrap">
             {/* Animated waveform bars */}
             <span className="flex items-end gap-[3px] h-3.5">
               {[0, 1, 2, 3].map((bar) => (
@@ -193,7 +193,10 @@ export function AlbumTimeline() {
                                   style={{ '--brand': platformColors[key] } as React.CSSProperties}
                                   className="w-9 h-9 rounded-xl border border-neutral-200 hover:border-[var(--brand)]/50 flex items-center justify-center transition-all duration-300 hover:shadow-sm"
                                 >
-                                  <Icon className="h-3.5 w-3.5" style={{ color: platformColors[key] }} />
+                                  <Icon
+                                    className="h-3.5 w-3.5"
+                                    style={{ color: platformColors[key] }}
+                                  />
                                 </a>
                               );
                             })}
@@ -217,7 +220,7 @@ export function AlbumTimeline() {
                   }`}
                 >
                   {/* Timeline dot */}
-                  <div className="absolute left-0 lg:left-1/2 top-10 w-2.5 h-2.5 rounded-full bg-gold-500/50 border border-gold-500/70 -translate-x-1/2 hidden md:block z-10 shadow-[0_0_8px_rgba(181, 101, 29,0.3)]" />
+                  <div className="absolute left-0 lg:left-1/2 top-10 w-2.5 h-2.5 rounded-full bg-gold-500/50 border border-gold-500/70 -translate-x-1/2 hidden md:block z-10 shadow-gold" />
 
                   {isEven ? contentBlock : visualBlock}
                   {isEven ? visualBlock : contentBlock}

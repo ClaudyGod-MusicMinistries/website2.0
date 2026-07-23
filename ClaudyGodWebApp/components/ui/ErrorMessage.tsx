@@ -22,9 +22,7 @@ export function ErrorMessage({
         <p className="font-display font-semibold text-neutral-900 text-lg mb-2">
           Error Loading Content
         </p>
-        <p className="font-sans text-neutral-600 text-sm max-w-sm">
-          {message}
-        </p>
+        <p className="font-sans text-neutral-600 text-sm max-w-sm">{message}</p>
       </div>
       {onRetry && (
         <button

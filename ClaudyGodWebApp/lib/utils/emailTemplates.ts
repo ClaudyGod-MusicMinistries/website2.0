@@ -121,7 +121,11 @@ export function newsletterWelcome(email: string): EmailTemplate {
   };
 }
 
-export function eventRegistrationConfirmation(name: string, eventTitle: string, eventDate: string): EmailTemplate {
+export function eventRegistrationConfirmation(
+  name: string,
+  eventTitle: string,
+  eventDate: string
+): EmailTemplate {
   return {
     subject: `Event Registration Confirmed: ${eventTitle}`,
     html: `

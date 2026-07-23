@@ -70,7 +70,10 @@ export function VolunteerForm() {
           Object.entries(err.fieldErrors).forEach(([field, messages]) => {
             setError(field as keyof VolunteerFormData, { message: messages[0] });
           });
-          showError('Please Check Your Information', 'We found some issues with your application. Please review and try again.');
+          showError(
+            'Please Check Your Information',
+            'We found some issues with your application. Please review and try again.'
+          );
         } else {
           showError('Unable to Submit Application', getUserFriendlyError(err));
         }
@@ -163,9 +166,7 @@ export function VolunteerForm() {
               errors.email ? 'border-red-400 bg-red-50' : 'border-neutral-200'
             }`}
           />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
         </div>
 
         {/* Volunteer Role Selection */}
@@ -183,19 +184,12 @@ export function VolunteerForm() {
                     : 'border-neutral-200 bg-white hover:border-purple-300'
                 }`}
               >
-                <input
-                  {...register('role')}
-                  type="radio"
-                  value={r.value}
-                  className="mr-2"
-                />
+                <input {...register('role')} type="radio" value={r.value} className="mr-2" />
                 <span className="text-sm font-sans">{r.label}</span>
               </label>
             ))}
           </div>
-          {errors.role && (
-            <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>
-          )}
+          {errors.role && <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>}
         </div>
 
         {/* Reason / Background */}
@@ -217,9 +211,7 @@ export function VolunteerForm() {
               errors.reason ? 'border-red-400 bg-red-50' : 'border-neutral-200'
             }`}
           />
-          {errors.reason && (
-            <p className="mt-1 text-sm text-red-500">{errors.reason.message}</p>
-          )}
+          {errors.reason && <p className="mt-1 text-sm text-red-500">{errors.reason.message}</p>}
         </div>
 
         {/* Terms */}
@@ -235,9 +227,7 @@ export function VolunteerForm() {
             <span className="text-purple-500 ml-1">*</span>
           </label>
         </div>
-        {errors.agreeTerms && (
-          <p className="text-sm text-red-500">{errors.agreeTerms.message}</p>
-        )}
+        {errors.agreeTerms && <p className="text-sm text-red-500">{errors.agreeTerms.message}</p>}
 
         {/* Error Modal */}
         <ErrorModal
@@ -258,7 +248,7 @@ export function VolunteerForm() {
         <button
           type="submit"
           disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-[0_4px_14px_rgba(97, 73, 145,0.35)]"
+          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-purple-cta"
         >
           {isSubmitting ? 'Submitting Application…' : 'Submit Application'}
         </button>

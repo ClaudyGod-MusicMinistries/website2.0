@@ -31,14 +31,18 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   // Tablet shows exactly the 2 'tablet'-tier items; desktop shows those
   // same 2 plus the 3 'desktop'-tier items (5 total). One data source
   // (data/navbar.ts), filtered by the `header` field — not three
   // hand-typed name arrays.
   const tabletLinks = navigationItems.filter((i) => i.header === 'tablet');
-  const desktopLinks = navigationItems.filter((i) => i.header === 'tablet' || i.header === 'desktop');
+  const desktopLinks = navigationItems.filter(
+    (i) => i.header === 'tablet' || i.header === 'desktop'
+  );
   const bookingLink = navigationItems.find((i) => i.href === '/bookings');
   const donateLink = navigationItems.find((i) => i.href === '/donate');
   const mobileLinksByGroup = GROUP_ORDER.map((group) => ({
@@ -50,11 +54,15 @@ export function Navbar() {
     ? 'bg-white/[0.98] backdrop-blur-2xl border-b border-neutral-100 shadow-header'
     : 'bg-gradient-to-b from-black/70 via-black/30 to-transparent';
 
-  const linkBase    = 'font-sans text-[0.68rem] tracking-[0.14em] uppercase transition-colors duration-250';
-  const linkColor   = scrolled ? 'text-neutral-600 hover:text-neutral-900' : 'text-white/85 hover:text-white';
+  const linkBase =
+    'font-sans text-[0.68rem] tracking-[0.14em] uppercase transition-colors duration-250';
+  const linkColor = scrolled
+    ? 'text-neutral-600 hover:text-neutral-900'
+    : 'text-white/85 hover:text-white';
   const activeColor = scrolled ? 'text-purple-600 font-semibold' : 'text-gold-400 font-medium';
 
-  const isActive = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
+  const isActive = (href: string) =>
+    pathname === href || (href !== '/' && pathname.startsWith(href));
 
   return (
     <>
@@ -62,7 +70,6 @@ export function Navbar() {
           toggle button inside it stays visible/clickable while the menu is open. */}
       <header className={cn('fixed top-0 inset-x-0 z-[600] transition-all duration-300', headerBg)}>
         <div className="container-site h-[68px] lg:h-[76px] flex items-center justify-between gap-4">
-
           {/* ── Brand lockup ────────────────────────────────────────────── */}
           <Link href="/" className="shrink-0 flex items-center gap-2.5 group">
             <div className="relative w-9 h-9 lg:w-11 lg:h-11 rounded-full overflow-hidden ring-2 ring-gold-500/30 shrink-0">
@@ -76,17 +83,25 @@ export function Navbar() {
               />
             </div>
 
-            <span className={cn(
-              'w-px h-8 shrink-0 transition-colors duration-300',
-              scrolled ? 'bg-neutral-200' : 'bg-white/20'
-            )} />
+            <span
+              className={cn(
+                'w-px h-8 shrink-0 transition-colors duration-300',
+                scrolled ? 'bg-neutral-200' : 'bg-white/20'
+              )}
+            />
 
-            <div className={cn(
-              'hidden sm:flex flex-col gap-0 transition-colors duration-300',
-              scrolled ? 'text-neutral-900' : 'text-white/95'
-            )}>
-              <span className="font-display font-semibold text-[0.82rem] lg:text-sm tracking-tight leading-none">ClaudyGod</span>
-              <span className="font-sans text-[0.46rem] lg:text-[0.52rem] tracking-[0.2em] uppercase opacity-55 leading-none mt-0.5">Music Ministries</span>
+            <div
+              className={cn(
+                'hidden sm:flex flex-col gap-0 transition-colors duration-300',
+                scrolled ? 'text-neutral-900' : 'text-white/95'
+              )}
+            >
+              <span className="font-display font-semibold text-[0.82rem] lg:text-sm tracking-tight leading-none">
+                ClaudyGod
+              </span>
+              <span className="font-sans text-[0.46rem] lg:text-[0.52rem] tracking-[0.2em] uppercase opacity-55 leading-none mt-0.5">
+                Music Ministries
+              </span>
             </div>
           </Link>
 
@@ -97,7 +112,11 @@ export function Navbar() {
               {tabletLinks.map((item) => {
                 const active = isActive(item.href);
                 return (
-                  <Link key={item.href} href={item.href} className={cn(linkBase, active ? activeColor : linkColor)}>
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(linkBase, active ? activeColor : linkColor)}
+                  >
                     {item.label}
                   </Link>
                 );
@@ -109,7 +128,11 @@ export function Navbar() {
               {desktopLinks.map((item) => {
                 const active = isActive(item.href);
                 return (
-                  <Link key={item.href} href={item.href} className={cn(linkBase, active ? activeColor : linkColor)}>
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(linkBase, active ? activeColor : linkColor)}
+                  >
                     {item.label}
                   </Link>
                 );
@@ -124,7 +147,8 @@ export function Navbar() {
                   className={cn(
                     buttonVariants({ variant: 'secondary', size: 'sm', uppercase: true }),
                     'lg:h-10 lg:px-6',
-                    !scrolled && 'bg-transparent border border-white/30 hover:border-white/70 hover:bg-white/10 hover:shadow-none',
+                    !scrolled &&
+                      'bg-transparent border border-white/30 hover:border-white/70 hover:bg-white/10 hover:shadow-none'
                   )}
                 >
                   Book Now
@@ -160,12 +184,22 @@ export function Navbar() {
           {/* Mobile header bar */}
           <div className="h-[68px] shrink-0 border-b border-white/[0.06] flex items-center px-4 gap-2.5">
             <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
-              <Image src="/ClaudyGoLogo.webp" alt="ClaudyGod" fill className="object-contain p-0.5" sizes="36px" />
+              <Image
+                src="/ClaudyGoLogo.webp"
+                alt="ClaudyGod"
+                fill
+                className="object-contain p-0.5"
+                sizes="36px"
+              />
             </div>
             <span className="w-px h-7 bg-white/15 shrink-0" />
             <div className="flex flex-col gap-0 text-white">
-              <span className="font-display font-semibold text-[0.82rem] tracking-tight leading-none">ClaudyGod</span>
-              <span className="font-sans text-[0.45rem] tracking-[0.2em] uppercase opacity-45 leading-none mt-0.5">Music Ministries</span>
+              <span className="font-display font-semibold text-[0.82rem] tracking-tight leading-none">
+                ClaudyGod
+              </span>
+              <span className="font-sans text-[0.45rem] tracking-[0.2em] uppercase opacity-45 leading-none mt-0.5">
+                Music Ministries
+              </span>
             </div>
           </div>
 
@@ -199,12 +233,18 @@ export function Navbar() {
 
             <div className="flex items-center gap-2.5 flex-wrap pt-2">
               {bookingLink && (
-                <Link href={bookingLink.href} className={buttonVariants({ variant: 'secondary', uppercase: true })}>
+                <Link
+                  href={bookingLink.href}
+                  className={buttonVariants({ variant: 'secondary', uppercase: true })}
+                >
                   Book Now
                 </Link>
               )}
               {donateLink && (
-                <Link href={donateLink.href} className={buttonVariants({ variant: 'primary', uppercase: true })}>
+                <Link
+                  href={donateLink.href}
+                  className={buttonVariants({ variant: 'primary', uppercase: true })}
+                >
                   Donate
                 </Link>
               )}

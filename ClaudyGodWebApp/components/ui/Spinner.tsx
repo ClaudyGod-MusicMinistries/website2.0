@@ -6,17 +6,17 @@ const spinnerVariants = cva(
   {
     variants: {
       size: {
-        xs:  'h-3  w-3',
-        sm:  'h-4  w-4',
-        md:  'h-6  w-6',
-        lg:  'h-8  w-8',
-        xl:  'h-10 w-10',
-        '2xl':'h-14 w-14',
+        xs: 'h-3  w-3',
+        sm: 'h-4  w-4',
+        md: 'h-6  w-6',
+        lg: 'h-8  w-8',
+        xl: 'h-10 w-10',
+        '2xl': 'h-14 w-14',
       },
       color: {
-        gold:    'text-gold-500',
-        white:   'text-white',
-        muted:   'text-neutral-400',
+        gold: 'text-gold-500',
+        white: 'text-white',
+        muted: 'text-neutral-400',
         current: 'text-current',
       },
     },

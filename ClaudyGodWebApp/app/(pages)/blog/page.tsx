@@ -4,7 +4,17 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Play, X, Calendar, Clock, ExternalLink, Music2, Mic2, BookOpen, ArrowRight } from 'lucide-react';
+import {
+  Play,
+  X,
+  Calendar,
+  Clock,
+  ExternalLink,
+  Music2,
+  Mic2,
+  BookOpen,
+  ArrowRight,
+} from 'lucide-react';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { PageHero } from '@/components/shared/PageHero';
 import { interviewVideos } from '@/data/interviews';
@@ -13,6 +23,7 @@ import { useBlogPosts } from '@/hooks/useBlogPosts';
 import { Skeleton } from '@/components/ui';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { cn } from '@/lib/utils/cn';
+import { platformColors } from '@/lib/utils/platformColors';
 
 const tabs = ['All', 'Releases', 'Interviews', 'Journal'] as const;
 type Tab = (typeof tabs)[number];
@@ -23,14 +34,14 @@ const stagger = {
 };
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
 // ── Release card ──────────────────────────────────────────────────────────────
-function ReleaseCard({ album }: { album: typeof newsAlbums[number] }) {
+function ReleaseCard({ album }: { album: (typeof newsAlbums)[number] }) {
   return (
     <motion.div variants={item}>
-      <div className="group bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full">
+      <div className="group bg-white rounded-xl overflow-hidden shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full">
         {/* Album artwork — fixed height */}
         <div className="relative h-52 overflow-hidden flex-shrink-0 bg-neutral-100">
           <Image
@@ -57,26 +68,47 @@ function ReleaseCard({ album }: { album: typeof newsAlbums[number] }) {
 
           {/* Streaming links */}
           <div className="flex items-center gap-2.5 mt-auto">
-            <a href={album.links.spotify} target="_blank" rel="noopener noreferrer"
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-[#1DB954] hover:border-[#1DB954]/40 hover:bg-[#1DB954]/5 transition-all duration-300">
+            <a
+              href={album.links.spotify}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ '--brand': platformColors.spotify } as React.CSSProperties}
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 hover:bg-[var(--brand)]/5 transition-all duration-300"
+            >
               <FaSpotify className="h-4 w-4" />
             </a>
-            <a href={album.links.apple} target="_blank" rel="noopener noreferrer"
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-neutral-900 hover:border-neutral-400 transition-all duration-300">
+            <a
+              href={album.links.apple}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-neutral-900 hover:border-neutral-400 transition-all duration-300"
+            >
               <FaApple className="h-4 w-4" />
             </a>
-            <a href={album.links.youtube} target="_blank" rel="noopener noreferrer"
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-[#FF0000] hover:border-[#FF0000]/40 hover:bg-[#FF0000]/5 transition-all duration-300">
+            <a
+              href={album.links.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ '--brand': platformColors.youtube } as React.CSSProperties}
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 hover:bg-[var(--brand)]/5 transition-all duration-300"
+            >
               <FaYoutube className="h-4 w-4" />
             </a>
             {album.links.deezer && (
-              <a href={album.links.deezer} target="_blank" rel="noopener noreferrer"
-                className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-[#FEAA2D] hover:border-[#FEAA2D]/40 hover:bg-[#FEAA2D]/5 transition-all duration-300">
+              <a
+                href={album.links.deezer}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ '--brand': platformColors.deezer } as React.CSSProperties}
+                className="w-9 h-9 flex items-center justify-center rounded-xl border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 hover:bg-[var(--brand)]/5 transition-all duration-300"
+              >
                 <FaDeezer className="h-4 w-4" />
               </a>
             )}
-            <Link href="/music"
-              className="ml-auto inline-flex items-center gap-1.5 font-sans text-[0.52rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-800 transition-colors duration-300">
+            <Link
+              href="/music"
+              className="ml-auto inline-flex items-center gap-1.5 font-sans text-[0.52rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-800 transition-colors duration-300"
+            >
               More <ExternalLink className="h-2.5 w-2.5" />
             </Link>
           </div>
@@ -87,12 +119,12 @@ function ReleaseCard({ album }: { album: typeof newsAlbums[number] }) {
 }
 
 // ── Interview card ────────────────────────────────────────────────────────────
-function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPlay: () => void }) {
+function InterviewCard({ v, onPlay }: { v: (typeof interviewVideos)[number]; onPlay: () => void }) {
   return (
     <motion.button
       variants={item}
       onClick={onPlay}
-      className="group w-full text-left bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
+      className="group w-full text-left bg-white rounded-xl overflow-hidden shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
     >
       <div className="relative h-52 overflow-hidden flex-shrink-0">
         <Image
@@ -114,17 +146,21 @@ function InterviewCard({ v, onPlay }: { v: typeof interviewVideos[number]; onPla
         </span>
       </div>
       <div className="flex-1 flex flex-col p-6">
-        <p className="font-sans text-[0.52rem] tracking-[0.14em] uppercase text-gold-600 mb-2">{v.channel}</p>
+        <p className="font-sans text-[0.52rem] tracking-[0.14em] uppercase text-gold-600 mb-2">
+          {v.channel}
+        </p>
         <h3 className="font-display font-bold text-neutral-900 text-[1.05rem] leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2 flex-1 text-left">
           {v.title}
         </h3>
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-black/[0.05]">
           <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-            <Calendar className="h-3 w-3" />{v.date}
+            <Calendar className="h-3 w-3" />
+            {v.date}
           </span>
           {v.duration && (
             <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
-              <Clock className="h-3 w-3" />{v.duration}
+              <Clock className="h-3 w-3" />
+              {v.duration}
             </span>
           )}
         </div>
@@ -139,7 +175,7 @@ function JournalCard({ post }: { post: import('@/lib/data/types').BlogPost }) {
     <motion.div variants={item}>
       <Link
         href={`/blog/${post.slug}`}
-        className="group bg-white rounded-xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_36px_rgba(0,0,0,0.11)] border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
+        className="group bg-white rounded-xl overflow-hidden shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
       >
         <div className="relative h-52 overflow-hidden flex-shrink-0 bg-neutral-100">
           {post.featuredImagePath && (
@@ -172,11 +208,16 @@ function JournalCard({ post }: { post: import('@/lib/data/types').BlogPost }) {
             {post.publishedAt && (
               <span className="flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-400">
                 <Calendar className="h-3 w-3" />
-                {new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </span>
             )}
             <span className="inline-flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.14em] uppercase text-purple-600 group-hover:text-purple-800 transition-colors duration-300 ml-auto">
-              Read <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+              Read{' '}
+              <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>
           </div>
         </div>
@@ -186,7 +227,13 @@ function JournalCard({ post }: { post: import('@/lib/data/types').BlogPost }) {
 }
 
 // ── Section header ────────────────────────────────────────────────────────────
-function SectionTitle({ icon: Icon, label }: { icon: React.ComponentType<{ className?: string }>; label: string }) {
+function SectionTitle({
+  icon: Icon,
+  label,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}) {
   return (
     <div className="flex items-center gap-4 mb-8">
       <span className="block w-8 h-px bg-gold-500 opacity-70" />
@@ -203,10 +250,10 @@ export default function BlogPage() {
   const { posts, loading: postsLoading, error: postsError } = useBlogPosts();
 
   const tabIcons: Record<Tab, React.ComponentType<{ className?: string }> | null> = {
-    All:        null,
-    Releases:   Music2,
+    All: null,
+    Releases: Music2,
     Interviews: Mic2,
-    Journal:    BookOpen,
+    Journal: BookOpen,
   };
 
   return (
@@ -221,7 +268,6 @@ export default function BlogPage() {
 
       <section className="bg-cream-100 section-py">
         <div className="container-site">
-
           {/* Tab navigation */}
           <div className="flex items-center gap-2 overflow-x-auto flex-nowrap sm:flex-wrap mb-8 sm:mb-12 pb-1 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
             {tabs.map((tab) => {
@@ -233,7 +279,7 @@ export default function BlogPage() {
                   className={cn(
                     'inline-flex items-center gap-2 px-5 h-11 rounded-full font-sans text-xs font-medium tracking-[0.1em] uppercase border transition-all duration-300 shrink-0',
                     activeTab === tab
-                      ? 'bg-purple-600 border-purple-600 text-white shadow-[0_4px_16px_rgba(97, 73, 145,0.35)]'
+                      ? 'bg-purple-600 border-purple-600 text-white shadow-purple-cta'
                       : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400 hover:text-purple-600'
                   )}
                 >
@@ -253,7 +299,6 @@ export default function BlogPage() {
               transition={{ duration: 0.25 }}
               className="space-y-20"
             >
-
               {/* ── RELEASES ── */}
               {(activeTab === 'All' || activeTab === 'Releases') && (
                 <div>
@@ -305,7 +350,9 @@ export default function BlogPage() {
                   ) : postsError ? (
                     <ErrorMessage message={postsError} />
                   ) : posts.length === 0 ? (
-                    <p className="font-sans text-neutral-400 text-sm py-8">No journal posts yet — check back soon.</p>
+                    <p className="font-sans text-neutral-400 text-sm py-8">
+                      No journal posts yet — check back soon.
+                    </p>
                   ) : (
                     <motion.div
                       variants={stagger}
@@ -313,12 +360,13 @@ export default function BlogPage() {
                       animate="show"
                       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
                     >
-                      {posts.map((post) => <JournalCard key={post.id} post={post} />)}
+                      {posts.map((post) => (
+                        <JournalCard key={post.id} post={post} />
+                      ))}
                     </motion.div>
                   )}
                 </div>
               )}
-
             </motion.div>
           </AnimatePresence>
         </div>
@@ -330,7 +378,9 @@ export default function BlogPage() {
           <>
             <motion.div
               key="backdrop"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="fixed inset-0 z-[600] bg-black/94 backdrop-blur-md"
               onClick={() => setPlayingId(null)}
@@ -346,7 +396,7 @@ export default function BlogPage() {
               <div className="relative w-full max-w-4xl pointer-events-auto">
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-white/40">
-                    {interviewVideos.find(v => v.id === playingId)?.channel}
+                    {interviewVideos.find((v) => v.id === playingId)?.channel}
                   </span>
                   <button
                     onClick={() => setPlayingId(null)}

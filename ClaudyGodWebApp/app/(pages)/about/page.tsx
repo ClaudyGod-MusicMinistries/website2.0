@@ -12,31 +12,42 @@ export const metadata: Metadata = {
   description:
     'Discover the story of Minister ClaudyGod — Nigerian gospel artist, songwriter, evangelist, and worship leader from Port Harcourt. Over 20 years of Spirit-filled ministry, 7 studio albums, and a global gospel impact.',
   keywords: [
-    'ClaudyGod biography', 'who is ClaudyGod', 'Minister ClaudyGod story',
-    'Nigerian gospel artist biography', 'gospel minister Port Harcourt',
-    'Port Harcourt worship leader', 'gospel songwriter Nigeria',
-    'Nigerian evangelist singer', 'ClaudyGod ministry history',
-    'ClaudyGod albums', 'gospel music minister Nigeria',
-    'ClaudyGod 20 years ministry', 'Rivers State gospel artist',
-    'Christian music artist Nigeria', 'ClaudyGod calling testimony',
+    'ClaudyGod biography',
+    'who is ClaudyGod',
+    'Minister ClaudyGod story',
+    'Nigerian gospel artist biography',
+    'gospel minister Port Harcourt',
+    'Port Harcourt worship leader',
+    'gospel songwriter Nigeria',
+    'Nigerian evangelist singer',
+    'ClaudyGod ministry history',
+    'ClaudyGod albums',
+    'gospel music minister Nigeria',
+    'ClaudyGod 20 years ministry',
+    'Rivers State gospel artist',
+    'Christian music artist Nigeria',
+    'ClaudyGod calling testimony',
   ],
   openGraph: {
-    title:       'About Minister ClaudyGod — Nigerian Gospel Artist & Worship Leader',
-    description: 'Over 20 years of faithful ministry, 7 studio albums, and a God-breathed calling — discover the woman behind the worship.',
-    url:         '/about',
-    type:        'profile',
-    images: [{
-      url:    '/ClaudySocial.jpg',
-      width:  1200,
-      height: 800,
-      alt:    'Minister ClaudyGod — Nigerian Gospel Artist',
-    }],
+    title: 'About Minister ClaudyGod — Nigerian Gospel Artist & Worship Leader',
+    description:
+      'Over 20 years of faithful ministry, 7 studio albums, and a God-breathed calling — discover the woman behind the worship.',
+    url: '/about',
+    type: 'profile',
+    images: [
+      {
+        url: '/ClaudySocial.jpg',
+        width: 1200,
+        height: 800,
+        alt: 'Minister ClaudyGod — Nigerian Gospel Artist',
+      },
+    ],
   },
   twitter: {
-    card:        'summary_large_image',
-    title:       'About Minister ClaudyGod — Nigerian Gospel Artist',
+    card: 'summary_large_image',
+    title: 'About Minister ClaudyGod — Nigerian Gospel Artist',
     description: 'Over 20 years of ministry, 7 albums, and a God-given calling.',
-    images:      ['/ClaudySocial.jpg'],
+    images: ['/ClaudySocial.jpg'],
   },
   alternates: { canonical: `${SITE_URL}/about` },
 };
@@ -61,7 +72,6 @@ function Biography() {
   return (
     <section className="bg-white section-py">
       <div className="container-site">
-
         {/* First block: text left, image right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-start mb-10 sm:mb-16 lg:mb-28">
           <div className="lg:pt-4">
@@ -132,15 +142,28 @@ function Biography() {
             {/* Ministry pillars */}
             <div className="mt-12 pt-10 border-t border-black/[0.07] grid grid-cols-1 gap-5">
               {[
-                { title: 'Spirit-Led Worship',   body: 'Every song written and recorded in prayer — music that opens heaven.' },
-                { title: 'Gospel Outreach',       body: 'Concerts, community events, and digital platforms carrying the Word.' },
-                { title: 'Discipleship & Growth', body: 'Teaching believers to walk deeper in faith through the Word.' },
+                {
+                  title: 'Spirit-Led Worship',
+                  body: 'Every song written and recorded in prayer — music that opens heaven.',
+                },
+                {
+                  title: 'Gospel Outreach',
+                  body: 'Concerts, community events, and digital platforms carrying the Word.',
+                },
+                {
+                  title: 'Discipleship & Growth',
+                  body: 'Teaching believers to walk deeper in faith through the Word.',
+                },
               ].map(({ title, body }) => (
                 <div key={title} className="flex items-start gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-gold-500 mt-2 shrink-0" />
                   <div>
-                    <p className="font-display font-semibold text-neutral-800 text-sm leading-snug">{title}</p>
-                    <p className="font-sans text-neutral-500 text-sm leading-relaxed mt-0.5">{body}</p>
+                    <p className="font-display font-semibold text-neutral-800 text-sm leading-snug">
+                      {title}
+                    </p>
+                    <p className="font-sans text-neutral-500 text-sm leading-relaxed mt-0.5">
+                      {body}
+                    </p>
                   </div>
                 </div>
               ))}

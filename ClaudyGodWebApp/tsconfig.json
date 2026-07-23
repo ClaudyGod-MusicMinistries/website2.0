@@ -14,12 +14,12 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@/*":            ["./*"],
+      "@/*": ["./*"],
       "@/components/*": ["./components/*"],
-      "@/lib/*":        ["./lib/*"],
-      "@/types/*":      ["./types/*"],
-      "@/data/*":       ["./data/*"],
-      "@/app/*":        ["./app/*"]
+      "@/lib/*": ["./lib/*"],
+      "@/types/*": ["./types/*"],
+      "@/data/*": ["./data/*"],
+      "@/app/*": ["./app/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

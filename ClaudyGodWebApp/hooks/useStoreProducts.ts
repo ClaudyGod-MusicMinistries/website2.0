@@ -6,7 +6,7 @@ export function useStoreProducts(category?: string) {
     '/store/products',
     category ? { category } : undefined,
     [],
-    [category],
+    [category]
   );
   return { products: data, loading, error, refetch };
 }

@@ -4,37 +4,37 @@ import { ShoppingBag, Smartphone, Mail, ArrowRight } from 'lucide-react';
 
 const promos = [
   {
-    icon:    ShoppingBag,
+    icon: ShoppingBag,
     eyebrow: 'Official Store',
-    title:   'Wear Your Worship',
-    body:    'Browse exclusive ClaudyGod merchandise — gospel apparel and accessories.',
-    cta:     'Visit the Store',
-    href:    '/store',
-    image:   '/CD1.png',
-    accent:  'bg-purple-600',
-    badge:   'Merch',
+    title: 'Wear Your Worship',
+    body: 'Browse exclusive ClaudyGod merchandise — gospel apparel and accessories.',
+    cta: 'Visit the Store',
+    href: '/store',
+    image: '/CD1.png',
+    accent: 'bg-purple-600',
+    badge: 'Merch',
   },
   {
-    icon:    Smartphone,
+    icon: Smartphone,
     eyebrow: 'Stream Everywhere',
-    title:   'Worship on the Go',
-    body:    'Stream all ClaudyGod music on Spotify, Apple Music, YouTube, and all major platforms.',
-    cta:     'Listen Now',
-    href:    '/music',
-    image:   '/ClaudySocial.jpg',
-    accent:  'bg-gold-500',
-    badge:   'Music',
+    title: 'Worship on the Go',
+    body: 'Stream all ClaudyGod music on Spotify, Apple Music, YouTube, and all major platforms.',
+    cta: 'Listen Now',
+    href: '/music',
+    image: '/ClaudySocial.jpg',
+    accent: 'bg-gold-500',
+    badge: 'Music',
   },
   {
-    icon:    Mail,
+    icon: Mail,
     eyebrow: 'Newsletter',
-    title:   'Stay in the Spirit',
-    body:    'Join 10,000+ subscribers — new releases, event invites, and ministry updates.',
-    cta:     'Subscribe Free',
-    href:    '#newsletter',
-    image:   '/mum1.jpg',
-    accent:  'bg-purple-700',
-    badge:   'Free',
+    title: 'Stay in the Spirit',
+    body: 'Join 10,000+ subscribers — new releases, event invites, and ministry updates.',
+    cta: 'Subscribe Free',
+    href: '#newsletter',
+    image: '/mum1.jpg',
+    accent: 'bg-purple-700',
+    badge: 'Free',
   },
 ];
 
@@ -44,7 +44,6 @@ export function CrossPromo() {
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
       <div className="container-site py-12 sm:py-16 md:py-20">
-
         {/* Header */}
         <div className="flex items-center gap-4 mb-8 sm:mb-10">
           <span className="block w-8 h-px bg-gold-500 opacity-70" />
@@ -72,7 +71,9 @@ export function CrossPromo() {
                 <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-surface-deep/90" />
 
                 {/* Badge */}
-                <span className={`absolute top-3 left-3 ${accent} text-white font-sans text-[0.45rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full`}>
+                <span
+                  className={`absolute top-3 left-3 ${accent} text-white font-sans text-[0.45rem] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full`}
+                >
                   {badge}
                 </span>
               </div>
