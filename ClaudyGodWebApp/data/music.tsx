@@ -54,6 +54,19 @@ export const securedMusicPlatforms: MusicPlatform[] = [
   },
 ];
 
+/**
+ * The Music page's own "just dropped" spotlight — a short celebratory
+ * announcement plus the smart-link that routes listeners to whichever
+ * streaming platform they use. The actual release (cover art, title) is
+ * pulled from the real backend via useAlbums(); this is just the voice/
+ * link layer that isn't part of the Album entity.
+ */
+export const latestReleaseAnnouncement = {
+  message:
+    'Yay!!! Glory to Jesus! Now available on Spotify, Pandora, Apple Music, iTunes, and all other streaming platforms!',
+  streamUrl: 'https://share.google/gXGAj1AnfnRQ9OviK',
+};
+
 export const latestReleasePlatforms: MusicPlatform[] = [
   {
     name: 'Spotify',

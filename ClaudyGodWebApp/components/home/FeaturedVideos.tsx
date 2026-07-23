@@ -27,7 +27,7 @@ const cardVariant = {
  * "spotlight, then browse" flow instead of two competing video showcases.
  */
 export function FeaturedVideos() {
-  const { media, loading, error } = useMedia('video');
+  const { media, loading } = useMedia('video');
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const videos = media
@@ -40,7 +40,9 @@ export function FeaturedVideos() {
   const sideList = videos.slice(1, 4);
   const bottomRow = videos.slice(4, 8);
 
-  if (error || (!loading && !featured)) return null;
+  // `error` no longer hides the section — useMedia falls back to real curated
+  // videos on a failed fetch, so only bail out if there's truly nothing to show.
+  if (!loading && !featured) return null;
 
   return (
     <>

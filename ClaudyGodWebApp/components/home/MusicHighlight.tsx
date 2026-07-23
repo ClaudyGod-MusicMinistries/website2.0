@@ -22,10 +22,13 @@ const cardVariant = {
 };
 
 export function MusicHighlight() {
-  const { albums: rawAlbums, loading, error } = useAlbums();
+  const { albums: rawAlbums, loading } = useAlbums();
   const albums = rawAlbums.slice(0, 3).map(toAlbumView);
 
-  if (error) return null;
+  // `error` no longer hides the section — useAlbums falls back to real
+  // curated albums on a failed fetch, so this only stays empty if there's
+  // truly nothing (loading finished with zero albums either way).
+  if (!loading && albums.length === 0) return null;
 
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">

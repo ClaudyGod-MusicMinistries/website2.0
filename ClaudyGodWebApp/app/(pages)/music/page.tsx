@@ -2,9 +2,9 @@ import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
+import { LatestReleaseSpotlight } from '@/components/music/LatestReleaseSpotlight';
 import { StreamingPlatforms } from '@/components/music/StreamingPlatforms';
 import { MusicPlayer } from '@/components/music/MusicPlayer';
-import { CrossPromo } from '@/components/shared/CrossPromo';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
 import { breadcrumb, musicAlbum, itemList } from '@/lib/utils/jsonLd';
@@ -108,12 +108,12 @@ export default function MusicPage() {
         backgroundImage="/Bg_13.webp"
         objectPosition="center center"
       />
+      <LatestReleaseSpotlight />
       <StreamingPlatforms />
       <MusicPlayer />
       <AnimateOnView>
         <AlbumGrid />
       </AnimateOnView>
-      <CrossPromo />
     </>
   );
 }
