@@ -2,8 +2,12 @@ import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
+import { JournalSection } from '@/components/news/JournalSection';
+import { GridSkeleton } from '@/components/shared/GridSkeleton';
+import { AnimateOnView } from '@/components/shared/AnimateOnView';
 import { newsAlbums, socialShareLinks } from '@/data/news';
 import { breadcrumb } from '@/lib/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
@@ -19,9 +23,9 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export const metadata: Metadata = {
-  title: 'News, Tour Dates & New Releases — ClaudyGod Music Ministries',
+  title: 'News, Tour Dates & Updates — ClaudyGod Music Ministries',
   description:
-    'Stay updated with ClaudyGod — upcoming gospel concerts and tour dates in Nigeria and the UK, new album releases, media interviews, and ministry announcements. Never miss a ClaudyGod event.',
+    'Stay updated with ClaudyGod — upcoming gospel concerts and tour dates, new album releases, the journal, tour photos, and the ministry team.',
   keywords: [
     'ClaudyGod tour dates',
     'gospel concerts Nigeria',
@@ -33,15 +37,16 @@ export const metadata: Metadata = {
     'ClaudyGod Imo concert',
     'Nigerian gospel tour',
     'gospel music events Nigeria',
-    'ClaudyGod media interview',
     'ClaudyGod ministry update',
+    'ClaudyGod tour photos',
+    'ClaudyGod ministry team',
     'gospel artist tour Nigeria',
     'Christian concert Nigeria',
   ],
   openGraph: {
-    title: 'ClaudyGod News, Tour Dates & New Releases',
+    title: 'ClaudyGod News, Tour Dates & Updates',
     description:
-      'Upcoming gospel concerts across Nigeria, new music releases, and ministry updates from Minister ClaudyGod.',
+      'Upcoming gospel concerts, new music releases, tour photos, and the ministry team behind ClaudyGod Music Ministries.',
     url: '/news',
     images: [{ url: '/tour_3.jpg', width: 1920, height: 1080, alt: 'ClaudyGod Tour Dates & News' }],
   },
@@ -52,6 +57,16 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: `${SITE_URL}/news` },
 };
+
+const GallerySection = dynamic(
+  () => import('@/components/news/GallerySection').then((m) => m.GallerySection),
+  { loading: () => <GridSkeleton cols={3} rows={2} /> }
+);
+
+const TeamSection = dynamic(
+  () => import('@/components/news/TeamSection').then((m) => m.TeamSection),
+  { loading: () => <GridSkeleton cols={4} rows={1} /> }
+);
 
 export default async function NewsPage() {
   // Event JSON-LD previously hardcoded four 2025 concert dates here — all
@@ -158,6 +173,19 @@ export default async function NewsPage() {
           </div>
         </div>
       </section>
+
+      {/* Journal — moved here from the old Blog listing page */}
+      <JournalSection />
+
+      {/* Tour photos — moved here from the Ministry page */}
+      <AnimateOnView>
+        <GallerySection />
+      </AnimateOnView>
+
+      {/* Team — moved here from the Ministry page */}
+      <AnimateOnView delay={0.1}>
+        <TeamSection />
+      </AnimateOnView>
 
       {/* Follow */}
       <section className="bg-white py-16 border-t border-black/[0.05]">
