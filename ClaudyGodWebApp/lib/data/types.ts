@@ -183,6 +183,20 @@ export interface VolunteerApplication {
   createdAt: string;
 }
 
+// Comments & likes (Journal posts)
+export interface Comment {
+  id: string;
+  authorName: string;
+  content: string;
+  parentCommentId: string | null;
+  createdAt: string;
+}
+
+export interface LikeStatus {
+  count: number;
+  likedByYou: boolean;
+}
+
 // Generic API Response
 export interface ApiResponse<T> {
   success: boolean;
