@@ -1,35 +1,57 @@
 /**
  * One-time content seeding script — run manually, never as part of the app
  * build. Logs in as the bootstrapped admin (see Phase 0 in the plan) and
- * POSTs the recovered static content (data/events.ts, data/featured.ts,
- * data/store.ts, data/videos.ts) to the real backend via its new/existing
- * admin-authorized create endpoints.
+ * POSTs the curated content from data/fallback.ts to the real backend via
+ * its admin-authorized create endpoints, so the live site's real fetches
+ * return this content directly instead of only seeing it as a fetch-failure
+ * fallback.
  *
  * The backend requires BOTH an `x-api-key` header (ApiKeyMiddleware, every
  * non-[PublicEndpoint] route) and, for these create calls, a Bearer JWT from
  * an Admin/SuperAdmin account.
  *
- * Usage:
- *   SEED_API_BASE_URL=http://localhost:5278 \
- *   SEED_API_KEY=CHANGE-ME-api-key-1 \
- *   SEED_ADMIN_EMAIL=you@example.com \
- *   SEED_ADMIN_PASSWORD=your-password \
- *   npx tsx scripts/seed-content.ts
+ * Two ways to point this at a target:
+ *
+ *   1. Direct to the .NET backend (needs the backend's own public origin and
+ *      a real x-api-key):
+ *        SEED_API_BASE_URL=http://localhost:5278 \
+ *        SEED_API_KEY=... \
+ *        SEED_ADMIN_EMAIL=you@example.com SEED_ADMIN_PASSWORD=... \
+ *        npx tsx scripts/seed-content.ts
+ *
+ *   2. Through the Next.js frontend's own /api/* proxy routes (useful when
+ *      the backend's public origin isn't directly reachable — e.g. it sits
+ *      behind an edge/CDN with its own TLS quirks — but the frontend's own
+ *      domain already proxies to it server-side without issue). The proxy
+ *      adds x-api-key itself, so SEED_API_KEY is unnecessary here, and the
+ *      frontend's routes have no /v1.0 segment (that's added internally by
+ *      lib/data/backendProxy.ts before it reaches the real backend):
+ *        SEED_API_BASE_URL=https://claudygod.org \
+ *        SEED_API_PREFIX=/api \
+ *        SEED_ADMIN_EMAIL=you@example.com SEED_ADMIN_PASSWORD=... \
+ *        npx tsx scripts/seed-content.ts
  *
  * Defaults match this repo's .env.local (local dev backend on :5278, the
- * backend's own placeholder API key) — only SEED_ADMIN_EMAIL/PASSWORD are
- * required, for the account you bootstrapped to SuperAdmin per the plan.
+ * backend's own placeholder API key, direct-to-backend prefix).
+ *
+ * FAQs require CGM-Backend's CreateFAQCommand/FAQController POST endpoint
+ * to be built and deployed first (added alongside this script — FAQ.Create()
+ * existed on the domain entity but nothing called it until now). If that
+ * backend hasn't been redeployed yet, seedFAQs() below will fail with a
+ * clear "FAIL" line per FAQ rather than silently doing nothing.
  */
-import { placeholderEvents } from '../data/events';
-import { featuredVideos } from '../data/featured';
-import { products } from '../data/store';
-import { videos } from '../data/videos';
+import {
+  fallbackAlbums,
+  fallbackVideos,
+  fallbackStoreProducts,
+  fallbackFAQs,
+} from '../data/fallback';
 
 const API_BASE_URL = process.env.SEED_API_BASE_URL ?? 'http://localhost:5278';
 const API_KEY = process.env.SEED_API_KEY ?? 'CHANGE-ME-api-key-1';
 const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL;
 const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD;
-const API_PREFIX = '/api/v1.0';
+const API_PREFIX = process.env.SEED_API_PREFIX ?? '/api/v1.0';
 
 if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
   console.error('SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD are required. See the header comment.');
@@ -76,51 +98,33 @@ async function post(token: string, path: string, body: unknown): Promise<ApiEnve
   return (await res.json()) as ApiEnvelope<unknown>;
 }
 
-async function seedEvents(token: string) {
-  console.log(`\n— Events (${placeholderEvents.length} in data/events.ts) —`);
-  for (const e of placeholderEvents) {
-    const startDate = new Date(e.date);
-    if (startDate <= new Date()) {
-      console.log(
-        `  SKIP  "${e.title}" — date ${e.date} is in the past (CreateEventCommand requires a future date). Update the date before seeding.`
-      );
-      continue;
-    }
-    const result = await post(token, '/events', {
-      title: e.title,
-      description: e.fullDescription,
-      venue: e.location,
-      startDate: startDate.toISOString(),
-      totalCapacity: e.attendees ?? 200,
-      isFree: true,
+async function seedAlbums(token: string) {
+  console.log(`\n— Albums (${fallbackAlbums.length} in data/fallback.ts) —`);
+  for (const a of fallbackAlbums) {
+    const result = await post(token, '/albums', {
+      title: a.title,
+      imageUrl: a.imageUrl,
+      spotifyUrl: a.spotifyUrl,
+      appleUrl: a.appleUrl,
+      youtubeUrl: a.youtubeUrl,
+      deezerUrl: a.deezerUrl,
+      amazonUrl: a.amazonUrl,
+      sortOrder: a.sortOrder,
     });
     console.log(
-      result.success ? `  OK    "${e.title}"` : `  FAIL  "${e.title}" — ${result.message}`
+      result.success ? `  OK    "${a.title}"` : `  FAIL  "${a.title}" — ${result.message}`
     );
   }
 }
 
 async function seedVideos(token: string) {
-  // featured.ts and videos.ts overlap on a few YouTube IDs (e.g. xY4508hwPfw,
-  // uro0EWsYdxc, d7qZ32829gg) — dedupe by ID rather than seed the same video
-  // twice, preferring videos.ts's entry since it carries a category.
-  const seen = new Map<string, { title: string; youtubeId: string; thumbnailUrl?: string }>();
-
-  for (const v of featuredVideos) {
-    const id = v.youtubeUrl.match(/(?:youtu\.be\/|v=)([^?&]+)/)?.[1];
-    if (id) seen.set(id, { title: v.title, youtubeId: id, thumbnailUrl: v.thumbnailUrl });
-  }
-  for (const v of videos) {
-    seen.set(v.youtubeId, { title: v.title, youtubeId: v.youtubeId });
-  }
-
-  console.log(`\n— Videos (${seen.size} unique, from data/featured.ts + data/videos.ts) —`);
-  for (const v of Array.from(seen.values())) {
+  console.log(`\n— Videos (${fallbackVideos.length} in data/fallback.ts) —`);
+  for (const v of fallbackVideos) {
     const result = await post(token, '/media/link', {
       title: v.title,
       type: 'Video',
-      externalUrl: `https://youtu.be/${v.youtubeId}`,
-      thumbnailUrl: v.thumbnailUrl ?? `https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg`,
+      externalUrl: v.publicUrl,
+      thumbnailUrl: v.publicUrl.replace('youtu.be/', 'img.youtube.com/vi/') + '/hqdefault.jpg',
     });
     console.log(
       result.success ? `  OK    "${v.title}"` : `  FAIL  "${v.title}" — ${result.message}`
@@ -129,38 +133,52 @@ async function seedVideos(token: string) {
 }
 
 async function seedProducts(token: string) {
-  console.log(`\n— Store products (${products.length} in data/store.ts) —`);
-  for (const p of products) {
+  console.log(`\n— Store products (${fallbackStoreProducts.length} in data/fallback.ts) —`);
+  for (const p of fallbackStoreProducts) {
     const result = await post(token, '/store/products', {
-      title: p.name,
+      title: p.title,
       description: p.description,
       price: p.price,
       image: p.image,
       category: p.category,
-      inStock: true,
+      inStock: p.inStock,
       rating: p.rating,
     });
-    console.log(result.success ? `  OK    "${p.name}"` : `  FAIL  "${p.name}" — ${result.message}`);
+    console.log(
+      result.success ? `  OK    "${p.title}"` : `  FAIL  "${p.title}" — ${result.message}`
+    );
   }
 }
 
-// No album seed function: data/music.tsx only has flat streaming-platform
-// link lists (one URL per platform), not per-album objects with a title +
-// cover image + individual streaming links the way `Album.Create()` needs.
-// Add real albums by hand once you have that data — POST /api/v1.0/albums
-// with { title, imageUrl, spotifyUrl, appleUrl, youtubeUrl, deezerUrl,
-// amazonUrl, sortOrder, releasedAt }.
+async function seedFAQs(token: string) {
+  console.log(`\n— FAQs (${fallbackFAQs.length} in data/fallback.ts) —`);
+  for (const f of fallbackFAQs) {
+    const result = await post(token, '/faqs', {
+      question: f.question,
+      answer: f.answer,
+      category: f.category,
+      order: f.order,
+    });
+    console.log(
+      result.success ? `  OK    "${f.question}"` : `  FAIL  "${f.question}" — ${result.message}`
+    );
+  }
+}
 
 async function main() {
   console.log(`Logging in as ${ADMIN_EMAIL}...`);
   const token = await login();
   console.log('Logged in with Admin/SuperAdmin role.');
 
-  await seedEvents(token);
+  await seedAlbums(token);
   await seedVideos(token);
   await seedProducts(token);
+  await seedFAQs(token);
 
-  console.log('\nDone. Albums were not seeded — see the comment above main() for why.');
+  console.log(
+    '\nDone. Events were not seeded — time-sensitive content stays out of the static ' +
+      'fallback/seed set by design (see data/fallback.ts) so a stale date is never shown.'
+  );
 }
 
 main().catch((err) => {
