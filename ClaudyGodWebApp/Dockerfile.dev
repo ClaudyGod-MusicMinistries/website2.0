@@ -1,0 +1,33 @@
+# Dockerfile.dev
+FROM node:20-alpine
+
+# Install system dependencies
+RUN apk add --no-cache libc6-compat git curl
+
+WORKDIR /app
+
+# Copy package files first for better caching
+COPY package*.json ./
+
+# Install ALL dependencies (including devDependencies)
+RUN npm install --legacy-peer-deps && \
+    npm cache clean --force
+
+# Copy source code
+COPY . .
+
+# Build-time args
+ARG NEXT_PUBLIC_SITE_URL=http://localhost:3000
+ARG NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
+
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY=$NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY \
+    NEXT_TELEMETRY_DISABLED=1 \
+    NODE_ENV=development \
+    PORT=3000 \
+    HOSTNAME="0.0.0.0"
+
+EXPOSE 3000
+
+# Run in development mode with hot reload
+CMD ["npm", "run", "dev"]
