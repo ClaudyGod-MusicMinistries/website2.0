@@ -31,7 +31,8 @@ export function useMedia(type?: string) {
     '/media',
     type ? { type } : undefined,
     fallbackFor(type),
-    [type]
+    [type],
+    (r) => r.items.length === 0
   );
   return { media: data.items, loading, error, refetch };
 }
