@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import type { ApiResponse, BlogPostDetail } from '@/lib/data/types';
-import { LikeButton } from '@/components/blog/LikeButton';
+import { ReactionBar } from '@/components/blog/ReactionBar';
 import { CommentsSection } from '@/components/blog/CommentsSection';
 
 const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
 
         <div className="mt-10">
-          <LikeButton postId={post.id} />
+          <ReactionBar target={{ type: 'post', id: post.id }} />
         </div>
 
         <CommentsSection postId={post.id} />

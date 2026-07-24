@@ -192,9 +192,12 @@ export interface Comment {
   createdAt: string;
 }
 
-export interface LikeStatus {
-  count: number;
-  likedByYou: boolean;
+export const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '😠'] as const;
+export type ReactionEmoji = (typeof REACTION_EMOJIS)[number];
+
+export interface ReactionSummary {
+  counts: Partial<Record<ReactionEmoji, number>>;
+  yourReaction: ReactionEmoji | null;
 }
 
 // Generic API Response
