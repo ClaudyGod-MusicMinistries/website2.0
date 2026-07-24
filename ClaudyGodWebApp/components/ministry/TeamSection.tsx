@@ -145,6 +145,7 @@ export function TeamSection() {
             ))}
           </motion.div>
         </div>
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/20 to-transparent" />
       </section>
 
       {/* ── Lightbox ── */}

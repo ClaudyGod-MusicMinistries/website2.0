@@ -69,12 +69,44 @@ function toFallbackVideo(id: string, title: string, youtubeId: string): MediaIte
   };
 }
 
+// The full catalog — mirrors data/videos.ts (the seed-script source of
+// truth for the real backend) so the fallback shown during an outage is
+// the same 24 videos, not a token sample. "I Will Not Be Moved" is newer
+// than everything in data/videos.ts, so it's prepended as the latest.
 export const fallbackVideos: MediaItem[] = [
-  toFallbackVideo('fallback-video-0', 'Not Be Moved', '2JV1k5GGjmk'),
-  toFallbackVideo('fallback-video-1', 'Nothing Compares To You', 'Dw5S-jzzboA'),
-  toFallbackVideo('fallback-video-2', 'Dwelling Place (Forever God)', 'KoVkhbrRjf8'),
-  toFallbackVideo('fallback-video-3', 'Look To You', '7BN7i4puuis'),
-  toFallbackVideo('fallback-video-4', "It's A New Day (Thank You For Today)", 'Ak0LZgfHMa0'),
+  toFallbackVideo('fallback-video-0', 'I Will Not Be Moved', '2JV1k5GGjmk'),
+  toFallbackVideo('fallback-video-1', 'STEP ASIDE', '3nvGauo7kjA'),
+  toFallbackVideo('fallback-video-2', 'Nothing Compares To You', 'Dw5S-jzzboA'),
+  toFallbackVideo('fallback-video-3', 'Dwelling Place (Forever God)', 'KoVkhbrRjf8'),
+  toFallbackVideo(
+    'fallback-video-4',
+    'Look To You (Official Visualizer/Music Video)',
+    '7BN7i4puuis'
+  ),
+  toFallbackVideo('fallback-video-5', 'I Love You Lord', 'SqaOeGLDPLY'),
+  toFallbackVideo('fallback-video-6', "It's A New Day (Thank You For Today)", 'Ak0LZgfHMa0'),
+  toFallbackVideo('fallback-video-7', 'All of Me', 'L-AVa2qC5Ic'),
+  toFallbackVideo('fallback-video-8', 'VERY GLORIOUS (Live Recording)', 'xY4508hwPfw'),
+  toFallbackVideo('fallback-video-9', 'Joyful Alleluia', 'ih4SrEgnV60'),
+  toFallbackVideo('fallback-video-10', 'King of the Nations', 'UZPaupINXYI'),
+  toFallbackVideo('fallback-video-11', 'Love Me So Much', 'uro0EWsYdxc'),
+  toFallbackVideo('fallback-video-12', 'Very Glorious (Live Worship Session)', '6pDDMP9Xprg'),
+  toFallbackVideo('fallback-video-13', 'Affirmation', 'bVOAeBAer4U'),
+  toFallbackVideo('fallback-video-14', 'Lover of My Soul', 'lrKaURkswT0'),
+  toFallbackVideo('fallback-video-15', 'I Love You Lord (Official Music Video)', 'r8rp58DqavM'),
+  toFallbackVideo('fallback-video-16', 'Look To You (Visualizer)', 'vS8myyETQP4'),
+  toFallbackVideo('fallback-video-17', 'Thank You (My Midnight Cry) — Live', 'd7qZ32829gg'),
+  toFallbackVideo('fallback-video-18', 'Father Christmas', 'jEVOCbUy9Ww'),
+  toFallbackVideo('fallback-video-19', 'Redeemer (O Come Emmanuel)', 'lqDbkGpJqqE'),
+  toFallbackVideo(
+    'fallback-video-20',
+    'Messiah Jesus (Great Is His Faithfulness Medley)',
+    'zEmUH_unvdM'
+  ),
+  toFallbackVideo('fallback-video-21', 'Savior Is Born, Jesus Is Here', 'T0cHxaoHIeQ'),
+  toFallbackVideo('fallback-video-22', 'Singalingaling', 'niRDnYMJQnY'),
+  toFallbackVideo('fallback-video-23', 'Father Christmas (Lyric Video)', 'F00Xkd8MrBc'),
+  toFallbackVideo('fallback-video-24', 'Singalingaling (Audio Version)', '_tMbn1XpJx4'),
 ];
 
 export const fallbackStoreProducts: StoreProduct[] = [
