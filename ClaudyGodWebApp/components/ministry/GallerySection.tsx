@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn, Grid3X3 } from 'lucide-react';
-import { galleryCategories } from '@/data/music';
+import { galleryCategories } from '@/data/Tour';
 
 /* ── Flatten all images with metadata ───────────────────── */
 const allImages = galleryCategories

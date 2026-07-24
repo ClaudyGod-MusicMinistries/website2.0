@@ -76,6 +76,10 @@ export interface StoreProduct {
   description: string;
   price: number;
   image: string;
+  /** Additional angles (front/back, etc). The real backend has no concept
+   *  of this yet — a single `image` field — so this only ever comes from
+   *  curated fallback data until the backend grows gallery support. */
+  images?: string[];
   category: string;
   inStock: boolean;
   quantity?: number;

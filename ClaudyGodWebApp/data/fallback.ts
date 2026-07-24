@@ -74,18 +74,19 @@ export const fallbackVideos: MediaItem[] = [
 export const fallbackStoreProducts: StoreProduct[] = [
   {
     id: 'fallback-product-mug',
-    title: 'ClaudyGod Music & Ministries Mug',
+    title: 'Mug',
     description:
-      'Ceramic mug with the ClaudyGod Music & Ministries crest on one side and an inspirational message on the reverse — perfect for your daily coffee, tea, or devotional moments.',
-    price: 12,
+      'Ceramic mug with the crest on one side and an inspirational message on the reverse — perfect for your daily use.',
+    price: 5,
     image: '/Product1.webp',
+    images: ['/Product1.webp', '/Product2.webp'],
     category: 'accessories',
     inStock: true,
     rating: 5.0,
   },
   {
     id: 'fallback-product-tshirt',
-    title: 'ClaudyGod T-Shirt',
+    title: 'Classic T-Shirt — White',
     description:
       'This ClaudyGod T-shirt is made from soft, breathable fabric, perfect for worship and casual wear.',
     price: 10,
@@ -96,7 +97,7 @@ export const fallbackStoreProducts: StoreProduct[] = [
   },
   {
     id: 'fallback-product-premium-tshirt',
-    title: 'Premium T-Shirt',
+    title: 'Premium T-Shirt — Purple',
     description:
       'Suitable for worship and casual wear, this premium t-shirt is made from high-quality materials for comfort and durability.',
     price: 15,

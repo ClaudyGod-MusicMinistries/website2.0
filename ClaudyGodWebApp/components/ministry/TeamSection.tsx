@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-import { teamMembers } from '@/data/music';
+import { teamMembers } from '@/data/Tour';
 
 const aspectCycle = [
   'aspect-[3/4]',
