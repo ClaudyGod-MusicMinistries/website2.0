@@ -3,11 +3,13 @@ import { proxyGet } from '@/lib/data/backendProxy';
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const page = searchParams.get('page') || '1';
-    const pageSize = searchParams.get('pageSize') || '10';
-    const path = `/blog?page=${page}&pageSize=${pageSize}`;
-    const backendRes = await proxyGet(req, path);
+    // proxyGet already forwards this request's own query string
+    // (page/pageSize) to the backend — see app/api/media/route.ts for why
+    // building it again here and baking it into the path caused a
+    // double-appended, malformed query string. This one had no `if` guard
+    // (page/pageSize always had values), so it 400'd on every single
+    // request — the Journal/Blog listing never worked in production.
+    const backendRes = await proxyGet(req, '/blog');
     return backendRes;
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Failed to fetch blog posts';

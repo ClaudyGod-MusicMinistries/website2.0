@@ -20,7 +20,6 @@ const staticRoutes: MetadataRoute.Sitemap = [
   },
   { url: `${BASE}/bookings`, priority: 0.82, changeFrequency: 'monthly', lastModified: new Date() },
   { url: `${BASE}/news`, priority: 0.8, changeFrequency: 'daily', lastModified: new Date() },
-  { url: `${BASE}/blog`, priority: 0.75, changeFrequency: 'weekly', lastModified: new Date() },
   { url: `${BASE}/store`, priority: 0.75, changeFrequency: 'weekly', lastModified: new Date() },
   { url: `${BASE}/donate`, priority: 0.72, changeFrequency: 'monthly', lastModified: new Date() },
   {

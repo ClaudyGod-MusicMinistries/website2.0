@@ -68,11 +68,11 @@ export default async function BlogPostPage({ params }: PageProps) {
           Post not found
         </p>
         <Link
-          href="/blog"
+          href="/news"
           className="inline-flex items-center gap-2 font-sans text-xs tracking-[0.15em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-6 h-10 rounded-xl transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Back to Blog
+          Back to News
         </Link>
       </div>
     );
@@ -84,11 +84,11 @@ export default async function BlogPostPage({ params }: PageProps) {
     <div className="min-h-screen bg-white pt-[var(--navbar-height)]">
       <div className="max-w-[760px] mx-auto px-6 lg:px-8 py-16 md:py-24">
         <Link
-          href="/blog"
+          href="/news"
           className="inline-flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.15em] uppercase text-neutral-400 hover:text-purple-600 transition-colors mb-12"
         >
           <ArrowLeft className="h-3 w-3" />
-          Back to Blog
+          Back to News
         </Link>
 
         <div className="mb-10">
@@ -127,7 +127,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         <div className="mt-16 pt-10 border-t border-black/[0.06] flex items-center justify-between gap-4 flex-wrap">
           <Link
-            href="/blog"
+            href="/news"
             className="inline-flex items-center gap-2 font-sans text-xs tracking-[0.15em] uppercase text-neutral-500 hover:text-purple-600 transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />

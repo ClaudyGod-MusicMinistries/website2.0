@@ -189,7 +189,7 @@ export default function AboutPage() {
         eyebrow="About ClaudyGod"
         title="Minister, Artist & Worshipper"
         subtitle="A Nigerian gospel music minister whose God-breathed songs have touched lives across the world."
-        backgroundImage="/ClaudySocial.jpg"
+        backgroundImage="/resize_abt.webp"
         objectPosition="center top"
       />
       <Biography />
