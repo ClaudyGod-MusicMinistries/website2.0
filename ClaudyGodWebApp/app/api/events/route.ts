@@ -3,11 +3,11 @@ import { proxyGet } from '@/lib/data/backendProxy';
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const status = searchParams.get('status');
-    let path = '/events';
-    if (status) path += `?status=${encodeURIComponent(status)}`;
-    const backendRes = await proxyGet(req, path);
+    // proxyGet already forwards this request's own query string (status=...)
+    // to the backend — see app/api/media/route.ts for why building it again
+    // here and baking it into the path caused a double-appended, malformed
+    // query string and a 400 whenever `status` was actually passed.
+    const backendRes = await proxyGet(req, '/events');
     return backendRes;
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Failed to fetch events';

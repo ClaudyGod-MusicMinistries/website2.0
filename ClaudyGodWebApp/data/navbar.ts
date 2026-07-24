@@ -4,7 +4,6 @@ import {
   Music2,
   Film,
   CalendarDays,
-  BookOpen,
   Heart,
   Newspaper,
   ShoppingBag,
