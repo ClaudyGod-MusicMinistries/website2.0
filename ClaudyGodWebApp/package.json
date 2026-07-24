@@ -14,7 +14,7 @@
     "validate:env": "bash scripts/validate-env.sh",
     "setup:security": "bash scripts/setup-security.sh",
     "seed:content": "tsx scripts/seed-content.ts",
-    "setup-hooks": "git config core.hooksPath .githooks && echo '✓ Git hooks configured'",
+    "setup-hooks": "[ -d .git ] && git config core.hooksPath .githooks && echo '✓ Git hooks configured' || echo 'Skipping git hooks setup (not a git checkout)'",
     "prepare": "npm run setup-hooks"
   },
   "dependencies": {
