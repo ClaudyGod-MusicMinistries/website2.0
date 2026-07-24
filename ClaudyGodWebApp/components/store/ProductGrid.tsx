@@ -2,7 +2,15 @@
 
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SlidersHorizontal, Search, X } from 'lucide-react';
+import {
+  SlidersHorizontal,
+  Search,
+  X,
+  ShieldCheck,
+  Truck,
+  RotateCcw,
+  Download,
+} from 'lucide-react';
 import { useStoreProducts } from '@/hooks/useStoreProducts';
 import { toProduct } from '@/lib/data/adapters';
 import { ProductCard } from './ProductCard';
@@ -41,7 +49,7 @@ const cardVariant = {
 };
 
 export function ProductGrid() {
-  const { products: rawProducts, loading, error } = useStoreProducts();
+  const { products: rawProducts, loading } = useStoreProducts();
   const products = useMemo(() => rawProducts.map(toProduct), [rawProducts]);
 
   const categories = useMemo(() => {
@@ -71,9 +79,13 @@ export function ProductGrid() {
 
   if (loading) return <GridSkeleton cols={4} rows={2} />;
 
-  // The backend has no product-catalog endpoint yet (this store is not live) — a retry
-  // button would be misleading since the request can never succeed. Say so plainly.
-  if (error) {
+  // useStoreProducts falls back to real curated products on a failed fetch —
+  // checkout's missing x-api-key bug and the missing Products table were both
+  // fixed this session — so this only shows "coming soon" if there's truly
+  // nothing to sell, not on every transient API error (which would otherwise
+  // contradict the homepage StorePreview showing real products from the same
+  // fallback).
+  if (products.length === 0) {
     return (
       <div className="py-20 flex flex-col items-center gap-3 text-center">
         <Search className="h-10 w-10 text-neutral-300" />
@@ -88,6 +100,14 @@ export function ProductGrid() {
   return (
     <section className="bg-white section-py">
       <div className="container-site">
+        {/* Section header — matches the eyebrow + heading pattern every
+            other grid page (AlbumGrid, VideoGrid) uses, even below a
+            PageHero, instead of dropping straight into the toolbar. */}
+        <div className="flex items-center gap-4 mb-8 sm:mb-10">
+          <span className="rule-gold" />
+          <span className="label-eyebrow">Shop</span>
+        </div>
+
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-10">
           {/* Search */}
@@ -98,7 +118,7 @@ export function ProductGrid() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search products…"
-              className="w-full h-11 pl-10 pr-9 bg-cream-100 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors"
+              className="w-full h-11 pl-10 pr-9 bg-cream-100 border border-neutral-200 rounded-lg text-neutral-900 placeholder:text-neutral-400 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors"
             />
             {query && (
               <button
@@ -115,7 +135,7 @@ export function ProductGrid() {
             <select
               value={activeSort}
               onChange={(e) => setActiveSort(e.target.value)}
-              className="h-11 px-3 bg-white border border-neutral-200 rounded-xl text-neutral-700 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors cursor-pointer"
+              className="h-11 px-3 bg-white border border-neutral-200 rounded-lg text-neutral-700 font-sans text-xs tracking-[0.05em] focus:outline-none focus:border-purple-400 transition-colors cursor-pointer"
             >
               {sortOptions.map((o) => (
                 <option key={o.id} value={o.id}>
@@ -128,7 +148,7 @@ export function ProductGrid() {
             <button
               onClick={() => setShowFilters((v) => !v)}
               className={cn(
-                'sm:hidden h-11 w-11 flex items-center justify-center rounded-xl border transition-colors',
+                'sm:hidden h-11 w-11 flex items-center justify-center rounded-lg border transition-colors',
                 showFilters
                   ? 'bg-purple-600 border-purple-600 text-white'
                   : 'bg-white border-neutral-200 text-neutral-600 hover:border-purple-400'
@@ -208,18 +228,20 @@ export function ProductGrid() {
         {/* Trust row */}
         <div className="mt-16 pt-10 border-t border-black/[0.06] grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { icon: '🔒', label: 'Secure Checkout', sub: 'SSL encrypted payment' },
-            { icon: '📦', label: 'Fast Shipping', sub: 'Worldwide delivery' },
-            { icon: '↩️', label: 'Easy Returns', sub: '30-day return policy' },
-            { icon: '🎵', label: 'Digital Downloads', sub: 'Instant access' },
-          ].map((item) => (
-            <div key={item.label} className="flex items-start gap-3">
-              <span className="text-2xl mt-0.5">{item.icon}</span>
+            { icon: ShieldCheck, label: 'Secure Checkout', sub: 'SSL encrypted payment' },
+            { icon: Truck, label: 'Fast Shipping', sub: 'Worldwide delivery' },
+            { icon: RotateCcw, label: 'Easy Returns', sub: '30-day return policy' },
+            { icon: Download, label: 'Digital Downloads', sub: 'Instant access' },
+          ].map(({ icon: Icon, label, sub }) => (
+            <div key={label} className="flex items-start gap-3">
+              <span className="flex-shrink-0 w-9 h-9 rounded-full bg-purple-600/10 border border-purple-500/15 flex items-center justify-center mt-0.5">
+                <Icon className="h-4 w-4 text-purple-600" aria-hidden="true" />
+              </span>
               <div>
                 <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-800 font-medium">
-                  {item.label}
+                  {label}
                 </p>
-                <p className="font-sans text-neutral-500 text-xs mt-0.5">{item.sub}</p>
+                <p className="font-sans text-neutral-500 text-xs mt-0.5">{sub}</p>
               </div>
             </div>
           ))}

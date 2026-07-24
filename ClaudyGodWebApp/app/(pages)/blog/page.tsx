@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -20,7 +19,7 @@ import { PageHero } from '@/components/shared/PageHero';
 import { interviewVideos } from '@/data/interviews';
 import { newsAlbums } from '@/data/news';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
-import { Skeleton } from '@/components/ui';
+import { Skeleton, ContainedImage, YoutubeThumbnail } from '@/components/ui';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { cn } from '@/lib/utils/cn';
 import { platformColors } from '@/lib/utils/platformColors';
@@ -44,11 +43,10 @@ function ReleaseCard({ album }: { album: (typeof newsAlbums)[number] }) {
       <div className="group bg-white rounded-xl overflow-hidden shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full">
         {/* Album artwork — fixed height */}
         <div className="relative h-52 overflow-hidden flex-shrink-0 bg-neutral-100">
-          <Image
+          <ContainedImage
             src={album.image}
             alt={album.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+            className="transition-transform duration-700 group-hover:scale-[1.05]"
             sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -127,11 +125,10 @@ function InterviewCard({ v, onPlay }: { v: (typeof interviewVideos)[number]; onP
       className="group w-full text-left bg-white rounded-xl overflow-hidden shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] hover:border-purple-200/60 transition-all duration-400 flex flex-col h-full"
     >
       <div className="relative h-52 overflow-hidden flex-shrink-0">
-        <Image
-          src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+        <YoutubeThumbnail
+          youtubeId={v.id}
           alt={v.title}
           fill
-          unoptimized
           className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
         />
@@ -179,11 +176,10 @@ function JournalCard({ post }: { post: import('@/lib/data/types').BlogPost }) {
       >
         <div className="relative h-52 overflow-hidden flex-shrink-0 bg-neutral-100">
           {post.featuredImagePath && (
-            <Image
+            <ContainedImage
               src={post.featuredImagePath}
               alt={post.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+              className="transition-transform duration-700 group-hover:scale-[1.05]"
               sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
             />
           )}
@@ -238,7 +234,7 @@ function SectionTitle({
     <div className="flex items-center gap-4 mb-8">
       <span className="block w-8 h-px bg-gold-500 opacity-70" />
       <Icon className="h-5 w-5 text-purple-600" />
-      <h2 className="font-display font-bold text-neutral-900 text-2xl">{label}</h2>
+      <h2 className="font-raleway font-light text-neutral-900 text-2xl">{label}</h2>
     </div>
   );
 }

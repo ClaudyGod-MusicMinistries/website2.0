@@ -112,7 +112,7 @@ export default function BookingsPage() {
       <PageHero
         eyebrow="Bookings"
         title="Book ClaudyGod"
-        subtitle="Fill out the form below and our team will contact you within 3–5 business days to confirm details."
+        subtitle="For church services, concerts, and ministry engagements — worldwide."
         backgroundImage="/tour_1.jpg"
         objectPosition="center center"
       />
@@ -135,7 +135,7 @@ export default function BookingsPage() {
                 <span className="rule-gold" />
                 <span className="label-eyebrow">How It Works</span>
               </div>
-              <h3 className="font-display font-bold text-neutral-900 text-2xl md:text-3xl tracking-tight leading-snug mb-10">
+              <h3 className="font-raleway font-light text-neutral-900 text-2xl md:text-3xl tracking-normal leading-snug mb-10">
                 What to Expect
               </h3>
               <div className="space-y-0">

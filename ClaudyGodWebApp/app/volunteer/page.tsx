@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import { Target, TrendingUp, Users, Compass } from 'lucide-react';
+import { PageHero } from '@/components/shared/PageHero';
 import { VolunteerForm } from '@/components/volunteer/VolunteerForm';
 
 export const metadata: Metadata = {
@@ -6,83 +8,78 @@ export const metadata: Metadata = {
   description: 'Join our volunteer team and make a difference in our community.',
 };
 
+const reasons = [
+  {
+    icon: Target,
+    title: 'Make an Impact',
+    body: 'Directly contribute to our mission of spreading faith and community connection.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Grow Your Skills',
+    body: 'Develop new talents and gain experience in a supportive environment.',
+  },
+  {
+    icon: Users,
+    title: 'Build Community',
+    body: 'Connect with like-minded individuals and form meaningful relationships.',
+  },
+  {
+    icon: Compass,
+    title: 'Find Purpose',
+    body: "Be part of something greater and make a difference in people's lives.",
+  },
+];
+
 export default function VolunteerPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-neutral-50">
-      {/* Hero Section */}
-      <section className="pt-20 pb-12 px-4">
-        <div className="max-w-2xl mx-auto text-center">
-          <h1 className="font-display font-bold text-5xl text-neutral-900 mb-4">
-            Volunteer With Us
-          </h1>
-          <p className="font-sans text-lg text-neutral-600 mb-8">
-            Join our passionate team and help us spread the message of faith, music, and community.
-            We have opportunities for everyone, regardless of experience.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
-            <div className="p-4 bg-white rounded-lg shadow-sm border border-neutral-100">
-              <div className="text-3xl mb-2">📹</div>
-              <p className="font-semibold text-neutral-900">Media</p>
-              <p className="text-sm text-neutral-600">Video & Photography</p>
+    <>
+      <PageHero
+        eyebrow="Volunteer"
+        title="Volunteer With Us"
+        subtitle="Join our team and help us spread the message of faith, music, and community."
+      />
+
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+            {/* Form */}
+            <div className="bg-white rounded-xl shadow-card-light-hover border border-black/[0.04] p-8 md:p-10">
+              <div className="flex items-center gap-4 mb-8">
+                <span className="rule-gold" />
+                <span className="label-eyebrow">Application</span>
+              </div>
+              <VolunteerForm />
             </div>
-            <div className="p-4 bg-white rounded-lg shadow-sm border border-neutral-100">
-              <div className="text-3xl mb-2">🎵</div>
-              <p className="font-semibold text-neutral-900">Music</p>
-              <p className="text-sm text-neutral-600">Singing & Worship</p>
-            </div>
-            <div className="p-4 bg-white rounded-lg shadow-sm border border-neutral-100">
-              <div className="text-3xl mb-2">🎸</div>
-              <p className="font-semibold text-neutral-900">Instruments</p>
-              <p className="text-sm text-neutral-600">Musical Instruments</p>
-            </div>
-            <div className="p-4 bg-white rounded-lg shadow-sm border border-neutral-100">
-              <div className="text-3xl mb-2">👋</div>
-              <p className="font-semibold text-neutral-900">Ushering</p>
-              <p className="text-sm text-neutral-600">Guest Relations</p>
+
+            {/* Why volunteer */}
+            <div className="lg:pt-4">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="rule-gold" />
+                <span className="label-eyebrow">Why Volunteer</span>
+              </div>
+              <h3 className="font-raleway font-light text-neutral-900 text-2xl md:text-3xl tracking-normal leading-snug mb-10">
+                Serve With Purpose
+              </h3>
+              <div className="space-y-6">
+                {reasons.map(({ icon: Icon, title, body }) => (
+                  <div key={title} className="flex gap-5 items-start">
+                    <div className="w-10 h-10 rounded-full bg-purple-600/10 border border-purple-500/15 flex items-center justify-center shrink-0">
+                      <Icon className="h-4 w-4 text-purple-600" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <p className="font-display font-bold text-neutral-900 text-base mb-1">
+                        {title}
+                      </p>
+                      <p className="font-sans text-neutral-500 text-sm leading-relaxed">{body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Form Section */}
-      <section className="py-12 px-4">
-        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg border border-neutral-100 p-8">
-          <VolunteerForm />
-        </div>
-      </section>
-
-      {/* Info Section */}
-      <section className="py-12 px-4 bg-neutral-900 text-white">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-display font-bold text-3xl mb-8">Why Volunteer?</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="font-display font-semibold text-lg mb-2">Make an Impact</h3>
-              <p className="font-sans text-neutral-300">
-                Directly contribute to our mission of spreading faith and community connection.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-display font-semibold text-lg mb-2">Grow Your Skills</h3>
-              <p className="font-sans text-neutral-300">
-                Develop new talents and gain experience in a supportive environment.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-display font-semibold text-lg mb-2">Build Community</h3>
-              <p className="font-sans text-neutral-300">
-                Connect with like-minded individuals and form meaningful relationships.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-display font-semibold text-lg mb-2">Find Purpose</h3>
-              <p className="font-sans text-neutral-300">
-                Be part of something greater and make a difference in people&apos;s lives.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+    </>
   );
 }

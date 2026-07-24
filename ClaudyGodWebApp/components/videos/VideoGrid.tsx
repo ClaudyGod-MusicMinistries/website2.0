@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useId, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Play, X, Clock } from 'lucide-react';
+import { Play, X, Clock, Search, SearchX } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView, type VideoView } from '@/lib/data/adapters';
+import { videos as legacyVideos, type VideoType } from '@/data/videos';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { YoutubeThumbnail } from '@/components/ui';
+import { cn } from '@/lib/utils/cn';
 
 const stagger = {
   hidden: {},
@@ -19,51 +21,178 @@ const cardAnim = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
+type Filter = 'All' | VideoType['category'];
+const filters: Filter[] = ['All', 'Music Videos', 'Visualizers', 'Live Sessions', 'Christmas'];
+
+// The real backend's MediaItem has no category field (see toVideoView) — this
+// maps youtubeId -> category from the curated catalog (data/videos.ts) so
+// known videos can still be filtered by type. A video the backend returns
+// that isn't in that catalog yet just won't match a specific tab (still
+// shows under "All"), rather than the whole feature requiring a backend
+// field that doesn't exist.
+const categoryByYoutubeId = new Map(legacyVideos.map((v) => [v.youtubeId, v.category]));
+
 export function VideoGrid() {
+  const pillLayoutId = useId();
   const { media, loading, error, refetch } = useMedia('video');
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [active, setActive] = useState<Filter>('All');
+  const [query, setQuery] = useState('');
 
   const videos = media
     .map(toVideoView)
     .filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
 
-  if (loading) return <GridSkeleton cols={4} rows={2} />;
-  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+  const byCategory =
+    active === 'All'
+      ? videos
+      : videos.filter((v) => categoryByYoutubeId.get(v.youtubeId) === active);
+
+  const q = query.trim().toLowerCase();
+  const filtered = useMemo(
+    () => (q ? byCategory.filter((v) => v.title.toLowerCase().includes(q)) : byCategory),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [byCategory, q]
+  );
+
+  if (loading) {
+    return (
+      <section className="bg-white section-py">
+        <div className="container-site">
+          <GridSkeleton cols={4} rows={2} />
+        </div>
+      </section>
+    );
+  }
+  // `error` alone doesn't block the grid — useMedia falls back to the real
+  // curated catalog (data/fallback.ts) on a failed fetch, so this only
+  // shows the error screen if there's truly nothing to display.
+  if (error && videos.length === 0) {
+    return (
+      <section className="bg-white section-py">
+        <div className="container-site">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
       <section className="bg-white section-py">
         <div className="container-site">
           {/* Section header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
-            <div>
-              <div className="flex items-center gap-4 mb-3">
-                <span className="rule-gold" />
-                <span className="label-eyebrow">Watch & Worship</span>
-              </div>
-              <h2 className="font-display font-semibold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
-                All Videos
-              </h2>
+          <div className="flex items-center gap-4 mb-4 sm:mb-6">
+            <span className="rule-gold" />
+            <span className="label-eyebrow">Watch & Worship</span>
+          </div>
+          <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-8 sm:mb-10">
+            All Videos
+          </h2>
+
+          {/* Toolbar — search + segmented filter control, matching
+              TeachingsGrid's pattern so the two catalogs feel like one
+              system instead of two different browsing experiences. */}
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 sm:mb-10">
+            <div className="relative inline-flex items-center gap-1 p-1 bg-cream-100 border border-neutral-200 rounded-full shadow-sm w-full sm:w-auto overflow-x-auto">
+              {filters.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setActive(f)}
+                  aria-pressed={active === f}
+                  className={cn(
+                    'relative z-10 shrink-0 flex-1 sm:flex-none px-5 h-10 rounded-full font-sans text-xs font-semibold tracking-[0.08em] uppercase transition-colors duration-300',
+                    active === f ? 'text-white' : 'text-neutral-500 hover:text-purple-600'
+                  )}
+                >
+                  {active === f && (
+                    <motion.span
+                      layoutId={pillLayoutId}
+                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
+                      className="absolute inset-0 -z-10 bg-purple-600 rounded-full shadow-purple-cta"
+                    />
+                  )}
+                  {f}
+                </button>
+              ))}
             </div>
-            <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 sm:pb-1">
-              {videos.length} video{videos.length !== 1 ? 's' : ''} available
-            </p>
+
+            <div className="relative w-full lg:max-w-xs">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search videos…"
+                aria-label="Search videos"
+                className="w-full h-11 pl-11 pr-10 bg-cream-100 border border-neutral-200 rounded-full font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery('')}
+                  aria-label="Clear search"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           </div>
 
-          {/* Grid */}
+          {/* Result count */}
+          <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-400 mb-6">
+            {filtered.length} video{filtered.length !== 1 ? 's' : ''}
+            {active !== 'All' && ` in ${active}`}
+            {query && ` matching "${query.trim()}"`}
+          </p>
+
+          {/* Grid — animates in on filter change instead of swapping instantly */}
           <AnimatePresence mode="wait">
-            <motion.div
-              variants={stagger}
-              initial="hidden"
-              animate="show"
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            >
-              {videos.map((video) => (
-                <motion.div key={video.id} variants={cardAnim}>
-                  <VideoCard video={video} onPlay={() => setPlayingId(video.youtubeId)} />
-                </motion.div>
-              ))}
-            </motion.div>
+            {filtered.length > 0 ? (
+              <motion.div
+                key={`${active}-${q}`}
+                variants={stagger}
+                initial="hidden"
+                animate="show"
+                exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
+                {filtered.map((video) => (
+                  <motion.div key={video.id} variants={cardAnim}>
+                    <VideoCard video={video} onPlay={() => setPlayingId(video.youtubeId)} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center gap-4 py-20"
+              >
+                <div className="w-14 h-14 rounded-full bg-neutral-100 flex items-center justify-center">
+                  <SearchX className="h-6 w-6 text-neutral-400" />
+                </div>
+                <div className="text-center">
+                  <p className="font-display font-semibold text-neutral-800 text-base mb-1">
+                    {q ? 'No matches found' : 'Nothing here yet'}
+                  </p>
+                  <p className="font-sans text-neutral-500 text-sm">
+                    {q
+                      ? `Nothing matches "${query.trim()}". Try a different search term.`
+                      : 'Check back soon — new videos are added regularly.'}
+                  </p>
+                </div>
+                {q && (
+                  <button
+                    onClick={() => setQuery('')}
+                    className="font-sans text-xs font-semibold tracking-[0.08em] uppercase text-purple-600 hover:text-purple-700 transition-colors"
+                  >
+                    Clear search
+                  </button>
+                )}
+              </motion.div>
+            )}
           </AnimatePresence>
 
           {/* Bottom link */}
@@ -143,39 +272,38 @@ function VideoCard({
   return (
     <button
       onClick={onPlay}
-      className="group w-full text-left overflow-hidden rounded-xl bg-neutral-950 shadow-card hover:shadow-card-hover transition-all duration-400 border border-white/[0.03] hover:border-purple-500/20"
+      className="group relative w-full aspect-video overflow-hidden rounded-xl bg-neutral-900 ring-1 ring-white/[0.06] hover:ring-gold-500/40 shadow-card hover:shadow-card-hover transition-all duration-400 text-left"
     >
-      {/* Thumbnail */}
-      <div className="relative aspect-video overflow-hidden">
-        <Image
-          src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
-          alt={video.title}
-          fill
-          unoptimized
-          className="object-cover opacity-75 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.05]"
-          sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent" />
-        {/* Play button */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-12 h-12 rounded-full border border-white/25 flex items-center justify-center bg-black/30 group-hover:bg-gold-500 group-hover:border-gold-500 group-hover:scale-110 transition-all duration-300">
-            <Play className="h-4 w-4 text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
-          </div>
+      {/* Full-bleed thumbnail — a single cinematic frame, not a photo-plus-
+          caption card, so this reads as its own "watch" identity distinct
+          from Teachings' editorial list-card layout. */}
+      <YoutubeThumbnail
+        youtubeId={video.youtubeId}
+        alt={video.title}
+        fill
+        className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+        sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-black/5" />
+
+      {/* Play button — hidden until hover, keeps the frame clean by default */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="w-11 h-11 rounded-full bg-gold-500 flex items-center justify-center shadow-gold scale-90 group-hover:scale-100 transition-transform duration-300">
+          <Play className="h-4 w-4 text-black fill-black ml-0.5" />
         </div>
       </div>
 
-      {/* Info */}
-      <div className="p-4">
-        <p className="font-display font-semibold text-base text-neutral-200 group-hover:text-white leading-snug line-clamp-2 transition-colors duration-300 mb-2">
-          {video.title}
-        </p>
-        {video.duration && (
-          <span className="inline-flex items-center gap-1.5 font-sans text-[0.55rem] tracking-[0.1em] uppercase text-neutral-600">
-            <Clock className="h-3 w-3" />
-            {video.duration}
-          </span>
-        )}
-      </div>
+      {video.duration && (
+        <span className="absolute top-3 right-3 flex items-center gap-1 font-sans text-[0.5rem] tracking-[0.1em] uppercase text-white/70 bg-black/50 px-2 py-1 rounded">
+          <Clock className="h-2.5 w-2.5" />
+          {video.duration}
+        </span>
+      )}
+
+      {/* Title — overlaid in the frame, slim weight, capped to two lines */}
+      <p className="absolute inset-x-0 bottom-0 p-3.5 font-sans text-[0.8rem] text-white/90 group-hover:text-white font-light leading-snug line-clamp-2 tracking-[0.01em] transition-colors duration-300">
+        {video.title}
+      </p>
     </button>
   );
 }

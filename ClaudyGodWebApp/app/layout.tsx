@@ -20,6 +20,10 @@ const AIChatWidget = dynamic(
   () => import('@/components/ui/AIChatWidget').then((m) => m.AIChatWidget),
   { ssr: false }
 );
+const CartDrawer = dynamic(
+  () => import('@/components/store/CartDrawer').then((m) => m.CartDrawer),
+  { ssr: false }
+);
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
@@ -156,6 +160,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="min-h-dvh">{children}</main>
         <Footer />
         <WelcomeModal />
+        <CartDrawer />
         <CookieConsent />
         <AIChatWidget />
       </body>

@@ -51,7 +51,7 @@ export function TourDatesStrip() {
                 <span className="block w-8 h-px bg-gold-500 opacity-70" />
                 <span className="label-eyebrow">On Tour</span>
               </div>
-              <h2 className="font-display font-bold text-white text-2xl sm:text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-raleway font-light text-white text-2xl sm:text-3xl md:text-4xl tracking-normal">
                 Live Dates
               </h2>
             </div>

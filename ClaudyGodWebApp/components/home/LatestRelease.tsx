@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Sparkles } from 'lucide-react';
@@ -9,7 +8,7 @@ import { latestReleasePlatforms } from '@/data/music';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { buttonVariants } from '@/lib/theme/buttons';
-import { AmbientGlow, Skeleton } from '@/components/ui';
+import { AmbientGlow, Skeleton, YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 /**
@@ -23,13 +22,15 @@ import { cn } from '@/lib/utils/cn';
  * overlapping "watch a video" experiences.
  */
 export function LatestRelease() {
-  const { media, loading, error } = useMedia('video');
+  const { media, loading } = useMedia('video');
   const [videoOpen, setVideoOpen] = useState(false);
 
   const videos = media.map(toVideoView).filter((v) => v.youtubeId !== null);
   const latest = videos[0];
 
-  if (error || (!loading && !latest)) return null;
+  // `error` no longer hides the section — useMedia falls back to real curated
+  // videos on a failed fetch, so only bail out if there's truly nothing to show.
+  if (!loading && !latest) return null;
 
   return (
     <>
@@ -52,33 +53,59 @@ export function LatestRelease() {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-24 items-center">
-              <Skeleton className="aspect-video w-full" rounded="lg" />
+            <div className="max-w-2xl mx-auto space-y-8">
               <div className="space-y-4">
                 <Skeleton className="h-10 w-3/4" />
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-2/3" />
                 <Skeleton className="h-11 w-40" rounded="lg" />
               </div>
+              <Skeleton className="aspect-video w-full" rounded="lg" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-24 items-center">
-              {/* Video — Main Focus */}
+            <div className="max-w-2xl mx-auto">
+              {/* Text — title, description, play CTA — read first, the
+                  thumbnail follows immediately after as the visual payoff. */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="text-center"
+              >
+                <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-[1.15] mb-4 sm:mb-5">
+                  {latest.title}
+                </h2>
+
+                <p className="font-sans text-neutral-500 text-base leading-relaxed mb-8 max-w-md mx-auto">
+                  Experience the powerful visuals and soul-stirring worship from our latest release.
+                  Watch, listen, and share this anointed moment with your community.
+                </p>
+
+                <button
+                  onClick={() => setVideoOpen(true)}
+                  className={cn(buttonVariants({ variant: 'secondary', size: 'lg' }), 'px-8')}
+                >
+                  <Play className="h-4 w-4 fill-white" />
+                  Play Video
+                </button>
+              </motion.div>
+
+              {/* Video — immediately after the text + Play Video button */}
               <motion.button
                 initial={{ opacity: 0, scale: 0.97 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setVideoOpen(true)}
-                className="relative w-full aspect-video rounded-xl overflow-hidden shadow-card-light-lg group cursor-pointer order-2 lg:order-1 ring-1 ring-black/[0.04]"
+                className="group relative mt-10 sm:mt-12 w-full aspect-video rounded-xl overflow-hidden shadow-card-light-lg cursor-pointer ring-1 ring-black/[0.04]"
               >
-                <Image
-                  src={latest.thumbnailUrl}
+                <YoutubeThumbnail
+                  youtubeId={latest.youtubeId!}
                   alt={latest.title}
                   fill
-                  unoptimized
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-                  sizes="(max-width:1024px) 100vw, 50vw"
+                  sizes="(max-width:1024px) 100vw, 672px"
                   priority
                 />
 
@@ -109,67 +136,42 @@ export function LatestRelease() {
                 </div>
               </motion.button>
 
-              {/* Content */}
+              {/* Listen on platforms + browse links */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col justify-center order-1 lg:order-2"
+                transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-10 sm:mt-12 text-center"
               >
-                <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-[1.15] mb-4 sm:mb-5">
-                  {latest.title}
-                </h2>
-
-                <p className="font-sans text-neutral-500 text-base leading-relaxed mb-8 sm:mb-10 max-w-md">
-                  Experience the powerful visuals and soul-stirring worship from our latest release.
-                  Watch, listen, and share this anointed moment with your community.
+                <p className="font-sans text-[0.65rem] tracking-[0.18em] uppercase text-neutral-400 font-semibold mb-4">
+                  Listen Everywhere
                 </p>
-
-                {/* CTA Button */}
-                <button
-                  onClick={() => setVideoOpen(true)}
-                  className={cn(
-                    buttonVariants({ variant: 'secondary', size: 'lg' }),
-                    'w-fit px-8 mb-10'
-                  )}
-                >
-                  <Play className="h-4 w-4 fill-white" />
-                  Play Video
-                </button>
-
-                {/* Listen on platforms */}
-                <div className="mb-8">
-                  <p className="font-sans text-[0.65rem] tracking-[0.18em] uppercase text-neutral-400 font-semibold mb-4">
-                    Listen Everywhere
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {latestReleasePlatforms.map((platform) => {
-                      const Icon = platform.icon;
-                      return (
-                        <a
-                          key={platform.name}
-                          href={platform.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ '--brand': platform.brandColor } as React.CSSProperties}
-                          className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 hover:border-[var(--brand)]/60 hover:bg-[var(--brand)]/5 text-neutral-500 hover:text-[var(--brand)] transition-all duration-300 group/icon"
-                          title={platform.name}
-                        >
-                          <Icon className="h-4 w-4 transition-transform duration-300 group-hover/icon:scale-110" />
-                        </a>
-                      );
-                    })}
-                  </div>
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                  {latestReleasePlatforms.map((platform) => {
+                    const Icon = platform.icon;
+                    return (
+                      <a
+                        key={platform.name}
+                        href={platform.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ '--brand': platform.brandColor } as React.CSSProperties}
+                        className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 hover:border-[var(--brand)]/60 hover:bg-[var(--brand)]/5 text-neutral-500 hover:text-[var(--brand)] transition-all duration-300 group/icon"
+                        title={platform.name}
+                      >
+                        <Icon className="h-4 w-4 transition-transform duration-300 group-hover/icon:scale-110" />
+                      </a>
+                    );
+                  })}
                 </div>
 
-                {/* Links */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-neutral-200">
+                <div className="flex flex-wrap justify-center gap-3 pt-8 border-t border-neutral-200">
                   <Link
                     href="/music"
                     className={cn(
                       buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }),
-                      'group flex-1'
+                      'group'
                     )}
                   >
                     View All Music
@@ -179,10 +181,11 @@ export function LatestRelease() {
                   </Link>
                   <Link
                     href="/videos"
-                    className={cn(
-                      buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
-                      'flex-1'
-                    )}
+                    className={buttonVariants({
+                      variant: 'outline-dark',
+                      size: 'lg',
+                      uppercase: true,
+                    })}
                   >
                     More Videos
                   </Link>

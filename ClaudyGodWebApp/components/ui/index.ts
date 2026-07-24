@@ -14,6 +14,8 @@ export { Container, Section, Grid, Flex, Stack } from './Layout';
 export { AmbientGlow } from './AmbientGlow';
 export { Particles } from './Particles';
 export { ParallaxLayer } from './ParallaxLayer';
+export { ContainedImage } from './ContainedImage';
+export { YoutubeThumbnail } from './YoutubeThumbnail';
 
 // Card
 export { Card, CardHeader, CardBody, CardFooter } from './Card';

@@ -79,7 +79,7 @@ function Biography() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Biography</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-8">
               Called to Worship
             </h2>
             <div className="space-y-5">
@@ -113,7 +113,7 @@ function Biography() {
           <div className="relative aspect-[4/5] w-full max-w-sm lg:max-w-none order-2 lg:order-1">
             <ParallaxLayer distance={30} className="absolute inset-0">
               <Image
-                src="/ClaudySocial.jpg"
+                src="/resize_abt.webp"
                 alt="Minister ClaudyGod worship"
                 fill
                 className="object-cover object-top"
@@ -128,7 +128,7 @@ function Biography() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Ministry</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-8">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-8">
               Spreading God&apos;s Love
             </h2>
             <div className="space-y-5">

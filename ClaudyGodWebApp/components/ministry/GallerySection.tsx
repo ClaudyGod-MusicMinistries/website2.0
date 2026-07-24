@@ -4,7 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn, Grid3X3 } from 'lucide-react';
-import { galleryCategories } from '@/data/music';
+import { galleryCategories } from '@/data/Tour';
 
 /* ── Flatten all images with metadata ───────────────────── */
 const allImages = galleryCategories
@@ -118,7 +118,7 @@ export function GallerySection() {
 
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
-              <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight leading-tight mb-2">
+              <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-2">
                 Ministry Moments
               </h2>
               <p className="font-sans text-neutral-500 text-sm leading-relaxed max-w-lg">
@@ -172,13 +172,6 @@ export function GallerySection() {
                   <button
                     onClick={() => openAt(img.globalIdx)}
                     className="group relative w-full overflow-hidden rounded-xl bg-cream-100 block"
-                    style={{
-                      aspectRatio: aspectCycle[i % aspectCycle.length]
-                        .replace('aspect-[', '')
-                        .replace(']', '')
-                        .replace('/', ':')
-                        .replace('aspect-square', '1'),
-                    }}
                     aria-label={`View ${img.label} photo ${i + 1}`}
                   >
                     <div className={`relative w-full ${aspectCycle[i % aspectCycle.length]}`}>

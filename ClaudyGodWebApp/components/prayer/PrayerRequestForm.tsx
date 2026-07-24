@@ -7,6 +7,7 @@ import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
+import { buttonVariants } from '@/lib/theme/buttons';
 import type { SubmitPrayerRequestRequest } from '@/types/api';
 
 interface PrayerRequestFormData {
@@ -70,10 +71,10 @@ export function PrayerRequestForm() {
   };
 
   const inputClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl';
+    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-lg';
 
   const textareaClass =
-    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-xl';
+    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-lg';
 
   return (
     <>
@@ -181,7 +182,12 @@ export function PrayerRequestForm() {
         <button
           type="submit"
           disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-purple-cta"
+          className={buttonVariants({
+            variant: 'secondary',
+            size: 'xl',
+            fullWidth: true,
+            uppercase: true,
+          })}
         >
           {isSubmitting ? 'Submitting Request…' : 'Submit Prayer Request'}
         </button>

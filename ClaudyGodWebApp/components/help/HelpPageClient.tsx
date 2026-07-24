@@ -104,15 +104,17 @@ export function HelpPageClient() {
             </div>
           )}
 
-          {/* Error State */}
-          {error && !loading && (
+          {/* Error State — only when there's truly nothing to show; `error`
+              alone doesn't hide the list since useFAQs falls back to real
+              curated answers on a failed fetch (see data/fallback.ts). */}
+          {!loading && error && faqs.length === 0 && (
             <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
               <p className="font-sans text-red-700">{error}</p>
             </div>
           )}
 
           {/* FAQ List */}
-          {!loading && !error && (
+          {!loading && faqs.length > 0 && (
             <div className="space-y-3">
               <AnimatePresence mode="wait">
                 {filtered.length > 0 ? (
@@ -188,7 +190,7 @@ export function HelpPageClient() {
       <section className="bg-cream-100 section-py border-t border-neutral-200">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl tracking-tight mb-4">
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal mb-4">
               Didn&apos;t Find Your Answer?
             </h2>
             <p className="font-sans text-neutral-600 text-lg">
@@ -197,21 +199,23 @@ export function HelpPageClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Contact Form */}
+            {/* Technical Support — direct email, not routed through the
+                general contact form, since a site bug/error needs someone
+                who can actually act on it. */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                 <Mail className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="font-display font-bold text-neutral-900 mb-2">Email Support</h3>
+              <h3 className="font-display font-bold text-neutral-900 mb-2">Technical Support</h3>
               <p className="font-sans text-neutral-600 text-sm mb-5">
-                Send us a detailed message and we&apos;ll respond within 24-48 hours.
+                Found a bug or something not working right on the site? Email it directly.
               </p>
-              <Link
-                href="/contact"
+              <a
+                href="mailto:peter4tech@gmail.com"
                 className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-700 font-semibold"
               >
-                Contact Us <ExternalLink className="h-3.5 w-3.5" />
-              </Link>
+                peter4tech@gmail.com <ExternalLink className="h-3.5 w-3.5" />
+              </a>
             </div>
 
             {/* Live Chat */}
@@ -231,14 +235,14 @@ export function HelpPageClient() {
               </button>
             </div>
 
-            {/* Phone */}
+            {/* General Inquiries */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
                 <Phone className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="font-display font-bold text-neutral-900 mb-2">Quick Contact</h3>
+              <h3 className="font-display font-bold text-neutral-900 mb-2">General Inquiries</h3>
               <p className="font-sans text-neutral-600 text-sm mb-5">
-                For urgent matters, reach out through our main contact page.
+                Bookings, partnerships, or anything else — reach the team directly.
               </p>
               <Link
                 href="/contact"

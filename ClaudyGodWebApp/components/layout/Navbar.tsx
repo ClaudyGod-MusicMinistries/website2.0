@@ -201,6 +201,19 @@ export function Navbar() {
                 Music Ministries
               </span>
             </div>
+
+            {/* Real close control — the header's own hamburger toggle sits
+                outside this dialog, so Radix marks it inert while the modal
+                is open and it becomes unclickable. This one lives inside
+                the dialog content, where it stays interactive. */}
+            <button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setOpen(false)}
+              className="ml-auto flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-white/70 hover:text-white transition-all duration-200 shrink-0"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
 
           {/* Nav links — grouped by Explore / Connect / Support */}

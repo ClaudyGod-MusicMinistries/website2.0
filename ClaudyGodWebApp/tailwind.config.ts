@@ -52,6 +52,7 @@ const config: Config = {
       // typeface only in lib/fonts.ts; these class names should stay put.
       fontFamily: {
         display: ['var(--font-display)', 'serif'],
+        raleway: ['var(--font-raleway)', 'sans-serif'],
         sans: ['var(--font-sans)', 'sans-serif'],
       },
       fontSize: {
@@ -102,14 +103,17 @@ const config: Config = {
         'gold-lg': `0 0 40px 0 rgb(${goldRgb} / 0.35)`,
         'gold-glow': `0 0 60px 0 rgb(${goldRgb} / 0.45)`,
         'inner-dark': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.5)',
-        card: '0 4px 24px 0 rgb(0 0 0 / 0.4)',
-        'card-hover': '0 8px 40px 0 rgb(0 0 0 / 0.6)',
-        header: '0 4px 24px 0 rgb(0 0 0 / 0.08)',
+        // Card elevation — kept tight and low-spread (flatter, more
+        // grounded) rather than the large soft blur that read as "too
+        // much"/floaty on a card.
+        card: '0 2px 10px 0 rgb(0 0 0 / 0.3)',
+        'card-hover': '0 4px 18px 0 rgb(0 0 0 / 0.4)',
+        header: '0 2px 12px 0 rgb(0 0 0 / 0.06)',
         // Light-background card shadows — 'card'/'card-hover' above are
         // tuned for dark surfaces and read as too heavy on white cards.
-        'card-light': '0 2px 12px 0 rgb(0 0 0 / 0.06)',
-        'card-light-hover': '0 8px 32px 0 rgb(0 0 0 / 0.10)',
-        'card-light-lg': '0 20px 60px 0 rgb(0 0 0 / 0.15)',
+        'card-light': '0 1px 6px 0 rgb(0 0 0 / 0.05)',
+        'card-light-hover': '0 4px 14px 0 rgb(0 0 0 / 0.08)',
+        'card-light-lg': '0 10px 28px 0 rgb(0 0 0 / 0.12)',
         purple: `0 4px 20px 0 rgb(${purpleRgb} / 0.5)`,
         'purple-lg': `0 6px 28px 0 rgb(${purpleRgb} / 0.6)`,
         // Centered glows (play buttons, icon badges) vs the offset shadows above.
@@ -122,13 +126,19 @@ const config: Config = {
         // Purple counterpart to 'gold-cta' — for purple-600 CTA buttons.
         'purple-cta': `0 4px 20px 0 rgb(${purpleRgb} / 0.35)`,
         'purple-cta-hover': `0 6px 28px 0 rgb(${purpleRgb} / 0.45)`,
-        popup: '0 24px 64px 0 rgb(0 0 0 / 0.6)',
+        popup: '0 12px 36px 0 rgb(0 0 0 / 0.45)',
         // Dramatic large-radius drop shadow for full-bleed portrait/gallery images.
         photo: '0 40px 120px 0 rgb(0 0 0 / 0.8)',
       },
 
       // ─── Borders ─────────────────────────────────────────────────
       borderRadius: {
+        // Overrides Tailwind's default xl (0.75rem) — this is the site's
+        // card/image radius token (rounded-xl, used on ~40+ cards across
+        // the app), and 0.75rem read as too curvy. Brought down to match
+        // lg (buttons/inputs) for one consistent, flatter radius instead
+        // of cards standing out as noticeably rounder than everything else.
+        xl: '0.5rem',
         '4xl': '2rem',
         '5xl': '2.5rem',
       },

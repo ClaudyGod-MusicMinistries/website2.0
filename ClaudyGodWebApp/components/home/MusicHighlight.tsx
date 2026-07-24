@@ -1,13 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { useAlbums } from '@/hooks/useAlbums';
 import { toAlbumView } from '@/lib/data/adapters';
 import { buttonVariants } from '@/lib/theme/buttons';
-import { Skeleton } from '@/components/ui';
+import { ContainedImage, Skeleton } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: FaDeezer } as const;
@@ -22,10 +21,13 @@ const cardVariant = {
 };
 
 export function MusicHighlight() {
-  const { albums: rawAlbums, loading, error } = useAlbums();
+  const { albums: rawAlbums, loading } = useAlbums();
   const albums = rawAlbums.slice(0, 3).map(toAlbumView);
 
-  if (error) return null;
+  // `error` no longer hides the section — useAlbums falls back to real
+  // curated albums on a failed fetch, so this only stays empty if there's
+  // truly nothing (loading finished with zero albums either way).
+  if (!loading && albums.length === 0) return null;
 
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
@@ -36,14 +38,14 @@ export function MusicHighlight() {
               <span className="rule-gold" />
               <span className="label-eyebrow">Discography</span>
             </div>
-            <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight">
+            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight">
               Albums
             </h2>
           </div>
           <Link
             href="/music"
             className={cn(
-              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
+              buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
               'hidden md:inline-flex whitespace-nowrap'
             )}
           >
@@ -76,14 +78,12 @@ export function MusicHighlight() {
               >
                 {/* Album Art Container */}
                 <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-xl shadow-card-light-hover bg-neutral-100">
-                  <Image
+                  <ContainedImage
                     src={album.image}
                     alt={album.title}
-                    fill
-                    className="object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                    className="w-full h-full grayscale-[15%] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
                     sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(50vw - 1.5rem), calc(33.333vw - 1.5rem)"
                     priority={idx === 0}
-                    quality={90}
                   />
                   <div className="absolute inset-0 ring-1 ring-black/5 pointer-events-none" />
                 </div>

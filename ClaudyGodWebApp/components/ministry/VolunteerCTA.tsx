@@ -47,7 +47,7 @@ export function VolunteerCTA() {
             <span className="block w-8 h-px bg-gold-500 opacity-70" />
             <span className="label-eyebrow">Get Involved</span>
           </div>
-          <h2 className="font-display font-bold text-white text-2xl md:text-3xl tracking-tight leading-tight mb-4">
+          <h2 className="font-raleway font-light text-white text-2xl md:text-3xl tracking-normal leading-tight mb-4">
             Serve With the Ministry
           </h2>
           <p className="font-sans text-neutral-400 text-sm leading-relaxed">

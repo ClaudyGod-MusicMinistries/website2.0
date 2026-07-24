@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { useAlbums } from '@/hooks/useAlbums';
 import { toAlbumView } from '@/lib/data/adapters';
+import { ContainedImage } from '@/components/ui';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { platformColors } from '@/lib/utils/platformColors';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
@@ -19,8 +19,27 @@ export function AlbumGrid() {
   const { albums: rawAlbums, loading, error, refetch } = useAlbums();
   const albums = rawAlbums.map(toAlbumView);
 
-  if (loading) return <GridSkeleton cols={3} rows={2} />;
-  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+  if (loading) {
+    return (
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <GridSkeleton cols={3} rows={2} />
+        </div>
+      </section>
+    );
+  }
+  // `error` alone doesn't block the grid — useAlbums falls back to the real
+  // curated albums (data/fallback.ts) on a failed fetch, so this only shows
+  // the error screen if there's truly nothing to display.
+  if (error && albums.length === 0) {
+    return (
+      <section className="bg-cream-100 section-py">
+        <div className="container-site">
+          <ErrorMessage message={error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-cream-100 section-py">
@@ -36,16 +55,15 @@ export function AlbumGrid() {
               key={album.title}
               className="group flex flex-col h-full bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover overflow-hidden transition-shadow duration-400 border border-black/[0.04]"
             >
-              {/* Album art container */}
+              {/* Album art container — the parent controls the square shape,
+                  ContainedImage handles fitting the art within it. */}
               <div className="relative w-full aspect-square overflow-hidden bg-neutral-100">
-                <Image
+                <ContainedImage
                   src={album.image}
                   alt={album.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   priority={i === 0}
-                  quality={90}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>

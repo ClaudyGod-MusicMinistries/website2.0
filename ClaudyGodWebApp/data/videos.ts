@@ -290,7 +290,7 @@ export const videos: VideoType[] = [
   },
   {
     id: 24,
-    title: 'Father Christmas (lyric video). Music by ClaudyGod',
+    title: 'Father Christmas (lyric video)',
     youtubeId: 'F00Xkd8MrBc',
     category: 'Christmas',
     description: 'Father Christmas (lyric video). Music by ClaudyGod',

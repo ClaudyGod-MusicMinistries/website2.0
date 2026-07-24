@@ -4,7 +4,8 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-import { teamMembers } from '@/data/music';
+import { teamMembers } from '@/data/Tour';
+import { AmbientGlow } from '@/components/ui';
 
 const aspectCycle = [
   'aspect-[3/4]',
@@ -57,26 +58,44 @@ export function TeamSection() {
   return (
     <>
       <section
-        className="bg-white section-py border-t border-black/[0.05]"
+        className="relative bg-surface-deep overflow-hidden section-py"
         onKeyDown={onKeyDown}
         tabIndex={-1}
       >
-        <div className="container-site">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <AmbientGlow
+            color="gold"
+            size={500}
+            opacity={0.08}
+            animate={false}
+            className="-top-[200px] -right-[200px]"
+          />
+          <AmbientGlow
+            color="purple"
+            size={400}
+            opacity={0.1}
+            animate={false}
+            className="-bottom-[150px] -left-[150px]"
+          />
+        </div>
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
+
+        <div className="relative container-site">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 sm:mb-12">
             <div>
               <div className="flex items-center gap-4 mb-3">
-                <span className="rule-gold" />
+                <span className="block w-8 h-px bg-gold-500 opacity-70" />
                 <span className="label-eyebrow">The Team</span>
               </div>
-              <h2 className="font-display font-bold text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+              <h2 className="font-raleway font-light text-white text-2xl sm:text-3xl md:text-4xl tracking-normal">
                 Ministry Gallery
               </h2>
-              <p className="mt-2 font-sans text-neutral-500 text-sm leading-relaxed max-w-md">
+              <p className="mt-2 font-sans text-neutral-400 text-sm leading-relaxed max-w-md">
                 The dedicated people behind the mission — serving with purpose, faith, and joy.
               </p>
             </div>
-            <p className="font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 shrink-0">
+            <p className="font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 shrink-0">
               {teamMembers.length} photos
             </p>
           </div>
@@ -97,7 +116,7 @@ export function TeamSection() {
               >
                 <button
                   onClick={() => setLightboxIdx(i)}
-                  className={`group relative w-full overflow-hidden rounded-xl bg-neutral-100 block ${aspectCycle[i % aspectCycle.length]}`}
+                  className={`group relative w-full overflow-hidden rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] block ${aspectCycle[i % aspectCycle.length]}`}
                   aria-label={`View ministry photo ${i + 1}`}
                 >
                   <Image
@@ -126,6 +145,7 @@ export function TeamSection() {
             ))}
           </motion.div>
         </div>
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/20 to-transparent" />
       </section>
 
       {/* ── Lightbox ── */}

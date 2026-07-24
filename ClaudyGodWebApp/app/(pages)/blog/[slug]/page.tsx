@@ -111,7 +111,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               {readTime(post.content)}
             </span>
           </div>
-          <h1 className="font-display font-bold text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.08] mb-6">
+          <h1 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl lg:text-5xl tracking-normal leading-[1.08] mb-6">
             {post.title}
           </h1>
           <div className="w-12 h-0.5 bg-amber-400 opacity-70" />

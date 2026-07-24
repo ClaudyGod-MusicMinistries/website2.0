@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, ExternalLink, Music2, ListMusic } from 'lucide-react';
+import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 interface Track {
@@ -54,9 +55,21 @@ export function MusicPlayer() {
   return (
     <section className="bg-surface-raised section-py relative overflow-hidden">
       {/* Ambient glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-purple-900/25 blur-[120px]" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[300px] rounded-full bg-gold-500/8 blur-[100px]" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <AmbientGlow
+          color="purple"
+          size={500}
+          opacity={0.2}
+          animate={false}
+          className="-top-32 right-1/4"
+        />
+        <AmbientGlow
+          color="gold"
+          size={400}
+          opacity={0.07}
+          animate={false}
+          className="-bottom-24 left-1/4"
+        />
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/30 to-transparent mb-0 absolute top-0 left-0" />
 
@@ -68,7 +81,7 @@ export function MusicPlayer() {
               <span className="block w-8 h-px bg-gold-500 opacity-70" />
               <span className="label-eyebrow">Now Playing</span>
             </div>
-            <h2 className="font-display font-bold text-white text-3xl md:text-4xl tracking-tight">
+            <h2 className="font-raleway font-light text-white text-3xl md:text-4xl tracking-normal">
               Music Player
             </h2>
             <p className="font-sans text-neutral-500 text-sm mt-2">
