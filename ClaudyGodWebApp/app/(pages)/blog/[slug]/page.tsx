@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import type { ApiResponse, BlogPostDetail } from '@/lib/data/types';
+import { ReactionBar } from '@/components/blog/ReactionBar';
+import { CommentsSection } from '@/components/blog/CommentsSection';
 
 const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
 
@@ -124,6 +126,12 @@ export default async function BlogPostPage({ params }: PageProps) {
             </p>
           ))}
         </div>
+
+        <div className="mt-10">
+          <ReactionBar target={{ type: 'post', id: post.id }} />
+        </div>
+
+        <CommentsSection postId={post.id} />
 
         <div className="mt-16 pt-10 border-t border-black/[0.06] flex items-center justify-between gap-4 flex-wrap">
           <Link

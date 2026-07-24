@@ -183,6 +183,23 @@ export interface VolunteerApplication {
   createdAt: string;
 }
 
+// Comments & likes (Journal posts)
+export interface Comment {
+  id: string;
+  authorName: string;
+  content: string;
+  parentCommentId: string | null;
+  createdAt: string;
+}
+
+export const REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '😠'] as const;
+export type ReactionEmoji = (typeof REACTION_EMOJIS)[number];
+
+export interface ReactionSummary {
+  counts: Partial<Record<ReactionEmoji, number>>;
+  yourReaction: ReactionEmoji | null;
+}
+
 // Generic API Response
 export interface ApiResponse<T> {
   success: boolean;

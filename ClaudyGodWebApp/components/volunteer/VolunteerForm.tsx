@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Video, Mic2, Guitar, Users, ShieldCheck, Sparkles } from 'lucide-react';
+import { Video, Mic2, Guitar, Users, ShieldCheck, Sparkles, ChevronDown } from 'lucide-react';
 import { post, BackendError } from '@/lib/data/client';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
@@ -55,6 +55,8 @@ export function VolunteerForm() {
   });
 
   const selectedRole = watch('role');
+  const SelectedRoleIcon =
+    VOLUNTEER_ROLES.find((r) => r.value === selectedRole)?.icon ?? VOLUNTEER_ROLES[0].icon;
 
   const onSubmit = async (data: VolunteerFormData) => {
     try {
@@ -171,34 +173,32 @@ export function VolunteerForm() {
 
         {/* Volunteer Role Selection */}
         <div>
-          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
+          <label
+            htmlFor="volunteer-role"
+            className="font-display font-semibold text-neutral-800 text-sm block mb-2"
+          >
             Volunteer Role <span className="text-purple-500">*</span>
           </label>
-          <div className="grid grid-cols-2 gap-3">
-            {VOLUNTEER_ROLES.map((r) => {
-              const Icon = r.icon;
-              return (
-                <label
-                  key={r.value}
-                  className={cn(
-                    'flex items-center gap-2.5 p-3 border-2 rounded-lg cursor-pointer transition-all',
-                    selectedRole === r.value
-                      ? 'border-purple-600 bg-purple-50'
-                      : 'border-neutral-200 bg-white hover:border-purple-300'
-                  )}
-                >
-                  <input {...register('role')} type="radio" value={r.value} className="sr-only" />
-                  <Icon
-                    className={cn(
-                      'h-4 w-4 shrink-0',
-                      selectedRole === r.value ? 'text-purple-600' : 'text-neutral-400'
-                    )}
-                    aria-hidden="true"
-                  />
-                  <span className="text-sm font-sans text-neutral-800">{r.label}</span>
-                </label>
-              );
-            })}
+          <div className="relative">
+            <SelectedRoleIcon
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-500"
+              aria-hidden="true"
+            />
+            <select
+              id="volunteer-role"
+              {...register('role')}
+              className={cn(inputClass, 'appearance-none pl-11 pr-10 cursor-pointer')}
+            >
+              {VOLUNTEER_ROLES.map((r) => (
+                <option key={r.value} value={r.value}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400"
+              aria-hidden="true"
+            />
           </div>
           {errors.role && <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>}
         </div>
