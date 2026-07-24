@@ -1,3 +1,4 @@
+# docker-compose.yml
 services:
   # ── Next.js Application ───────────────────────────────────────────────────
   web:
@@ -7,26 +8,20 @@ services:
       args:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://claudygod.org}
         NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: ${NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY:-}
-    image: claudygod-web:latest
+    image: claudygod-web:${IMAGE_TAG:-latest}
     container_name: claudygod_web
     restart: unless-stopped
     expose:
       - '3000'
     environment:
       NODE_ENV: production
-      # lib/data/backendProxy.ts reads this exact name — it was never set here
-      # before (only the unread NEXT_PUBLIC_API_URL build arg was), which made
-      # every /api/* proxy call fail with a 502 against the unreachable
-      # http://localhost:8080 fallback. webApi.claudygod.org is this site's
-      # backend — api.claudygod.org is the separate mobile-app backend.
       API_BASE_URL: ${API_BASE_URL:-https://webApi.claudygod.org}
       INTERNAL_API_KEY: ${INTERNAL_API_KEY:-}
       VALID_API_KEYS: ${VALID_API_KEYS:-}
-      PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY:-sk_live_placeholder}
-      NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: ${NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY:-pk_live_placeholder}
+      PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY:-}
+      NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: ${NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY:-}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://claudygod.org}
     env_file:
-      - .env
       - .env.production
     healthcheck:
       test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3000']
@@ -47,7 +42,7 @@ services:
       - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl:/etc/nginx/ssl:ro # Mount TLS certs (Let's Encrypt / manual)
+      - ./ssl:/etc/nginx/ssl:ro
       - nginx_cache:/var/cache/nginx
     depends_on:
       web:
