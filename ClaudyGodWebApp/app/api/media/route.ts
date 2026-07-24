@@ -3,11 +3,12 @@ import { proxyGet } from '@/lib/data/backendProxy';
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const type = searchParams.get('type');
-    let path = '/media';
-    if (type) path += `?type=${encodeURIComponent(type)}`;
-    const backendRes = await proxyGet(req, path);
+    // proxyGet already forwards this request's own query string (type=...)
+    // to the backend — building it again here and passing '/media?type=...'
+    // as the path caused proxyGet to append it a *second* time, sending the
+    // backend a malformed '?type=video?type=video' that failed enum parsing
+    // with a 400. Just pass the clean base path.
+    const backendRes = await proxyGet(req, '/media');
     return backendRes;
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Failed to fetch media';
