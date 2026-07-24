@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, ChevronRight, Clock } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { buttonVariants } from '@/lib/theme/buttons';
-import { AmbientGlow, Skeleton } from '@/components/ui';
+import { AmbientGlow, Skeleton, YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 const stagger = {
@@ -118,11 +117,10 @@ export function FeaturedVideos() {
                   className="group relative overflow-hidden bg-neutral-900 cursor-pointer rounded-xl ring-1 ring-white/[0.06] hover:ring-purple-500/40 transition-all duration-400"
                   style={{ aspectRatio: '16/9' }}
                 >
-                  <Image
-                    src={featured.thumbnailUrl}
+                  <YoutubeThumbnail
+                    youtubeId={featured.youtubeId!}
                     alt={featured.title}
                     fill
-                    unoptimized
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.05] opacity-80 group-hover:opacity-100"
                     sizes="(max-width:1024px) 100vw, 65vw"
                   />
@@ -165,11 +163,10 @@ export function FeaturedVideos() {
                       >
                         {/* Thumbnail */}
                         <div className="relative w-28 h-16 flex-shrink-0 overflow-hidden rounded-lg">
-                          <Image
-                            src={video.thumbnailUrl}
+                          <YoutubeThumbnail
+                            youtubeId={video.youtubeId!}
                             alt={video.title}
                             fill
-                            unoptimized
                             className="object-cover transition-transform duration-500 group-hover:scale-[1.07] opacity-75 group-hover:opacity-100"
                             sizes="112px"
                           />
@@ -217,11 +214,10 @@ export function FeaturedVideos() {
                       onClick={() => setActiveId(video.id)}
                       className="group relative aspect-video overflow-hidden bg-neutral-900 cursor-pointer rounded-xl ring-1 ring-white/[0.04] hover:ring-purple-500/30 transition-all duration-300"
                     >
-                      <Image
-                        src={video.thumbnailUrl}
+                      <YoutubeThumbnail
+                        youtubeId={video.youtubeId!}
                         alt={video.title}
                         fill
-                        unoptimized
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.07] opacity-70 group-hover:opacity-95"
                         sizes="(max-width:768px) 50vw, 25vw"
                       />

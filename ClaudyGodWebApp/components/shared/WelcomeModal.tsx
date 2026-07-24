@@ -8,6 +8,7 @@ import { X, Play, Bell, ArrowRight, Music } from 'lucide-react';
 import { getCookie, setCookie } from '@/lib/utils/cookies';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
+import { YoutubeThumbnail } from '@/components/ui';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -110,11 +111,10 @@ export function WelcomeModal() {
                   onClick={() => setVideoOpen(true)}
                   className="relative h-36 sm:h-52 overflow-hidden shrink-0 w-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
                 >
-                  <Image
-                    src={latestVideo.thumbnailUrl}
+                  <YoutubeThumbnail
+                    youtubeId={latestVideo.youtubeId!}
                     alt={latestVideo.title}
                     fill
-                    unoptimized
                     className="object-cover object-top"
                     sizes="576px"
                   />

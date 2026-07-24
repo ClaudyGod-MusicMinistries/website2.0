@@ -1,5 +1,6 @@
 import type { StoreProduct, Album, MediaItem } from '@/lib/data/types';
 import type { Product } from '@/types/store';
+import { youtubeMaxThumbnail } from '@/lib/utils/youtube';
 
 /**
  * Maps the real backend's StoreProduct shape (title, single image, inStock)
@@ -76,6 +77,13 @@ function formatDuration(seconds?: number): string {
  * server-side, so it's dropped rather than fabricated. Items whose
  * publicUrl isn't a YouTube link return youtubeId: null; every consumer's
  * player is a YouTube embed, so those get filtered out.
+ *
+ * `thumbnailUrl` here is a defensive default (maxresdefault — the true
+ * 16:9 frame) for any consumer that renders it as a plain string; actual
+ * `<img>`/`<Image>` rendering should go through youtubeId + the
+ * `YoutubeThumbnail` component instead, which also handles the
+ * maxresdefault-doesn't-exist-yet case with a live fallback this string
+ * alone can't provide.
  */
 export function toVideoView(m: MediaItem): VideoView {
   const youtubeId = extractYouTubeId(m.publicUrl);
@@ -84,8 +92,7 @@ export function toVideoView(m: MediaItem): VideoView {
     title: m.title,
     youtubeId,
     duration: formatDuration(m.durationSeconds),
-    thumbnailUrl:
-      m.thumbnailPath || (youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : ''),
+    thumbnailUrl: m.thumbnailPath || (youtubeId ? youtubeMaxThumbnail(youtubeId) : ''),
     createdAt: m.createdAt,
   };
 }

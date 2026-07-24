@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useMemo, useId } from 'react';
-import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, Search, SearchX } from 'lucide-react';
 import { teachingsData } from '@/data/ministry';
+import { YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 type Filter = 'All' | 'Live Teachings' | 'CGM Podcasts';
@@ -116,11 +116,10 @@ export function TeachingsGrid() {
                     className="group relative bg-neutral-900 text-left overflow-hidden rounded-xl shadow-card hover:shadow-card-hover transition-shadow duration-300"
                   >
                     <div className="relative aspect-video overflow-hidden">
-                      <Image
-                        src={`https://img.youtube.com/vi/${teaching.youtubeId}/hqdefault.jpg`}
+                      <YoutubeThumbnail
+                        youtubeId={teaching.youtubeId}
                         alt={teaching.title}
                         fill
-                        unoptimized
                         className="object-cover opacity-60 group-hover:opacity-85 transition-all duration-500 group-hover:scale-105"
                         sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
                       />

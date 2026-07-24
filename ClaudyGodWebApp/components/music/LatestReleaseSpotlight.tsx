@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Sparkles, Headphones, Play, X } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { latestReleasePlatforms, latestReleaseAnnouncement } from '@/data/music';
 import { buttonVariants } from '@/lib/theme/buttons';
-import { AmbientGlow, Skeleton } from '@/components/ui';
+import { AmbientGlow, Skeleton, YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 /**
@@ -56,8 +55,8 @@ export function LatestReleaseSpotlight() {
 
         <div className="relative container-site py-14 sm:py-20 lg:py-24">
           {loading ? (
-            <div className="grid grid-cols-1 lg:grid-cols-[0.75fr_1fr] gap-10 sm:gap-14 lg:gap-20 items-center">
-              <Skeleton className="aspect-square w-full max-w-sm mx-auto lg:mx-0" rounded="lg" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
+              <Skeleton className="aspect-video w-full" rounded="lg" />
               <div className="space-y-4">
                 <Skeleton className="h-4 w-32" />
                 <Skeleton className="h-10 w-3/4" />
@@ -67,23 +66,25 @@ export function LatestReleaseSpotlight() {
             </div>
           ) : (
             latest && (
-              <div className="grid grid-cols-1 lg:grid-cols-[0.75fr_1fr] gap-10 sm:gap-14 lg:gap-20 items-center">
-                {/* Thumbnail — click to watch in-app */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
+                {/* Thumbnail — click to watch in-app. aspect-video, not
+                    aspect-square: this is a YouTube frame (naturally 16:9),
+                    matching its real shape instead of cropping it into one
+                    that doesn't fit. */}
                 <motion.button
                   initial={{ opacity: 0, scale: 0.96 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                   onClick={() => setVideoOpen(true)}
-                  className="group relative aspect-square w-full max-w-sm mx-auto lg:mx-0 rounded-xl overflow-hidden shadow-card-hover ring-1 ring-white/[0.06] cursor-pointer"
+                  className="group relative aspect-video w-full rounded-xl overflow-hidden shadow-card-hover ring-1 ring-white/[0.06] cursor-pointer"
                 >
-                  <Image
-                    src={latest.thumbnailUrl}
+                  <YoutubeThumbnail
+                    youtubeId={latest.youtubeId!}
                     alt={latest.title}
                     fill
-                    unoptimized
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                    sizes="(max-width: 1024px) 90vw, 400px"
+                    sizes="(max-width: 1024px) 90vw, 50vw"
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />

@@ -67,7 +67,7 @@ export function TheArtist() {
             </h2>
 
             <p className="font-sans text-neutral-600 text-base sm:text-lg leading-relaxed mb-6 max-w-xl">
-              A Us-based gospel artist of Nigerian and Sierra Leonean heritage, called to ministry
+              A US-based gospel artist of Nigerian and Sierra Leonean heritage, called to ministry
               in 2003. What began as a season of prayer and fasting for the New Year became her
               debut album,{' '}
               <em className="not-italic font-semibold text-neutral-800">
