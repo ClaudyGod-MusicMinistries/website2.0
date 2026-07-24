@@ -107,20 +107,12 @@ export const navigationItems: NavItem[] = [
     header: 'none',
   },
   {
-    href: '/blog',
-    label: 'Blog',
-    icon: BookOpen,
-    priority: 'secondary',
-    group: 'explore',
-    header: 'none',
-  },
-  {
     href: '/news',
     label: 'News',
     icon: Newspaper,
-    priority: 'secondary',
+    priority: 'primary',
     group: 'connect',
-    header: 'none',
+    header: 'desktop',
   },
   {
     href: '/bookings',
