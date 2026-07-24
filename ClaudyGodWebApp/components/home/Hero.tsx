@@ -103,6 +103,11 @@ export function Hero() {
           />
         </motion.div>
 
+        {/* Overall dark tint — a uniform film across the whole photo for a
+            darker, moodier feel, layered under the directional legibility
+            gradients below (which handle edge contrast for the text/UI). */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/55" />
+
         {/* Legibility gradients */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10" />

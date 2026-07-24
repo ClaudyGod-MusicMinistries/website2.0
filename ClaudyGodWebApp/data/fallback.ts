@@ -25,7 +25,7 @@ export const fallbackAlbums: Album[] = [
   {
     id: 'fallback-very-glorious',
     title: 'Very Glorious',
-    imageUrl: '/CoverArt.webp',
+    imageUrl: '/veryGlorious.jpg',
     spotifyUrl: 'https://open.spotify.com/album/1zCT0YUVggnzkZJK5VP0yd',
     appleUrl: 'https://music.apple.com/ng/album/very-glorious/1789665669',
     youtubeUrl: 'https://youtube.com/@claudygodministries?si=6Ne99tTC48Ihv44s',
@@ -36,7 +36,7 @@ export const fallbackAlbums: Album[] = [
   {
     id: 'fallback-you-are-our-everything',
     title: 'You Are Our Everything',
-    imageUrl: '/resize_abt.webp',
+    imageUrl: '/CoverArt.webp',
     spotifyUrl: 'https://open.spotify.com/album/1zCT0YUVggnzkZJK5VP0yd',
     appleUrl: 'https://music.apple.com/ng/album/you-are-our-everything-single/1803827230',
     youtubeUrl:

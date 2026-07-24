@@ -113,7 +113,7 @@ function Biography() {
           <div className="relative aspect-[4/5] w-full max-w-sm lg:max-w-none order-2 lg:order-1">
             <ParallaxLayer distance={30} className="absolute inset-0">
               <Image
-                src="/ClaudySocial.jpg"
+                src="/resize_abt.webp"
                 alt="Minister ClaudyGod worship"
                 fill
                 className="object-cover object-top"
