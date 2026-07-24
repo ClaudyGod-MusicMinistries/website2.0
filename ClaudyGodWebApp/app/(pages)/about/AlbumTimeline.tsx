@@ -136,7 +136,10 @@ export function AlbumTimeline() {
       </section>
     );
   }
-  if (error) {
+  // `error` alone doesn't block the timeline — useAlbums falls back to the
+  // real curated albums (data/fallback.ts) on a failed fetch, so this only
+  // shows the error screen if there's truly nothing to display.
+  if (error && albums.length === 0) {
     return (
       <section className="bg-cream-100 section-py">
         <div className="container-site">
