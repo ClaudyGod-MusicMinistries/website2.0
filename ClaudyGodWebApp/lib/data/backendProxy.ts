@@ -177,6 +177,17 @@ export async function proxyGet(
   try {
     const search = req.nextUrl.searchParams.toString();
     const path = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
+    // This always forwards the incoming request's own query string — a
+    // caller passing a resource path that already has one baked in (e.g.
+    // '/media?type=video') would get it appended a second time, producing
+    // a malformed '?type=video?type=video' the backend can't parse. Every
+    // route.ts caller now passes a clean path for exactly this reason;
+    // this guard makes that the enforced contract, not just convention.
+    if (path.includes('?')) {
+      throw new Error(
+        `proxyGet: backendResource must not include a query string (got "${backendResource}") — proxyGet always forwards the request's own search params`
+      );
+    }
     const backendUrl = search ? `${path}?${search}` : path;
 
     const controller = new AbortController();

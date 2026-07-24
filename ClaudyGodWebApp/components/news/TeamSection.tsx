@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
-
 import { teamMembers } from '@/data/Tour';
 import { AmbientGlow } from '@/components/ui';
 
@@ -32,6 +31,7 @@ const item = {
   },
 };
 
+/** Moved here from the Ministry page, alongside the tour Gallery it pairs with. */
 export function TeamSection() {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
@@ -90,7 +90,7 @@ export function TeamSection() {
                 <span className="label-eyebrow">The Team</span>
               </div>
               <h2 className="font-raleway font-light text-white text-2xl sm:text-3xl md:text-4xl tracking-normal">
-                Ministry Gallery
+                Meet Our Team
               </h2>
               <p className="mt-2 font-sans text-neutral-400 text-sm leading-relaxed max-w-md">
                 The dedicated people behind the mission — serving with purpose, faith, and joy.
