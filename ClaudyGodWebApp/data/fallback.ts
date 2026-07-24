@@ -144,16 +144,16 @@ export const fallbackStoreProducts: StoreProduct[] = [
     inStock: true,
     // rating: 4.7,
   },
-  {
-    id: 'fallback-product-ep',
-    title: 'ClaudyGod Music EP',
-    description: 'Digital EP: Pay. Stream. Download.',
-    price: 10,
-    image: '/CD1.png',
-    category: 'music',
-    inStock: true,
-    // rating: 4.9,
-  },
+  // {
+  //   id: 'fallback-product-ep',
+  //   title: 'ClaudyGod Music EP',
+  //   description: 'Digital EP: Pay. Stream. Download.',
+  //   price: 10,
+  //   image: '/CD1.png',
+  //   category: 'music',
+  //   inStock: true,
+  //   // rating: 4.9,
+  // },
 ];
 
 export const fallbackFAQs: FAQ[] = [
