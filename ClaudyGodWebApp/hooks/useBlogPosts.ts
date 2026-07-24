@@ -16,7 +16,8 @@ export function useBlogPosts(page: number = 1, pageSize: number = 10) {
     '/blog',
     { page, pageSize },
     EMPTY,
-    [page, pageSize]
+    [page, pageSize],
+    (r) => r.items.length === 0
   );
   return { posts: data.items, loading, error, refetch };
 }
