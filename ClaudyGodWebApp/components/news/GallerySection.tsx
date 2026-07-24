@@ -54,6 +54,11 @@ const aspectCycle = [
   'aspect-square',
 ];
 
+/**
+ * Moved here from the Ministry page — this is tour/event photography, a
+ * better fit alongside News' other "what's been happening" content
+ * (tour dates, releases, journal) than under Ministry's teaching content.
+ */
 export function GallerySection() {
   const [activeTab, setActiveTab] = useState<TabId>('all');
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
@@ -99,7 +104,7 @@ export function GallerySection() {
   /* Find active category description */
   const catDescription =
     activeTab === 'all'
-      ? 'A visual journey through ministry moments, worship gatherings, and community impact.'
+      ? "A visual journey through last year's tour, worship gatherings, and community impact."
       : (galleryCategories.find((c) => c.title === activeTab)?.description ?? '');
 
   return (
@@ -119,7 +124,7 @@ export function GallerySection() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
               <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-2">
-                Ministry Moments
+                From Our Tour Last Year
               </h2>
               <p className="font-sans text-neutral-500 text-sm leading-relaxed max-w-lg">
                 {catDescription}
