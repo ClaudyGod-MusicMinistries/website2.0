@@ -16,7 +16,8 @@ export function useEvents(status?: 'upcoming' | 'ongoing' | 'completed') {
     '/events',
     status ? { status } : undefined,
     EMPTY,
-    [status]
+    [status],
+    (r) => r.items.length === 0
   );
   return { events: data.items, loading, error, refetch };
 }
