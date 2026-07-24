@@ -1,14 +1,16 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useStoreProducts } from '@/hooks/useStoreProducts';
 import { toProduct } from '@/lib/data/adapters';
 import { ProductCard } from '@/components/store/ProductCard';
+import { ProductModal } from '@/components/store/ProductModal';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { Skeleton } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
+import type { Product } from '@/types/store';
 
 const stagger = {
   hidden: {},
@@ -27,9 +29,9 @@ const cardVariant = {
  * the two commerce/media sections feel like one consistent homepage system.
  */
 export function StorePreview() {
-  const router = useRouter();
   const { products: rawProducts, loading } = useStoreProducts();
   const preview = rawProducts.slice(0, 4).map(toProduct);
+  const [modalProduct, setModalProduct] = useState<Product | null>(null);
 
   // useStoreProducts falls back to real curated products on a failed fetch,
   // so this only stays empty if there's truly nothing (loading finished with
@@ -84,7 +86,7 @@ export function StorePreview() {
           >
             {preview.map((product) => (
               <motion.div key={product.id} variants={cardVariant}>
-                <ProductCard product={product} onViewDetails={() => router.push('/store')} />
+                <ProductCard product={product} onViewDetails={() => setModalProduct(product)} />
               </motion.div>
             ))}
           </motion.div>
@@ -103,6 +105,8 @@ export function StorePreview() {
           </Link>
         </div>
       </div>
+
+      <ProductModal product={modalProduct} onClose={() => setModalProduct(null)} />
     </section>
   );
 }

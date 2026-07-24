@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Video, Mic2, Guitar, Users, ShieldCheck, Sparkles } from 'lucide-react';
 import { post, BackendError } from '@/lib/data/client';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
+import { buttonVariants } from '@/lib/theme/buttons';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
+import { cn } from '@/lib/utils/cn';
 
 interface VolunteerFormData {
   firstName: string;
@@ -19,13 +22,13 @@ interface VolunteerFormData {
 }
 
 const VOLUNTEER_ROLES = [
-  { value: 'Media', label: '📹 Media (Video/Photography)' },
-  { value: 'Vocalist', label: '🎵 Vocalist (Singing/Worship)' },
-  { value: 'BackupSinger', label: '🎸 Backup Singer' },
-  { value: 'Protocol', label: '👋 Protocol (Guest Relations/Ushering)' },
-  { value: 'Security', label: '🛡️ Security' },
-  { value: 'Others', label: '✨ Other (Please Specify)' },
-];
+  { value: 'Media', label: 'Media (Video/Photography)', icon: Video },
+  { value: 'Vocalist', label: 'Vocalist (Singing/Worship)', icon: Mic2 },
+  { value: 'BackupSinger', label: 'Backup Singer', icon: Guitar },
+  { value: 'Protocol', label: 'Protocol (Guest Relations/Ushering)', icon: Users },
+  { value: 'Security', label: 'Security', icon: ShieldCheck },
+  { value: 'Others', label: 'Other (Please Specify)', icon: Sparkles },
+] as const;
 
 export function VolunteerForm() {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -84,13 +87,10 @@ export function VolunteerForm() {
   };
 
   const inputClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl';
-
-  const selectClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-xl appearance-none cursor-pointer';
+    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-lg';
 
   const textareaClass =
-    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-xl';
+    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-lg';
 
   return (
     <>
@@ -175,19 +175,30 @@ export function VolunteerForm() {
             Volunteer Role <span className="text-purple-500">*</span>
           </label>
           <div className="grid grid-cols-2 gap-3">
-            {VOLUNTEER_ROLES.map((r) => (
-              <label
-                key={r.value}
-                className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
-                  selectedRole === r.value
-                    ? 'border-purple-600 bg-purple-50'
-                    : 'border-neutral-200 bg-white hover:border-purple-300'
-                }`}
-              >
-                <input {...register('role')} type="radio" value={r.value} className="mr-2" />
-                <span className="text-sm font-sans">{r.label}</span>
-              </label>
-            ))}
+            {VOLUNTEER_ROLES.map((r) => {
+              const Icon = r.icon;
+              return (
+                <label
+                  key={r.value}
+                  className={cn(
+                    'flex items-center gap-2.5 p-3 border-2 rounded-lg cursor-pointer transition-all',
+                    selectedRole === r.value
+                      ? 'border-purple-600 bg-purple-50'
+                      : 'border-neutral-200 bg-white hover:border-purple-300'
+                  )}
+                >
+                  <input {...register('role')} type="radio" value={r.value} className="sr-only" />
+                  <Icon
+                    className={cn(
+                      'h-4 w-4 shrink-0',
+                      selectedRole === r.value ? 'text-purple-600' : 'text-neutral-400'
+                    )}
+                    aria-hidden="true"
+                  />
+                  <span className="text-sm font-sans text-neutral-800">{r.label}</span>
+                </label>
+              );
+            })}
           </div>
           {errors.role && <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>}
         </div>
@@ -248,7 +259,12 @@ export function VolunteerForm() {
         <button
           type="submit"
           disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className="w-full h-12 px-8 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-300 disabled:cursor-not-allowed text-white font-display font-bold text-sm rounded-xl transition-all duration-200 shadow-purple-cta"
+          className={buttonVariants({
+            variant: 'secondary',
+            size: 'xl',
+            fullWidth: true,
+            uppercase: true,
+          })}
         >
           {isSubmitting ? 'Submitting Application…' : 'Submit Application'}
         </button>

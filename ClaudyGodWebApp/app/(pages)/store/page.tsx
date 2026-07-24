@@ -48,10 +48,9 @@ const ProductGrid = dynamic(
   { loading: () => <GridSkeleton cols={4} rows={2} /> }
 );
 
-const CartDrawer = dynamic(
-  () => import('@/components/store/CartDrawer').then((m) => m.CartDrawer),
-  { ssr: false }
-);
+// CartDrawer is mounted once, globally, in app/layout.tsx — the cart icon
+// and Add to Cart buttons appear on every page (Navbar, StorePreview), not
+// just this one, so the drawer needs to be available everywhere too.
 
 // Product itemList JSON-LD dropped: it previously enumerated a static
 // placeholder list that had already drifted from real content once, and
@@ -81,7 +80,6 @@ export default function StorePage() {
       <AnimateOnView>
         <ProductGrid />
       </AnimateOnView>
-      <CartDrawer />
     </>
   );
 }
