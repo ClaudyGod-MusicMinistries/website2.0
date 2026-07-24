@@ -2,7 +2,7 @@ import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
-import { CrossPromo } from '@/components/shared/CrossPromo';
+import { WatchMoreBanner } from '@/components/videos/WatchMoreBanner';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { breadcrumb, videoObject, itemList } from '@/lib/utils/jsonLd';
 
@@ -97,7 +97,7 @@ export default function VideosPage() {
         objectPosition="center center"
       />
       <VideoGrid />
-      <CrossPromo />
+      <WatchMoreBanner />
     </>
   );
 }
