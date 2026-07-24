@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { MessageCircle, CornerDownRight, Loader2 } from 'lucide-react';
 import { useComments } from '@/hooks/useComments';
 import { BackendError } from '@/lib/data/client';
+import { ReactionBar } from '@/components/blog/ReactionBar';
 import type { Comment } from '@/lib/data/types';
 
 interface CommentFormData {
@@ -148,14 +149,17 @@ function CommentRow({
               {comment.content}
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => onReply(replyOpen ? null : comment.id)}
-            className="mt-1.5 inline-flex items-center gap-1.5 font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 hover:text-purple-600 transition-colors duration-300"
-          >
-            <CornerDownRight className="h-3 w-3" />
-            Reply
-          </button>
+          <div className="mt-2 flex items-center gap-4 flex-wrap">
+            <ReactionBar target={{ type: 'comment', id: comment.id }} size="sm" />
+            <button
+              type="button"
+              onClick={() => onReply(replyOpen ? null : comment.id)}
+              className="inline-flex items-center gap-1.5 font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-400 hover:text-purple-600 transition-colors duration-300"
+            >
+              <CornerDownRight className="h-3 w-3" />
+              Reply
+            </button>
+          </div>
 
           {replyOpen && (
             <div className="mt-3">
@@ -257,18 +261,23 @@ export function CommentsSection({ postId }: { postId: string }) {
                       <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center flex-shrink-0 font-display font-semibold text-neutral-500 text-xs">
                         {reply.authorName.charAt(0).toUpperCase()}
                       </div>
-                      <div className="flex-1 min-w-0 bg-neutral-50 rounded-lg px-4 py-3">
-                        <div className="flex items-baseline gap-2 flex-wrap mb-1">
-                          <p className="font-display font-semibold text-neutral-900 text-sm">
-                            {reply.authorName}
-                          </p>
-                          <p className="font-sans text-[0.55rem] tracking-[0.08em] uppercase text-neutral-400">
-                            {formatDate(reply.createdAt)}
+                      <div className="flex-1 min-w-0">
+                        <div className="bg-neutral-50 rounded-lg px-4 py-3">
+                          <div className="flex items-baseline gap-2 flex-wrap mb-1">
+                            <p className="font-display font-semibold text-neutral-900 text-sm">
+                              {reply.authorName}
+                            </p>
+                            <p className="font-sans text-[0.55rem] tracking-[0.08em] uppercase text-neutral-400">
+                              {formatDate(reply.createdAt)}
+                            </p>
+                          </div>
+                          <p className="font-sans text-neutral-700 text-sm leading-relaxed whitespace-pre-wrap">
+                            {reply.content}
                           </p>
                         </div>
-                        <p className="font-sans text-neutral-700 text-sm leading-relaxed whitespace-pre-wrap">
-                          {reply.content}
-                        </p>
+                        <div className="mt-2">
+                          <ReactionBar target={{ type: 'comment', id: reply.id }} size="sm" />
+                        </div>
                       </div>
                     </div>
                   ))}
