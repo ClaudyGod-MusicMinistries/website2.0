@@ -14,7 +14,7 @@ export function toProduct(sp: StoreProduct): Product {
     id: sp.id,
     name: sp.title,
     image: sp.image,
-    images: [sp.image],
+    images: sp.images && sp.images.length > 0 ? sp.images : [sp.image],
     price: sp.price,
     category: sp.category,
     description: sp.description,
