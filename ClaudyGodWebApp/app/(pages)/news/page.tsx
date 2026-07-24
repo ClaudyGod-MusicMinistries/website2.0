@@ -1,17 +1,15 @@
 import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
 import { EventsSection } from '@/components/news/EventsSection';
+import { LatestMusicSection } from '@/components/news/LatestMusicSection';
 import { JournalSection } from '@/components/news/JournalSection';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
-import { newsAlbums, socialShareLinks } from '@/data/news';
+import { socialShareLinks } from '@/data/news';
 import { breadcrumb } from '@/lib/utils/jsonLd';
 import { FaFacebookF, FaYoutube, FaXTwitter, FaTiktok, FaSpotify, FaApple } from 'react-icons/fa6';
-import { platformColors } from '@/lib/utils/platformColors';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   FaFacebookF,
@@ -96,83 +94,8 @@ export default async function NewsPage() {
       {/* Events & Tours — highlights + reservation portal */}
       <EventsSection />
 
-      {/* New releases */}
-      <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-        <div className="container-site">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="rule-gold" />
-            <span className="label-eyebrow">New Releases</span>
-          </div>
-          <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal mb-12">
-            Latest Music
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {newsAlbums.map((album) => (
-              <div
-                key={album.title}
-                className="group bg-white rounded-xl shadow-card-light hover:shadow-card-light-hover border border-black/[0.04] overflow-hidden flex gap-6 p-6 items-center transition-all duration-300"
-              >
-                <div className="relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md">
-                  <Image
-                    src={album.image}
-                    alt={album.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="96px"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-display font-bold text-neutral-900 text-lg leading-snug mb-1 group-hover:text-purple-700 transition-colors duration-300">
-                    {album.title}
-                  </p>
-                  <p className="font-sans text-[0.55rem] tracking-[0.15em] uppercase text-neutral-400 mb-4">
-                    Available on all platforms
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <a
-                      href={album.links.spotify}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ '--brand': platformColors.spotify } as React.CSSProperties}
-                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 transition-all duration-300"
-                    >
-                      <FaSpotify className="h-4 w-4" />
-                    </a>
-                    <a
-                      href={album.links.apple}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-neutral-900 hover:border-neutral-400 transition-all duration-300"
-                    >
-                      <FaApple className="h-4 w-4" />
-                    </a>
-                    <a
-                      href={album.links.youtube}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ '--brand': platformColors.youtube } as React.CSSProperties}
-                      className="w-9 h-9 flex items-center justify-center rounded-lg border border-neutral-200 text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/40 transition-all duration-300"
-                    >
-                      <FaYoutube className="h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10">
-            <Link
-              href="/music"
-              className="inline-flex items-center gap-2.5 font-sans text-xs tracking-[0.18em] uppercase bg-neutral-900 hover:bg-purple-700 text-white px-8 h-11 rounded-xl transition-all duration-300 group"
-            >
-              View Full Discography
-              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* New releases — real backend albums (see components/news/LatestMusicSection.tsx) */}
+      <LatestMusicSection />
 
       {/* Journal — moved here from the old Blog listing page */}
       <JournalSection />

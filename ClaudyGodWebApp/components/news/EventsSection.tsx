@@ -3,7 +3,17 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Calendar, CheckCircle2, Users, Star, Mic2, Ticket } from 'lucide-react';
+import {
+  MapPin,
+  Clock,
+  Calendar,
+  CheckCircle2,
+  Users,
+  Star,
+  Mic2,
+  Ticket,
+  CalendarClock,
+} from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { post, BackendError } from '@/lib/data/client';
 import { PhoneInput } from '@/components/ui/PhoneInput';
@@ -497,13 +507,14 @@ export function EventsSection() {
     );
   }
 
-  if (error || !events || events.length === 0) {
+  // A real fetch failure gets the error treatment (red icon, retry button —
+  // something actually went wrong). Zero events with no error is a normal,
+  // expected state (no tour dates announced yet) and deserves calm, on-brand
+  // messaging instead of looking like the page is broken.
+  if (error) {
     return (
       <section className="bg-white py-20 px-4">
-        <ErrorMessage
-          message={error || 'No events available at this time. Please check back soon.'}
-          onRetry={refetch}
-        />
+        <ErrorMessage message={error} onRetry={refetch} />
       </section>
     );
   }
@@ -515,7 +526,20 @@ export function EventsSection() {
   if (!featured) {
     return (
       <section className="bg-white py-20 px-4">
-        <ErrorMessage message="No events available. Please try again later." onRetry={refetch} />
+        <div className="max-w-md mx-auto flex flex-col items-center text-center gap-4">
+          <div className="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center">
+            <CalendarClock className="h-8 w-8 text-purple-500" />
+          </div>
+          <div>
+            <p className="font-display font-semibold text-neutral-900 text-lg mb-2">
+              No Tour Dates Yet
+            </p>
+            <p className="font-sans text-neutral-600 text-sm">
+              We&apos;re preparing the next season of ministry events — check back soon or follow
+              along on social media for the first announcement.
+            </p>
+          </div>
+        </div>
       </section>
     );
   }
