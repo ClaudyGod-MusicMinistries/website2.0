@@ -94,14 +94,14 @@ export function VideoGrid() {
               TeachingsGrid's pattern so the two catalogs feel like one
               system instead of two different browsing experiences. */}
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 sm:mb-10">
-            <div className="relative inline-flex items-center gap-1 p-1 bg-cream-100 border border-neutral-200 rounded-full shadow-sm w-full sm:w-auto overflow-x-auto">
+            <div className="relative flex items-center gap-1 p-1 bg-cream-100 border border-neutral-200 rounded-full shadow-sm w-full lg:w-auto overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {filters.map((f) => (
                 <button
                   key={f}
                   onClick={() => setActive(f)}
                   aria-pressed={active === f}
                   className={cn(
-                    'relative z-10 shrink-0 flex-1 sm:flex-none px-5 h-10 rounded-full font-sans text-xs font-semibold tracking-[0.08em] uppercase transition-colors duration-300',
+                    'relative z-10 shrink-0 whitespace-nowrap px-3.5 sm:px-5 h-9 sm:h-10 rounded-full font-sans text-[0.65rem] sm:text-xs font-semibold tracking-[0.04em] sm:tracking-[0.08em] uppercase transition-colors duration-300',
                     active === f ? 'text-white' : 'text-neutral-500 hover:text-purple-600'
                   )}
                 >
