@@ -36,7 +36,10 @@ export function VideoGrid() {
       </section>
     );
   }
-  if (error) {
+  // `error` alone doesn't block the grid — useMedia falls back to the real
+  // curated catalog (data/fallback.ts) on a failed fetch, so this only
+  // shows the error screen if there's truly nothing to display.
+  if (error && videos.length === 0) {
     return (
       <section className="bg-white section-py">
         <div className="container-site">
