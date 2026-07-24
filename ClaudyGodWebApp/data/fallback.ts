@@ -18,8 +18,14 @@
  * missing x-api-key bug and the missing Products/Orders tables were both
  * fixed this session, so the "coming soon, checkout isn't wired" caveat
  * that used to justify leaving products out no longer holds.
+ *
+ * FAQs ARE covered (fallbackFAQs below) — useFAQs previously fell back to
+ * an empty array, so an empty/unseeded backend FAQ table meant the whole
+ * Help page rendered as a blank search bar with no results, ever. These
+ * answers are genuinely evergreen (how bookings/volunteering/checkout
+ * work), not time-sensitive, so showing them during an outage is safe.
  */
-import type { Album, MediaItem, StoreProduct } from '@/lib/data/types';
+import type { Album, MediaItem, StoreProduct, FAQ } from '@/lib/data/types';
 
 export const fallbackAlbums: Album[] = [
   {
@@ -82,7 +88,7 @@ export const fallbackStoreProducts: StoreProduct[] = [
     images: ['/Product1.webp', '/Product2.webp'],
     category: 'accessories',
     inStock: true,
-    rating: 5.0,
+    // rating: 5.0,
   },
   {
     id: 'fallback-product-tshirt',
@@ -93,7 +99,7 @@ export const fallbackStoreProducts: StoreProduct[] = [
     image: '/Product3.webp',
     category: 'clothing',
     inStock: true,
-    rating: 4.8,
+    // rating: 4.8,
   },
   {
     id: 'fallback-product-premium-tshirt',
@@ -104,7 +110,7 @@ export const fallbackStoreProducts: StoreProduct[] = [
     image: '/Product4.webp',
     category: 'clothing',
     inStock: true,
-    rating: 4.7,
+    // rating: 4.7,
   },
   {
     id: 'fallback-product-ep',
@@ -114,6 +120,73 @@ export const fallbackStoreProducts: StoreProduct[] = [
     image: '/CD1.png',
     category: 'music',
     inStock: true,
-    rating: 4.9,
+    // rating: 4.9,
+  },
+];
+
+export const fallbackFAQs: FAQ[] = [
+  {
+    id: 'fallback-faq-albums',
+    category: 'Music & Albums',
+    question: 'Where can I stream ClaudyGod’s music?',
+    answer:
+      'All releases are available on Spotify, Apple Music, YouTube, Deezer, and Amazon Music. Links to every platform are on the Music page for each album.',
+    order: 0,
+  },
+  {
+    id: 'fallback-faq-events',
+    category: 'Events & Attendance',
+    question: 'How do I find out about upcoming tour dates?',
+    answer:
+      'Upcoming events are listed on the Events page as soon as they’re confirmed. Subscribe to the newsletter to get notified the moment a new date is announced.',
+    order: 0,
+  },
+  {
+    id: 'fallback-faq-bookings',
+    category: 'Bookings & Services',
+    question: 'How do I book ClaudyGod for a church service or event?',
+    answer:
+      'Fill out the booking request form on the Bookings page with your event details. The team reviews every request and typically responds within 3–5 business days.',
+    order: 0,
+  },
+  {
+    id: 'fallback-faq-store-shipping',
+    category: 'Store & Purchases',
+    question: 'Does the store ship internationally?',
+    answer:
+      'Yes — merchandise ships worldwide. Shipping cost and delivery estimate are calculated at checkout once you enter your address.',
+    order: 0,
+  },
+  {
+    id: 'fallback-faq-store-orders',
+    category: 'Store & Purchases',
+    question: 'Can I change or cancel an order after checkout?',
+    answer:
+      'Reach out through the Contact page as soon as possible with your order details. We can amend or cancel an order before it ships, but not after.',
+    order: 1,
+  },
+  {
+    id: 'fallback-faq-volunteer',
+    category: 'Volunteering',
+    question: 'What volunteer roles are available?',
+    answer:
+      'Media & photography, vocals, backup singing, protocol/ushering, and security are the main teams. Apply through the Volunteer page — applications are reviewed within 2–3 business days.',
+    order: 0,
+  },
+  {
+    id: 'fallback-faq-donations',
+    category: 'Support & Donations',
+    question: 'Is my donation tax-deductible?',
+    answer:
+      'This depends on your country and the ministry’s registration status there. Reach out via the Contact page and the team will confirm what documentation applies to your donation.',
+    order: 0,
+  },
+  {
+    id: 'fallback-faq-technical',
+    category: 'Technical Support',
+    question: 'The site isn’t working right for me — who do I contact?',
+    answer:
+      'Email peter4tech@gmail.com with a description of the issue (and a screenshot if you can) and it’ll be looked at directly.',
+    order: 0,
   },
 ];
