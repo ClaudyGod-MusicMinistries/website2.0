@@ -172,13 +172,6 @@ export function GallerySection() {
                   <button
                     onClick={() => openAt(img.globalIdx)}
                     className="group relative w-full overflow-hidden rounded-xl bg-cream-100 block"
-                    style={{
-                      aspectRatio: aspectCycle[i % aspectCycle.length]
-                        .replace('aspect-[', '')
-                        .replace(']', '')
-                        .replace('/', ':')
-                        .replace('aspect-square', '1'),
-                    }}
                     aria-label={`View ${img.label} photo ${i + 1}`}
                   >
                     <div className={`relative w-full ${aspectCycle[i % aspectCycle.length]}`}>

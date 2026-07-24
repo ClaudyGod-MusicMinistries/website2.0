@@ -24,19 +24,19 @@ export const galleryCategories = [
     title: 'ClaudyGod with Students',
     description:
       'Engaging with the next generation of worshippers in universities and youth gatherings across Port Harcourt.',
-    images: ['/manBack.jpg'],
+    images: ['/aboutUs.webp'],
   },
   {
     title: 'Worship Moments',
     description:
       'Powerful moments of praise and worship that transformed lives and brought heaven to earth.',
-    images: ['/resize_abt.webp', '/tour_1.jpg'],
+    images: ['/resize_abt.webp', '/mum1.jpg'],
   },
   {
     title: 'Min. ClaudyGod With Guests',
     description:
       'Collaborative moments with ministry partners and guest worshippers who joined our gatherings.',
-    images: ['/tour_1.jpg', '/resize_abt.webp'],
+    images: ['/ClaudySocial.jpg', '/tour_3.jpg'],
   },
   {
     title: 'Community Impact',
