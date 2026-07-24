@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, Clock } from 'lucide-react';
@@ -9,6 +8,7 @@ import { useMedia } from '@/hooks/useMedia';
 import { toVideoView, type VideoView } from '@/lib/data/adapters';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { YoutubeThumbnail } from '@/components/ui';
 
 const stagger = {
   hidden: {},
@@ -163,11 +163,10 @@ function VideoCard({
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
-        <Image
-          src={`https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`}
+        <YoutubeThumbnail
+          youtubeId={video.youtubeId}
           alt={video.title}
           fill
-          unoptimized
           className="object-cover opacity-75 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.05]"
           sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
         />

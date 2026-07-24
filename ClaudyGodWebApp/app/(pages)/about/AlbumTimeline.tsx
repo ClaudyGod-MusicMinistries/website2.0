@@ -1,10 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useAlbums } from '@/hooks/useAlbums';
 import { toAlbumView, type AlbumView } from '@/lib/data/adapters';
+import { ContainedImage } from '@/components/ui';
 import { FaSpotify, FaApple, FaYoutube } from 'react-icons/fa6';
 import { platformColors } from '@/lib/utils/platformColors';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
@@ -55,11 +55,10 @@ function AlbumArtVisual({ album, isEven }: { album: AlbumView; isEven: boolean }
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-xl overflow-hidden shadow-card-light-lg ring-1 ring-black/10 cursor-pointer"
         >
-          <Image
+          <ContainedImage
             src={album.image}
             alt={album.title}
-            fill
-            className="object-cover"
+            className="w-full h-full"
             sizes="(max-width: 1024px) 208px, 256px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-white/5" />
@@ -179,11 +178,10 @@ export function AlbumTimeline() {
                   <div className="group w-full max-w-md">
                     <div className="flex gap-5 items-start">
                       <div className="relative w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden shadow-md ring-1 ring-black/[0.06] group-hover:ring-gold-500/30 transition-all duration-300">
-                        <Image
+                        <ContainedImage
                           src={album.image}
                           alt={album.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full transition-transform duration-500 group-hover:scale-105"
                           sizes="80px"
                         />
                       </div>
