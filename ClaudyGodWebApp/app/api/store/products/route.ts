@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { proxyGet } from '@/lib/data/backendProxy';
+import { proxyGet, proxyPost } from '@/lib/data/backendProxy';
 
 export async function GET(req: NextRequest) {
   try {
@@ -23,4 +23,10 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Admin/SuperAdmin-only on the backend (Bearer JWT + role check) — this proxy
+// just forwards the request, the real authorization boundary stays server-side.
+export async function POST(req: NextRequest) {
+  return proxyPost(req, '/store/products');
 }
