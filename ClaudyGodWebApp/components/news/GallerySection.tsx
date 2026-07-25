@@ -55,9 +55,10 @@ const aspectCycle = [
 ];
 
 /**
- * Moved here from the Ministry page — this is tour/event photography, a
- * better fit alongside News' other "what's been happening" content
- * (tour dates, releases, journal) than under Ministry's teaching content.
+ * Past-outings recap for the Events page — tour, worship, student, and
+ * community-outreach photography, paired with EventsSection's upcoming
+ * dates so Events reads as a full "where we're headed / where we've been"
+ * hub rather than just a ticketing form.
  */
 export function GallerySection() {
   const [activeTab, setActiveTab] = useState<TabId>('all');
@@ -118,13 +119,13 @@ export function GallerySection() {
           {/* Header */}
           <div className="flex items-center gap-4 mb-4">
             <span className="rule-gold" />
-            <span className="label-eyebrow">Gallery</span>
+            <span className="label-eyebrow">Past Outings</span>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
             <div>
               <h2 className="font-raleway font-light text-neutral-900 text-3xl md:text-4xl tracking-normal leading-tight mb-2">
-                From Our Tour Last Year
+                Where We&rsquo;ve Been
               </h2>
               <p className="font-sans text-neutral-500 text-sm leading-relaxed max-w-lg">
                 {catDescription}
