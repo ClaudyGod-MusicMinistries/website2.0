@@ -31,7 +31,7 @@ const item = {
   },
 };
 
-/** Moved here from the Ministry page, alongside the tour Gallery it pairs with. */
+/** Rendered on the Ministry page — the people behind the mission. */
 export function TeamSection() {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 

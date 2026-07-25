@@ -51,6 +51,14 @@ const InterviewsSection = dynamic(
   { loading: () => <GridSkeleton cols={3} rows={2} /> }
 );
 
+// Restored to its original home — this was moved to /news alongside
+// GallerySection during an earlier pass, but team photos aren't blog/news
+// content; GallerySection has since moved to /events instead.
+const TeamSection = dynamic(
+  () => import('@/components/news/TeamSection').then((m) => m.TeamSection),
+  { loading: () => <GridSkeleton cols={4} rows={1} /> }
+);
+
 const schemas = [breadcrumb([{ name: 'Ministry', href: '/ministry' }]), organization()];
 
 export default function MinistryPage() {
@@ -73,6 +81,9 @@ export default function MinistryPage() {
       </AnimateOnView>
       <AnimateOnView delay={0.1}>
         <InterviewsSection />
+      </AnimateOnView>
+      <AnimateOnView delay={0.1}>
+        <TeamSection />
       </AnimateOnView>
       <AnimateOnView delay={0.1}>
         <VolunteerCTA />
