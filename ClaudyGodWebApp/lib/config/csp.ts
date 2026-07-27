@@ -12,7 +12,7 @@ export const CSP_DIRECTIVES: Record<string, string[]> = {
   'script-src': [
     "'self'",
     "'unsafe-inline'",
-    "'unsafe-eval'",
+    ...(process.env.NODE_ENV === 'development' ? ["'unsafe-eval'"] : []),
     'https://cdn.jsdelivr.net',
     'https://www.youtube.com',
     'https://s.ytimg.com',
@@ -22,7 +22,14 @@ export const CSP_DIRECTIVES: Record<string, string[]> = {
   'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
   'img-src': ["'self'", 'data:', 'blob:', 'https:'],
   'font-src': ["'self'", 'https://fonts.gstatic.com'],
-  'connect-src': ["'self'", 'https:', 'wss:'],
+  'connect-src': [
+    "'self'",
+    'https://api.paystack.co',
+    'https://*.paystack.co',
+    'https://www.youtube.com',
+    'https://*.googlevideo.com',
+    'https://cloudflareinsights.com',
+  ],
   'frame-src': [
     "'self'",
     'https://www.youtube.com',

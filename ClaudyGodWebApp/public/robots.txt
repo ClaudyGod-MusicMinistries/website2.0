@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /private/
-Disallow: /admin/
-Disallow: /dashboard/
-
-Crawl-delay: 10
-
-Sitemap: https://claudygod.org/sitemap.xml

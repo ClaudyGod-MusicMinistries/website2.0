@@ -3,11 +3,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, CheckCircle2, ShieldCheck, Copy, Check, ChevronDown } from 'lucide-react';
-import { usePaystackPayment } from 'react-paystack';
 import { cn } from '@/lib/utils/cn';
 import { currencyPresets, defaultCurrency, type SupportedCurrency } from '@/data/ministryStats';
-
-const PAYSTACK_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY ?? '';
+import { post } from '@/lib/data/client';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -65,12 +63,11 @@ export default function DonateClient() {
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
+  const [startingPayment, setStartingPayment] = useState(false);
 
   const { symbol, amounts: presets, code } = currencyPresets[currency];
   const finalAmount = custom ? parseFloat(custom) || 0 : amount;
   const amountValid = finalAmount >= 1;
-
-  const initializePayment = usePaystackPayment({ publicKey: PAYSTACK_KEY });
 
   const handleCurrencyChange = (c: SupportedCurrency) => {
     setCurrency(c);
@@ -90,45 +87,22 @@ export default function DonateClient() {
     return Object.keys(errs).length === 0;
   };
 
-  const handlePay = () => {
+  const handlePay = async () => {
     if (!validate()) return;
-    const bytes = crypto.getRandomValues(new Uint8Array(8));
-    const reference = `CGM-${Array.from(bytes)
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('')
-      .toUpperCase()}`;
-
-    // Paystack expects amount in subunits (kobo for NGN, cents for USD/GBP/EUR)
-    const amountInSubunits = Math.round(finalAmount * 100);
-
-    initializePayment({
-      config: {
+    setStartingPayment(true);
+    try {
+      const result = await post<{ authorizationUrl: string }>('/payments/initialize', {
         email,
-        amount: amountInSubunits,
+        amount: finalAmount,
         currency: code,
-        reference,
-        firstname: name.split(' ')[0],
-        lastname: name.split(' ').slice(1).join(' ') || undefined,
-        metadata: {
-          custom_fields: [
-            { display_name: 'Donor Name', variable_name: 'donor_name', value: name },
-            { display_name: 'Currency', variable_name: 'currency', value: code },
-            ...(message
-              ? [{ display_name: 'Message', variable_name: 'message', value: message }]
-              : []),
-          ],
-        },
-      },
-      onSuccess: (response: unknown) => {
-        const ref = (response as { reference?: string })?.reference ?? reference;
-        setTxRef(ref);
-        setTxAmount(finalAmount);
-        setTxCurrency(symbol);
-        setSubmitted(true);
-        fetch(`/api/payments/verify?reference=${encodeURIComponent(ref)}`).catch(() => {});
-      },
-      onClose: () => {},
-    });
+        name: name.trim(),
+        message: message.trim() || undefined,
+      });
+      window.location.assign(result.authorizationUrl);
+    } catch {
+      setErrors({ payment: 'Unable to start payment. Please try again.' });
+      setStartingPayment(false);
+    }
   };
 
   const copyRef = () => {
@@ -497,13 +471,21 @@ export default function DonateClient() {
                 <button
                   type="button"
                   onClick={handlePay}
+                  disabled={startingPayment}
                   className="w-full h-14 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white font-display font-bold text-lg rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-purple-cta hover:shadow-purple-cta-hover active:scale-[0.99]"
                 >
                   <Heart className="h-5 w-5 fill-white/90" />
-                  {amountValid
-                    ? `Give ${symbol}${finalAmount.toLocaleString()} Now`
-                    : 'Select an Amount'}
+                  {startingPayment
+                    ? 'Opening secure payment…'
+                    : amountValid
+                      ? `Give ${symbol}${finalAmount.toLocaleString()} Now`
+                      : 'Select an Amount'}
                 </button>
+                {errors.payment && (
+                  <p role="alert" className="text-center font-sans text-sm text-red-600">
+                    {errors.payment}
+                  </p>
+                )}
 
                 {/* Trust line */}
                 <div className="flex items-center justify-center gap-2 pt-1">

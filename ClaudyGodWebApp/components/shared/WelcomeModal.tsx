@@ -9,6 +9,7 @@ import { getCookie, setCookie } from '@/lib/utils/cookies';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { YoutubeThumbnail } from '@/components/ui';
+import { getStoredConsent } from '@/lib/utils/cookieConsent';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -34,16 +35,17 @@ export function WelcomeModal() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [subscriptionError, setSubscriptionError] = useState('');
   const [videoOpen, setVideoOpen] = useState(false);
   const { media } = useMedia('video');
   const latestVideo = media.map(toVideoView).filter((v) => v.youtubeId !== null)[0];
 
   useEffect(() => {
     // Check if user has already seen modal within the last 12 hours
-    if (getCookie(SESSION_KEY)) return;
+    if (getCookie(SESSION_KEY) || !getStoredConsent()) return;
 
-    // Show modal after 3 seconds for new users
-    const t = setTimeout(() => setOpen(true), 3000);
+    // Wait until the visitor has had time to engage with the page.
+    const t = setTimeout(() => setOpen(true), 8000);
     return () => clearTimeout(t);
   }, []);
 
@@ -64,12 +66,18 @@ export function WelcomeModal() {
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    fetch('/api/newsletter/subscribe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    }).catch(() => {});
-    setSubscribed(true);
+    setSubscriptionError('');
+    try {
+      const response = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (!response.ok) throw new Error('Subscription failed');
+      setSubscribed(true);
+    } catch {
+      setSubscriptionError('We could not subscribe you right now. Please try again.');
+    }
   };
 
   return (
@@ -209,6 +217,11 @@ export function WelcomeModal() {
                         <Bell className="h-3 w-3 shrink-0" />
                         Subscribe
                       </button>
+                      {subscriptionError && (
+                        <p role="alert" className="font-sans text-xs text-red-300">
+                          {subscriptionError}
+                        </p>
+                      )}
                     </form>
                   )}
                 </div>

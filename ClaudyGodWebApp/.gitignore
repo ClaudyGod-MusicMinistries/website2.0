@@ -14,9 +14,10 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
 
-# Exception: .env.production is a safe template, not secrets
-!.env.production
+# Production values belong in the deployment secret store. Use .env.example
+# for documented placeholder names.
 
 # Logs
 npm-debug.log*

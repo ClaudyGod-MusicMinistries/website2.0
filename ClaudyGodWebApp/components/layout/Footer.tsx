@@ -111,7 +111,7 @@ export function Footer() {
                   className="flex items-center gap-2.5 h-10 px-4 rounded-xl border border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 hover:bg-[var(--brand)]/[0.06] transition-all duration-300"
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />
-                  <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase hidden sm:block">
+                  <span className="font-sans text-xs tracking-[0.08em] uppercase hidden sm:block">
                     {label}
                   </span>
                 </a>
@@ -155,7 +155,7 @@ export function Footer() {
 
             {/* Social icons */}
             <div>
-              <p className="font-sans text-[0.5rem] tracking-[0.2em] uppercase text-neutral-600 mb-4">
+              <p className="font-sans text-xs tracking-[0.12em] uppercase text-neutral-500 mb-4">
                 Follow the Ministry
               </p>
               <div className="flex items-center gap-3 flex-wrap">
@@ -204,7 +204,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/[0.07] pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-600">
+          <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-500">
             © {year} ClaudyGod Music Ministries. All rights reserved.
           </p>
           <div className="flex items-center gap-5 flex-wrap">
@@ -212,7 +212,7 @@ export function Footer() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-600 hover:text-neutral-300 transition-colors duration-300"
+                className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-500 hover:text-neutral-300 transition-colors duration-300"
               >
                 {l.label}
               </Link>
