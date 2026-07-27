@@ -218,7 +218,7 @@ export const fallbackFAQs: FAQ[] = [
     category: 'Technical Support',
     question: 'The site isn’t working right for me — who do I contact?',
     answer:
-      'Email peter4tech@gmail.com with a description of the issue (and a screenshot if you can) and it’ll be looked at directly.',
+      'Use the Contact page to describe the issue and include the device, browser, and any error message you saw. The ministry team will route it to technical support.',
     order: 0,
   },
 ];

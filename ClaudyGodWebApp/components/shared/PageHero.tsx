@@ -1,8 +1,4 @@
-'use client';
-
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 interface PageHeroProps {
@@ -17,15 +13,6 @@ interface PageHeroProps {
   objectPosition?: string;
   className?: string;
 }
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: (d = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, delay: d, ease: [0.25, 0.1, 0.25, 1] },
-  }),
-};
 
 /**
  * The compact counterpart to the homepage Hero — same type scale (Raleway
@@ -69,22 +56,7 @@ export function PageHero({
           <div className="absolute inset-0 bg-gradient-to-tr from-purple-950/35 via-transparent to-transparent" />
         </>
       ) : (
-        <div className="absolute inset-0 bg-surface-deep overflow-hidden pointer-events-none">
-          <AmbientGlow
-            color="purple"
-            size={600}
-            opacity={0.18}
-            animate={false}
-            className="-bottom-[220px] -left-[160px]"
-          />
-          <AmbientGlow
-            color="gold"
-            size={380}
-            opacity={0.07}
-            animate={false}
-            className="-top-[140px] -right-[120px]"
-          />
-        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_90%,rgba(123,98,172,0.24),transparent_38%),radial-gradient(circle_at_85%_10%,rgba(181,101,29,0.1),transparent_32%),linear-gradient(135deg,#08070d,#14111f)]" />
       )}
 
       {/* Gold bottom line — the seam into the page content below */}
@@ -93,41 +65,18 @@ export function PageHero({
       {/* Content */}
       <div className="relative z-10 w-full container-site">
         {eyebrow && (
-          <motion.div
-            custom={0}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="flex items-center gap-3 mb-3 sm:mb-5"
-          >
-            <motion.span
-              initial={{ width: 0 }}
-              animate={{ width: '2.5rem' }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="h-px bg-gold-500/80"
-            />
+          <div className="flex items-center gap-3 mb-3 sm:mb-5">
+            <span className="h-px w-10 bg-gold-500/80" />
             <span className="label-eyebrow text-gold-400">{eyebrow}</span>
-          </motion.div>
+          </div>
         )}
-        <motion.h1
-          custom={0.1}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl tracking-normal leading-[1.15] max-w-3xl"
-        >
+        <h1 className="font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl tracking-normal leading-[1.15] max-w-3xl text-balance">
           {title}
-        </motion.h1>
+        </h1>
         {subtitle && (
-          <motion.p
-            custom={0.2}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="mt-3 sm:mt-5 font-sans text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl line-clamp-2"
-          >
+          <p className="mt-3 sm:mt-5 font-sans text-neutral-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl text-pretty">
             {subtitle}
-          </motion.p>
+          </p>
         )}
       </div>
     </div>

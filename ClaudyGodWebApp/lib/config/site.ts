@@ -16,7 +16,7 @@ export const SITE_NAME = 'ClaudyGod Music Ministries';
 export const SITE_DESCRIPTION =
   'Official website of Minister ClaudyGod — Nigerian gospel music artist, worship leader, and evangelist. Stream 7 albums, watch worship videos, book for events, and follow the ministry.';
 
-export const OG_IMAGE_PATH = '/ClaudySocial.jpg';
+export const OG_IMAGE_PATH = '/ClaudySocial-wide.png';
 export const OG_IMAGE = `${SITE_URL}${OG_IMAGE_PATH}`;
 
 export const LOGO_PATH = '/ClaudyGoLogo.webp';

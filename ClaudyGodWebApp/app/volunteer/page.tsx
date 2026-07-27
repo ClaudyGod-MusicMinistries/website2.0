@@ -2,10 +2,34 @@ import { Metadata } from 'next';
 import { Target, TrendingUp, Users, Compass } from 'lucide-react';
 import { PageHero } from '@/components/shared/PageHero';
 import { VolunteerForm } from '@/components/volunteer/VolunteerForm';
+import { SITE_URL } from '@/lib/config/site';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
-  title: 'Volunteer | ClaudyGod Ministry',
-  description: 'Join our volunteer team and make a difference in our community.',
+  title: 'Volunteer with ClaudyGod Music Ministries',
+  description:
+    'Apply to serve with ClaudyGod Music Ministries in media, music, hospitality, event support, and other ministry volunteer roles.',
+  alternates: { canonical: `${SITE_URL}/volunteer` },
+  openGraph: {
+    title: 'Volunteer with ClaudyGod Music Ministries',
+    description:
+      'Use your gifts to support gospel music, worship gatherings, outreach, and ministry events.',
+    url: '/volunteer',
+    images: [
+      {
+        url: '/ClaudySocial-wide.png',
+        width: 1730,
+        height: 909,
+        alt: 'Volunteer with ClaudyGod Music Ministries',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Volunteer with ClaudyGod Music Ministries',
+    description: 'Apply to serve in music, media, hospitality, and ministry event support.',
+    images: ['/ClaudySocial-wide.png'],
+  },
 };
 
 const reasons = [
@@ -32,8 +56,13 @@ const reasons = [
 ];
 
 export default function VolunteerPage() {
+  const schema = breadcrumb([{ name: 'Volunteer', href: '/volunteer' }]);
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <PageHero
         eyebrow="Volunteer"
         title="Volunteer With Us"
