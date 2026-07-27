@@ -54,8 +54,7 @@ export function Navbar() {
     ? 'bg-white/[0.98] backdrop-blur-2xl border-b border-neutral-100 shadow-header'
     : 'bg-gradient-to-b from-black/70 via-black/30 to-transparent';
 
-  const linkBase =
-    'font-sans text-[0.68rem] tracking-[0.14em] uppercase transition-colors duration-250';
+  const linkBase = 'font-sans text-xs tracking-[0.1em] uppercase transition-colors duration-250';
   const linkColor = scrolled
     ? 'text-neutral-600 hover:text-neutral-900'
     : 'text-white/85 hover:text-white';
