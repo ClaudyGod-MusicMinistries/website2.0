@@ -32,7 +32,7 @@ To run against the real backend locally, set `API_BASE_URL` in `.env.local` to w
 | `npm run type-check`         | `tsc --noEmit`                                                                                       |
 | `npm run format`             | Prettier                                                                                             |
 | `npm run generate:nginx-csp` | Regenerates `nginx.conf`'s CSP header from `lib/config/csp.ts` (the single source of truth for both) |
-| `npm test`                   | Stub — no test suite exists yet                                                                      |
+| `npm test`                   | Runs the Node/TypeScript test suite, including server-authoritative commerce pricing checks          |
 
 ## Project structure
 
@@ -50,14 +50,14 @@ hooks/                client-side data hooks, all built on hooks/useApiResource.
 lib/
   config/             site.ts (domain/socials/contact) and csp.ts — single sources of truth
   data/               client.ts (the one HTTP client), backendProxy.ts (server-side proxy helpers), types.ts
-  fonts.ts             next/font setup (Fraunces + Inter)
+  fonts.ts             next/font setup (Montserrat + Raleway + Open Sans)
 middleware.ts         security headers + CSP
 nginx.conf            production reverse-proxy config (generated CSP block, see script above)
 ```
 
 ## Design system
 
-Two type families — Fraunces (`font-display`, headings/hero) and Inter (`font-sans`, body/UI) — plus the token set in `tailwind.config.ts` (color scales, spacing, motion, z-index). Every component in `components/ui/` is rendered at `/dev/design-system` (not indexed, not linked publicly) so it's visible and gets reused instead of re-invented per page. A `no-restricted-syntax` ESLint rule (currently `warn`) flags raw hex colors and arbitrary shadow values outside `components/ui/` and `data/` — the exact drift that made the pre-rebuild version inconsistent.
+The typography system uses Montserrat for substantial headings, Raleway for lighter statement copy, and Open Sans for body/UI, plus the token set in `tailwind.config.ts` (color scales, spacing, motion, z-index). Every component in `components/ui/` is rendered at `/dev/design-system` (not indexed, not linked publicly) so it's visible and gets reused instead of re-invented per page. A `no-restricted-syntax` ESLint rule (currently `warn`) flags raw hex colors and arbitrary shadow values outside `components/ui/` and `data/` — the exact drift that made the pre-rebuild version inconsistent.
 
 ## Data fetching
 
@@ -67,6 +67,8 @@ Two type families — Fraunces (`font-display`, headings/hero) and Inter (`font-
 
 - CSP, HSTS, and other security headers: `middleware.ts` (app layer) and `nginx.conf` (edge layer), both generated from `lib/config/csp.ts`.
 - Report security issues to security@claudygod.org — do not post publicly.
+- Production secrets must be supplied by the deployment secret store or an ignored `.env` file. Never commit `.env.production` or live Paystack/API keys.
+- Store checkout prices products and shipping on the server, initializes Paystack server-side, and only creates an order after transaction verification.
 
 ## Deployment
 

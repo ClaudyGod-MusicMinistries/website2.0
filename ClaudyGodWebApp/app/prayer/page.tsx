@@ -1,11 +1,33 @@
 import { Metadata } from 'next';
 import { PageHero } from '@/components/shared/PageHero';
 import { PrayerRequestForm } from '@/components/prayer/PrayerRequestForm';
+import { SITE_URL } from '@/lib/config/site';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 
 export const metadata: Metadata = {
-  title: 'Prayer Request | ClaudyGod Ministry',
+  title: 'Submit a Private Prayer Request',
   description:
     'Share your prayer request with our ministry team — we believe in the power of prayer and will intercede for you.',
+  alternates: { canonical: `${SITE_URL}/prayer` },
+  openGraph: {
+    title: 'Submit a Prayer Request — ClaudyGod Music Ministries',
+    description: 'Share a private prayer request with the ClaudyGod ministry prayer team.',
+    url: '/prayer',
+    images: [
+      {
+        url: '/ClaudySocial-wide.png',
+        width: 1730,
+        height: 909,
+        alt: 'Prayer support from ClaudyGod Music Ministries',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Submit a Prayer Request — ClaudyGod Music Ministries',
+    description: 'Share a private prayer request with the ministry prayer team.',
+    images: ['/ClaudySocial-wide.png'],
+  },
 };
 
 const steps = [
@@ -32,8 +54,13 @@ const steps = [
 ];
 
 export default function PrayerPage() {
+  const schema = breadcrumb([{ name: 'Prayer Request', href: '/prayer' }]);
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <PageHero
         eyebrow="Prayer"
         title="Prayer Requests"

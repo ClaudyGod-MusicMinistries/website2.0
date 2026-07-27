@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer, FaAmazon } from 'react-icons/fa6';
 import { navigationItems, type NavGroup } from '@/data/navbar';
 import { socialLinks } from '@/data/socials';
+import { SOCIAL_URLS } from '@/lib/config/site';
 
 const legalLinks = [
   { href: '/legal/privacy', label: 'Privacy' },
@@ -22,31 +23,31 @@ const streamingLinks = [
   {
     Icon: FaSpotify,
     label: 'Spotify',
-    href: 'https://open.spotify.com/artist/claudygod',
+    href: SOCIAL_URLS.spotify,
     color: '#1DB954',
   },
   {
     Icon: FaApple,
     label: 'Apple Music',
-    href: 'https://music.apple.com/artist/claudygod',
+    href: SOCIAL_URLS.appleMusic,
     color: '#FC3C44',
   },
   {
     Icon: FaYoutube,
     label: 'YouTube',
-    href: 'https://www.youtube.com/channel/UC0RUDNzIiSLxoWGcNQbrLNQ',
+    href: SOCIAL_URLS.youtube,
     color: '#FF0000',
   },
   {
     Icon: FaDeezer,
     label: 'Deezer',
-    href: 'https://www.deezer.com/us/album/695949191',
+    href: SOCIAL_URLS.deezer,
     color: '#FEAA2D',
   },
   {
     Icon: FaAmazon,
     label: 'Amazon Music',
-    href: 'https://music.amazon.com/albums/B0DSM7QGLF',
+    href: SOCIAL_URLS.amazonMusic,
     color: '#FF9900',
   },
 ];
@@ -67,28 +68,9 @@ export function Footer() {
       {/* Gold top accent — thicker */}
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-500/70 to-transparent" />
 
-      {/* Scripture band */}
-      <div className="border-b border-white/[0.06] bg-surface-raised">
-        <div className="container-site py-12 md:py-16">
-          <div className="flex items-center gap-8 justify-center">
-            <span className="hidden md:block flex-1 h-px bg-gradient-to-r from-transparent to-gold-500/25" />
-            <div className="text-center max-w-2xl">
-              <p className="font-display italic text-white/80 text-lg md:text-xl lg:text-2xl leading-relaxed font-light">
-                &ldquo;Sing praises to God, sing praises;
-                <br className="hidden sm:block" /> sing praises to our King, sing praises.&rdquo;
-              </p>
-              <p className="mt-3 font-sans text-[0.58rem] tracking-[0.22em] uppercase text-gold-500/70">
-                Psalm 47:6
-              </p>
-            </div>
-            <span className="hidden md:block flex-1 h-px bg-gradient-to-l from-transparent to-gold-500/25" />
-          </div>
-        </div>
-      </div>
-
       {/* Streaming CTA band */}
       <div className="border-b border-white/[0.05] bg-gradient-to-r from-purple-900/30 via-surface-raised to-purple-900/20">
-        <div className="container-site py-10">
+        <div className="container-site py-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
               <p className="font-sans text-[0.55rem] tracking-[0.22em] uppercase text-gold-500/70 mb-2">
@@ -111,7 +93,7 @@ export function Footer() {
                   className="flex items-center gap-2.5 h-10 px-4 rounded-xl border border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 hover:bg-[var(--brand)]/[0.06] transition-all duration-300"
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />
-                  <span className="font-sans text-[0.55rem] tracking-[0.12em] uppercase hidden sm:block">
+                  <span className="font-sans text-xs tracking-[0.08em] uppercase hidden sm:block">
                     {label}
                   </span>
                 </a>
@@ -155,7 +137,7 @@ export function Footer() {
 
             {/* Social icons */}
             <div>
-              <p className="font-sans text-[0.5rem] tracking-[0.2em] uppercase text-neutral-600 mb-4">
+              <p className="font-sans text-xs tracking-[0.12em] uppercase text-neutral-500 mb-4">
                 Follow the Ministry
               </p>
               <div className="flex items-center gap-3 flex-wrap">
@@ -204,7 +186,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/[0.07] pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-600">
+          <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-500">
             © {year} ClaudyGod Music Ministries. All rights reserved.
           </p>
           <div className="flex items-center gap-5 flex-wrap">
@@ -212,7 +194,7 @@ export function Footer() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="font-sans text-[0.55rem] tracking-[0.18em] uppercase text-neutral-600 hover:text-neutral-300 transition-colors duration-300"
+                className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-500 hover:text-neutral-300 transition-colors duration-300"
               >
                 {l.label}
               </Link>

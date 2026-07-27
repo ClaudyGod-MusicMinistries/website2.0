@@ -1,29 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import dynamic from 'next/dynamic';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { Loader } from '@/components/shared/Loader';
+import { GlobalOverlays } from '@/components/layout/GlobalOverlays';
 import { musicGroup, webSite, person } from '@/lib/utils/jsonLd';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_PATH } from '@/lib/config/site';
 import { fontVariables } from '@/lib/fonts';
 import './globals.css';
-
-const WelcomeModal = dynamic(
-  () => import('@/components/shared/WelcomeModal').then((m) => m.WelcomeModal),
-  { ssr: false }
-);
-const CookieConsent = dynamic(
-  () => import('@/components/shared/CookieConsent').then((m) => m.CookieConsent),
-  { ssr: false }
-);
-const AIChatWidget = dynamic(
-  () => import('@/components/ui/AIChatWidget').then((m) => m.AIChatWidget),
-  { ssr: false }
-);
-const CartDrawer = dynamic(
-  () => import('@/components/store/CartDrawer').then((m) => m.CartDrawer),
-  { ssr: false }
-);
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
@@ -82,8 +64,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE_PATH,
-        width: 1200,
-        height: 630,
+        width: 1730,
+        height: 909,
         alt: SITE_NAME,
         type: 'image/jpeg',
       },
@@ -155,14 +137,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://music.apple.com" />
       </head>
       <body className="font-display bg-surface-base text-white antialiased min-h-dvh">
-        <Loader />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1000] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-sans focus:text-sm focus:font-semibold focus:text-neutral-900"
+        >
+          Skip to main content
+        </a>
         <Navbar />
-        <main className="min-h-dvh">{children}</main>
+        <main id="main-content" tabIndex={-1} className="min-h-dvh">
+          {children}
+        </main>
         <Footer />
-        <WelcomeModal />
-        <CartDrawer />
-        <CookieConsent />
-        <AIChatWidget />
+        <GlobalOverlays />
       </body>
     </html>
   );

@@ -36,12 +36,11 @@ Which album would you like to hear more about? 😊`,
 For **events, concerts, and ministry engagements**, we have a dedicated booking system:
 
 👉 **[Go to Bookings Page](/bookings)** to:
-✅ Check availability for your desired dates
-✅ View pricing and package options
-✅ See testimonials from previous events
 ✅ Submit a booking request
+✅ Share your preferred date and event details
+✅ Give the team the information needed to discuss availability
 
-Our amazing team will get back to you within **24-48 hours** with all the details and next steps.
+The ministry team will review the request and follow up using the contact details you provide.
 
 What type of event are you planning? We'd love to be part of it! 🎤`,
 
@@ -68,7 +67,7 @@ Your donations help us:
 🙏 Reach more lives globally
 🤝 Help communities in need
 
-**[Make a Donation Today](/donate)** - 100% secure and tax-deductible
+**[Make a Donation Today](/donate)** through the ministry's Paystack checkout.
 
 We're deeply grateful for every contribution, no matter the size. Each gift is a blessing that extends our ministry's reach.
 
@@ -85,7 +84,7 @@ We have exciting roles in:
 
 👉 **[Apply to Volunteer](/volunteer)** - Quick 5-minute application
 
-Our team reviews applications within **3-5 business days** and will reach out with opportunities that match your skills and passion.
+The team will review your application and reach out when an opportunity matches your skills and availability.
 
 What area speaks to your heart? 💪`,
 
@@ -96,8 +95,6 @@ Visit our **[Online Store](/store)** to browse:
 📀 **Physical Merchandise** - CDs, DVDs, vinyl
 👕 **Branded Items** - Apparel and accessories
 ✨ **Exclusive** - Limited edition and signed items
-
-**Free shipping** on select orders!
 
 👉 **[Shop Now](/store)**
 

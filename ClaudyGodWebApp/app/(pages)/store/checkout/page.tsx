@@ -31,6 +31,8 @@ import { post } from '@/lib/data/client';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 
+const PENDING_ORDER_KEY = 'claudygod-pending-order';
+
 /* ── Constants ──────────────────────────────────────────── */
 const SHIPPING_OPTIONS = [
   {
@@ -819,26 +821,19 @@ export default function CheckoutPage() {
     if (!contact) return;
     setPlacing(true);
     try {
-      const res = await post<{ orderId: string }>('/store/checkout', {
-        items: items.map(({ id, name, price, quantity, image, category, description }) => ({
-          id,
-          name,
-          price,
-          quantity,
-          image,
-          category,
-          description,
-        })),
+      const order = {
+        items: items.map(({ id, quantity }) => ({ id, quantity })),
         shipping: contact,
         shippingMethod,
         paymentMethod,
-        subtotal: cartTotal(),
-        shippingCost,
-        total: cartTotal() + shippingCost,
-        currency: 'USD',
+      };
+      const payment = await post<{ authorizationUrl: string }>('/store/payment/initialize', {
+        email: contact.email,
+        items: order.items,
+        shippingMethod,
       });
-      setOrderId(res.orderId);
-      clearCart();
+      sessionStorage.setItem(PENDING_ORDER_KEY, JSON.stringify(order));
+      window.location.assign(payment.authorizationUrl);
     } catch (err) {
       handleApiError(err, 'Unable to Place Order');
     } finally {

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { proxyGet } from '@/lib/data/backendProxy';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     // proxyGet already forwards this request's own query string (type=...)

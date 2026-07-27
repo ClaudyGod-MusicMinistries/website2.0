@@ -2,16 +2,8 @@ import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getInternalApiKey } from '@/middleware/apiKeyValidator';
-
-const lineItemSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  price: z.number().positive(),
-  quantity: z.number().int().positive(),
-  image: z.string(),
-  category: z.string(),
-  description: z.string(),
-});
+import { guardPublicMutation } from '@/lib/security/request';
+import { orderItemSchema, priceOrder, shippingPrices } from '@/lib/commerce/pricing';
 
 const shippingSchema = z.object({
   fullName: z.string().min(2).max(100),
@@ -25,15 +17,11 @@ const shippingSchema = z.object({
 });
 
 const schema = z.object({
-  items: z.array(lineItemSchema).min(1),
+  items: z.array(orderItemSchema).min(1).max(50),
   shipping: shippingSchema,
   shippingMethod: z.enum(['standard', 'express']),
-  paymentMethod: z.enum(['paystack', 'card', 'bank_transfer', 'paypal']),
-  subtotal: z.number().positive(),
-  shippingCost: z.number().min(0),
-  total: z.number().positive(),
-  currency: z.string().default('USD'),
-  paystackRef: z.string().optional(), // populated after Paystack callback
+  paymentMethod: z.literal('paystack'),
+  paystackRef: z.string().min(6).max(150),
 });
 
 function generateOrderId(): string {
@@ -42,13 +30,16 @@ function generateOrderId(): string {
 
 export async function POST(req: NextRequest) {
   try {
+    const denied = guardPublicMutation(req, 'store-checkout', { limit: 6, windowMs: 60_000 });
+    if (denied) return denied;
     const body = await req.json();
     const data = schema.parse(body);
+    const priced = await priceOrder(data.items, data.shippingMethod);
 
     const orderId = generateOrderId();
 
     // Verify Paystack payment before acknowledging the order
-    if (data.paymentMethod === 'paystack' && data.paystackRef) {
+    if (data.paymentMethod === 'paystack') {
       const secretKey = process.env.PAYSTACK_SECRET_KEY;
       if (!secretKey) {
         return NextResponse.json(
@@ -69,10 +60,22 @@ export async function POST(req: NextRequest) {
           { status: 402 }
         );
       }
+      if (
+        !data.paystackRef.startsWith('CGM-ORDER-') ||
+        verifyData.data?.metadata?.purpose !== 'store_order'
+      ) {
+        return NextResponse.json(
+          { success: false, message: 'Payment reference is not valid for a store order.' },
+          { status: 400 }
+        );
+      }
 
       const paidAmount = verifyData.data.amount / 100;
-      if (Math.abs(paidAmount - data.total) > 0.01) {
-        console.error(`[checkout] Amount mismatch: paid ${paidAmount}, expected ${data.total}`);
+      if (
+        Math.abs(paidAmount - priced.total) > 0.01 ||
+        verifyData.data.currency !== priced.currency
+      ) {
+        console.error(`[checkout] Payment details do not match the server-calculated order`);
         return NextResponse.json(
           { success: false, message: 'Payment amount does not match order total.' },
           { status: 400 }
@@ -93,10 +96,19 @@ export async function POST(req: NextRequest) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Idempotency-Key': data.paystackRef,
           ...(internalKey ? { 'x-api-key': internalKey } : {}),
         },
         body: JSON.stringify({
-          items: data.items,
+          items: priced.lineItems.map(({ product, quantity }) => ({
+            id: product.id,
+            name: product.title,
+            price: product.price,
+            quantity,
+            image: product.image,
+            category: product.category,
+            description: product.description,
+          })),
           shipping: {
             fullName: data.shipping.fullName,
             email: data.shipping.email,
@@ -109,10 +121,10 @@ export async function POST(req: NextRequest) {
           },
           shippingMethod: data.shippingMethod,
           paymentMethod: data.paymentMethod,
-          subtotal: data.subtotal,
-          shippingCost: data.shippingCost,
-          total: data.total,
-          currency: data.currency,
+          subtotal: priced.subtotal,
+          shippingCost: priced.shippingCost,
+          total: priced.total,
+          currency: priced.currency,
           paystackRef: data.paystackRef,
         }),
         signal: controller.signal,

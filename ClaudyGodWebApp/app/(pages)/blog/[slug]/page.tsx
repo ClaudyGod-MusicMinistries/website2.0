@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import type { ApiResponse, BlogPostDetail } from '@/lib/data/types';
 import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 import { ReactionBar } from '@/components/blog/ReactionBar';
 import { CommentsSection } from '@/components/blog/CommentsSection';
+import { SITE_NAME, SITE_URL, LOGO_URL } from '@/lib/config/site';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 
 const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
 
@@ -62,8 +66,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   return {
-    title: post ? `${post.title} — ClaudyGod Blog` : 'Blog — ClaudyGod Music Ministries',
-    description: post?.excerpt,
+    title: post ? post.title : 'Article Not Found',
+    description:
+      post?.excerpt ?? 'Read journal entries and ministry updates from ClaudyGod Music Ministries.',
+    alternates: post ? { canonical: `${SITE_URL}/blog/${post.slug}` } : undefined,
+    robots: post ? undefined : { index: false, follow: false },
+    openGraph: post
+      ? {
+          type: 'article',
+          title: post.title,
+          description: post.excerpt,
+          url: `${SITE_URL}/blog/${post.slug}`,
+          publishedTime: post.publishedAt,
+          authors: post.authorName ? [post.authorName] : [SITE_NAME],
+          tags: post.tags,
+          images: post.featuredImagePath
+            ? [{ url: post.featuredImagePath, alt: post.title }]
+            : [{ url: '/ClaudySocial-wide.png', width: 1730, height: 909, alt: SITE_NAME }],
+        }
+      : undefined,
+    twitter: post
+      ? {
+          card: 'summary_large_image',
+          title: post.title,
+          description: post.excerpt,
+          images: [post.featuredImagePath || '/ClaudySocial-wide.png'],
+        }
+      : undefined,
   };
 }
 
@@ -71,31 +100,44 @@ export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
-  if (!post) {
-    return (
-      <div className="min-h-screen bg-cream-100 pt-[var(--navbar-height)] flex flex-col items-center justify-center gap-5 text-center px-6">
-        <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center">
-          <span className="text-2xl">📄</span>
-        </div>
-        <p className="font-display font-bold text-neutral-900 text-2xl tracking-tight">
-          Post not found
-        </p>
-        <Link
-          href="/news"
-          className="inline-flex items-center gap-2 font-sans text-xs tracking-[0.15em] uppercase bg-purple-600 hover:bg-purple-700 text-white px-6 h-10 rounded-xl transition-colors"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Back to News
-        </Link>
-      </div>
-    );
-  }
+  if (!post) notFound();
 
   const catColor = categoryColors[post.categoryName ?? ''] ?? 'bg-neutral-100 text-neutral-600';
+  const schemas = [
+    breadcrumb([
+      { name: 'News', href: '/news' },
+      { name: post.title, href: `/blog/${post.slug}` },
+    ]),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.excerpt,
+      image: post.featuredImagePath
+        ? `${SITE_URL}${post.featuredImagePath}`
+        : `${SITE_URL}/ClaudySocial-wide.png`,
+      datePublished: post.publishedAt,
+      dateModified: post.publishedAt,
+      mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+      author: { '@type': 'Person', name: post.authorName || 'ClaudyGod', url: `${SITE_URL}/about` },
+      publisher: {
+        '@type': 'Organization',
+        name: SITE_NAME,
+        logo: { '@type': 'ImageObject', url: LOGO_URL },
+      },
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-white pt-[var(--navbar-height)]">
-      <div className="max-w-[760px] mx-auto px-6 lg:px-8 py-16 md:py-24">
+    <article className="min-h-screen bg-white pt-[var(--navbar-height)]">
+      {schemas.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+      <div className="max-w-[820px] mx-auto px-6 lg:px-8 py-16 md:py-24">
         <Link
           href="/news"
           className="inline-flex items-center gap-2 font-sans text-[0.6rem] tracking-[0.15em] uppercase text-neutral-400 hover:text-purple-600 transition-colors mb-12"
@@ -130,6 +172,19 @@ export default async function BlogPostPage({ params }: PageProps) {
           <div className="w-12 h-0.5 bg-amber-400 opacity-70" />
         </div>
 
+        {post.featuredImagePath && (
+          <div className="relative mb-12 aspect-[16/9] overflow-hidden rounded-xl bg-neutral-100">
+            <Image
+              src={post.featuredImagePath}
+              alt={post.title}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 900px) 100vw, 820px"
+            />
+          </div>
+        )}
+
         <div className="space-y-6">
           {post.content.split('\n\n').map((paragraph, i) => (
             <p key={i} className="font-sans text-neutral-600 text-base md:text-lg leading-[1.9]">
@@ -157,6 +212,6 @@ export default async function BlogPostPage({ params }: PageProps) {
           </span>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

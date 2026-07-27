@@ -42,7 +42,8 @@ export async function getYoutubeEmbedUrl(
 
   // Check cache
   const cacheKey = getCacheKey(videoId);
-  const cached = localStorage?.getItem(cacheKey);
+  const storage = typeof window !== 'undefined' ? window.localStorage : null;
+  const cached = storage?.getItem(cacheKey);
   if (cached) {
     try {
       const data = JSON.parse(cached) as YoutubeEmbedData & { timestamp: number };
@@ -56,7 +57,7 @@ export async function getYoutubeEmbedUrl(
         };
       }
     } catch {
-      localStorage?.removeItem(cacheKey);
+      storage?.removeItem(cacheKey);
     }
   }
 
@@ -86,7 +87,7 @@ export async function getYoutubeEmbedUrl(
 
     // Cache the result
     try {
-      localStorage?.setItem(cacheKey, JSON.stringify(embedData));
+      storage?.setItem(cacheKey, JSON.stringify(embedData));
     } catch {
       // Storage quota exceeded or private window
       console.warn('[youtubeClient] Unable to cache YouTube embed URL');
@@ -111,7 +112,9 @@ export function buildYoutubeEmbedHtml(embedUrl: string, width = 560, height = 31
 }
 
 export function clearYoutubeCache(): void {
-  if (!localStorage) return;
-  const keys = Object.keys(localStorage);
-  keys.filter((k) => k.startsWith(CACHE_KEY)).forEach((k) => localStorage.removeItem(k));
+  if (typeof window === 'undefined') return;
+  const keys = Object.keys(window.localStorage);
+  keys
+    .filter((key) => key.startsWith(CACHE_KEY))
+    .forEach((key) => window.localStorage.removeItem(key));
 }

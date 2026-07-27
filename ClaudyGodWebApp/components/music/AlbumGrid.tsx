@@ -7,6 +7,8 @@ import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { platformColors } from '@/lib/utils/platformColors';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import Link from 'next/link';
+import { releases } from '@/data/releases';
 
 const platformIconMap = {
   spotify: FaSpotify,
@@ -71,9 +73,18 @@ export function AlbumGrid() {
               {/* Album info */}
               <div className="flex-1 flex flex-col p-5 sm:p-6 lg:p-7">
                 {/* Title */}
-                <p className="font-display font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
-                  {album.title}
-                </p>
+                {releases.find((release) => release.title === album.title) ? (
+                  <Link
+                    href={`/music/${releases.find((release) => release.title === album.title)!.slug}`}
+                    className="font-display font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2"
+                  >
+                    {album.title}
+                  </Link>
+                ) : (
+                  <p className="font-display font-semibold text-neutral-900 text-lg sm:text-xl lg:text-2xl leading-tight mb-1 group-hover:text-purple-700 transition-colors duration-300 line-clamp-2">
+                    {album.title}
+                  </p>
+                )}
                 <p className="font-sans text-[0.55rem] sm:text-[0.58rem] tracking-[0.2em] uppercase text-neutral-400 mb-5 sm:mb-6">
                   Full Album
                 </p>
