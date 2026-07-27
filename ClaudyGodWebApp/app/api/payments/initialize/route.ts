@@ -1,24 +1,23 @@
 import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { SITE_URL } from '@/lib/config/site';
+import { z } from 'zod';
+import { guardPublicMutation } from '@/lib/security/request';
+
+const schema = z.object({
+  email: z.string().email().max(254),
+  amount: z.number().finite().min(1).max(10_000_000),
+  name: z.string().trim().min(2).max(100),
+  message: z.string().trim().max(500).optional(),
+  currency: z.enum(['NGN', 'USD', 'GBP', 'EUR', 'GHS', 'ZAR']).default('NGN'),
+});
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { email, amount, name, message, currency = 'NGN' } = body;
+    const denied = guardPublicMutation(req, 'payment-initialize', { limit: 8, windowMs: 60_000 });
+    if (denied) return denied;
 
-    if (!email || !amount || !name) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Email, amount, and name are required',
-          data: null,
-          errors: ['email, amount, and name are required'],
-          fieldErrors: {},
-        },
-        { status: 400 }
-      );
-    }
+    const { email, amount, name, message, currency } = schema.parse(await req.json());
 
     const secretKey = process.env.PAYSTACK_SECRET_KEY;
     if (!secretKey) {
@@ -51,6 +50,7 @@ export async function POST(req: NextRequest) {
         currency,
         reference,
         metadata: {
+          purpose: 'donation',
           custom_fields: [
             { display_name: 'Donor Name', variable_name: 'donor_name', value: name },
             ...(message
@@ -91,6 +91,12 @@ export async function POST(req: NextRequest) {
       fieldErrors: {},
     });
   } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, message: 'Invalid payment details.', errors: err.flatten().fieldErrors },
+        { status: 422 }
+      );
+    }
     const errorMsg = err instanceof Error ? err.message : String(err);
     console.error('[payments/initialize]', errorMsg);
 

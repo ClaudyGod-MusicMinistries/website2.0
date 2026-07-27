@@ -2,12 +2,9 @@ import type { Metadata } from 'next';
 import { Hero } from '@/components/home/Hero';
 import { TheArtist } from '@/components/home/TheArtist';
 import { LatestRelease } from '@/components/home/LatestRelease';
-import { MusicHighlight } from '@/components/home/MusicHighlight';
 import { TourDatesStrip } from '@/components/home/TourDatesStrip';
 import { FeaturedVideos } from '@/components/home/FeaturedVideos';
 import { ScriptureDivider } from '@/components/home/ScriptureDivider';
-import { StorePreview } from '@/components/home/StorePreview';
-import { DonateSection } from '@/components/home/DonateSection';
 import { NewsletterBanner } from '@/components/home/NewsletterBanner';
 import { AnimateOnView } from '@/components/shared/AnimateOnView';
 import { SITE_URL } from '@/lib/config/site';
@@ -48,10 +45,6 @@ export default function Home() {
       <AnimateOnView>
         <LatestRelease />
       </AnimateOnView>
-      <AnimateOnView>
-        <MusicHighlight />
-      </AnimateOnView>
-
       {/* 4. Tour dates — reason to see them live */}
       <TourDatesStrip />
 
@@ -63,17 +56,7 @@ export default function Home() {
       {/* 6. Scripture breather before commerce */}
       <ScriptureDivider />
 
-      {/* 7. Commerce */}
-      <AnimateOnView>
-        <StorePreview />
-      </AnimateOnView>
-
-      {/* 8. Giving */}
-      <AnimateOnView>
-        <DonateSection />
-      </AnimateOnView>
-
-      {/* 9. Final capture before footer */}
+      {/* Final capture before footer */}
       <NewsletterBanner />
     </>
   );

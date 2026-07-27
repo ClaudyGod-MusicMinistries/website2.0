@@ -9,6 +9,12 @@ export async function GET(req: NextRequest) {
   if (!reference) {
     return NextResponse.json({ success: false, message: 'reference is required' }, { status: 400 });
   }
+  if (!/^CGM-[A-F0-9]{24}$/.test(reference)) {
+    return NextResponse.json(
+      { success: false, message: 'Invalid donation reference' },
+      { status: 400 }
+    );
+  }
 
   const secretKey = process.env.PAYSTACK_SECRET_KEY;
   if (!secretKey) {
@@ -34,6 +40,12 @@ export async function GET(req: NextRequest) {
     }
 
     const tx = data.data;
+    if (tx.metadata?.purpose !== 'donation') {
+      return NextResponse.json(
+        { success: false, message: 'Transaction is not a donation.' },
+        { status: 400 }
+      );
+    }
 
     // Record successful payment in backend
     if (tx.status === 'success') {
@@ -56,6 +68,7 @@ export async function GET(req: NextRequest) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Idempotency-Key': tx.reference,
             ...(internalKey ? { 'x-api-key': internalKey } : {}),
           },
           body: JSON.stringify({

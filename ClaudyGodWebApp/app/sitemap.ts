@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL as BASE } from '@/lib/config/site';
+import { releases } from '@/data/releases';
 
 /* ── Static page routes ───────────────────────────────────────────────────── */
 const staticRoutes: MetadataRoute.Sitemap = [
@@ -18,10 +19,14 @@ const staticRoutes: MetadataRoute.Sitemap = [
     changeFrequency: 'monthly',
     lastModified: new Date('2025-01-01'),
   },
-  { url: `${BASE}/bookings`, priority: 0.82, changeFrequency: 'monthly', lastModified: new Date() },
+  { url: `${BASE}/events`, priority: 0.9, changeFrequency: 'weekly' },
+  { url: `${BASE}/bookings`, priority: 0.82, changeFrequency: 'monthly' },
   { url: `${BASE}/news`, priority: 0.8, changeFrequency: 'daily', lastModified: new Date() },
   { url: `${BASE}/store`, priority: 0.75, changeFrequency: 'weekly', lastModified: new Date() },
   { url: `${BASE}/donate`, priority: 0.72, changeFrequency: 'monthly', lastModified: new Date() },
+  { url: `${BASE}/prayer`, priority: 0.65, changeFrequency: 'monthly' },
+  { url: `${BASE}/volunteer`, priority: 0.6, changeFrequency: 'monthly' },
+  { url: `${BASE}/help`, priority: 0.45, changeFrequency: 'monthly' },
   {
     url: `${BASE}/contact`,
     priority: 0.65,
@@ -30,66 +35,13 @@ const staticRoutes: MetadataRoute.Sitemap = [
   },
 ];
 
-/* ── Album / music release pages (deep links for rich results) ──────────── */
-const musicRoutes: MetadataRoute.Sitemap = [
-  {
-    url: `${BASE}/music#you-are-our-everything`,
-    priority: 0.88,
-    changeFrequency: 'monthly',
-    lastModified: new Date('2024-11-01'),
-  },
-  {
-    url: `${BASE}/music#very-glorious`,
-    priority: 0.86,
-    changeFrequency: 'monthly',
-    lastModified: new Date('2024-01-01'),
-  },
-  {
-    url: `${BASE}/music#we-would-reign`,
-    priority: 0.84,
-    changeFrequency: 'monthly',
-    lastModified: new Date('2023-01-01'),
-  },
-  {
-    url: `${BASE}/music#lover-of-my-soul`,
-    priority: 0.82,
-    changeFrequency: 'monthly',
-    lastModified: new Date('2023-01-01'),
-  },
-];
-
-/* ── Store product routes ─────────────────────────────────────────────────── */
-const storeRoutes: MetadataRoute.Sitemap = [
-  {
-    url: `${BASE}/store#merchandise`,
-    priority: 0.7,
-    changeFrequency: 'weekly',
-    lastModified: new Date(),
-  },
-];
-
-/* ── Legal (lower priority, no-index friendly) ───────────────────────────── */
-const legalRoutes: MetadataRoute.Sitemap = [
-  {
-    url: `${BASE}/legal/privacy`,
-    priority: 0.2,
-    changeFrequency: 'yearly',
-    lastModified: new Date('2025-01-01'),
-  },
-  {
-    url: `${BASE}/legal/terms`,
-    priority: 0.2,
-    changeFrequency: 'yearly',
-    lastModified: new Date('2025-01-01'),
-  },
-  {
-    url: `${BASE}/legal/cookies`,
-    priority: 0.2,
-    changeFrequency: 'yearly',
-    lastModified: new Date('2025-01-01'),
-  },
-];
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [...staticRoutes, ...musicRoutes, ...storeRoutes, ...legalRoutes];
+  return [
+    ...staticRoutes,
+    ...releases.map((release) => ({
+      url: `${BASE}/music/${release.slug}`,
+      priority: 0.85,
+      changeFrequency: 'monthly' as const,
+    })),
+  ];
 }
