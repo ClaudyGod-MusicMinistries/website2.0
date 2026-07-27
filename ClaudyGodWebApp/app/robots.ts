@@ -8,23 +8,14 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: [
-          '/api/',
-          '/_next/',
-          '/dev/',
-          '/store/cart',
-          '/store/checkout',
-          '/legal/privacy',
-          '/legal/terms',
-          '/legal/cookies',
-        ],
+        disallow: ['/api/', '/dev/', '/store/cart', '/store/checkout'],
       },
 
       /* ── Googlebot: explicitly allow all public pages + media ── */
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/store/checkout', '/store/cart'],
+        disallow: ['/api/', '/dev/', '/store/checkout', '/store/cart'],
       },
 
       /* ── Googlebot-Image: allow all images for Google Images indexing ── */
@@ -37,7 +28,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: 'Bingbot',
         allow: '/',
-        disallow: ['/api/', '/_next/', '/store/checkout'],
+        disallow: ['/api/', '/dev/', '/store/checkout', '/store/cart'],
       },
 
       /* ── Social media crawlers: full access for rich link previews ── */
@@ -74,7 +65,7 @@ export default function robots(): MetadataRoute.Robots {
 
       /* ── Block AI scrapers that don't respect copyright ── */
       {
-        userAgent: ['GPTBot', 'ChatGPT-User', 'CCBot', 'anthropic-ai', 'ClaudeBot'],
+        userAgent: ['GPTBot', 'CCBot', 'anthropic-ai', 'ClaudeBot'],
         disallow: '/',
       },
     ],

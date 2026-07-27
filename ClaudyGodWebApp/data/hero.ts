@@ -1,4 +1,4 @@
-import { Play, type LucideIcon } from 'lucide-react';
+import { CalendarDays, Play, type LucideIcon } from 'lucide-react';
 import type { VariantProps } from 'class-variance-authority';
 import type { buttonVariants } from '@/lib/theme/buttons';
 
@@ -28,4 +28,5 @@ export interface HeroCTA {
 
 export const heroCTAs: HeroCTA[] = [
   { label: 'Listen Now', href: '/music', variant: 'primary', icon: Play },
+  { label: 'Book ClaudyGod', href: '/bookings', variant: 'secondary', icon: CalendarDays },
 ];

@@ -36,8 +36,8 @@ export const metadata: Metadata = {
     type: 'profile',
     images: [
       {
-        url: '/ClaudySocial.jpg',
-        width: 1200,
+        url: '/ClaudySocial-wide.png',
+        width: 1730,
         height: 800,
         alt: 'Minister ClaudyGod — Nigerian Gospel Artist',
       },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'About Minister ClaudyGod — Nigerian Gospel Artist',
     description: 'Over 20 years of ministry, 7 albums, and a God-given calling.',
-    images: ['/ClaudySocial.jpg'],
+    images: ['/ClaudySocial-wide.png'],
   },
   alternates: { canonical: `${SITE_URL}/about` },
 };
