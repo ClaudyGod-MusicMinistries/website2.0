@@ -40,6 +40,7 @@ export function webSite() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
     name: SITE_NAME,
     url: SITE_URL,
     description:
@@ -49,11 +50,6 @@ export function webSite() {
       '@type': 'Organization',
       name: SITE_NAME,
       logo: { '@type': 'ImageObject', url: LOGO_URL },
-    },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/search?q={search_term_string}` },
-      'query-input': 'required name=search_term_string',
     },
   };
 }
@@ -68,7 +64,7 @@ export function musicGroup() {
     name: SITE_NAME,
     alternateName: ['ClaudyGod', 'Minister ClaudyGod', 'ClaudyGod Ministries'],
     url: SITE_URL,
-    image: { '@type': 'ImageObject', url: OG_IMAGE, width: 1200, height: 630 },
+    image: { '@type': 'ImageObject', url: OG_IMAGE, width: 1730, height: 909 },
     logo: { '@type': 'ImageObject', url: LOGO_URL, width: 200, height: 200 },
     description:
       'ClaudyGod is a Nigerian gospel music artist, minister, and worship leader with over 20 years in ministry and 7 studio albums. Known for Spirit-filled worship that transforms lives across the globe.',
@@ -85,7 +81,6 @@ export function musicGroup() {
       },
     },
     areaServed: ['Nigeria', 'United Kingdom', 'United States', 'International'],
-    numberOfEmployees: { '@type': 'QuantitativeValue', value: 10 },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Booking',

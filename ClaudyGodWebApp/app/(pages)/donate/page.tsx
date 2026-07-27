@@ -2,6 +2,7 @@ import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { PageHero } from '@/components/shared/PageHero';
+import { breadcrumb } from '@/lib/utils/jsonLd';
 
 const DonateClient = dynamic(() => import('@/components/donate/DonateClient'), { ssr: false });
 
@@ -31,20 +32,30 @@ export const metadata: Metadata = {
       'Your generosity funds gospel music, ministry tours, and outreach. Partner with ClaudyGod Music Ministries today.',
     url: '/donate',
     images: [
-      { url: '/ClaudySocial.jpg', width: 1200, height: 630, alt: 'Support ClaudyGod Ministry' },
+      {
+        url: '/ClaudySocial-wide.png',
+        width: 1730,
+        height: 909,
+        alt: 'Support ClaudyGod Ministry',
+      },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Donate — Support ClaudyGod Music Ministries',
-    images: ['/ClaudySocial.jpg'],
+    images: ['/ClaudySocial-wide.png'],
   },
   alternates: { canonical: `${SITE_URL}/donate` },
 };
 
 export default function DonatePage() {
+  const schema = breadcrumb([{ name: 'Donate', href: '/donate' }]);
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <PageHero
         eyebrow="Donate"
         title="Support the Ministry"
