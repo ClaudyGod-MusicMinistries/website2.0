@@ -172,10 +172,11 @@ export function Hero() {
                 variants={fadeUp}
                 initial="hidden"
                 animate="visible"
-                className="flex items-center flex-wrap gap-3 justify-center sm:justify-start"
+                className="flex items-center flex-wrap gap-4 justify-center sm:justify-start"
               >
                 {heroCTAs.map((cta) => {
                   const Icon = cta.icon;
+                  const isPrimary = cta.variant === 'primary';
                   return (
                     <motion.div
                       key={cta.href}
@@ -184,7 +185,7 @@ export function Hero() {
                       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                       className="relative inline-flex"
                     >
-                      {cta.variant === 'primary' && (
+                      {isPrimary && (
                         <motion.span
                           aria-hidden="true"
                           animate={{ opacity: [0.45, 0.85, 0.45] }}
@@ -195,14 +196,28 @@ export function Hero() {
                       <Link
                         href={cta.href}
                         className={cn(
-                          buttonVariants({ variant: cta.variant, size: 'lg', uppercase: true }),
+                          buttonVariants({ variant: cta.variant, size: 'xl', uppercase: true }),
                           'group',
-                          cta.variant === 'primary' && 'shadow-gold-cta hover:shadow-gold-cta-hover'
+                          isPrimary
+                            ? 'shadow-gold-cta hover:shadow-gold-cta-hover'
+                            : 'hover:shadow-glow-dark'
                         )}
                       >
                         {Icon && (
-                          <span className="flex items-center justify-center w-5 h-5 rounded-full bg-surface-base/90 group-hover:bg-surface-base shrink-0 transition-colors duration-200">
-                            <Icon className="h-2.5 w-2.5 text-gold-400 fill-current" />
+                          <span
+                            className={cn(
+                              'flex items-center justify-center w-5 h-5 rounded-full shrink-0 transition-colors duration-200',
+                              isPrimary
+                                ? 'bg-surface-base/90 group-hover:bg-surface-base'
+                                : 'bg-white/10 border border-white/20 group-hover:bg-gold-500 group-hover:border-gold-500'
+                            )}
+                          >
+                            <Icon
+                              className={cn(
+                                'h-2.5 w-2.5 fill-current transition-colors duration-200',
+                                isPrimary ? 'text-gold-400' : 'text-white group-hover:text-black'
+                              )}
+                            />
                           </span>
                         )}
                         {cta.label}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Hero } from '@/components/home/Hero';
 import { TheArtist } from '@/components/home/TheArtist';
 import { LatestRelease } from '@/components/home/LatestRelease';
+import { MusicHighlight } from '@/components/home/MusicHighlight';
 import { TourDatesStrip } from '@/components/home/TourDatesStrip';
 import { FeaturedVideos } from '@/components/home/FeaturedVideos';
 import { ScriptureDivider } from '@/components/home/ScriptureDivider';
@@ -88,6 +89,11 @@ export default function Home() {
       <AnimateOnView>
         <LatestRelease />
       </AnimateOnView>
+
+      {/* Discography — browse the full catalog and continue on Spotify,
+          Apple Music, YouTube, or Deezer */}
+      <MusicHighlight />
+
       {/* 4. Tour dates — reason to see them live */}
       <TourDatesStrip />
 

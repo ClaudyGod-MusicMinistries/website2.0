@@ -28,5 +28,5 @@ export interface HeroCTA {
 
 export const heroCTAs: HeroCTA[] = [
   { label: 'Listen Now', href: '/music', variant: 'primary', icon: Play },
-  { label: 'Book ClaudyGod', href: '/bookings', variant: 'secondary', icon: CalendarDays },
+  { label: 'Book ClaudyGod', href: '/bookings', variant: 'outline-white', icon: CalendarDays },
 ];
