@@ -10,32 +10,32 @@ export default function CookiesPage() {
     <LegalPage
       active="cookies"
       title="Cookie Policy"
-      lastUpdated="May 2025"
-      intro="This Cookie Policy explains how ClaudyGod Music Ministries uses cookies and similar tracking technologies on our website. By continuing to use our website, you consent to our use of cookies as described in this policy."
+      lastUpdated="July 2026"
+      intro="This policy explains the small amount of browser storage used by this website. Optional storage is used only after you make a choice."
       sections={[
         {
-          heading: 'What Are Cookies',
-          body: 'Cookies are small text files that are stored on your device when you visit a website. They are widely used to make websites work more efficiently and to provide information to the website owners.',
+          heading: 'What We Store',
+          body: 'Cookies and browser storage are small records saved on your device. We use them only where they support a feature described below.',
         },
         {
-          heading: 'How We Use Cookies',
-          body: 'We use cookies to remember your preferences, understand how you use our website, and improve your overall experience. We also use cookies to analyze traffic and usage patterns to help us improve our content and services.',
+          heading: 'Your Consent Choice',
+          body: 'We save your privacy choice for 180 days so we do not ask on every visit. You can change or withdraw that choice at any time using Cookie settings in the website footer.',
         },
         {
-          heading: 'Essential Cookies',
-          body: 'These cookies are necessary for the website to function properly. They enable core functionality such as remembering your cart items in our store. The website cannot function properly without these cookies.',
+          heading: 'Necessary Storage',
+          body: 'Necessary storage supports security, checkout, the shopping cart, and your privacy choice. It is not used for advertising and cannot be disabled through the consent panel because the requested features depend on it.',
         },
         {
-          heading: 'Analytics Cookies',
-          body: 'We may use analytics cookies to understand how visitors interact with our website. These cookies help us improve our website by collecting and reporting information on an anonymous basis.',
+          heading: 'Preference Storage',
+          body: 'If you allow preferences, we may remember optional choices such as whether a welcome message was shown, an anonymous reaction identifier, and cached media settings. Refusing preferences does not prevent you from browsing the website.',
         },
         {
-          heading: 'Third-Party Cookies',
-          body: 'Embedded content from YouTube, Spotify, and other platforms may set their own cookies. We have no control over these third-party cookies and encourage you to review the cookie policies of those services.',
+          heading: 'External Media',
+          body: 'Videos use YouTube’s privacy-enhanced domain. Playing embedded media or following links to YouTube, Spotify, Apple Music, or another service may connect you to that provider, whose own privacy terms then apply.',
         },
         {
-          heading: 'Managing Cookies',
-          body: "You can control and manage cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of our website. To learn more about managing cookies, visit your browser's help section.",
+          heading: 'Changing Your Choice',
+          body: 'Use Cookie settings in the footer to review or change optional storage. You can also remove stored data through your browser settings. Withdrawing preference consent clears the optional storage managed by this website.',
         },
         {
           heading: 'Contact Us',

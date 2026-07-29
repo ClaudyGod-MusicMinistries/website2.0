@@ -10,7 +10,7 @@ export default function PrivacyPage() {
     <LegalPage
       active="privacy"
       title="Privacy Policy"
-      lastUpdated="May 2025"
+      lastUpdated="July 2026"
       intro="ClaudyGod Music Ministries ('we', 'us', or 'our') is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or interact with our services."
       sections={[
         {
@@ -23,7 +23,7 @@ export default function PrivacyPage() {
         },
         {
           heading: 'Cookies',
-          body: 'Our website uses cookies to enhance your browsing experience. Cookies are small text files stored on your device that help us understand how visitors use our site. You can control cookies through your browser settings.',
+          body: 'We use necessary storage for core features and optional preference storage only when you allow it. You can review or change your choice through Cookie settings in the footer.',
         },
         {
           heading: 'Data Security',

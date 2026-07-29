@@ -1,3 +1,5 @@
+import { hasConsent } from './cookieConsent';
+
 const STORAGE_KEY = 'cg_visitor_token';
 
 // Only used if localStorage throws (private browsing, etc.) — cached here so
@@ -14,6 +16,11 @@ let fallbackToken: string | null = null;
  */
 export function getVisitorToken(): string {
   if (typeof window === 'undefined') return '';
+
+  if (!hasConsent('preferences')) {
+    fallbackToken ??= crypto.randomUUID();
+    return fallbackToken;
+  }
 
   try {
     const existing = localStorage.getItem(STORAGE_KEY);
