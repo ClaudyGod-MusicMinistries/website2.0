@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,14 +61,11 @@ export async function GET(req: NextRequest) {
       try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 15000);
-        const internalKey = getInternalApiKey();
-
         const recordRes = await fetch(`${apiBaseUrl}/api/v1.0/payments/paystack/record`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Idempotency-Key': tx.reference,
-            ...(internalKey ? { 'x-api-key': internalKey } : {}),
           },
           body: JSON.stringify({
             donorName,

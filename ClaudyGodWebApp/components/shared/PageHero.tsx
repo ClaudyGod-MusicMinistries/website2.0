@@ -12,6 +12,7 @@ interface PageHeroProps {
    */
   objectPosition?: string;
   className?: string;
+  titleClassName?: string;
 }
 
 /**
@@ -28,6 +29,7 @@ export function PageHero({
   backgroundImage,
   objectPosition = 'center top',
   className,
+  titleClassName,
 }: PageHeroProps) {
   return (
     <div
@@ -70,7 +72,12 @@ export function PageHero({
             <span className="label-eyebrow text-gold-400">{eyebrow}</span>
           </div>
         )}
-        <h1 className="font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl tracking-normal leading-[1.15] max-w-3xl text-balance">
+        <h1
+          className={cn(
+            'font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl tracking-normal leading-[1.15] max-w-3xl text-balance',
+            titleClassName
+          )}
+        >
           {title}
         </h1>
         {subtitle && (

@@ -63,7 +63,7 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
         aria-expanded={open}
         onClick={() => setOpen(true)}
         className={cn(
-          'flex h-14 w-full items-center gap-3 rounded-lg border bg-white px-4 text-left text-sm transition',
+          'flex h-12 w-full items-center gap-3 rounded-lg border bg-white px-3.5 text-left text-sm transition',
           'hover:border-neutral-400 focus:border-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-600/10',
           error ? 'border-red-400' : 'border-neutral-300'
         )}
@@ -87,9 +87,7 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
           <div className="flex max-h-[82dvh] w-full flex-col overflow-hidden rounded-t-2xl border border-neutral-200 bg-white shadow-card-light-lg sm:max-h-none sm:rounded-xl">
             <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4 sm:hidden">
               <div>
-                <p className="font-display text-lg font-semibold text-neutral-950">
-                  Choose a country
-                </p>
+                <p className="text-sm font-semibold text-neutral-950">Choose a country</p>
                 <p className="mt-0.5 text-xs text-neutral-500">
                   Search the complete international list
                 </p>

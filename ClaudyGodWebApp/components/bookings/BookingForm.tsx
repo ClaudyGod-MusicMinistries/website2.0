@@ -16,6 +16,7 @@ import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 import { cn } from '@/lib/utils/cn';
 import { useCountries } from '@/hooks/useCountries';
 import { CountrySelect } from '@/components/ui/CountrySelect';
+import { FormSelect } from '@/components/ui/FormSelect';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
@@ -51,7 +52,7 @@ const organizationTypes = [
   'Conference Organizer',
   'Concert / Festival',
   'Corporate Organization',
-  'Private Host',
+  'Individual',
   'Other',
 ];
 const eventTypes = [
@@ -65,7 +66,7 @@ const eventTypes = [
   'Other',
 ];
 const fieldClass =
-  'h-14 w-full rounded-lg border border-neutral-300 bg-white px-4 text-[15px] text-neutral-950 outline-none transition placeholder:text-neutral-400 hover:border-neutral-400 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10';
+  'h-12 w-full rounded-lg border border-neutral-300 bg-white px-3.5 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 hover:border-neutral-400 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10';
 const textAreaClass = `${fieldClass} h-auto min-h-36 resize-y py-4 leading-relaxed`;
 
 function tomorrow() {
@@ -75,7 +76,7 @@ function tomorrow() {
 }
 function Label({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
   return (
-    <label className="mb-2 flex items-center justify-between text-sm font-semibold text-neutral-800">
+    <label className="mb-2 flex items-center justify-between text-xs font-medium tracking-[0.02em] text-neutral-600">
       <span>{children}</span>
       {optional && <span className="text-xs font-normal text-neutral-400">Optional</span>}
     </label>
@@ -186,11 +187,11 @@ export function BookingForm() {
         <div className="mb-7 border-b border-neutral-100 pb-6">
           <h2
             id="booking-form-heading"
-            className="font-display text-2xl font-semibold leading-tight text-neutral-950 sm:text-3xl"
+            className="font-display text-xl font-semibold leading-tight text-neutral-950 sm:text-2xl"
           >
             Booking request
           </h2>
-          <p className="mt-3 max-w-xl text-sm leading-6 text-neutral-500">
+          <p className="mt-2 max-w-xl text-xs leading-5 text-neutral-500 sm:text-sm">
             Complete the form and our team will contact you.
           </p>
         </div>
@@ -266,7 +267,7 @@ export function BookingForm() {
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <Label>Work email</Label>
+                <Label>Email address</Label>
                 <input
                   {...register('email', {
                     required: 'Enter an email address.',
@@ -278,12 +279,12 @@ export function BookingForm() {
                   type="email"
                   autoComplete="email"
                   className={fieldClass}
-                  placeholder="name@organisation.com"
+                  placeholder="name@example.com"
                 />
                 <FieldError message={errors.email?.message} />
               </div>
               <div>
-                <Label>Direct phone number</Label>
+                <Label>Contact number</Label>
                 <Controller
                   name="phone"
                   control={control}
@@ -300,41 +301,44 @@ export function BookingForm() {
                       onChange={field.onChange}
                       onBlur={field.onBlur}
                       error={errors.phone?.message}
-                      inputClass="!h-14 !rounded-lg !border-neutral-300"
+                      inputClass="!h-12 !rounded-lg !border-neutral-300"
                     />
                   )}
                 />
               </div>
             </div>
             <div>
-              <Label>Church or organisation</Label>
+              <Label>Organisation name</Label>
               <input
                 {...register('organization', {
-                  required: 'Enter the hosting organisation.',
+                  required: 'Enter the organisation name.',
                   minLength: { value: 2, message: 'Use at least 2 characters.' },
                   maxLength: 150,
                 })}
                 autoComplete="organization"
                 className={fieldClass}
-                placeholder="Name of the host organisation"
+                placeholder="Church or organisation name"
               />
               <FieldError message={errors.organization?.message} />
             </div>
             <div>
-              <Label>Organisation type</Label>
-              <select
-                {...register('orgType', { required: 'Select the organisation type.' })}
-                defaultValue=""
-                className={fieldClass}
-              >
-                <option value="" disabled>
-                  Select the closest match
-                </option>
-                {organizationTypes.map((type) => (
-                  <option key={type}>{type}</option>
-                ))}
-              </select>
-              <FieldError message={errors.orgType?.message} />
+              <Label>Organisation category</Label>
+              <Controller
+                name="orgType"
+                control={control}
+                rules={{ required: 'Select an organisation category.' }}
+                render={({ field }) => (
+                  <FormSelect
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    options={organizationTypes}
+                    placeholder="Select category"
+                    title="Organisation category"
+                    error={errors.orgType?.message}
+                  />
+                )}
+              />
             </div>
           </div>
         )}
@@ -343,21 +347,22 @@ export function BookingForm() {
           <div className="space-y-6">
             <div>
               <Label>Event type</Label>
-              <select
-                {...register('eventType', { required: 'Choose an event type.' })}
-                defaultValue=""
-                className={fieldClass}
-              >
-                <option value="" disabled>
-                  Select event type
-                </option>
-                {eventTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
-              <FieldError message={errors.eventType?.message} />
+              <Controller
+                name="eventType"
+                control={control}
+                rules={{ required: 'Choose an event type.' }}
+                render={({ field }) => (
+                  <FormSelect
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    options={eventTypes}
+                    placeholder="Select event type"
+                    title="Event type"
+                    error={errors.eventType?.message}
+                  />
+                )}
+              />
             </div>
             {eventType === 'Other' && (
               <div>

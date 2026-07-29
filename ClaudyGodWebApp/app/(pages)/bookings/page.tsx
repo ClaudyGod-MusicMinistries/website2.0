@@ -108,6 +108,8 @@ export default function BookingsPage() {
         subtitle="For church services, concerts, and ministry engagements — worldwide."
         backgroundImage="/tour_1.jpg"
         objectPosition="center center"
+        className="!min-h-[38vh] !pb-10 sm:!min-h-[44vh] md:!min-h-[50vh]"
+        titleClassName="!text-3xl sm:!text-4xl md:!text-4xl lg:!text-4xl xl:!text-5xl"
       />
 
       <section className="bg-cream-100 py-10 md:py-16 lg:py-20">

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import type { StoreProduct } from '@/lib/data/types';
-import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 
 export const shippingPrices = {
   standard: 9.99,
@@ -32,10 +31,7 @@ export async function priceOrder(
   if (!apiBaseUrl) throw new Error('Commerce backend is not configured');
 
   const response = await fetch(`${apiBaseUrl}/api/v1.0/store/products`, {
-    headers: {
-      Accept: 'application/json',
-      ...(getInternalApiKey() ? { 'x-api-key': getInternalApiKey()! } : {}),
-    },
+    headers: { Accept: 'application/json' },
     cache: 'no-store',
   });
   if (!response.ok) throw new Error('Unable to verify current product prices');

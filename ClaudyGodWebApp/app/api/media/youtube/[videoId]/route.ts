@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireApiKey } from '@/middleware/apiKeyValidator';
 
-const YOUTUBE_DOMAIN = 'youtube.com';
 const YOUTUBE_SECURE_DOMAIN = 'youtube-nocookie.com';
 
 interface YoutubeEmbedRequest {
@@ -14,13 +12,9 @@ interface YoutubeEmbedRequest {
 /**
  * POST /api/media/youtube/[videoId]
  * Securely proxy YouTube embed links to prevent direct access
- * Requires: x-api-key header with valid API key
+ * Write authorization is enforced by the backend.
  */
 export async function POST(req: NextRequest, { params }: { params: { videoId: string } }) {
-  // Validate API key
-  const keyValidation = requireApiKey(req);
-  if (keyValidation) return keyValidation;
-
   try {
     const { videoId } = params;
 
@@ -97,9 +91,6 @@ export async function POST(req: NextRequest, { params }: { params: { videoId: st
  * Get pre-generated embed URL (uses cached data)
  */
 export async function GET(req: NextRequest, { params }: { params: { videoId: string } }) {
-  const keyValidation = requireApiKey(req);
-  if (keyValidation) return keyValidation;
-
   try {
     const { videoId } = params;
 

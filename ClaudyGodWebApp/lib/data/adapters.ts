@@ -1,6 +1,6 @@
 import type { StoreProduct, Album, MediaItem } from '@/lib/data/types';
 import type { Product } from '@/types/store';
-import { youtubeMaxThumbnail } from '@/lib/utils/youtube';
+import { youtubeThumbnail } from '@/lib/utils/youtube';
 
 /**
  * Maps the real backend's StoreProduct shape (title, single image, inStock)
@@ -92,7 +92,7 @@ export function toVideoView(m: MediaItem): VideoView {
     title: m.title,
     youtubeId,
     duration: formatDuration(m.durationSeconds),
-    thumbnailUrl: m.thumbnailPath || (youtubeId ? youtubeMaxThumbnail(youtubeId) : ''),
+    thumbnailUrl: m.thumbnailPath || (youtubeId ? youtubeThumbnail(youtubeId) : ''),
     createdAt: m.createdAt,
   };
 }

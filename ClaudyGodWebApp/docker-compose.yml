@@ -16,8 +16,6 @@ services:
     environment:
       NODE_ENV: production
       API_BASE_URL: ${API_BASE_URL:-https://api.claudygod.org}
-      INTERNAL_API_KEY: ${INTERNAL_API_KEY:-}
-      VALID_API_KEYS: ${VALID_API_KEYS:-}
       PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY:-}
       NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: ${NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY:-}
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://claudygod.org}

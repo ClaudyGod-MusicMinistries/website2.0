@@ -1,7 +1,6 @@
 import { randomBytes } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 import { guardPublicMutation } from '@/lib/security/request';
 import { orderItemSchema, priceOrder, shippingPrices } from '@/lib/commerce/pricing';
 
@@ -91,13 +90,11 @@ export async function POST(req: NextRequest) {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000); // 15-second timeout
 
-      const internalKey = getInternalApiKey();
       const backendRes = await fetch(`${apiBaseUrl}/api/v1.0/store/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Idempotency-Key': data.paystackRef,
-          ...(internalKey ? { 'x-api-key': internalKey } : {}),
         },
         body: JSON.stringify({
           items: priced.lineItems.map(({ product, quantity }) => ({
