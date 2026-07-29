@@ -1,7 +1,6 @@
 const baseUrl = (process.env.API_BASE_URL ?? 'http://localhost:8080').replace(/\/$/, '');
 const apiPrefix = process.env.API_PREFIX ?? '/api/v1.0';
 const apiKey = process.env.INTERNAL_API_KEY?.trim();
-
 const headers = {
   Accept: 'application/json',
   ...(apiKey ? { 'x-api-key': apiKey } : {}),
@@ -35,10 +34,20 @@ assert(health.response.ok, `/healthz returned ${health.response.status}`);
 assert(health.body.status === 'healthy', `/healthz reported ${health.body.status}`);
 
 const media = await request(`${apiPrefix}/media?type=video`);
-assert(media.response.ok, `media contract returned ${media.response.status}: ${JSON.stringify(media.body)}`);
+assert(
+  media.response.ok,
+  `media contract returned ${media.response.status}: ${JSON.stringify(media.body)}`
+);
 assert(media.body.success === true, 'media response is not an ApiResponse success envelope');
 
-for (const resource of ['bookings', 'contacts', 'subscribers', 'volunteers', 'prayer-requests', 'tickets']) {
+for (const resource of [
+  'bookings',
+  'contacts',
+  'subscribers',
+  'volunteers',
+  'prayer-requests',
+  'tickets',
+]) {
   const invalid = await request(`${apiPrefix}/${resource}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

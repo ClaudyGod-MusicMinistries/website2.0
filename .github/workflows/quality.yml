@@ -2,11 +2,11 @@ name: Frontend quality and API contract
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
   push:
-    branches: [main, develop]
+    branches: [develop]
   schedule:
-    - cron: '17 * * * *'
+    - cron: "17 5 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -27,15 +27,15 @@ jobs:
       - name: Install exact dependencies
         working-directory: ClaudyGodWebApp
         run: npm ci --legacy-peer-deps --ignore-scripts
-      - name: Test
+      - name: Audit production dependencies
         working-directory: ClaudyGodWebApp
-        run: npm test
-      - name: Type-check
+        run: npm audit --omit=dev --audit-level=high
+      - name: Run release quality gate
         working-directory: ClaudyGodWebApp
-        run: npm run type-check
-      - name: Production build
-        working-directory: ClaudyGodWebApp
-        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://claudygod.org
+          NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY: pk_test_ci_placeholder
+        run: npm run check
 
   production-contract:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -50,4 +50,4 @@ jobs:
         env:
           API_BASE_URL: https://api.claudygod.org
           INTERNAL_API_KEY: ${{ secrets.INTERNAL_API_KEY }}
-        run: node scripts/verify-backend-contract.mjs
+        run: npm run contract:backend

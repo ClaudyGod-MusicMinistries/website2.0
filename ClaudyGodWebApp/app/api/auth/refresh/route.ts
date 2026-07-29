@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { getBackendUrl } from '@/lib/data/backendConfig';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         // Forward the cookie header so the backend can read cgm_rt
         Cookie: req.headers.get('cookie') ?? '',
       },

@@ -1,34 +1,43 @@
-#!/bin/bash
-# Pre-commit hook — Lint and format staged files before commit
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
+die() { printf "${RED}✗ %s${NC}\n" "$*" >&2; exit 1; }
+ok() { printf "${GREEN}✓ %s${NC}\n" "$*"; }
 
-echo "🔍 Running pre-commit checks..."
+repo_root="$(git rev-parse --show-toplevel)"
+app_root="$repo_root/ClaudyGodWebApp"
+cd "$repo_root"
 
-# Get staged files
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+git diff --cached --check || die "Fix staged whitespace errors or conflict markers."
 
-if [ -z "$STAGED_FILES" ]; then
-  echo "✓ No files to check"
-  exit 0
+staged="$(git diff --cached --name-only --diff-filter=ACMR)"
+[[ -z "$staged" ]] && { ok "No staged files to check."; exit 0; }
+
+if git diff --cached -- . ':(exclude)ClaudyGodWebApp/.githooks/pre-commit' |
+  grep -E '^\+.*(BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|sk_live_[0-9A-Za-z]+|NEXT_PUBLIC_.*(SECRET|TOKEN|PASSWORD))' >/dev/null; then
+  die "Possible secret detected. Browser-exposed NEXT_PUBLIC variables must never contain credentials."
 fi
 
-# Filter TypeScript files
-TS_FILES=$(echo "$STAGED_FILES" | grep -E '\.(ts|tsx)$' || true)
+files=()
+while IFS= read -r file; do
+  case "$file" in
+    ClaudyGodWebApp/*.ts|ClaudyGodWebApp/*.tsx|ClaudyGodWebApp/*.js|ClaudyGodWebApp/*.mjs|ClaudyGodWebApp/*.json|ClaudyGodWebApp/*.css|ClaudyGodWebApp/*.md|.github/*.yml|.github/*.yaml)
+      files+=("$repo_root/$file") ;;
+  esac
+done <<< "$staged"
 
-if [ -z "$TS_FILES" ]; then
-  echo "✓ No TypeScript files to lint"
-  exit 0
+[[ ${#files[@]} -eq 0 ]] && { ok "Repository hygiene checks passed."; exit 0; }
+
+cd "$app_root"
+npx prettier --check "${files[@]}" || die "Formatting failed. Run npm run format, review, and re-stage."
+
+lint_files=()
+for file in "${files[@]}"; do
+  [[ "$file" =~ \.(js|mjs|ts|tsx)$ ]] && lint_files+=("$file")
+done
+if [[ ${#lint_files[@]} -gt 0 ]]; then
+  npx eslint --max-warnings=0 "${lint_files[@]}" || die "ESLint failed."
 fi
 
-echo "Running ESLint on staged files..."
-echo "$TS_FILES" | xargs npx eslint --fix --max-warnings=0
-
-echo "Running Prettier on staged files..."
-echo "$TS_FILES" | xargs npx prettier --write
-
-# Re-stage the fixed files
-git add $TS_FILES
-
-echo "✓ Pre-commit checks passed"
-exit 0
+ok "Staged security, formatting, and lint checks passed."

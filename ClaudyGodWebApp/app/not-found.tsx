@@ -1,5 +1,6 @@
 import { Search, Home, Music, Phone } from 'lucide-react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Page Not Found',
@@ -33,13 +34,13 @@ export default function NotFoundPage() {
         </p>
 
         {/* Primary CTA */}
-        <a
+        <Link
           href="/"
           className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-surface-base transition-all hover:brightness-110 active:scale-[0.98] mb-10"
         >
           <Home className="h-4 w-4" />
           Back to home
-        </a>
+        </Link>
 
         {/* Quick links */}
         <div className="border-t border-surface-border pt-8">
@@ -48,14 +49,14 @@ export default function NotFoundPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {QUICK_LINKS.map(({ href, label, icon: Icon }) => (
-              <a
+              <Link
                 key={href}
                 href={href}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-surface-border px-4 py-2 text-sm text-neutral-300 transition-all hover:border-gold-500/40 hover:text-gold-400"
               >
                 <Icon className="h-3.5 w-3.5" />
                 {label}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

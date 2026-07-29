@@ -13,11 +13,5 @@ interface YoutubeThumbnailProps extends Omit<ImageProps, 'src' | 'alt'> {
  * optimizer never has to fail a max-resolution request before falling back.
  */
 export function YoutubeThumbnail({ youtubeId, alt, ...props }: YoutubeThumbnailProps) {
-  return (
-    <Image
-      {...props}
-      src={youtubeThumbnail(youtubeId)}
-      alt={alt}
-    />
-  );
+  return <Image {...props} src={youtubeThumbnail(youtubeId)} alt={alt} />;
 }

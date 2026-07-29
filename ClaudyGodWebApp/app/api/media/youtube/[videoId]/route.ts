@@ -14,9 +14,9 @@ interface YoutubeEmbedRequest {
  * Securely proxy YouTube embed links to prevent direct access
  * Write authorization is enforced by the backend.
  */
-export async function POST(req: NextRequest, { params }: { params: { videoId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ videoId: string }> }) {
   try {
-    const { videoId } = params;
+    const { videoId } = await params;
 
     // Validate videoId format (alphanumeric, dash, underscore only)
     if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
@@ -90,9 +90,9 @@ export async function POST(req: NextRequest, { params }: { params: { videoId: st
  * GET /api/media/youtube/[videoId]
  * Get pre-generated embed URL (uses cached data)
  */
-export async function GET(req: NextRequest, { params }: { params: { videoId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ videoId: string }> }) {
   try {
-    const { videoId } = params;
+    const { videoId } = await params;
 
     if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
       return NextResponse.json(

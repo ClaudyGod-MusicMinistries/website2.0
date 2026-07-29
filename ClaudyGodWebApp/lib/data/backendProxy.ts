@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBackendUrl, isAbortError } from './backendConfig';
+import { getBackendServiceHeaders, getBackendUrl, isAbortError } from './backendConfig';
 
 type ProxyOptions = {
   backendPath?: string;
@@ -92,6 +92,7 @@ async function proxyWithBody(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         ...authHeader(req),
         ...tracingHeaders(req),
         ...(cookieHeader ? { Cookie: cookieHeader } : {}),
@@ -186,6 +187,7 @@ export async function proxyGet(
       method: 'GET',
       headers: {
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         ...authHeader(req),
         ...tracingHeaders(req),
       },
@@ -241,6 +243,7 @@ export async function proxyDelete(
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         ...authHeader(req),
         ...tracingHeaders(req),
       },

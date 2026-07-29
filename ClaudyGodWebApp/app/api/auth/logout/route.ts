@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import { getBackendUrl } from '@/lib/data/backendConfig';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         Cookie: req.headers.get('cookie') ?? '',
       },
       signal: controller.signal,

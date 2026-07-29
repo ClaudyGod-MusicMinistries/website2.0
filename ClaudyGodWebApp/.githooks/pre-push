@@ -1,18 +1,27 @@
-#!/bin/bash
-# Pre-push hook — Type check before pushing to ensure code quality
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
+run() { printf "${GREEN}→ %s${NC}\n" "$1"; shift; "$@"; }
+die() { printf "${RED}✗ %s${NC}\n" "$*" >&2; exit 1; }
 
-echo "🔍 Running pre-push checks..."
-echo ""
-echo "Running TypeScript type checking..."
+repo_root="$(git rev-parse --show-toplevel)"
+app_root="$repo_root/ClaudyGodWebApp"
+cd "$app_root"
 
-if ! npm run type-check; then
-  echo ""
-  echo "❌ Type check failed. Fix errors before pushing."
-  exit 1
+command -v node >/dev/null 2>&1 || die "Node.js is not installed."
+command -v npm >/dev/null 2>&1 || die "npm is not installed."
+node_major="$(node -p 'Number(process.versions.node.split(".")[0])')"
+if (( node_major < 20 || node_major >= 25 )); then
+  die "Unsupported Node.js $(node --version). Use the repository runtime with 'nvm use' (.nvmrc)."
 fi
+[[ -d node_modules ]] || die "Dependencies are missing. Run npm ci first."
 
-echo ""
-echo "✓ All pre-push checks passed — Ready to push"
-exit 0
+run "Auditing production dependencies" npm audit --omit=dev --audit-level=high
+run "Checking formatting" npx prettier --check . --ignore-path .gitignore
+run "Linting" npm run lint
+run "Type-checking" npm run type-check
+run "Running tests" npm test
+run "Building the production bundle" npm run build
+
+printf "${GREEN}✓ Audit, formatting, lint, types, tests, and production build passed — pushing.${NC}\n"
