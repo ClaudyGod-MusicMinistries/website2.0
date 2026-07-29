@@ -4,6 +4,7 @@ import { FaSpotify, FaApple, FaYoutube, FaDeezer, FaAmazon } from 'react-icons/f
 import { navigationItems, type NavGroup } from '@/data/navbar';
 import { socialLinks } from '@/data/socials';
 import { SOCIAL_URLS } from '@/lib/config/site';
+import { CookieSettingsButton } from '@/components/shared/CookieSettingsButton';
 
 const legalLinks = [
   { href: '/legal/privacy', label: 'Privacy' },
@@ -190,6 +191,7 @@ export function Footer() {
             © {year} ClaudyGod Music Ministries. All rights reserved.
           </p>
           <div className="flex items-center gap-5 flex-wrap">
+            <CookieSettingsButton />
             {legalLinks.map((l) => (
               <Link
                 key={l.href}

@@ -1,10 +1,8 @@
 import { SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import DonateClient from '@/components/donate/DonateClient';
 import { PageHero } from '@/components/shared/PageHero';
 import { breadcrumb } from '@/lib/utils/jsonLd';
-
-const DonateClient = dynamic(() => import('@/components/donate/DonateClient'), { ssr: false });
 
 export const metadata: Metadata = {
   title: 'Donate — Partner with ClaudyGod Music Ministries',

@@ -6,6 +6,8 @@ import { Play, X, Search, SearchX } from 'lucide-react';
 import { teachingsData } from '@/data/ministry';
 import { YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
+import { Container, Section } from '@/components/ui/Layout';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 
 type Filter = 'All' | 'Live Teachings' | 'CGM Podcasts';
 const filters: Filter[] = ['All', 'Live Teachings', 'CGM Podcasts'];
@@ -38,15 +40,9 @@ export function TeachingsGrid() {
 
   return (
     <>
-      <section className="bg-cream-100 section-py">
-        <div className="container-site">
-          <div className="flex items-center gap-4 mb-4 sm:mb-6">
-            <span className="rule-gold" />
-            <span className="label-eyebrow">Teachings & Podcasts</span>
-          </div>
-          <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-8 sm:mb-10">
-            Ministry Content
-          </h2>
+      <Section bg="cream" py="lg">
+        <Container>
+          <SectionHeading eyebrow="Teachings & Podcasts" title="Ministry content" />
 
           {/* Toolbar — search + segmented filter control */}
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 sm:mb-10">
@@ -171,8 +167,8 @@ export function TeachingsGrid() {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Lightbox */}
       <AnimatePresence>

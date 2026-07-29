@@ -2,16 +2,12 @@
 #                    CLAUDYGODWEBAPP - DEVELOPMENT MAKEFILE                    #
 ################################################################################
 #
-# Deployment is NOT here — it's handled entirely by the CI pipeline
-# (.github/workflows/build-push.yml: quality gate → Docker build/push to
-# GHCR → SSH deploy via docker-compose.yml). This Makefile previously had
-# its own docker-build/docker-push/deploy-local targets that duplicated
-# that pipeline with a different image name and a raw-rsync deploy path —
-# a second, untested, conflicting deploy mechanism. Removed; use the CI
-# pipeline (push to main) or `docker build .` / `docker compose up`
-# directly if you need a local container.
+# Release checks are defined once in package.json and enforced by
+# .github/workflows/quality.yml on main, develop, and pull requests.
+# Production deployment remains outside this developer Makefile; use the
+# infrastructure repository's reviewed deployment workflow.
 
-.PHONY: help install dev build start test lint format clean env-check
+.PHONY: help install dev build start check test lint format type-check clean env-check contract-check
 
 # Colors for output
 BLUE := \033[0;34m
@@ -36,6 +32,8 @@ help:
 	@echo "  make format            Format code with Prettier"
 	@echo "  make type-check        Run TypeScript type checking"
 	@echo "  make test              Run test suite"
+	@echo "  make check             Run the complete release quality gate"
+	@echo "  make contract-check    Verify a running backend's public contracts"
 	@echo ""
 	@echo "$(YELLOW)Utilities:$(NC)"
 	@echo "  make clean             Clean build artifacts"
@@ -61,7 +59,7 @@ start: build
 
 lint:
 	@echo "$(BLUE)→ Running ESLint...$(NC)"
-	npm run lint --if-present || true
+	npm run lint
 	@echo "$(GREEN)✓ Lint check complete$(NC)"
 
 format:
@@ -71,13 +69,19 @@ format:
 
 type-check:
 	@echo "$(BLUE)→ Running TypeScript type check...$(NC)"
-	npm run type-check --if-present || true
+	npm run type-check
 	@echo "$(GREEN)✓ Type check complete$(NC)"
 
 test:
 	@echo "$(BLUE)→ Running tests...$(NC)"
-	npm test --if-present -- --watchAll=false || true
+	npm test
 	@echo "$(GREEN)✓ Tests complete$(NC)"
+
+check:
+	npm run check
+
+contract-check:
+	npm run contract:backend
 
 clean:
 	@echo "$(BLUE)→ Cleaning build artifacts...$(NC)"

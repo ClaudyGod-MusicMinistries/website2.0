@@ -7,12 +7,12 @@ export const dynamic = 'force-dynamic';
 // routes at the same directory level to share one segment name) — but the
 // client always calls this with the post's real GUID id, never its slug,
 // since CGM-Backend's comment endpoints are id-scoped, not slug-scoped.
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
-  const postId = params.slug;
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug: postId } = await params;
   return proxyGet(req, `/blog/${postId}/comments`);
 }
 
-export async function POST(req: NextRequest, { params }: { params: { slug: string } }) {
-  const postId = params.slug;
+export async function POST(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug: postId } = await params;
   return proxyPost(req, `/blog/${postId}/comments`);
 }

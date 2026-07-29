@@ -4,13 +4,11 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import type { ApiResponse, BlogPostDetail } from '@/lib/data/types';
-import { getInternalApiKey } from '@/middleware/apiKeyValidator';
 import { ReactionBar } from '@/components/blog/ReactionBar';
 import { CommentsSection } from '@/components/blog/CommentsSection';
 import { SITE_NAME, SITE_URL, LOGO_URL } from '@/lib/config/site';
 import { breadcrumb } from '@/lib/utils/jsonLd';
-
-const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 /**
  * Server-side fetch straight to the backend — this runs during SSR only
@@ -18,18 +16,15 @@ const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
  * the app/api/* proxy routes. No client hook here: this is a Server
  * Component and the post content belongs in the initial HTML for SEO.
  *
- * BlogController's GET /blog/{slug} has no [PublicEndpoint] marker, so
- * ApiKeyMiddleware rejects any request missing x-api-key with a 401 — every
- * post was silently rendering as "Post not found" because that 401 was
- * treated identically to a real 404. lib/data/backendProxy.ts always sends
- * this header; this direct fetch was the one place that didn't.
+ * Blog reads are anonymous; write operations remain protected by the
+ * backend's authorization policy.
  */
 async function getPostBySlug(slug: string): Promise<BlogPostDetail | null> {
   try {
-    const apiKey = getInternalApiKey();
-    const res = await fetch(`${API_BASE}/api/v1.0/blog/${slug}`, {
-      headers: apiKey ? { 'x-api-key': apiKey } : undefined,
+    const res = await fetch(getBackendUrl(`/blog/${encodeURIComponent(slug)}`), {
+      headers: { Accept: 'application/json', ...getBackendServiceHeaders() },
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) return null;
     const json = (await res.json()) as ApiResponse<BlogPostDetail>;

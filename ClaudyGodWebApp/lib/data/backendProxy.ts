@@ -1,20 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getInternalApiKey } from '@/middleware/apiKeyValidator';
-
-const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
-
-// Warn at startup if using the insecure default — visible in container logs
-if (!process.env.API_BASE_URL) {
-  console.warn(
-    '[backendProxy] API_BASE_URL is not set — falling back to http://localhost:8080. Set API_BASE_URL=http://api:8080 in the container environment.'
-  );
-}
-if (!getInternalApiKey()) {
-  console.warn(
-    '[backendProxy] INTERNAL_API_KEY is not set — backend calls to non-public endpoints will be rejected with 401.'
-  );
-}
-const API_PREFIX = '/api/v1.0';
+import { getBackendServiceHeaders, getBackendUrl, isAbortError } from './backendConfig';
 
 type ProxyOptions = {
   backendPath?: string;
@@ -26,13 +11,10 @@ function authHeader(req: NextRequest): Record<string, string> {
   return token ? { Authorization: token } : {};
 }
 
-// The .NET backend's ApiKeyMiddleware requires x-api-key on every controller not
-// explicitly marked [PublicEndpoint]. This proxy is server-to-server, so it always
-// sends the internal key — the backend's own [Authorize]/[PublicEndpoint] attributes
-// remain the real authorization boundary; this header only satisfies the outer gate.
-function backendApiKeyHeader(): Record<string, string> {
-  const key = getInternalApiKey();
-  return key ? { 'x-api-key': key } : {};
+function tracingHeaders(req: NextRequest): Record<string, string> {
+  return {
+    'X-Correlation-ID': req.headers.get('x-correlation-id') ?? crypto.randomUUID(),
+  };
 }
 
 async function readUpstream(upstream: Response, backendUrl: string): Promise<NextResponse> {
@@ -76,7 +58,13 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
   }
 
   const data = await upstream.json();
-  const res = NextResponse.json(data, { status: upstream.status });
+  const res = NextResponse.json(data, {
+    status: upstream.status,
+    headers: { 'Cache-Control': 'no-store' },
+  });
+
+  const correlationId = upstream.headers.get('x-correlation-id');
+  if (correlationId) res.headers.set('x-correlation-id', correlationId);
 
   // Relay Set-Cookie so HTTP-only auth cookies reach the browser
   const setCookie = upstream.headers.get('set-cookie');
@@ -93,7 +81,7 @@ async function proxyWithBody(
 ): Promise<NextResponse> {
   try {
     const body = opts.body ?? (await req.json());
-    const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
+    const backendUrl = getBackendUrl(opts.backendPath ?? backendResource);
     const cookieHeader = req.headers.get('cookie');
 
     const controller = new AbortController();
@@ -104,8 +92,9 @@ async function proxyWithBody(
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        ...backendApiKeyHeader(),
+        ...getBackendServiceHeaders(),
         ...authHeader(req),
+        ...tracingHeaders(req),
         ...(cookieHeader ? { Cookie: cookieHeader } : {}),
       },
       body: JSON.stringify(body),
@@ -116,9 +105,9 @@ async function proxyWithBody(
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+    const backendUrl = getBackendUrl(backendResource);
 
-    if (message.includes('AbortError') || message.includes('timeout')) {
+    if (isAbortError(err)) {
       console.error(`[proxy ${method} ${backendUrl}] Timeout after 30 seconds`);
       return NextResponse.json(
         {
@@ -138,7 +127,7 @@ async function proxyWithBody(
         success: false,
         message: 'Unable to reach the server. Please check your connection and try again.',
         data: null,
-        errors: [message],
+        errors: ['The upstream API could not be reached.'],
         fieldErrors: {},
       },
       { status: 502 }
@@ -177,7 +166,7 @@ export async function proxyGet(
 ): Promise<NextResponse> {
   try {
     const search = req.nextUrl.searchParams.toString();
-    const path = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
+    const path = getBackendUrl(opts.backendPath ?? backendResource);
     // This always forwards the incoming request's own query string — a
     // caller passing a resource path that already has one baked in (e.g.
     // '/media?type=video') would get it appended a second time, producing
@@ -196,7 +185,12 @@ export async function proxyGet(
 
     const upstream = await fetch(backendUrl, {
       method: 'GET',
-      headers: { Accept: 'application/json', ...backendApiKeyHeader(), ...authHeader(req) },
+      headers: {
+        Accept: 'application/json',
+        ...getBackendServiceHeaders(),
+        ...authHeader(req),
+        ...tracingHeaders(req),
+      },
       signal: controller.signal,
     });
 
@@ -204,9 +198,9 @@ export async function proxyGet(
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+    const backendUrl = getBackendUrl(backendResource);
 
-    if (message.includes('AbortError') || message.includes('timeout')) {
+    if (isAbortError(err)) {
       console.error(`[proxy GET ${backendUrl}] Timeout after 30 seconds`);
       return NextResponse.json(
         {
@@ -226,7 +220,7 @@ export async function proxyGet(
         success: false,
         message: 'Unable to reach the server. Please check your connection and try again.',
         data: null,
-        errors: [message],
+        errors: ['The upstream API could not be reached.'],
         fieldErrors: {},
       },
       { status: 502 }
@@ -240,14 +234,19 @@ export async function proxyDelete(
   opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   try {
-    const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
+    const backendUrl = getBackendUrl(opts.backendPath ?? backendResource);
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 30000);
 
     const upstream = await fetch(backendUrl, {
       method: 'DELETE',
-      headers: { Accept: 'application/json', ...backendApiKeyHeader(), ...authHeader(req) },
+      headers: {
+        Accept: 'application/json',
+        ...getBackendServiceHeaders(),
+        ...authHeader(req),
+        ...tracingHeaders(req),
+      },
       signal: controller.signal,
     });
 
@@ -255,9 +254,9 @@ export async function proxyDelete(
     return readUpstream(upstream, backendUrl);
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unexpected proxy error';
-    const backendUrl = `${API_BASE}${API_PREFIX}${backendResource}`;
+    const backendUrl = getBackendUrl(backendResource);
 
-    if (message.includes('AbortError') || message.includes('timeout')) {
+    if (isAbortError(err)) {
       console.error(`[proxy DELETE ${backendUrl}] Timeout after 30 seconds`);
       return NextResponse.json(
         {
@@ -277,7 +276,7 @@ export async function proxyDelete(
         success: false,
         message: 'Unable to reach the server. Please check your connection and try again.',
         data: null,
-        errors: [message],
+        errors: ['The upstream API could not be reached.'],
         fieldErrors: {},
       },
       { status: 502 }

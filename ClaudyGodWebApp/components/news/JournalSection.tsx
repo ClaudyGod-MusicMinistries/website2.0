@@ -6,6 +6,8 @@ import { Calendar, ArrowRight } from 'lucide-react';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import { Skeleton, ContainedImage } from '@/components/ui';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { Container, Section } from '@/components/ui/Layout';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 
 const stagger = {
   hidden: {},
@@ -28,15 +30,9 @@ export function JournalSection() {
   if (!loading && !error && posts.length === 0) return null;
 
   return (
-    <section className="bg-white section-py border-t border-black/[0.05]">
-      <div className="container-site">
-        <div className="flex items-center gap-4 mb-4 sm:mb-6">
-          <span className="rule-gold" />
-          <span className="label-eyebrow">Journal</span>
-        </div>
-        <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-8 sm:mb-10">
-          Recent Updates
-        </h2>
+    <Section bg="white" py="lg" className="border-t border-black/[0.05]">
+      <Container>
+        <SectionHeading eyebrow="Journal" title="Recent updates" />
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -112,7 +108,7 @@ export function JournalSection() {
             ))}
           </motion.div>
         )}
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

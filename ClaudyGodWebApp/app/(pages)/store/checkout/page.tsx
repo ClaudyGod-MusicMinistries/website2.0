@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { PhoneInput } from '@/components/ui/PhoneInput';
+import { formControlClass } from '@/components/ui/FormField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
@@ -149,11 +150,9 @@ function StepBar({ current }: { current: number }) {
 }
 
 /* ── Shared input styling ───────────────────────────────── */
-const inputCls =
-  'w-full h-11 px-4 border border-neutral-200 rounded-xl font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
-const labelCls =
-  'block font-sans text-[0.6rem] tracking-[0.12em] uppercase text-neutral-500 mb-1.5';
-const errCls = 'mt-1 font-sans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+const inputCls = formControlClass;
+const labelCls = 'mb-2 block font-sans text-xs font-medium tracking-[0.02em] text-neutral-600';
+const errCls = 'mt-2 font-sans text-xs leading-5 text-red-600';
 
 /* ── Order summary sidebar ──────────────────────────────── */
 function OrderSummary({

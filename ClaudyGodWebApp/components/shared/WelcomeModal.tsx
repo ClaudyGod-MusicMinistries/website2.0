@@ -9,7 +9,12 @@ import { getCookie, setCookie } from '@/lib/utils/cookies';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { YoutubeThumbnail } from '@/components/ui';
-import { getStoredConsent } from '@/lib/utils/cookieConsent';
+import {
+  CONSENT_CHANGED_EVENT,
+  getStoredConsent,
+  type CookiePreferences,
+} from '@/lib/utils/cookieConsent';
+import { darkFormControlClass } from '@/components/ui/FormField';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -41,12 +46,23 @@ export function WelcomeModal() {
   const latestVideo = media.map(toVideoView).filter((v) => v.youtubeId !== null)[0];
 
   useEffect(() => {
-    // Check if user has already seen modal within the last 12 hours
-    if (getCookie(SESSION_KEY) || !getStoredConsent()) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const schedule = (consent: CookiePreferences | null) => {
+      if (timer) clearTimeout(timer);
+      if (!consent?.preferences || getCookie(SESSION_KEY)) {
+        setOpen(false);
+        return;
+      }
+      timer = setTimeout(() => setOpen(true), 8000);
+    };
+    const onConsent = (event: Event) => schedule((event as CustomEvent<CookiePreferences>).detail);
 
-    // Wait until the visitor has had time to engage with the page.
-    const t = setTimeout(() => setOpen(true), 8000);
-    return () => clearTimeout(t);
+    schedule(getStoredConsent());
+    window.addEventListener(CONSENT_CHANGED_EVENT, onConsent);
+    return () => {
+      if (timer) clearTimeout(timer);
+      window.removeEventListener(CONSENT_CHANGED_EVENT, onConsent);
+    };
   }, []);
 
   const close = useCallback(() => {
@@ -65,13 +81,17 @@ export function WelcomeModal() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
     setSubscriptionError('');
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setSubscriptionError('Enter a valid email address.');
+      return;
+    }
     try {
       const response = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: normalizedEmail }),
       });
       if (!response.ok) throw new Error('Subscription failed');
       setSubscribed(true);
@@ -208,7 +228,7 @@ export function WelcomeModal() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-sans text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                        className={`${darkFormControlClass} !h-10 text-xs sm:text-sm`}
                       />
                       <button
                         type="submit"

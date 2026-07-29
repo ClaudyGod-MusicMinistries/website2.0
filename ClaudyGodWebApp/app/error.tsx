@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import Link from 'next/link';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -41,13 +42,13 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
             <RefreshCw className="h-4 w-4" />
             Try again
           </button>
-          <a
+          <Link
             href="/"
             className="inline-flex items-center justify-center gap-2 rounded-lg border border-surface-border px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-gold-500/50 hover:text-gold-400 active:scale-[0.98]"
           >
             <Home className="h-4 w-4" />
             Go home
-          </a>
+          </Link>
         </div>
       </div>
     </div>

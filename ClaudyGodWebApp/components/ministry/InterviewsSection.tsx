@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X, Calendar, Clock } from 'lucide-react';
 import { interviewVideos } from '@/data/interviews';
 import { YoutubeThumbnail } from '@/components/ui';
+import { Container, Section } from '@/components/ui/Layout';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 
 const stagger = {
   hidden: {},
@@ -26,15 +28,9 @@ export function InterviewsSection() {
 
   return (
     <>
-      <section className="bg-white section-py border-t border-black/[0.05]">
-        <div className="container-site">
-          <div className="flex items-center gap-4 mb-4 sm:mb-6">
-            <span className="rule-gold" />
-            <span className="label-eyebrow">Media Interviews</span>
-          </div>
-          <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-8 sm:mb-10">
-            In the Press
-          </h2>
+      <Section bg="white" py="lg" className="border-t border-black/[0.05]">
+        <Container>
+          <SectionHeading eyebrow="Media interviews" title="In the press" />
 
           <motion.div
             variants={stagger}
@@ -87,8 +83,8 @@ export function InterviewsSection() {
               </motion.button>
             ))}
           </motion.div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Lightbox */}
       <AnimatePresence>

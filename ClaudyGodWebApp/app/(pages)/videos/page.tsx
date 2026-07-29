@@ -67,7 +67,7 @@ const schemas = [
     youtubeId: 'F36AiXSSADQ',
     uploadDate: '2024-01-01',
     duration: 'PT4M30S',
-    thumbnailUrl: 'https://img.youtube.com/vi/F36AiXSSADQ/maxresdefault.jpg',
+    thumbnailUrl: 'https://img.youtube.com/vi/F36AiXSSADQ/hqdefault.jpg',
   }),
   itemList('ClaudyGod Official Videos', [
     {

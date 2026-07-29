@@ -23,6 +23,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { Event } from '@/lib/data/types';
+import { formControlClass } from '@/components/ui/FormField';
 
 interface TicketFormData {
   firstName: string;
@@ -248,9 +249,8 @@ function TicketForm({ events }: { events: Event[] }) {
     }
   };
 
-  const inputCls =
-    'w-full h-11 px-4 border border-neutral-200 rounded-xl font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
-  const errCls = 'mt-1 font-sans text-[0.58rem] tracking-[0.08em] uppercase text-red-500';
+  const inputCls = formControlClass;
+  const errCls = 'mt-2 font-sans text-xs leading-5 text-red-600';
 
   // If no backend events exist yet, show a simple "coming soon" panel
   const hasBackendEvents = backendEvt.length > 0;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getInternalApiKey } from '@/middleware/apiKeyValidator';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,7 +49,6 @@ export async function GET(req: NextRequest) {
 
     // Record successful payment in backend
     if (tx.status === 'success') {
-      const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080';
       const donorName =
         tx.metadata?.custom_fields?.find(
           (f: { variable_name: string; value: string }) => f.variable_name === 'donor_name'
@@ -62,14 +61,12 @@ export async function GET(req: NextRequest) {
       try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 15000);
-        const internalKey = getInternalApiKey();
-
-        const recordRes = await fetch(`${apiBaseUrl}/api/v1.0/payments/paystack/record`, {
+        const recordRes = await fetch(getBackendUrl('/payments/paystack/record'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Idempotency-Key': tx.reference,
-            ...(internalKey ? { 'x-api-key': internalKey } : {}),
+            ...getBackendServiceHeaders(),
           },
           body: JSON.stringify({
             donorName,

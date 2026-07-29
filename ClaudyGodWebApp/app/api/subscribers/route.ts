@@ -1,6 +1,7 @@
 import { type NextRequest } from 'next/server';
-import { proxyPost } from '@/lib/data/backendProxy';
+import { subscriberSchema } from '@/lib/validation/publicForms';
+import { validateAndProxy } from '@/lib/validation/validateRequest';
 
 export async function POST(req: NextRequest) {
-  return proxyPost(req, '/subscribers');
+  return validateAndProxy(req, '/subscribers', subscriberSchema);
 }

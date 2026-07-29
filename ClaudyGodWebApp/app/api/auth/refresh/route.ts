@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-
-const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,10 +7,11 @@ export async function POST(req: NextRequest) {
     const timeout = setTimeout(() => controller.abort(), 15000);
 
     // Forward the HTTP-only refresh cookie to the backend
-    const upstream = await fetch(`${API_BASE}/api/v1.0/auth/refresh`, {
+    const upstream = await fetch(getBackendUrl('/auth/refresh'), {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         // Forward the cookie header so the backend can read cgm_rt
         Cookie: req.headers.get('cookie') ?? '',
       },

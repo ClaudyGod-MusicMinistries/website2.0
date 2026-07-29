@@ -43,7 +43,9 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
 
   useEffect(() => {
     document.body.style.overflow = open && window.innerWidth < 640 ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [open]);
 
   const choose = (code: string) => {
@@ -59,17 +61,18 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-invalid={Boolean(error)}
         onClick={() => setOpen(true)}
         className={cn(
-          'flex h-14 w-full items-center gap-3 rounded-lg border bg-white px-4 text-left text-sm transition',
+          'flex h-12 w-full items-center gap-3 rounded-lg border bg-white px-3.5 text-left text-sm transition',
           'hover:border-neutral-400 focus:border-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-600/10',
           error ? 'border-red-400' : 'border-neutral-300'
         )}
       >
         {selected ? (
           <>
-            <span className="text-xl" aria-hidden>{flagEmoji(selected.code)}</span>
+            <span className="text-xl" aria-hidden>
+              {flagEmoji(selected.code)}
+            </span>
             <span className="flex-1 font-medium text-neutral-900">{selected.name}</span>
             <span className="hidden text-xs text-neutral-400 xs:block">{selected.code}</span>
           </>
@@ -84,32 +87,65 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
           <div className="flex max-h-[82dvh] w-full flex-col overflow-hidden rounded-t-2xl border border-neutral-200 bg-white shadow-card-light-lg sm:max-h-none sm:rounded-xl">
             <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4 sm:hidden">
               <div>
-                <p className="font-display text-lg font-semibold text-neutral-950">Choose a country</p>
-                <p className="mt-0.5 text-xs text-neutral-500">Search the complete international list</p>
+                <p className="text-sm font-semibold text-neutral-950">Choose a country</p>
+                <p className="mt-0.5 text-xs text-neutral-500">
+                  Search the complete international list
+                </p>
               </div>
-              <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-neutral-100 p-2" aria-label="Close country picker">
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="rounded-full bg-neutral-100 p-2"
+                aria-label="Close country picker"
+              >
                 <X className="h-4 w-4" />
               </button>
             </div>
             <div className="p-3">
               <div className="flex h-11 items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 focus-within:border-purple-500 focus-within:bg-white">
                 <Search className="h-4 w-4 text-neutral-400" />
-                <input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search country or calling code" className="min-w-0 flex-1 bg-transparent text-sm outline-none" />
+                <input
+                  ref={searchRef}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search country or calling code"
+                  className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                />
               </div>
             </div>
-            <ul role="listbox" className="max-h-[58dvh] overflow-y-auto overscroll-contain px-2 pb-3 sm:max-h-72">
-              {isLoading && countries.length === 0 && <li className="p-6 text-center text-sm text-neutral-500">Loading countries…</li>}
+            <ul
+              role="listbox"
+              className="max-h-[58dvh] overflow-y-auto overscroll-contain px-2 pb-3 sm:max-h-72"
+            >
+              {isLoading && countries.length === 0 && (
+                <li className="p-6 text-center text-sm text-neutral-500">Loading countries…</li>
+              )}
               {filtered.map((country) => (
                 <li key={country.code} role="option" aria-selected={country.code === value}>
-                  <button type="button" onClick={() => choose(country.code)} className={cn('flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left hover:bg-purple-50', country.code === value && 'bg-purple-50')}>
-                    <span className="text-xl" aria-hidden>{flagEmoji(country.code)}</span>
-                    <span className="flex-1 text-sm font-medium text-neutral-800">{country.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => choose(country.code)}
+                    className={cn(
+                      'flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left hover:bg-purple-50',
+                      country.code === value && 'bg-purple-50'
+                    )}
+                  >
+                    <span className="text-xl" aria-hidden>
+                      {flagEmoji(country.code)}
+                    </span>
+                    <span className="flex-1 text-sm font-medium text-neutral-800">
+                      {country.name}
+                    </span>
                     <span className="text-xs text-neutral-400">{country.dialCode}</span>
                     {country.code === value && <Check className="h-4 w-4 text-purple-600" />}
                   </button>
                 </li>
               ))}
-              {!filtered.length && <li className="p-8 text-center text-sm text-neutral-500">No country matches “{query}”.</li>}
+              {!filtered.length && (
+                <li className="p-8 text-center text-sm text-neutral-500">
+                  No country matches “{query}”.
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -118,4 +154,3 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
     </div>
   );
 }
-

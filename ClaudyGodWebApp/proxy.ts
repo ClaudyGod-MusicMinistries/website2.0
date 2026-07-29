@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { buildCsp, PERMISSIONS_POLICY } from '@/lib/config/csp';
 import { guardPublicMutation } from '@/lib/security/request';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   if (
     request.nextUrl.pathname.startsWith('/api/') &&
     !['GET', 'HEAD', 'OPTIONS'].includes(request.method)

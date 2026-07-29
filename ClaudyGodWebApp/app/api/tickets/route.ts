@@ -1,6 +1,7 @@
 import { type NextRequest } from 'next/server';
-import { proxyPost } from '@/lib/data/backendProxy';
+import { ticketReservationSchema } from '@/lib/validation/publicForms';
+import { validateAndProxy } from '@/lib/validation/validateRequest';
 
 export async function POST(req: NextRequest) {
-  return proxyPost(req, '/tickets');
+  return validateAndProxy(req, '/tickets', ticketReservationSchema);
 }

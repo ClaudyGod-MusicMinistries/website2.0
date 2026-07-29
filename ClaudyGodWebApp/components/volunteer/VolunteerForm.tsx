@@ -10,6 +10,13 @@ import { buttonVariants } from '@/lib/theme/buttons';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 import { cn } from '@/lib/utils/cn';
+import {
+  FormError,
+  FormGrid,
+  FormLabel,
+  controlClass,
+  textareaClass,
+} from '@/components/ui/FormField';
 
 interface VolunteerFormData {
   firstName: string;
@@ -88,12 +95,6 @@ export function VolunteerForm() {
     }
   };
 
-  const inputClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-lg';
-
-  const textareaClass =
-    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-lg';
-
   return (
     <>
       {/* Success Modal */}
@@ -107,11 +108,9 @@ export function VolunteerForm() {
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
         {/* Name Row */}
-        <div className="grid grid-cols-2 gap-4">
+        <FormGrid>
           <div>
-            <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-              First Name <span className="text-purple-500">*</span>
-            </label>
+            <FormLabel>First name</FormLabel>
             <input
               {...register('firstName', {
                 required: 'First name is required',
@@ -119,19 +118,13 @@ export function VolunteerForm() {
               })}
               type="text"
               placeholder="John"
-              className={`${inputClass} ${
-                errors.firstName ? 'border-red-400 bg-red-50' : 'border-neutral-200'
-              }`}
+              className={controlClass(errors.firstName)}
             />
-            {errors.firstName && (
-              <p className="mt-1 text-sm text-red-500">{errors.firstName.message}</p>
-            )}
+            <FormError message={errors.firstName?.message} />
           </div>
 
           <div>
-            <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-              Last Name <span className="text-purple-500">*</span>
-            </label>
+            <FormLabel>Last name</FormLabel>
             <input
               {...register('lastName', {
                 required: 'Last name is required',
@@ -139,21 +132,15 @@ export function VolunteerForm() {
               })}
               type="text"
               placeholder="Doe"
-              className={`${inputClass} ${
-                errors.lastName ? 'border-red-400 bg-red-50' : 'border-neutral-200'
-              }`}
+              className={controlClass(errors.lastName)}
             />
-            {errors.lastName && (
-              <p className="mt-1 text-sm text-red-500">{errors.lastName.message}</p>
-            )}
+            <FormError message={errors.lastName?.message} />
           </div>
-        </div>
+        </FormGrid>
 
         {/* Email */}
         <div>
-          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-            Email <span className="text-purple-500">*</span>
-          </label>
+          <FormLabel>Email address</FormLabel>
           <input
             {...register('email', {
               required: 'Email is required',
@@ -164,21 +151,14 @@ export function VolunteerForm() {
             })}
             type="email"
             placeholder="john@example.com"
-            className={`${inputClass} ${
-              errors.email ? 'border-red-400 bg-red-50' : 'border-neutral-200'
-            }`}
+            className={controlClass(errors.email)}
           />
-          {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
+          <FormError message={errors.email?.message} />
         </div>
 
         {/* Volunteer Role Selection */}
         <div>
-          <label
-            htmlFor="volunteer-role"
-            className="font-display font-semibold text-neutral-800 text-sm block mb-2"
-          >
-            Volunteer Role <span className="text-purple-500">*</span>
-          </label>
+          <FormLabel htmlFor="volunteer-role">Volunteer role</FormLabel>
           <div className="relative">
             <SelectedRoleIcon
               className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-500"
@@ -187,7 +167,10 @@ export function VolunteerForm() {
             <select
               id="volunteer-role"
               {...register('role')}
-              className={cn(inputClass, 'appearance-none pl-11 pr-10 cursor-pointer')}
+              className={cn(
+                controlClass(errors.role),
+                'appearance-none pl-11 pr-10 cursor-pointer'
+              )}
             >
               {VOLUNTEER_ROLES.map((r) => (
                 <option key={r.value} value={r.value}>
@@ -200,17 +183,12 @@ export function VolunteerForm() {
               aria-hidden="true"
             />
           </div>
-          {errors.role && <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>}
+          <FormError message={errors.role?.message} />
         </div>
 
         {/* Reason / Background */}
         <div>
-          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-            Tell Us About Yourself <span className="text-purple-500">*</span>
-            <span className="text-neutral-500 text-xs font-normal block mt-1">
-              Share your experience, skills, availability, and why you want to volunteer
-            </span>
-          </label>
+          <FormLabel>About you</FormLabel>
           <textarea
             {...register('reason', {
               required: 'Please tell us about yourself',
@@ -218,11 +196,9 @@ export function VolunteerForm() {
             })}
             rows={5}
             placeholder="E.g., I have 5 years of experience in video production, available on weekends, excited to serve the ministry..."
-            className={`${textareaClass} ${
-              errors.reason ? 'border-red-400 bg-red-50' : 'border-neutral-200'
-            }`}
+            className={textareaClass(errors.reason)}
           />
-          {errors.reason && <p className="mt-1 text-sm text-red-500">{errors.reason.message}</p>}
+          <FormError message={errors.reason?.message} />
         </div>
 
         {/* Terms */}

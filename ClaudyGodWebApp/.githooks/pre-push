@@ -1,18 +1,37 @@
-#!/bin/bash
-# Pre-push hook — Type check before pushing to ensure code quality
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e
+HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$HOOK_DIR/lib/ui.sh"
+hook_header "PRE-PUSH  Production readiness review"
 
-echo "🔍 Running pre-push checks..."
-echo ""
-echo "Running TypeScript type checking..."
+repo_root="$(git rev-parse --show-toplevel)"
+app_root="$repo_root/ClaudyGodWebApp"
+cd "$app_root"
 
-if ! npm run type-check; then
-  echo ""
-  echo "❌ Type check failed. Fix errors before pushing."
-  exit 1
+command -v node >/dev/null 2>&1 || die "Node.js is not installed."
+node_major="$(node -p 'Number(process.versions.node.split(".")[0])')"
+if (( node_major < 20 || node_major >= 25 )); then
+  if [[ -n "${NVM_DIR:-}" && -s "$NVM_DIR/nvm.sh" ]]; then
+    info "Activating the repository Node.js runtime from .nvmrc"
+    # nvm.sh references optional variables that are unset in a strict shell.
+    set +u
+    source "$NVM_DIR/nvm.sh"
+    nvm use --silent
+    set -u
+    node_major="$(node -p 'Number(process.versions.node.split(".")[0])')"
+  fi
 fi
+if (( node_major < 20 || node_major >= 25 )); then
+  die "Unsupported Node.js $(node --version). Install the .nvmrc version, then run 'nvm use'."
+fi
+command -v npm >/dev/null 2>&1 || die "npm is not installed."
+[[ -d node_modules ]] || die "Dependencies are missing. Run npm ci first."
 
-echo ""
-echo "✓ All pre-push checks passed — Ready to push"
-exit 0
+run_step "Production dependency audit" npm audit --omit=dev --audit-level=high
+run_step "Repository formatting" npx prettier --check . --ignore-path .gitignore
+run_step "ESLint (zero warnings)" npm run lint
+run_step "TypeScript contract check" npm run type-check
+run_step "Automated tests" npm test
+run_step "Next.js production build (isolated)" npm run build:verify
+hook_success "Push approved. GitHub CI will independently verify it again."

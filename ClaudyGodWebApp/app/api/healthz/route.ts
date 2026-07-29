@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
+import { getBackendBaseUrl } from '@/lib/data/backendConfig';
 
 export async function GET() {
-  // Web container health — always returns 200 if Next.js is alive.
-  // Backend connectivity is reported separately but never fails this check.
+  // Readiness includes the API dependency. Returning 200 while the backend is
+  // unreachable hides broken forms from orchestration and monitoring.
   let backend: 'healthy' | 'degraded' | 'unreachable' = 'unknown' as 'unreachable';
 
   try {
-    const apiBase = process.env.API_BASE_URL ?? 'http://localhost:8080';
+    const apiBase = getBackendBaseUrl();
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 3000);
     const r = await fetch(`${apiBase}/healthz`, { signal: ctrl.signal }).finally(() =>
@@ -17,9 +18,16 @@ export async function GET() {
     backend = 'unreachable';
   }
 
-  return NextResponse.json({
-    status: 'healthy',
-    backend,
-    timestamp: new Date().toISOString(),
-  });
+  const ready = backend === 'healthy';
+  return NextResponse.json(
+    {
+      status: ready ? 'healthy' : 'unhealthy',
+      backend,
+      timestamp: new Date().toISOString(),
+    },
+    {
+      status: ready ? 200 : 503,
+      headers: { 'Cache-Control': 'no-store' },
+    }
+  );
 }

@@ -43,15 +43,22 @@ echo ""
 # Check required variables
 REQUIRED_VARS=(
   "NODE_ENV"
+  "API_BASE_URL"
+  "INTERNAL_API_KEY"
   "NEXT_PUBLIC_SITE_URL"
-  "NEXT_PUBLIC_API_URL"
+  "PAYSTACK_SECRET_KEY"
+  "NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY"
 )
 
 for var in "${REQUIRED_VARS[@]}"; do
   if grep -q "^${var}=" "$ENV_FILE"; then
     VALUE=$(grep "^${var}=" "$ENV_FILE" | cut -d= -f2-)
     if [ -z "$VALUE" ]; then
-      echo "⚠️  Warning: $var is empty"
+      echo "❌ Error: Required variable $var is empty"
+      ((ERRORS++))
+    elif [[ "$VALUE" == *"replace_me"* || "$VALUE" == "replace_with_"* ]]; then
+      echo "❌ Error: $var still contains an example placeholder"
+      ((ERRORS++))
     else
       echo "✓ $var is set"
     fi

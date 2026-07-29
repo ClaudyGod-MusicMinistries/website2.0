@@ -9,6 +9,8 @@ import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import Link from 'next/link';
 import { releases } from '@/data/releases';
+import { Container, Section } from '@/components/ui/Layout';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 
 const platformIconMap = {
   spotify: FaSpotify,
@@ -23,11 +25,11 @@ export function AlbumGrid() {
 
   if (loading) {
     return (
-      <section className="bg-cream-100 section-py">
-        <div className="container-site">
+      <Section bg="cream" py="lg">
+        <Container>
           <GridSkeleton cols={3} rows={2} />
-        </div>
-      </section>
+        </Container>
+      </Section>
     );
   }
   // `error` alone doesn't block the grid — useAlbums falls back to the real
@@ -35,21 +37,18 @@ export function AlbumGrid() {
   // the error screen if there's truly nothing to display.
   if (error && albums.length === 0) {
     return (
-      <section className="bg-cream-100 section-py">
-        <div className="container-site">
+      <Section bg="cream" py="lg">
+        <Container>
           <ErrorMessage message={error} onRetry={refetch} />
-        </div>
-      </section>
+        </Container>
+      </Section>
     );
   }
 
   return (
-    <section className="bg-cream-100 section-py">
-      <div className="container-site">
-        <div className="flex items-center gap-4 mb-10 sm:mb-14">
-          <span className="rule-gold" />
-          <span className="label-eyebrow">Discography</span>
-        </div>
+    <Section bg="cream" py="lg">
+      <Container>
+        <SectionHeading eyebrow="Discography" title="Albums" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
           {albums.map((album, i) => (
@@ -129,7 +128,7 @@ export function AlbumGrid() {
             </div>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

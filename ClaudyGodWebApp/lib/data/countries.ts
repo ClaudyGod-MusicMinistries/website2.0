@@ -5,7 +5,7 @@ export interface CountryOption {
 }
 
 // Kept intentionally compact: the server refreshes the complete list from
-// REST Countries. These cover the ministry's primary markets if that service
+// countries.dev. These cover the ministry's primary markets if that service
 // is temporarily unavailable.
 export const FALLBACK_COUNTRIES: CountryOption[] = [
   { code: 'NG', name: 'Nigeria', dialCode: '+234' },
@@ -44,4 +44,3 @@ export function flagEmoji(code: string) {
     .toUpperCase()
     .replace(/./g, (character) => String.fromCodePoint(character.charCodeAt(0) + 127397));
 }
-

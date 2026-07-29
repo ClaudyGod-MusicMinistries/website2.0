@@ -1,7 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Commit-msg hook — Validate conventional commit format
 
 COMMIT_MSG=$(cat "$1")
+HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$HOOK_DIR/lib/ui.sh"
+hook_header "COMMIT-MSG  Conventional history review"
 
 # Valid prefixes for conventional commits
 VALID_PREFIXES="^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\(.+\))?:"
@@ -32,5 +35,6 @@ if ! [[ $COMMIT_MSG =~ $VALID_PREFIXES ]]; then
   exit 1
 fi
 
-echo "✓ Commit message format is valid"
+HOOK_PASSED=1
+hook_success "Commit message approved."
 exit 0

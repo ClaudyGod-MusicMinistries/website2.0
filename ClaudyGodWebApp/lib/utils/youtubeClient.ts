@@ -1,3 +1,5 @@
+import { hasConsent } from './cookieConsent';
+
 /**
  * YouTube proxy client
  * Securely fetches YouTube embed URLs through backend proxy
@@ -42,7 +44,8 @@ export async function getYoutubeEmbedUrl(
 
   // Check cache
   const cacheKey = getCacheKey(videoId);
-  const storage = typeof window !== 'undefined' ? window.localStorage : null;
+  const storage =
+    typeof window !== 'undefined' && hasConsent('preferences') ? window.localStorage : null;
   const cached = storage?.getItem(cacheKey);
   if (cached) {
     try {

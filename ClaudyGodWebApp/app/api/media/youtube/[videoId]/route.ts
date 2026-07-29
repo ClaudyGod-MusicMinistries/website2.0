@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireApiKey } from '@/middleware/apiKeyValidator';
 
-const YOUTUBE_DOMAIN = 'youtube.com';
 const YOUTUBE_SECURE_DOMAIN = 'youtube-nocookie.com';
 
 interface YoutubeEmbedRequest {
@@ -14,15 +12,11 @@ interface YoutubeEmbedRequest {
 /**
  * POST /api/media/youtube/[videoId]
  * Securely proxy YouTube embed links to prevent direct access
- * Requires: x-api-key header with valid API key
+ * Write authorization is enforced by the backend.
  */
-export async function POST(req: NextRequest, { params }: { params: { videoId: string } }) {
-  // Validate API key
-  const keyValidation = requireApiKey(req);
-  if (keyValidation) return keyValidation;
-
+export async function POST(req: NextRequest, { params }: { params: Promise<{ videoId: string }> }) {
   try {
-    const { videoId } = params;
+    const { videoId } = await params;
 
     // Validate videoId format (alphanumeric, dash, underscore only)
     if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
@@ -96,12 +90,9 @@ export async function POST(req: NextRequest, { params }: { params: { videoId: st
  * GET /api/media/youtube/[videoId]
  * Get pre-generated embed URL (uses cached data)
  */
-export async function GET(req: NextRequest, { params }: { params: { videoId: string } }) {
-  const keyValidation = requireApiKey(req);
-  if (keyValidation) return keyValidation;
-
+export async function GET(req: NextRequest, { params }: { params: Promise<{ videoId: string }> }) {
   try {
-    const { videoId } = params;
+    const { videoId } = await params;
 
     if (!videoId || !/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
       return NextResponse.json(

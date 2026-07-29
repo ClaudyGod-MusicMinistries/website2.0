@@ -3,6 +3,7 @@ import { proxyGet } from '@/lib/data/backendProxy';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  return proxyGet(req, `/events/${params.id}`);
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return proxyGet(req, `/events/${encodeURIComponent(id)}`);
 }
