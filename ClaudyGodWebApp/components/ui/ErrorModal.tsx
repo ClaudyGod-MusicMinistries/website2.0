@@ -9,6 +9,7 @@ interface ErrorModalProps {
   message: string;
   onClose: () => void;
   autoClose?: number; // milliseconds, 0 = never auto-close
+  closeLabel?: string;
   actions?: Array<{
     label: string;
     onClick: () => void;
@@ -22,6 +23,7 @@ export function ErrorModal({
   message,
   onClose,
   autoClose = 0,
+  closeLabel = 'Close',
   actions = [],
 }: ErrorModalProps) {
   const [display, setDisplay] = useState(isOpen);
@@ -72,7 +74,7 @@ export function ErrorModal({
             onClick={handleClose}
             className="flex-1 px-4 py-2.5 bg-neutral-200 text-neutral-900 font-sans font-semibold text-sm rounded-lg hover:bg-neutral-300 transition-colors"
           >
-            Dismiss
+            {closeLabel}
           </button>
           {actions.map((action, idx) => (
             <button

@@ -17,18 +17,40 @@ export function enforceSameOrigin(req: NextRequest): NextResponse | null {
   const origin = req.headers.get('origin');
   if (!origin) return null;
 
-  const allowed = new Set([
-    req.nextUrl.origin,
-    ...(process.env.CORS_ALLOWED_ORIGINS ?? '')
-      .split(',')
-      .map((value) => value.trim())
-      .filter(Boolean),
-  ]);
+  const normalizeOrigin = (value: string): string | null => {
+    try {
+      return new URL(value).origin.toLowerCase();
+    } catch {
+      return null;
+    }
+  };
 
-  if (allowed.has(origin)) return null;
+  // nextUrl.origin can contain the container's internal host behind a reverse
+  // proxy. The canonical site URL and the explicit allowlist are the trusted
+  // production configuration; nextUrl remains useful for local development.
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    ...(process.env.CORS_ALLOWED_ORIGINS ?? '').split(','),
+    req.nextUrl.origin,
+  ];
+  const allowed = new Set(
+    candidates
+      .filter((value): value is string => Boolean(value?.trim()))
+      .map((value) => normalizeOrigin(value.trim()))
+      .filter((value): value is string => value !== null)
+  );
+  const normalizedRequestOrigin = normalizeOrigin(origin);
+
+  if (normalizedRequestOrigin && allowed.has(normalizedRequestOrigin)) return null;
 
   return NextResponse.json(
-    { success: false, message: 'Request origin is not allowed.' },
+    {
+      success: false,
+      code: 'ORIGIN_NOT_ALLOWED',
+      message: 'We could not verify this request. Refresh the page and try again.',
+      errors: [],
+      fieldErrors: {},
+    },
     { status: 403 }
   );
 }
