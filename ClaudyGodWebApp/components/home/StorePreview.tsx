@@ -11,6 +11,7 @@ import { buttonVariants } from '@/lib/theme/buttons';
 import { Skeleton } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 import type { Product } from '@/types/store';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 
 const stagger = {
   hidden: {},
@@ -41,30 +42,23 @@ export function StorePreview() {
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
       <div className="container-site">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-4 mb-10 sm:mb-14">
-          <div>
-            <div className="flex items-center gap-4 mb-3">
-              <span className="rule-gold" />
-              <span className="label-eyebrow">Merchandise</span>
-            </div>
-            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight">
-              Official Store
-            </h2>
-            <p className="mt-2 sm:mt-3 font-sans text-neutral-500 text-sm sm:text-base font-light max-w-md leading-relaxed">
-              Music, apparel, and accessories — wear your faith, carry the anointing.
-            </p>
-          </div>
-          <Link
-            href="/store"
-            className={cn(
-              buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
-              'hidden md:inline-flex whitespace-nowrap group'
-            )}
-          >
-            Browse All
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
-        </div>
+        <SectionHeading
+          eyebrow="Merchandise"
+          title="Official store"
+          description="Music, clothing, and accessories."
+          action={
+            <Link
+              href="/store"
+              className={cn(
+                buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
+                'hidden md:inline-flex whitespace-nowrap group'
+              )}
+            >
+              Browse all
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </Link>
+          }
+        />
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">

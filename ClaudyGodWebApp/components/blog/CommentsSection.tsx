@@ -7,18 +7,13 @@ import { useComments } from '@/hooks/useComments';
 import { BackendError } from '@/lib/data/client';
 import { ReactionBar } from '@/components/blog/ReactionBar';
 import type { Comment } from '@/lib/data/types';
+import { FormError, FormLabel, controlClass, textareaClass } from '@/components/ui/FormField';
 
 interface CommentFormData {
   authorName: string;
   authorEmail: string;
   content: string;
 }
-
-const inputCls =
-  'w-full h-11 px-4 border border-neutral-200 rounded-lg font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white';
-const textareaCls =
-  'w-full px-4 py-3 border border-neutral-200 rounded-lg font-sans text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-300 bg-white resize-none';
-const errCls = 'mt-1 font-sans text-[0.6rem] tracking-[0.08em] uppercase text-red-500';
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -75,14 +70,16 @@ function CommentForm({ onSubmit, submitting, submitLabel, compact }: CommentForm
         }
       >
         <div>
+          <FormLabel>Name</FormLabel>
           <input
             {...register('authorName', { required: 'Name is required' })}
             placeholder="Your name"
-            className={inputCls}
+            className={controlClass(errors.authorName)}
           />
-          {errors.authorName && <p className={errCls}>{errors.authorName.message}</p>}
+          <FormError message={errors.authorName?.message} />
         </div>
         <div>
+          <FormLabel>Email address</FormLabel>
           <input
             {...register('authorEmail', {
               required: 'Email is required',
@@ -90,19 +87,20 @@ function CommentForm({ onSubmit, submitting, submitLabel, compact }: CommentForm
             })}
             type="email"
             placeholder="Your email (not shown publicly)"
-            className={inputCls}
+            className={controlClass(errors.authorEmail)}
           />
-          {errors.authorEmail && <p className={errCls}>{errors.authorEmail.message}</p>}
+          <FormError message={errors.authorEmail?.message} />
         </div>
       </div>
       <div>
+        <FormLabel>Comment</FormLabel>
         <textarea
           {...register('content', { required: 'Write a comment first' })}
           rows={compact ? 2 : 3}
           placeholder="Share your thoughts…"
-          className={textareaCls}
+          className={textareaClass(errors.content, compact ? 'min-h-20' : 'min-h-28')}
         />
-        {errors.content && <p className={errCls}>{errors.content.message}</p>}
+        <FormError message={errors.content?.message} />
       </div>
       <button
         type="submit"
@@ -225,7 +223,7 @@ export function CommentsSection({ postId }: { postId: string }) {
           submitting={submitting && !replyingTo}
           submitLabel="Post comment"
         />
-        {submitError && <p className={errCls}>{submitError}</p>}
+        <FormError message={submitError ?? undefined} />
       </div>
 
       {loading ? (

@@ -9,6 +9,8 @@ import { toVideoView, type VideoView } from '@/lib/data/adapters';
 import { videos as legacyVideos, type VideoType } from '@/data/videos';
 import { GridSkeleton } from '@/components/shared/GridSkeleton';
 import { ErrorMessage } from '@/components/ui/ErrorMessage';
+import { Container, Section } from '@/components/ui/Layout';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 import { YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
@@ -57,11 +59,11 @@ export function VideoGrid() {
 
   if (loading) {
     return (
-      <section className="bg-white section-py">
-        <div className="container-site">
+      <Section bg="white" py="lg">
+        <Container>
           <GridSkeleton cols={4} rows={2} />
-        </div>
-      </section>
+        </Container>
+      </Section>
     );
   }
   // `error` alone doesn't block the grid — useMedia falls back to the real
@@ -69,26 +71,20 @@ export function VideoGrid() {
   // shows the error screen if there's truly nothing to display.
   if (error && videos.length === 0) {
     return (
-      <section className="bg-white section-py">
-        <div className="container-site">
+      <Section bg="white" py="lg">
+        <Container>
           <ErrorMessage message={error} onRetry={refetch} />
-        </div>
-      </section>
+        </Container>
+      </Section>
     );
   }
 
   return (
     <>
-      <section className="bg-white section-py">
-        <div className="container-site">
+      <Section bg="white" py="lg">
+        <Container>
           {/* Section header */}
-          <div className="flex items-center gap-4 mb-4 sm:mb-6">
-            <span className="rule-gold" />
-            <span className="label-eyebrow">Watch & Worship</span>
-          </div>
-          <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight mb-8 sm:mb-10">
-            All Videos
-          </h2>
+          <SectionHeading eyebrow="Watch & Worship" title="All videos" />
 
           {/* Toolbar — search + segmented filter control, matching
               TeachingsGrid's pattern so the two catalogs feel like one
@@ -207,8 +203,8 @@ export function VideoGrid() {
               </span>
             </Link>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
       {/* Lightbox */}
       <AnimatePresence>

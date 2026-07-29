@@ -10,6 +10,7 @@ import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { YoutubeThumbnail } from '@/components/ui';
 import { getStoredConsent } from '@/lib/utils/cookieConsent';
+import { darkFormControlClass } from '@/components/ui/FormField';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -65,13 +66,17 @@ export function WelcomeModal() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
     setSubscriptionError('');
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setSubscriptionError('Enter a valid email address.');
+      return;
+    }
     try {
       const response = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: normalizedEmail }),
       });
       if (!response.ok) throw new Error('Subscription failed');
       setSubscribed(true);
@@ -208,7 +213,7 @@ export function WelcomeModal() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full h-9 sm:h-10 px-3 bg-white/[0.06] border border-white/[0.1] text-white placeholder:text-neutral-600 font-sans text-xs sm:text-sm rounded-xl focus:outline-none focus:border-purple-500/60 transition-colors duration-200"
+                        className={`${darkFormControlClass} !h-10 text-xs sm:text-sm`}
                       />
                       <button
                         type="submit"

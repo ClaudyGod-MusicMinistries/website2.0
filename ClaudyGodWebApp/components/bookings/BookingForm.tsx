@@ -17,6 +17,12 @@ import { cn } from '@/lib/utils/cn';
 import { useCountries } from '@/hooks/useCountries';
 import { CountrySelect } from '@/components/ui/CountrySelect';
 import { FormSelect } from '@/components/ui/FormSelect';
+import {
+  FormError as FieldError,
+  FormLabel as Label,
+  formControlClass,
+  formTextareaClass,
+} from '@/components/ui/FormField';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
@@ -66,31 +72,14 @@ const eventTypes = [
   'Corporate Event',
   'Other',
 ];
-const fieldClass =
-  'h-12 w-full rounded-lg border border-neutral-300 bg-white px-3.5 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 hover:border-neutral-400 focus:border-purple-600 focus:ring-4 focus:ring-purple-600/10';
-const textAreaClass = `${fieldClass} h-auto min-h-36 resize-y py-4 leading-relaxed`;
+const fieldClass = formControlClass;
+const textAreaClass = formTextareaClass;
 
 function tomorrow() {
   const date = new Date();
   date.setDate(date.getDate() + 1);
   return date.toISOString().slice(0, 10);
 }
-function Label({ children, optional }: { children: React.ReactNode; optional?: boolean }) {
-  return (
-    <label className="mb-2 flex items-center justify-between text-xs font-medium tracking-[0.02em] text-neutral-600">
-      <span>{children}</span>
-      {optional && <span className="text-xs font-normal text-neutral-400">Optional</span>}
-    </label>
-  );
-}
-function FieldError({ message }: { message?: string }) {
-  return message ? (
-    <p role="alert" className="mt-2 text-sm text-red-600">
-      {message}
-    </p>
-  ) : null;
-}
-
 export function BookingForm() {
   const [step, setStep] = useState(0);
   const [success, setSuccess] = useState(false);

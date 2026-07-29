@@ -9,6 +9,15 @@ import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 import { buttonVariants } from '@/lib/theme/buttons';
 import type { SubmitPrayerRequestRequest } from '@/types/api';
+import {
+  FormCheckbox,
+  FormError,
+  FormField,
+  FormGrid,
+  FormLabel,
+  controlClass,
+  textareaClass,
+} from '@/components/ui/FormField';
 
 interface PrayerRequestFormData {
   name: string;
@@ -70,12 +79,6 @@ export function PrayerRequestForm() {
     }
   };
 
-  const inputClass =
-    'w-full h-12 px-4 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 rounded-lg';
-
-  const textareaClass =
-    'w-full px-4 py-3 bg-white border text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none rounded-lg';
-
   return (
     <>
       <SuccessModal
@@ -87,11 +90,9 @@ export function PrayerRequestForm() {
       />
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-              Name <span className="text-purple-500">*</span>
-            </label>
+        <FormGrid>
+          <FormField>
+            <FormLabel>Name</FormLabel>
             <input
               {...register('name', {
                 required: 'Name is required',
@@ -99,15 +100,13 @@ export function PrayerRequestForm() {
               })}
               type="text"
               placeholder="Jane Doe"
-              className={`${inputClass} ${errors.name ? 'border-red-400 bg-red-50' : 'border-neutral-200'}`}
+              className={controlClass(errors.name)}
             />
-            {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
-          </div>
+            <FormError message={errors.name?.message} />
+          </FormField>
 
-          <div>
-            <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-              Email <span className="text-purple-500">*</span>
-            </label>
+          <FormField>
+            <FormLabel>Email address</FormLabel>
             <input
               {...register('email', {
                 required: 'Email is required',
@@ -118,16 +117,14 @@ export function PrayerRequestForm() {
               })}
               type="email"
               placeholder="jane@example.com"
-              className={`${inputClass} ${errors.email ? 'border-red-400 bg-red-50' : 'border-neutral-200'}`}
+              className={controlClass(errors.email)}
             />
-            {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
-          </div>
-        </div>
+            <FormError message={errors.email?.message} />
+          </FormField>
+        </FormGrid>
 
-        <div>
-          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-            Subject <span className="text-purple-500">*</span>
-          </label>
+        <FormField>
+          <FormLabel>Subject</FormLabel>
           <input
             {...register('subject', {
               required: 'Subject is required',
@@ -135,15 +132,13 @@ export function PrayerRequestForm() {
             })}
             type="text"
             placeholder="E.g., Healing, Guidance, Thanksgiving"
-            className={`${inputClass} ${errors.subject ? 'border-red-400 bg-red-50' : 'border-neutral-200'}`}
+            className={controlClass(errors.subject)}
           />
-          {errors.subject && <p className="mt-1 text-sm text-red-500">{errors.subject.message}</p>}
-        </div>
+          <FormError message={errors.subject?.message} />
+        </FormField>
 
-        <div>
-          <label className="font-display font-semibold text-neutral-800 text-sm block mb-2">
-            Your Prayer Request <span className="text-purple-500">*</span>
-          </label>
+        <FormField>
+          <FormLabel>Prayer request</FormLabel>
           <textarea
             {...register('requestText', {
               required: 'Please share your prayer request',
@@ -151,25 +146,14 @@ export function PrayerRequestForm() {
             })}
             rows={6}
             placeholder="Share what's on your heart. Our prayer team will hold this in confidence and intercede for you..."
-            className={`${textareaClass} ${errors.requestText ? 'border-red-400 bg-red-50' : 'border-neutral-200'}`}
+            className={textareaClass(errors.requestText)}
           />
-          {errors.requestText && (
-            <p className="mt-1 text-sm text-red-500">{errors.requestText.message}</p>
-          )}
-        </div>
+          <FormError message={errors.requestText?.message} />
+        </FormField>
 
-        <div className="flex items-start gap-3">
-          <input
-            {...register('isConfidential')}
-            type="checkbox"
-            id="isConfidential"
-            className="mt-1 w-4 h-4 rounded border-neutral-300 text-purple-600 cursor-pointer"
-          />
-          <label htmlFor="isConfidential" className="text-sm text-neutral-700">
-            Keep this request confidential — only share it with the prayer team, not the wider
-            congregation.
-          </label>
-        </div>
+        <FormCheckbox id="isConfidential" {...register('isConfidential')}>
+          Keep this request confidential and share it only with the prayer team.
+        </FormCheckbox>
 
         <ErrorModal
           isOpen={error?.isOpen ?? false}

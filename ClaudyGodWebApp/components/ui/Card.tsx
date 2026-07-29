@@ -11,6 +11,8 @@ const cardVariants = cva('relative overflow-hidden transition-all duration-300',
       outline: ['bg-transparent border border-surface-border rounded-xl'],
       gold: ['bg-surface-elevated border border-gold-500/30 rounded-xl', 'shadow-gold'],
       flat: ['bg-surface-elevated rounded-xl border-0'],
+      light: ['bg-white border border-black/[0.06] rounded-xl', 'shadow-card-light'],
+      'light-elevated': ['bg-white border border-black/[0.06] rounded-xl', 'shadow-card-light-lg'],
     },
     interactive: {
       true: ['cursor-pointer', 'hover:border-gold-500/50 hover:shadow-gold hover:-translate-y-1'],

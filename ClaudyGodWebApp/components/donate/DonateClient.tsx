@@ -6,6 +6,7 @@ import { Heart, CheckCircle2, ShieldCheck, Copy, Check, ChevronDown } from 'luci
 import { cn } from '@/lib/utils/cn';
 import { currencyPresets, defaultCurrency, type SupportedCurrency } from '@/data/ministryStats';
 import { post } from '@/lib/data/client';
+import { FormError, FormLabel, controlClass, textareaClass } from '@/components/ui/FormField';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -18,7 +19,6 @@ const fadeUp = {
 
 function InputField({
   label,
-  required,
   id,
   error,
   children,
@@ -31,20 +31,9 @@ function InputField({
 }) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="font-display font-semibold text-neutral-800 text-sm block mb-2"
-      >
-        {label}
-        {required && <span className="text-purple-500 ml-0.5">*</span>}
-      </label>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
       {children}
-      {error && (
-        <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1.5">
-          <span className="w-1 h-1 rounded-full bg-red-500 shrink-0" />
-          {error}
-        </p>
-      )}
+      <FormError message={error} />
     </div>
   );
 }
@@ -388,15 +377,10 @@ export default function DonateClient() {
                         setAmount(0);
                         setErrors((er) => ({ ...er, amount: '' }));
                       }}
-                      className="w-full h-12 pl-9 pr-4 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder:text-neutral-400 font-sans text-sm focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                      className={controlClass(errors.amount, 'pl-9')}
                     />
                   </div>
-                  {errors.amount && (
-                    <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1.5">
-                      <span className="w-1 h-1 rounded-full bg-red-500 shrink-0" />
-                      {errors.amount}
-                    </p>
-                  )}
+                  <FormError message={errors.amount} />
                 </div>
 
                 {/* Selected amount display */}
@@ -427,7 +411,7 @@ export default function DonateClient() {
                       setName(e.target.value);
                       setErrors((er) => ({ ...er, name: '' }));
                     }}
-                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                    className={controlClass(errors.name)}
                   />
                 </InputField>
 
@@ -442,28 +426,22 @@ export default function DonateClient() {
                       setEmail(e.target.value);
                       setErrors((er) => ({ ...er, email: '' }));
                     }}
-                    className="w-full h-12 px-4 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200"
+                    className={controlClass(errors.email)}
                   />
                 </InputField>
 
                 {/* Message */}
                 <div>
-                  <label
-                    htmlFor="donor-message"
-                    className="font-display font-semibold text-neutral-800 text-sm block mb-2"
-                  >
-                    Message{' '}
-                    <span className="font-sans font-normal text-neutral-400 text-sm">
-                      (optional)
-                    </span>
-                  </label>
+                  <FormLabel htmlFor="donor-message" optional>
+                    Message
+                  </FormLabel>
                   <textarea
                     id="donor-message"
                     rows={3}
                     placeholder="Leave a word of encouragement…"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 text-neutral-900 placeholder:text-neutral-400 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-500/10 transition-all duration-200 resize-none"
+                    className={textareaClass(undefined, 'min-h-24')}
                   />
                 </div>
 

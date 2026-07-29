@@ -38,6 +38,8 @@ Container.displayName = 'Container';
 const sectionVariants = cva('relative w-full', {
   variants: {
     bg: {
+      white: 'bg-white',
+      cream: 'bg-cream-100',
       base: 'bg-surface-base',
       muted: 'bg-surface-muted',
       elevated: 'bg-surface-elevated',
@@ -48,7 +50,7 @@ const sectionVariants = cva('relative w-full', {
       none: '',
       sm: 'py-8  md:py-12',
       md: 'py-12 md:py-16',
-      lg: 'py-16 md:py-20 lg:py-24',
+      lg: 'py-12 md:py-20 lg:py-28',
       xl: 'py-20 md:py-28 lg:py-32',
     },
   },

@@ -10,6 +10,7 @@ import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
+import { darkFormControlClass, FormError } from '@/components/ui/FormField';
 
 interface NewsletterInput {
   name: string;
@@ -165,29 +166,34 @@ export function NewsletterBanner() {
                     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3">
                       <div>
                         <input
-                          {...register('name')}
+                          {...register('name', {
+                            required: 'Enter your name.',
+                            minLength: { value: 2, message: 'Use at least 2 characters.' },
+                            maxLength: {
+                              value: 100,
+                              message: 'Keep your name under 100 characters.',
+                            },
+                          })}
                           type="text"
                           placeholder="Your name"
-                          className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
+                          className={darkFormControlClass}
                         />
-                        {errors.name && (
-                          <p className="mt-1.5 font-sans text-[0.65rem] tracking-[0.1em] uppercase text-red-400/80">
-                            {errors.name.message}
-                          </p>
-                        )}
+                        <FormError message={errors.name?.message} />
                       </div>
                       <div>
                         <input
-                          {...register('email')}
+                          {...register('email', {
+                            required: 'Enter an email address.',
+                            pattern: {
+                              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                              message: 'Enter a valid email address.',
+                            },
+                          })}
                           type="email"
                           placeholder="your@email.com"
-                          className="w-full h-12 px-4 bg-white/[0.04] border border-white/10 text-white placeholder:text-neutral-600 font-sans text-sm rounded-xl focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.06] transition-all duration-300"
+                          className={darkFormControlClass}
                         />
-                        {errors.email && (
-                          <p className="mt-1.5 font-sans text-[0.65rem] tracking-[0.1em] uppercase text-red-400/80">
-                            {errors.email.message}
-                          </p>
-                        )}
+                        <FormError message={errors.email?.message} />
                       </div>
 
                       <button

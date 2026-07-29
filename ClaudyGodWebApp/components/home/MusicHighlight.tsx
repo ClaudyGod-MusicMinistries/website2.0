@@ -8,6 +8,7 @@ import { toAlbumView } from '@/lib/data/adapters';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { ContainedImage, Skeleton } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
+import { SectionHeading } from '@/components/shared/SectionHeading';
 
 const icons = { spotify: FaSpotify, apple: FaApple, youtube: FaYoutube, deezer: FaDeezer } as const;
 
@@ -32,26 +33,21 @@ export function MusicHighlight() {
   return (
     <section className="bg-cream-100 section-py border-t border-black/[0.05]">
       <div className="container-site">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 sm:gap-4 mb-10 sm:mb-14">
-          <div>
-            <div className="flex items-center gap-4 mb-3">
-              <span className="rule-gold" />
-              <span className="label-eyebrow">Discography</span>
-            </div>
-            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-tight">
-              Albums
-            </h2>
-          </div>
-          <Link
-            href="/music"
-            className={cn(
-              buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
-              'hidden md:inline-flex whitespace-nowrap'
-            )}
-          >
-            All Albums →
-          </Link>
-        </div>
+        <SectionHeading
+          eyebrow="Discography"
+          title="Albums"
+          action={
+            <Link
+              href="/music"
+              className={cn(
+                buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
+                'hidden md:inline-flex whitespace-nowrap'
+              )}
+            >
+              All albums →
+            </Link>
+          }
+        />
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">

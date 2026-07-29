@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertCircle } from 'lucide-react';
+import { ContentState } from '@/components/shared/ContentState';
 
 interface ErrorMessageProps {
   message?: string;
@@ -14,24 +14,20 @@ export function ErrorMessage({
   className = '',
 }: ErrorMessageProps) {
   return (
-    <div className={`flex flex-col items-center justify-center gap-4 py-12 px-4 ${className}`}>
-      <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
-        <AlertCircle className="h-8 w-8 text-red-600" />
-      </div>
-      <div className="text-center">
-        <p className="font-display font-semibold text-neutral-900 text-lg mb-2">
-          Error Loading Content
-        </p>
-        <p className="font-sans text-neutral-600 text-sm max-w-sm">{message}</p>
-      </div>
-      {onRetry && (
-        <button
-          onClick={onRetry}
-          className="mt-4 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-sans text-sm rounded-lg transition-colors duration-300"
-        >
-          Try Again
-        </button>
-      )}
-    </div>
+    <ContentState
+      state="error"
+      message={message}
+      className={className}
+      action={
+        onRetry ? (
+          <button
+            onClick={onRetry}
+            className="inline-flex h-10 items-center justify-center rounded-lg bg-purple-700 px-5 font-sans text-sm font-semibold text-white transition hover:bg-purple-600"
+          >
+            Try again
+          </button>
+        ) : undefined
+      }
+    />
   );
 }
