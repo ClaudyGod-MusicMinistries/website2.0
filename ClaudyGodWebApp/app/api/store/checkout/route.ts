@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { guardPublicMutation } from '@/lib/security/request';
 import { orderItemSchema, priceOrder, shippingPrices } from '@/lib/commerce/pricing';
-import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
+import { getBackendUrl } from '@/lib/data/backendConfig';
 
 const shippingSchema = z.object({
   fullName: z.string().min(2).max(100),
@@ -95,7 +95,6 @@ export async function POST(req: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
           'Idempotency-Key': data.paystackRef,
-          ...getBackendServiceHeaders(),
         },
         body: JSON.stringify({
           items: priced.lineItems.map(({ product, quantity }) => ({

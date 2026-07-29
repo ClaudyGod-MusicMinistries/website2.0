@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
+import { getBackendUrl } from '@/lib/data/backendConfig';
 
 export const dynamic = 'force-dynamic';
 
@@ -66,7 +66,6 @@ export async function GET(req: NextRequest) {
           headers: {
             'Content-Type': 'application/json',
             'Idempotency-Key': tx.reference,
-            ...getBackendServiceHeaders(),
           },
           body: JSON.stringify({
             donorName,

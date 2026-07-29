@@ -10,12 +10,6 @@ export function getBackendUrl(path: string): string {
   return `${getBackendBaseUrl()}${API_PREFIX}${normalizedPath}`;
 }
 
-/** Headers used only by Next.js server code when calling the private API. */
-export function getBackendServiceHeaders(): Record<string, string> {
-  const apiKey = process.env.INTERNAL_API_KEY?.trim();
-  return apiKey ? { 'x-api-key': apiKey } : {};
-}
-
 export function isAbortError(error: unknown): boolean {
   return (
     error instanceof Error &&

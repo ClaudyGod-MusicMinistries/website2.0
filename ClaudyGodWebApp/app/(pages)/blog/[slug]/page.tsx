@@ -8,7 +8,7 @@ import { ReactionBar } from '@/components/blog/ReactionBar';
 import { CommentsSection } from '@/components/blog/CommentsSection';
 import { SITE_NAME, SITE_URL, LOGO_URL } from '@/lib/config/site';
 import { breadcrumb } from '@/lib/utils/jsonLd';
-import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
+import { getBackendUrl } from '@/lib/data/backendConfig';
 
 /**
  * Server-side fetch straight to the backend — this runs during SSR only
@@ -22,7 +22,7 @@ import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfi
 async function getPostBySlug(slug: string): Promise<BlogPostDetail | null> {
   try {
     const res = await fetch(getBackendUrl(`/blog/${encodeURIComponent(slug)}`), {
-      headers: { Accept: 'application/json', ...getBackendServiceHeaders() },
+      headers: { Accept: 'application/json' },
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(15_000),
     });
