@@ -54,7 +54,7 @@ export interface SubmitContactRequest {
 
 // ─── Booking ───────────────────────────────────────────────────────────────
 
-export type CountryCode = 'US' | 'CA' | 'UK' | 'NG' | 'AU' | 'DE' | 'FR' | 'IN' | 'ZA' | 'GH';
+export type CountryCode = string;
 
 export interface CreateBookingRequest {
   firstName: string;
