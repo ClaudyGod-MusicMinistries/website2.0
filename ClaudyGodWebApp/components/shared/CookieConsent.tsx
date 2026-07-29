@@ -77,6 +77,12 @@ export function CookieConsent() {
     setShowSettings(false);
   };
 
+  const setSettingsOpen = (open: boolean) => {
+    setShowSettings(open);
+    if (open) setShowBanner(false);
+    else if (!getStoredConsent()) setShowBanner(true);
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -120,7 +126,7 @@ export function CookieConsent() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setShowSettings(true)}
+                  onClick={() => setSettingsOpen(true)}
                   className="h-10 rounded-lg border border-neutral-300 px-3 text-xs font-semibold text-neutral-700 transition hover:border-purple-300 hover:text-purple-700"
                 >
                   Settings
@@ -138,13 +144,14 @@ export function CookieConsent() {
         )}
       </AnimatePresence>
 
-      <Dialog open={showSettings} onOpenChange={setShowSettings}>
+      <Dialog open={showSettings} onOpenChange={setSettingsOpen}>
         <Dialog.Content
           title="Privacy settings"
           hideTitle
           description="Choose which optional storage the site may use."
-          className="max-w-lg overflow-hidden border-neutral-200 bg-white p-0 text-neutral-950 shadow-popup"
+          className="max-w-lg overscroll-contain border-neutral-200 bg-white p-0 text-neutral-950 shadow-popup"
           showClose={false}
+          variant="responsive"
         >
           <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4 sm:px-6">
             <div className="flex items-center gap-3">
@@ -158,7 +165,7 @@ export function CookieConsent() {
             </div>
             <button
               type="button"
-              onClick={() => setShowSettings(false)}
+              onClick={() => setSettingsOpen(false)}
               aria-label="Close privacy settings"
               className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
             >

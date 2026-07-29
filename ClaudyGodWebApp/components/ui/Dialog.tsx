@@ -23,7 +23,13 @@ const variantStyles = {
   center: cn(
     'fixed left-1/2 top-1/2 z-modal w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2',
     'rounded-xl max-h-[85dvh] overflow-y-auto',
-    'data-[state=open]:animate-scale-in'
+    'data-[state=open]:animate-dialog-scale-in'
+  ),
+  /** Bottom sheet on phones, centered dialog from sm upward. */
+  responsive: cn(
+    'fixed inset-x-0 bottom-0 z-modal max-h-[88dvh] w-full overflow-y-auto rounded-t-xl',
+    'sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2 sm:w-[calc(100%-2rem)] sm:max-w-lg sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl',
+    'data-[state=open]:animate-fade-in'
   ),
   /** Side drawer — cart, filters. */
   right: cn(
