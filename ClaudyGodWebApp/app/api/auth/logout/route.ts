@@ -1,16 +1,16 @@
 import { type NextRequest, NextResponse } from 'next/server';
-
-const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 export async function POST(req: NextRequest) {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
-    const upstream = await fetch(`${API_BASE}/api/v1.0/auth/logout`, {
+    const upstream = await fetch(getBackendUrl('/auth/logout'), {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        ...getBackendServiceHeaders(),
         Cookie: req.headers.get('cookie') ?? '',
       },
       signal: controller.signal,

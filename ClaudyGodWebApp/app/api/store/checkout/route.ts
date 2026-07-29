@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { guardPublicMutation } from '@/lib/security/request';
 import { orderItemSchema, priceOrder, shippingPrices } from '@/lib/commerce/pricing';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 const shippingSchema = z.object({
   fullName: z.string().min(2).max(100),
@@ -83,18 +84,18 @@ export async function POST(req: NextRequest) {
     }
 
     // Persist order to backend with proper error handling
-    const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080';
     let backendOrderId: string | null = null;
 
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000); // 15-second timeout
 
-      const backendRes = await fetch(`${apiBaseUrl}/api/v1.0/store/checkout`, {
+      const backendRes = await fetch(getBackendUrl('/store/checkout'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Idempotency-Key': data.paystackRef,
+          ...getBackendServiceHeaders(),
         },
         body: JSON.stringify({
           items: priced.lineItems.map(({ product, quantity }) => ({

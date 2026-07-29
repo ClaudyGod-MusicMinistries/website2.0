@@ -8,8 +8,7 @@ import { ReactionBar } from '@/components/blog/ReactionBar';
 import { CommentsSection } from '@/components/blog/CommentsSection';
 import { SITE_NAME, SITE_URL, LOGO_URL } from '@/lib/config/site';
 import { breadcrumb } from '@/lib/utils/jsonLd';
-
-const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 /**
  * Server-side fetch straight to the backend — this runs during SSR only
@@ -22,8 +21,10 @@ const API_BASE = process.env.API_BASE_URL ?? 'http://localhost:8080';
  */
 async function getPostBySlug(slug: string): Promise<BlogPostDetail | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/v1.0/blog/${slug}`, {
+    const res = await fetch(getBackendUrl(`/blog/${encodeURIComponent(slug)}`), {
+      headers: { Accept: 'application/json', ...getBackendServiceHeaders() },
       next: { revalidate: 60 },
+      signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) return null;
     const json = (await res.json()) as ApiResponse<BlogPostDetail>;

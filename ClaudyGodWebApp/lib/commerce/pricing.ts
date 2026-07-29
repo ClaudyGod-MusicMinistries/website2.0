@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { StoreProduct } from '@/lib/data/types';
+import { getBackendServiceHeaders, getBackendUrl } from '@/lib/data/backendConfig';
 
 export const shippingPrices = {
   standard: 9.99,
@@ -27,12 +28,10 @@ export async function priceOrder(
   items: z.infer<typeof orderItemSchema>[],
   shippingMethod: keyof typeof shippingPrices
 ) {
-  const apiBaseUrl = process.env.API_BASE_URL;
-  if (!apiBaseUrl) throw new Error('Commerce backend is not configured');
-
-  const response = await fetch(`${apiBaseUrl}/api/v1.0/store/products`, {
-    headers: { Accept: 'application/json' },
+  const response = await fetch(getBackendUrl('/store/products'), {
+    headers: { Accept: 'application/json', ...getBackendServiceHeaders() },
     cache: 'no-store',
+    signal: AbortSignal.timeout(15_000),
   });
   if (!response.ok) throw new Error('Unable to verify current product prices');
 

@@ -17,21 +17,14 @@ const validBooking = {
   addressLine2: '',
   city: 'Test City',
   state: 'Test State',
-  zipCode: '00000',
   country: 'United States',
   agreeTerms: true,
 } as const;
 
-test('accepts the exact payload produced by BookingForm, including zipCode', () => {
+test('accepts the exact payload produced by BookingForm without requiring a postal code', () => {
   const result = bookingSchema.safeParse(validBooking);
   assert.equal(result.success, true);
   if (result.success) assert.equal(result.data.email, 'audit@example.com');
-});
-
-test('returns a zipCode field error when the postal code is missing', () => {
-  const result = bookingSchema.safeParse({ ...validBooking, zipCode: '' });
-  assert.equal(result.success, false);
-  if (!result.success) assert.equal(result.error.issues[0]?.path[0], 'zipCode');
 });
 
 test('rejects unknown fields so the frontend and backend contract cannot drift silently', () => {

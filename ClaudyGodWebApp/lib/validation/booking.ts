@@ -36,7 +36,6 @@ export const bookingSchema = z
     addressLine2: optionalTrimmed(200),
     city: z.string().trim().min(2).max(100),
     state: z.string().trim().min(2).max(100),
-    zipCode: z.string().trim().min(1, 'ZIP or postal code is required.').max(20),
     country: z.string().trim().min(2).max(100),
     agreeTerms: z.literal(true, {
       errorMap: () => ({ message: 'Booking terms must be accepted.' }),
