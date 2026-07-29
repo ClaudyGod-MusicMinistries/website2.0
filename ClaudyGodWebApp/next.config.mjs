@@ -1,5 +1,8 @@
 /** @type {import('next).NextConfig} */
 const nextConfig = {
+  // Pre-push verification uses an isolated output directory so it can run
+  // safely while a developer has `next dev` open against the normal `.next`.
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.youtube.com' },

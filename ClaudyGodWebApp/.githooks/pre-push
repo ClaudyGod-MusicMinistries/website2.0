@@ -33,5 +33,5 @@ run_step "Repository formatting" npx prettier --check . --ignore-path .gitignore
 run_step "ESLint (zero warnings)" npm run lint
 run_step "TypeScript contract check" npm run type-check
 run_step "Automated tests" npm test
-run_step "Next.js production build" npm run build
+run_step "Next.js production build (isolated)" npm run build:verify
 hook_success "Push approved. GitHub CI will independently verify it again."
