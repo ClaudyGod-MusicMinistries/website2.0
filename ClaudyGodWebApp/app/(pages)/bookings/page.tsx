@@ -1,8 +1,9 @@
-import { SITE_URL } from '@/lib/config/site';
+import { CONTACT_EMAIL, SITE_URL } from '@/lib/config/site';
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/shared/PageHero';
 import { BookingForm } from '@/components/bookings/BookingForm';
 import { breadcrumb, service, faqPage } from '@/lib/utils/jsonLd';
+import { ArrowUpRight, CheckCircle2, Clock3, Mail } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Book ClaudyGod — Gospel Artist & Minister for Church & Events',
@@ -78,24 +79,16 @@ const schemas = [
 
 const steps = [
   {
-    step: '01',
-    title: 'Submit Request',
-    body: 'Fill out the booking form with your event details.',
+    title: 'Review',
+    body: 'Our team reviews your request.',
   },
   {
-    step: '02',
-    title: 'Review & Confirm',
-    body: 'Our team reviews your request and contacts you within 3–5 business days.',
+    title: 'Response',
+    body: 'We contact you within 3–5 business days.',
   },
   {
-    step: '03',
-    title: 'Agreement',
-    body: 'A booking agreement is shared and signed before the event is confirmed.',
-  },
-  {
-    step: '04',
-    title: 'Preparation',
-    body: 'We coordinate logistics, sound requirements, and set list details.',
+    title: 'Confirmation',
+    body: 'Approved engagements receive a formal agreement.',
   },
 ];
 
@@ -117,67 +110,66 @@ export default function BookingsPage() {
         objectPosition="center center"
       />
 
-      <section className="bg-cream-100 section-py">
+      <section className="bg-cream-100 py-10 md:py-16 lg:py-20">
         <div className="container-site">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(19rem,0.72fr)] lg:items-start">
             {/* Form */}
-            <div className="bg-white rounded-xl shadow-card-light-hover border border-black/[0.04] p-8 md:p-10">
-              <div className="flex items-center gap-4 mb-8">
-                <span className="rule-gold" />
-                <span className="label-eyebrow">Booking Request</span>
-              </div>
+            <div className="rounded-xl border border-black/[0.06] bg-white p-5 shadow-card-light-lg sm:p-8 md:p-10">
               <BookingForm />
             </div>
 
             {/* Steps */}
-            <div className="lg:pt-4">
-              <div className="flex items-center gap-4 mb-6">
-                <span className="rule-gold" />
-                <span className="label-eyebrow">How It Works</span>
-              </div>
-              <h3 className="font-raleway font-light text-neutral-900 text-2xl md:text-3xl tracking-normal leading-snug mb-10">
-                What to Expect
-              </h3>
-              <div className="space-y-0">
-                {steps.map((item, i) => (
-                  <div key={item.step} className="flex gap-5 items-start pb-8 relative">
-                    {/* Connector line */}
-                    {i < steps.length - 1 && (
-                      <span className="absolute left-5 top-10 bottom-0 w-px bg-neutral-200" />
-                    )}
-                    <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center shrink-0 z-10">
-                      <span className="font-sans text-[0.55rem] tracking-[0.15em] text-white font-semibold">
-                        {item.step}
-                      </span>
+            <aside className="lg:sticky lg:top-24">
+              <div className="rounded-xl bg-purple-950 p-6 text-white shadow-card md:p-7">
+                <h3 className="font-display text-2xl font-semibold leading-snug text-white">
+                  After you submit
+                </h3>
+                <div className="mt-6 space-y-0">
+                  {steps.map((item, i) => (
+                    <div key={item.title} className="relative flex items-start gap-4 pb-6">
+                      {/* Connector line */}
+                      {i < steps.length - 1 && (
+                        <span className="absolute bottom-0 left-[15px] top-8 w-px bg-white/10" />
+                      )}
+                      <div className="z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-gold-300" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-white">{item.title}</p>
+                        <p className="mt-1 text-xs leading-5 text-white/50">{item.body}</p>
+                      </div>
                     </div>
-                    <div className="pt-1.5">
-                      <p className="font-display font-bold text-neutral-900 text-base mb-1">
-                        {item.title}
-                      </p>
-                      <p className="font-sans text-neutral-500 text-sm leading-relaxed">
-                        {item.body}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="flex items-center gap-3 border-t border-white/10 pt-5">
+                  <Clock3 className="h-4 w-4 text-gold-300" />
+                  <p className="text-xs text-white/60">
+                    <strong className="block text-white">Typical response</strong>Within 3–5
+                    business days
+                  </p>
+                </div>
               </div>
 
               {/* Contact card */}
-              <div className="mt-6 bg-white rounded-xl border border-neutral-200 p-6">
-                <p className="font-sans text-xs tracking-[0.12em] uppercase text-neutral-400 mb-1">
-                  Questions?
+              <div className="mt-4 rounded-xl border border-neutral-200 bg-white p-5">
+                <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-purple-50 text-purple-700">
+                  <Mail className="h-4 w-4" />
+                </div>
+                <p className="text-xs uppercase tracking-[0.14em] text-neutral-400">
+                  Need assistance?
                 </p>
-                <p className="font-display font-bold text-neutral-900 text-lg mb-3">
-                  Contact Us Directly
+                <p className="mt-1 font-display text-lg font-semibold text-neutral-900">
+                  Speak with the booking team
                 </p>
                 <a
-                  href="mailto:claudygodministries@gmail.com"
-                  className="font-sans text-purple-600 hover:text-purple-800 text-sm transition-colors"
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="mt-4 inline-flex items-center gap-1.5 break-all text-sm font-semibold text-purple-700 hover:text-purple-900"
                 >
-                  claudygodministries@gmail.com
+                  {CONTACT_EMAIL}
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
                 </a>
               </div>
-            </div>
+            </aside>
           </div>
         </div>
       </section>

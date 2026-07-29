@@ -15,7 +15,9 @@ export interface DialCountry {
 
 // Nigeria first (primary market), then alphabetical
 export const DIAL_COUNTRIES: DialCountry[] = FALLBACK_COUNTRIES.map((country) => ({
-  code: country.code, name: country.name, dial: country.dialCode,
+  code: country.code,
+  name: country.name,
+  dial: country.dialCode,
 }));
 
 /* ── Component ─────────────────────────────────────────────── */
@@ -38,7 +40,11 @@ export function PhoneInput({
   inputClass,
 }: PhoneInputProps) {
   const { countries } = useCountries();
-  const dialCountries = countries.map((item) => ({ code: item.code, name: item.name, dial: item.dialCode }));
+  const dialCountries = countries.map((item) => ({
+    code: item.code,
+    name: item.name,
+    dial: item.dialCode,
+  }));
   const [country, setCountry] = useState<DialCountry>(DIAL_COUNTRIES[0]);
   const [local, setLocal] = useState('');
   const [open, setOpen] = useState(false);
@@ -55,6 +61,12 @@ export function PhoneInput({
     // onChange ref is stable from Controller — safe to omit from deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country, local]);
+
+  // react-hook-form clears the controlled value after a successful submit.
+  // Keep the visible national-number field in sync with that reset.
+  useEffect(() => {
+    if (!value && local) setLocal('');
+  }, [value, local]);
 
   /* Close on outside click */
   useEffect(() => {
@@ -145,70 +157,82 @@ export function PhoneInput({
           className="fixed inset-0 z-modal flex items-end bg-neutral-950/45 backdrop-blur-[2px] sm:absolute sm:inset-auto sm:left-0 sm:top-[calc(100%+6px)] sm:z-popover sm:block sm:w-80 sm:bg-white sm:border sm:border-neutral-200 sm:rounded-xl sm:shadow-[0_12px_40px_rgba(0,0,0,0.14)] sm:overflow-hidden sm:backdrop-blur-none"
         >
           <div className="w-full max-h-[82dvh] overflow-hidden rounded-t-2xl bg-white sm:contents">
-          <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4 sm:hidden">
-            <div><p className="font-display text-lg font-semibold">Calling code</p><p className="text-xs text-neutral-500">Choose from the international list</p></div>
-            <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-neutral-100 p-2" aria-label="Close calling code picker"><X className="h-4 w-4" /></button>
-          </div>
-          {/* Search bar */}
-          <div className="p-2.5 border-b border-neutral-100">
-            <div className="flex items-center gap-2 px-3 h-9 bg-neutral-50 border border-neutral-200 rounded-xl focus-within:border-purple-400 focus-within:bg-white transition-colors">
-              <Search className="h-3.5 w-3.5 text-neutral-400 shrink-0" />
-              <input
-                ref={searchRef}
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') {
-                    setOpen(false);
-                    setSearch('');
-                  }
-                }}
-                placeholder="Search country or code…"
-                className="flex-1 min-w-0 bg-transparent font-sans text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
-              />
+            <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4 sm:hidden">
+              <div>
+                <p className="font-display text-lg font-semibold">Calling code</p>
+                <p className="text-xs text-neutral-500">Choose from the international list</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="rounded-full bg-neutral-100 p-2"
+                aria-label="Close calling code picker"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
-          </div>
+            {/* Search bar */}
+            <div className="p-2.5 border-b border-neutral-100">
+              <div className="flex items-center gap-2 px-3 h-9 bg-neutral-50 border border-neutral-200 rounded-xl focus-within:border-purple-400 focus-within:bg-white transition-colors">
+                <Search className="h-3.5 w-3.5 text-neutral-400 shrink-0" />
+                <input
+                  ref={searchRef}
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setOpen(false);
+                      setSearch('');
+                    }
+                  }}
+                  placeholder="Search country or code…"
+                  className="flex-1 min-w-0 bg-transparent font-sans text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
+                />
+              </div>
+            </div>
 
-          {/* Country list */}
-          <ul
-            role="listbox"
-            aria-label="Countries"
-            className="max-h-[58dvh] overflow-y-auto py-1 overscroll-contain sm:max-h-64"
-          >
-            {filtered.length === 0 ? (
-              <li className="px-4 py-4 text-sm text-neutral-400 font-sans text-center">
-                No match for &ldquo;{search}&rdquo;
-              </li>
-            ) : (
-              filtered.map((c) => {
-                const selected = country.code === c.code && country.dial === c.dial;
-                return (
-                  <li key={`${c.code}-${c.dial}`} role="option" aria-selected={selected}>
-                    <button
-                      type="button"
-                      onClick={() => pick(c)}
-                      className={cn(
-                        'w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-purple-50',
-                        selected && 'bg-purple-50'
-                      )}
-                    >
-                      <span className="text-xl leading-none select-none shrink-0" aria-hidden>
-                        {flagEmoji(c.code)}
-                      </span>
-                      <span className="flex-1 min-w-0 font-sans text-sm text-neutral-800 truncate">
-                        {c.name}
-                      </span>
-                      <span className="font-mono text-xs text-neutral-400 shrink-0">{c.dial}</span>
-                      {selected && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 shrink-0" />
-                      )}
-                    </button>
-                  </li>
-                );
-              })
-            )}
-          </ul>
+            {/* Country list */}
+            <ul
+              role="listbox"
+              aria-label="Countries"
+              className="max-h-[58dvh] overflow-y-auto py-1 overscroll-contain sm:max-h-64"
+            >
+              {filtered.length === 0 ? (
+                <li className="px-4 py-4 text-sm text-neutral-400 font-sans text-center">
+                  No match for &ldquo;{search}&rdquo;
+                </li>
+              ) : (
+                filtered.map((c) => {
+                  const selected = country.code === c.code && country.dial === c.dial;
+                  return (
+                    <li key={`${c.code}-${c.dial}`} role="option" aria-selected={selected}>
+                      <button
+                        type="button"
+                        onClick={() => pick(c)}
+                        className={cn(
+                          'w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-purple-50',
+                          selected && 'bg-purple-50'
+                        )}
+                      >
+                        <span className="text-xl leading-none select-none shrink-0" aria-hidden>
+                          {flagEmoji(c.code)}
+                        </span>
+                        <span className="flex-1 min-w-0 font-sans text-sm text-neutral-800 truncate">
+                          {c.name}
+                        </span>
+                        <span className="font-mono text-xs text-neutral-400 shrink-0">
+                          {c.dial}
+                        </span>
+                        {selected && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 shrink-0" />
+                        )}
+                      </button>
+                    </li>
+                  );
+                })
+              )}
+            </ul>
           </div>
         </div>
       )}
