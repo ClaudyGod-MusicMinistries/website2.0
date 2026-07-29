@@ -11,6 +11,12 @@ function authHeader(req: NextRequest): Record<string, string> {
   return token ? { Authorization: token } : {};
 }
 
+function tracingHeaders(req: NextRequest): Record<string, string> {
+  return {
+    'X-Correlation-ID': req.headers.get('x-correlation-id') ?? crypto.randomUUID(),
+  };
+}
+
 async function readUpstream(upstream: Response, backendUrl: string): Promise<NextResponse> {
   const contentType = upstream.headers.get('content-type') ?? '';
   // Matches "application/json" AND ASP.NET's "application/problem+json" (used
@@ -52,7 +58,13 @@ async function readUpstream(upstream: Response, backendUrl: string): Promise<Nex
   }
 
   const data = await upstream.json();
-  const res = NextResponse.json(data, { status: upstream.status });
+  const res = NextResponse.json(data, {
+    status: upstream.status,
+    headers: { 'Cache-Control': 'no-store' },
+  });
+
+  const correlationId = upstream.headers.get('x-correlation-id');
+  if (correlationId) res.headers.set('x-correlation-id', correlationId);
 
   // Relay Set-Cookie so HTTP-only auth cookies reach the browser
   const setCookie = upstream.headers.get('set-cookie');
@@ -82,6 +94,7 @@ async function proxyWithBody(
         Accept: 'application/json',
         ...getBackendServiceHeaders(),
         ...authHeader(req),
+        ...tracingHeaders(req),
         ...(cookieHeader ? { Cookie: cookieHeader } : {}),
       },
       body: JSON.stringify(body),
@@ -114,7 +127,7 @@ async function proxyWithBody(
         success: false,
         message: 'Unable to reach the server. Please check your connection and try again.',
         data: null,
-        errors: [message],
+        errors: ['The upstream API could not be reached.'],
         fieldErrors: {},
       },
       { status: 502 }
@@ -172,7 +185,12 @@ export async function proxyGet(
 
     const upstream = await fetch(backendUrl, {
       method: 'GET',
-      headers: { Accept: 'application/json', ...getBackendServiceHeaders(), ...authHeader(req) },
+      headers: {
+        Accept: 'application/json',
+        ...getBackendServiceHeaders(),
+        ...authHeader(req),
+        ...tracingHeaders(req),
+      },
       signal: controller.signal,
     });
 
@@ -202,7 +220,7 @@ export async function proxyGet(
         success: false,
         message: 'Unable to reach the server. Please check your connection and try again.',
         data: null,
-        errors: [message],
+        errors: ['The upstream API could not be reached.'],
         fieldErrors: {},
       },
       { status: 502 }
@@ -223,7 +241,12 @@ export async function proxyDelete(
 
     const upstream = await fetch(backendUrl, {
       method: 'DELETE',
-      headers: { Accept: 'application/json', ...getBackendServiceHeaders(), ...authHeader(req) },
+      headers: {
+        Accept: 'application/json',
+        ...getBackendServiceHeaders(),
+        ...authHeader(req),
+        ...tracingHeaders(req),
+      },
       signal: controller.signal,
     });
 
@@ -253,7 +276,7 @@ export async function proxyDelete(
         success: false,
         message: 'Unable to reach the server. Please check your connection and try again.',
         data: null,
-        errors: [message],
+        errors: ['The upstream API could not be reached.'],
         fieldErrors: {},
       },
       { status: 502 }

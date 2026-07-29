@@ -12,6 +12,7 @@
     "type-check": "tsc --noEmit",
     "test": "node --import tsx --test tests/**/*.test.ts",
     "validate:env": "bash scripts/validate-env.sh",
+    "verify:backend-contract": "node scripts/verify-backend-contract.mjs",
     "setup:security": "bash scripts/setup-security.sh",
     "seed:content": "tsx scripts/seed-content.ts",
     "setup-hooks": "[ -d .git ] && git config core.hooksPath .githooks && echo '✓ Git hooks configured' || echo 'Skipping git hooks setup (not a git checkout)'",
