@@ -38,3 +38,15 @@ test('rejects unknown fields so the frontend and backend contract cannot drift s
   const result = bookingSchema.safeParse({ ...validBooking, unexpected: true });
   assert.equal(result.success, false);
 });
+
+test('requires resolved values instead of a bare Other selection', () => {
+  const organizationResult = bookingSchema.safeParse({ ...validBooking, orgType: 'Other' });
+  const eventResult = bookingSchema.safeParse({ ...validBooking, eventType: 'Other' });
+
+  assert.equal(organizationResult.success, false);
+  assert.equal(eventResult.success, false);
+  if (!organizationResult.success) {
+    assert.equal(organizationResult.error.issues[0]?.path[0], 'orgType');
+  }
+  if (!eventResult.success) assert.equal(eventResult.error.issues[0]?.path[0], 'eventType');
+});

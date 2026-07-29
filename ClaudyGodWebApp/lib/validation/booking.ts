@@ -6,12 +6,27 @@ export const bookingSchema = z
   .object({
     firstName: z.string().trim().min(2).max(60),
     lastName: z.string().trim().min(2).max(60),
-    email: z.string().trim().email().max(254).transform((value) => value.toLowerCase()),
+    email: z
+      .string()
+      .trim()
+      .email()
+      .max(254)
+      .transform((value) => value.toLowerCase()),
     phone: z.string().regex(/^\+[1-9]\d{6,14}$/, 'Use a valid international phone number.'),
     countryCode: z.string().regex(/^[A-Z]{2}$/, 'Choose a valid country.'),
     organization: z.string().trim().min(2).max(150),
-    orgType: z.string().trim().min(2).max(100),
-    eventType: z.string().trim().min(2).max(100),
+    orgType: z
+      .string()
+      .trim()
+      .min(2)
+      .max(100)
+      .refine((value) => value.toLowerCase() !== 'other', 'Specify the organisation category.'),
+    eventType: z
+      .string()
+      .trim()
+      .min(2)
+      .max(100)
+      .refine((value) => value.toLowerCase() !== 'other', 'Specify the event type.'),
     eventDetails: z.string().trim().min(30).max(2000),
     eventDate: z
       .string()

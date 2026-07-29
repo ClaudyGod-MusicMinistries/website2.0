@@ -29,6 +29,7 @@ interface BookingInput {
   phone: string;
   organization: string;
   orgType: string;
+  orgTypeOther?: string;
   eventType: string;
   eventTypeOther?: string;
   eventDate: string;
@@ -107,7 +108,7 @@ export function BookingForm() {
   } = useForm<BookingInput>({ mode: 'onTouched', defaultValues: { agreeTerms: false } });
   const eventType = watch('eventType');
   const stepFields: (keyof BookingInput)[][] = [
-    ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType'],
+    ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType', 'orgTypeOther'],
     ['eventType', 'eventTypeOther', 'eventDate', 'eventDetails'],
     ['address1', 'city', 'state', 'country', 'agreeTerms'],
   ];
@@ -134,7 +135,7 @@ export function BookingForm() {
         phone: data.phone,
         countryCode: data.country,
         organization: data.organization.trim(),
-        orgType: data.orgType,
+        orgType: data.orgType === 'Other' ? data.orgTypeOther?.trim() : data.orgType,
         eventType: data.eventType === 'Other' ? data.eventTypeOther?.trim() : data.eventType,
         eventDetails: data.eventDetails.trim(),
         eventDate: new Date(`${data.eventDate}T12:00:00`).toISOString(),
@@ -157,7 +158,10 @@ export function BookingForm() {
         };
         const formErrors: Record<string, string> = {};
         for (const [field, messages] of Object.entries(caught.fieldErrors)) {
-          const mapped = mapping[field] ?? (field as keyof BookingInput);
+          const mapped =
+            field === 'orgType' && data.orgType === 'Other'
+              ? 'orgTypeOther'
+              : (mapping[field] ?? (field as keyof BookingInput));
           setError(mapped, { message: messages[0] });
           formErrors[mapped] = messages[0];
         }
@@ -340,6 +344,27 @@ export function BookingForm() {
                 )}
               />
             </div>
+            {watch('orgType') === 'Other' && (
+              <div>
+                <Label>Specify organisation category</Label>
+                <input
+                  {...register('orgTypeOther', {
+                    validate: (value) =>
+                      watch('orgType') !== 'Other' ||
+                      Boolean(value?.trim().length && value.trim().length >= 2) ||
+                      'Enter the organisation category.',
+                    maxLength: {
+                      value: 100,
+                      message: 'Keep the category under 100 characters.',
+                    },
+                  })}
+                  className={fieldClass}
+                  placeholder="Enter organisation category"
+                  autoFocus
+                />
+                <FieldError message={errors.orgTypeOther?.message} />
+              </div>
+            )}
           </div>
         )}
 
@@ -369,8 +394,10 @@ export function BookingForm() {
                 <Label>Describe the engagement</Label>
                 <input
                   {...register('eventTypeOther', {
-                    required: 'Tell us what kind of engagement this is.',
-                    minLength: { value: 2, message: 'Use at least 2 characters.' },
+                    validate: (value) =>
+                      eventType !== 'Other' ||
+                      Boolean(value?.trim().length && value.trim().length >= 2) ||
+                      'Enter the event type.',
                     maxLength: 100,
                   })}
                   className={fieldClass}
