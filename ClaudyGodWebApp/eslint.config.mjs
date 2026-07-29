@@ -45,5 +45,5 @@ export default defineConfig([
       ],
     },
   },
-  globalIgnores(['.next/**', 'node_modules/**', 'public/**']),
+  globalIgnores(['.next/**', '.next-quality/**', 'node_modules/**', 'public/**']),
 ]);
