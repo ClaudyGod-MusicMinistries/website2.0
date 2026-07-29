@@ -10,7 +10,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: claudygod-musicministries/cgm-web
-  NODE_VERSION: "20"
   WORKDIR: ClaudyGodWebApp
 
 # Prevent concurrent deployments
@@ -23,6 +22,7 @@ jobs:
   quality-gate:
     name: Lint, type-check & build
     runs-on: ubuntu-latest
+    container: node:22.23.1-bookworm
     defaults:
       run:
         working-directory: ${{ env.WORKDIR }}
@@ -31,12 +31,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-          cache-dependency-path: ${{ env.WORKDIR }}/package-lock.json
+      # The pinned job container replaces actions/setup-node, which is not
+      # permitted by the organisation's GitHub Actions allowlist.
+      - name: Verify runner Node.js runtime
+        run: npm run verify:runtime
 
       - name: Install dependencies
         run: |
