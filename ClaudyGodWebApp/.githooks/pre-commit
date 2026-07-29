@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RED='\033[0;31m'; GREEN='\033[0;32m'; NC='\033[0m'
-die() { printf "${RED}✗ %s${NC}\n" "$*" >&2; exit 1; }
-ok() { printf "${GREEN}✓ %s${NC}\n" "$*"; }
+HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$HOOK_DIR/lib/ui.sh"
+hook_header "PRE-COMMIT  Fast staged-code review"
 
 repo_root="$(git rev-parse --show-toplevel)"
 app_root="$repo_root/ClaudyGodWebApp"
@@ -12,7 +12,7 @@ cd "$repo_root"
 git diff --cached --check || die "Fix staged whitespace errors or conflict markers."
 
 staged="$(git diff --cached --name-only --diff-filter=ACMR)"
-[[ -z "$staged" ]] && { ok "No staged files to check."; exit 0; }
+[[ -z "$staged" ]] && { hook_success "No staged files to check."; exit 0; }
 
 if git diff --cached -- . ':(exclude)ClaudyGodWebApp/.githooks/pre-commit' |
   grep -E '^\+.*(BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|AKIA[0-9A-Z]{16}|sk_live_[0-9A-Za-z]+|NEXT_PUBLIC_.*(SECRET|TOKEN|PASSWORD))' >/dev/null; then
@@ -27,17 +27,18 @@ while IFS= read -r file; do
   esac
 done <<< "$staged"
 
-[[ ${#files[@]} -eq 0 ]] && { ok "Repository hygiene checks passed."; exit 0; }
+[[ ${#files[@]} -eq 0 ]] && { hook_success "Repository hygiene checks passed."; exit 0; }
 
 cd "$app_root"
-npx prettier --check "${files[@]}" || die "Formatting failed. Run npm run format, review, and re-stage."
+HOOK_FAILURE_HINT="Run Prettier, review the result, and re-stage the files."
+run_step "Prettier (${#files[@]} staged files)" npx prettier --check "${files[@]}"
 
 lint_files=()
 for file in "${files[@]}"; do
   [[ "$file" =~ \.(js|mjs|ts|tsx)$ ]] && lint_files+=("$file")
 done
 if [[ ${#lint_files[@]} -gt 0 ]]; then
-  npx eslint --max-warnings=0 "${lint_files[@]}" || die "ESLint failed."
+  run_step "ESLint (${#lint_files[@]} staged source files)" npx eslint --max-warnings=0 "${lint_files[@]}"
 fi
 
-ok "Staged security, formatting, and lint checks passed."
+hook_success "Commit approved."
