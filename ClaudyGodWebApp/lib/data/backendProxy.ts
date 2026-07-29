@@ -18,6 +18,7 @@ const API_PREFIX = '/api/v1.0';
 
 type ProxyOptions = {
   backendPath?: string;
+  body?: unknown;
 };
 
 function authHeader(req: NextRequest): Record<string, string> {
@@ -91,7 +92,7 @@ async function proxyWithBody(
   opts: ProxyOptions = {}
 ): Promise<NextResponse> {
   try {
-    const body = await req.json();
+    const body = opts.body ?? (await req.json());
     const backendUrl = `${API_BASE}${API_PREFIX}${opts.backendPath ?? backendResource}`;
     const cookieHeader = req.headers.get('cookie');
 

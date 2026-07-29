@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { ChevronDown, Search } from 'lucide-react';
+import { ChevronDown, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
+import { useCountries } from '@/hooks/useCountries';
+import { FALLBACK_COUNTRIES, flagEmoji } from '@/lib/data/countries';
 
 /* ── Country data ─────────────────────────────────────────── */
 export interface DialCountry {
@@ -12,52 +14,9 @@ export interface DialCountry {
 }
 
 // Nigeria first (primary market), then alphabetical
-export const DIAL_COUNTRIES: DialCountry[] = [
-  { code: 'NG', name: 'Nigeria', dial: '+234' },
-  { code: 'US', name: 'United States', dial: '+1' },
-  { code: 'GB', name: 'United Kingdom', dial: '+44' },
-  { code: 'CA', name: 'Canada', dial: '+1' },
-  { code: 'AU', name: 'Australia', dial: '+61' },
-  { code: 'ZA', name: 'South Africa', dial: '+27' },
-  { code: 'AE', name: 'United Arab Emirates', dial: '+971' },
-  { code: 'BJ', name: 'Benin', dial: '+229' },
-  { code: 'BR', name: 'Brazil', dial: '+55' },
-  { code: 'CM', name: 'Cameroon', dial: '+237' },
-  { code: 'CN', name: 'China', dial: '+86' },
-  { code: 'CI', name: "Côte d'Ivoire", dial: '+225' },
-  { code: 'DE', name: 'Germany', dial: '+49' },
-  { code: 'DK', name: 'Denmark', dial: '+45' },
-  { code: 'EG', name: 'Egypt', dial: '+20' },
-  { code: 'ES', name: 'Spain', dial: '+34' },
-  { code: 'ET', name: 'Ethiopia', dial: '+251' },
-  { code: 'FR', name: 'France', dial: '+33' },
-  { code: 'GH', name: 'Ghana', dial: '+233' },
-  { code: 'IE', name: 'Ireland', dial: '+353' },
-  { code: 'IN', name: 'India', dial: '+91' },
-  { code: 'IT', name: 'Italy', dial: '+39' },
-  { code: 'JP', name: 'Japan', dial: '+81' },
-  { code: 'KE', name: 'Kenya', dial: '+254' },
-  { code: 'LR', name: 'Liberia', dial: '+231' },
-  { code: 'MX', name: 'Mexico', dial: '+52' },
-  { code: 'NL', name: 'Netherlands', dial: '+31' },
-  { code: 'NO', name: 'Norway', dial: '+47' },
-  { code: 'NZ', name: 'New Zealand', dial: '+64' },
-  { code: 'RW', name: 'Rwanda', dial: '+250' },
-  { code: 'SA', name: 'Saudi Arabia', dial: '+966' },
-  { code: 'SE', name: 'Sweden', dial: '+46' },
-  { code: 'SG', name: 'Singapore', dial: '+65' },
-  { code: 'SL', name: 'Sierra Leone', dial: '+232' },
-  { code: 'SN', name: 'Senegal', dial: '+221' },
-  { code: 'TZ', name: 'Tanzania', dial: '+255' },
-  { code: 'UG', name: 'Uganda', dial: '+256' },
-  { code: 'ZM', name: 'Zambia', dial: '+260' },
-  { code: 'ZW', name: 'Zimbabwe', dial: '+263' },
-];
-
-/* Converts ISO code → emoji flag (Regional Indicator Symbol trick) */
-function emojiFlag(iso: string): string {
-  return iso.toUpperCase().replace(/./g, (c) => String.fromCodePoint(c.charCodeAt(0) + 127397));
-}
+export const DIAL_COUNTRIES: DialCountry[] = FALLBACK_COUNTRIES.map((country) => ({
+  code: country.code, name: country.name, dial: country.dialCode,
+}));
 
 /* ── Component ─────────────────────────────────────────────── */
 export interface PhoneInputProps {
@@ -78,6 +37,8 @@ export function PhoneInput({
   placeholder = '800 000 0000',
   inputClass,
 }: PhoneInputProps) {
+  const { countries } = useCountries();
+  const dialCountries = countries.map((item) => ({ code: item.code, name: item.name, dial: item.dialCode }));
   const [country, setCountry] = useState<DialCountry>(DIAL_COUNTRIES[0]);
   const [local, setLocal] = useState('');
   const [open, setOpen] = useState(false);
@@ -122,7 +83,7 @@ export function PhoneInput({
     setTimeout(() => inputRef.current?.focus(), 40);
   }, []);
 
-  const filtered = DIAL_COUNTRIES.filter(({ name, dial, code }) => {
+  const filtered = dialCountries.filter(({ name, dial, code }) => {
     const q = search.toLowerCase();
     return name.toLowerCase().includes(q) || dial.includes(q) || code.toLowerCase() === q;
   });
@@ -149,7 +110,7 @@ export function PhoneInput({
           className="flex items-center gap-1.5 pl-3 pr-2 border-r border-neutral-200 hover:bg-neutral-100 transition-colors focus:outline-none shrink-0"
         >
           <span className="text-xl leading-none select-none" aria-hidden>
-            {emojiFlag(country.code)}
+            {flagEmoji(country.code)}
           </span>
           <span className="font-mono text-sm text-neutral-600 min-w-[2.6rem] text-left">
             {country.dial}
@@ -181,8 +142,13 @@ export function PhoneInput({
         <div
           role="dialog"
           aria-label="Select country code"
-          className="absolute top-[calc(100%+6px)] left-0 z-[200] w-72 bg-white border border-neutral-200 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.14)] overflow-hidden"
+          className="fixed inset-0 z-modal flex items-end bg-neutral-950/45 backdrop-blur-[2px] sm:absolute sm:inset-auto sm:left-0 sm:top-[calc(100%+6px)] sm:z-popover sm:block sm:w-80 sm:bg-white sm:border sm:border-neutral-200 sm:rounded-xl sm:shadow-[0_12px_40px_rgba(0,0,0,0.14)] sm:overflow-hidden sm:backdrop-blur-none"
         >
+          <div className="w-full max-h-[82dvh] overflow-hidden rounded-t-2xl bg-white sm:contents">
+          <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4 sm:hidden">
+            <div><p className="font-display text-lg font-semibold">Calling code</p><p className="text-xs text-neutral-500">Choose from the international list</p></div>
+            <button type="button" onClick={() => setOpen(false)} className="rounded-full bg-neutral-100 p-2" aria-label="Close calling code picker"><X className="h-4 w-4" /></button>
+          </div>
           {/* Search bar */}
           <div className="p-2.5 border-b border-neutral-100">
             <div className="flex items-center gap-2 px-3 h-9 bg-neutral-50 border border-neutral-200 rounded-xl focus-within:border-purple-400 focus-within:bg-white transition-colors">
@@ -208,7 +174,7 @@ export function PhoneInput({
           <ul
             role="listbox"
             aria-label="Countries"
-            className="max-h-64 overflow-y-auto py-1 overscroll-contain"
+            className="max-h-[58dvh] overflow-y-auto py-1 overscroll-contain sm:max-h-64"
           >
             {filtered.length === 0 ? (
               <li className="px-4 py-4 text-sm text-neutral-400 font-sans text-center">
@@ -228,7 +194,7 @@ export function PhoneInput({
                       )}
                     >
                       <span className="text-xl leading-none select-none shrink-0" aria-hidden>
-                        {emojiFlag(c.code)}
+                        {flagEmoji(c.code)}
                       </span>
                       <span className="flex-1 min-w-0 font-sans text-sm text-neutral-800 truncate">
                         {c.name}
@@ -243,6 +209,7 @@ export function PhoneInput({
               })
             )}
           </ul>
+          </div>
         </div>
       )}
 
