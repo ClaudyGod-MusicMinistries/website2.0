@@ -117,6 +117,7 @@ interface ProblemDetailsBody {
   detail?: string;
   instance?: string;
   correlationId?: string;
+  code?: string;
   errors?: Record<string, string[]>;
 }
 
@@ -150,8 +151,13 @@ async function handleResponse<T>(res: Response): Promise<T> {
   const body = raw as ApiResponse<T>;
 
   if (!res.ok || !body.success) {
+    const responseCode = (body as ApiResponse<T> & { code?: string }).code;
+    const friendlyMessage =
+      responseCode === 'ORIGIN_NOT_ALLOWED'
+        ? 'We could not verify your request. Refresh the page, review your booking, and try again.'
+        : body.message;
     throw new BackendError(
-      body.message || `Request failed (${res.status})`,
+      friendlyMessage || `Request failed (${res.status})`,
       res.status,
       body.errors ?? [],
       body.fieldErrors ?? {}
