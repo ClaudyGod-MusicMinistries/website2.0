@@ -17,13 +17,12 @@ jobs:
   quality:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
+    container: node:22.23.1-bookworm
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: ClaudyGodWebApp/package-lock.json
+      - name: Verify runner Node.js runtime
+        working-directory: ClaudyGodWebApp
+        run: npm run verify:runtime
       - name: Install exact dependencies
         working-directory: ClaudyGodWebApp
         run: npm ci --legacy-peer-deps --ignore-scripts
@@ -40,11 +39,12 @@ jobs:
   production-contract:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    container: node:22.23.1-bookworm
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Verify runner Node.js runtime
+        working-directory: ClaudyGodWebApp
+        run: npm run verify:runtime
       - name: Verify deployed backend contract
         working-directory: ClaudyGodWebApp
         env:
