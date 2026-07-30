@@ -43,7 +43,6 @@ export function parseConsent(raw: string | null): CookiePreferences | null {
 }
 
 function clearPreferenceStorage() {
-  deleteCookie('cgm_welcome');
   if (typeof window === 'undefined') return;
   try {
     window.localStorage.removeItem('cg_visitor_token');
@@ -53,6 +52,14 @@ function clearPreferenceStorage() {
   } catch {
     // Storage may be unavailable in private browsing; the cookie choice still saves.
   }
+}
+
+/**
+ * The welcome experience may run after the visitor has made a privacy choice.
+ * Its dismissal cookie is necessary UI state, not preference or tracking data.
+ */
+export function canShowWelcome(consent: CookiePreferences | null, dismissed: boolean) {
+  return consent !== null && !dismissed;
 }
 
 export function saveConsent(choice: ConsentChoice): CookiePreferences {

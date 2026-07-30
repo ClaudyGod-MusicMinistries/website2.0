@@ -23,11 +23,11 @@ export default function CookiesPage() {
         },
         {
           heading: 'Necessary Storage',
-          body: 'Necessary storage supports security, checkout, the shopping cart, and your privacy choice. It is not used for advertising and cannot be disabled through the consent panel because the requested features depend on it.',
+          body: 'Necessary storage supports security, checkout, the shopping cart, your privacy choice, and whether a welcome message was recently dismissed. It is not used for advertising and cannot be disabled through the consent panel because the requested features depend on it.',
         },
         {
           heading: 'Preference Storage',
-          body: 'If you allow preferences, we may remember optional choices such as whether a welcome message was shown, an anonymous reaction identifier, and cached media settings. Refusing preferences does not prevent you from browsing the website.',
+          body: 'If you allow preferences, we may remember optional choices such as an anonymous reaction identifier and cached media settings. Refusing preferences does not prevent you from browsing the website.',
         },
         {
           heading: 'External Media',
