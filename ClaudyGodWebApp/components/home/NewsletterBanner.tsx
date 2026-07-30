@@ -178,7 +178,7 @@ export function NewsletterBanner() {
                           placeholder="Your name"
                           className={darkFormControlClass}
                         />
-                        <FormError message={errors.name?.message} />
+                        <FormError message={errors.name?.message} tone="dark" />
                       </div>
                       <div>
                         <input
@@ -193,7 +193,7 @@ export function NewsletterBanner() {
                           placeholder="your@email.com"
                           className={darkFormControlClass}
                         />
-                        <FormError message={errors.email?.message} />
+                        <FormError message={errors.email?.message} tone="dark" />
                       </div>
 
                       <button

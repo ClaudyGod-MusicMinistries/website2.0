@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes, ReactNode } from 'react';
+import { CircleAlert } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 
 export const formControlClass =
@@ -13,11 +14,19 @@ export const darkFormControlClass =
   'h-12 w-full rounded-lg border border-white/10 bg-white/[0.04] px-3.5 font-sans text-sm text-white outline-none transition placeholder:text-neutral-500 hover:border-white/20 focus:border-purple-400 focus:bg-white/[0.06] focus:ring-4 focus:ring-purple-500/10 disabled:cursor-not-allowed disabled:opacity-50';
 
 export function controlClass(error?: unknown, className?: string) {
-  return cn(formControlClass, Boolean(error) && 'border-red-400 bg-red-50/30', className);
+  return cn(
+    formControlClass,
+    Boolean(error) && 'border-red-300 bg-red-50/20 focus:border-red-400 focus:ring-red-500/10',
+    className
+  );
 }
 
 export function textareaClass(error?: unknown, className?: string) {
-  return cn(formTextareaClass, Boolean(error) && 'border-red-400 bg-red-50/30', className);
+  return cn(
+    formTextareaClass,
+    Boolean(error) && 'border-red-300 bg-red-50/20 focus:border-red-400 focus:ring-red-500/10',
+    className
+  );
 }
 
 export function FormField({ children, className }: { children: ReactNode; className?: string }) {
@@ -52,11 +61,27 @@ export function FormHint({ children }: { children: ReactNode }) {
   return <p className="mt-2 font-sans text-xs leading-5 text-neutral-500">{children}</p>;
 }
 
-export function FormError({ message }: { message?: string }) {
+export function FormError({
+  message,
+  tone = 'light',
+}: {
+  message?: string;
+  tone?: 'light' | 'dark';
+}) {
   return message ? (
-    <p role="alert" className="mt-2 font-sans text-xs leading-5 text-red-600">
-      {message}
-    </p>
+    <div
+      role="alert"
+      aria-live="polite"
+      className={cn(
+        'mt-2 flex items-start gap-2 rounded-md px-2.5 py-2 font-sans text-xs leading-4 ring-1 ring-inset',
+        tone === 'dark'
+          ? 'bg-white/[0.04] text-neutral-200 ring-white/10'
+          : 'bg-red-50/60 text-neutral-700 ring-red-100'
+      )}
+    >
+      <CircleAlert className="mt-px h-3.5 w-3.5 shrink-0 text-red-500" aria-hidden="true" />
+      <span>{message}</span>
+    </div>
   ) : null;
 }
 

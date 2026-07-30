@@ -459,11 +459,7 @@ export default function DonateClient() {
                       ? `Give ${symbol}${finalAmount.toLocaleString()} Now`
                       : 'Select an Amount'}
                 </button>
-                {errors.payment && (
-                  <p role="alert" className="text-center font-sans text-sm text-red-600">
-                    {errors.payment}
-                  </p>
-                )}
+                <FormError message={errors.payment} />
 
                 {/* Trust line */}
                 <div className="flex items-center justify-center gap-2 pt-1">

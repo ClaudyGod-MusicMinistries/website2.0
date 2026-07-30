@@ -15,7 +15,7 @@ import {
   getStoredConsent,
   type CookiePreferences,
 } from '@/lib/utils/cookieConsent';
-import { darkFormControlClass } from '@/components/ui/FormField';
+import { darkFormControlClass, FormError } from '@/components/ui/FormField';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -238,11 +238,7 @@ export function WelcomeModal() {
                         <Bell className="h-3 w-3 shrink-0" />
                         Subscribe
                       </button>
-                      {subscriptionError && (
-                        <p role="alert" className="font-sans text-xs text-red-300">
-                          {subscriptionError}
-                        </p>
-                      )}
+                      <FormError message={subscriptionError || undefined} tone="dark" />
                     </form>
                   )}
                 </div>

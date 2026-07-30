@@ -18,6 +18,7 @@ import { useCountries } from '@/hooks/useCountries';
 import { CountrySelect } from '@/components/ui/CountrySelect';
 import { FormSelect } from '@/components/ui/FormSelect';
 import {
+  FormCheckbox,
   FormError as FieldError,
   FormLabel as Label,
   formControlClass,
@@ -74,6 +75,25 @@ const eventTypes = [
 ];
 const fieldClass = formControlClass;
 const textAreaClass = formTextareaClass;
+const BOOKING_DEFAULT_VALUES: BookingInput = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  organization: '',
+  orgType: '',
+  orgTypeOther: '',
+  eventType: '',
+  eventTypeOther: '',
+  eventDate: '',
+  eventDetails: '',
+  address1: '',
+  address2: '',
+  city: '',
+  state: '',
+  country: '',
+  agreeTerms: false,
+};
 
 function tomorrow() {
   const date = new Date();
@@ -94,7 +114,7 @@ export function BookingForm() {
     reset,
     watch,
     formState: { errors, isSubmitting, isValidating },
-  } = useForm<BookingInput>({ mode: 'onTouched', defaultValues: { agreeTerms: false } });
+  } = useForm<BookingInput>({ mode: 'onTouched', defaultValues: BOOKING_DEFAULT_VALUES });
   const eventType = watch('eventType');
   const stepFields: (keyof BookingInput)[][] = [
     ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType', 'orgTypeOther'],
@@ -135,7 +155,7 @@ export function BookingForm() {
         country: country?.name ?? data.country,
         agreeTerms: data.agreeTerms,
       });
-      reset();
+      reset(BOOKING_DEFAULT_VALUES);
       setStep(0);
       setSuccess(true);
     } catch (caught) {
@@ -505,34 +525,23 @@ export function BookingForm() {
                 )}
               />
             </div>
-            <label
-              className={cn(
-                'flex cursor-pointer gap-3 rounded-lg border p-4 transition',
-                errors.agreeTerms
-                  ? 'border-red-300 bg-red-50/40'
-                  : 'border-neutral-200 bg-neutral-50 hover:border-neutral-300'
-              )}
+            <FormCheckbox
+              id="booking-terms"
+              error={errors.agreeTerms?.message}
+              {...register('agreeTerms', {
+                required: 'Confirm that you understand the booking terms.',
+              })}
             >
-              <input
-                {...register('agreeTerms', {
-                  required: 'Confirm that you understand the booking terms.',
-                })}
-                type="checkbox"
-                className="mt-0.5 h-4 w-4 shrink-0 accent-purple-600"
-              />
-              <span className="text-sm leading-6 text-neutral-600">
-                I agree to the{' '}
-                <a
-                  href="/legal/terms"
-                  target="_blank"
-                  className="font-semibold text-purple-700 underline underline-offset-2"
-                >
-                  booking terms
-                </a>{' '}
-                and understand that this enquiry does not confirm the engagement.
-              </span>
-            </label>
-            <FieldError message={errors.agreeTerms?.message} />
+              I agree to the{' '}
+              <a
+                href="/legal/terms"
+                target="_blank"
+                className="font-semibold text-purple-700 underline underline-offset-2"
+              >
+                booking terms
+              </a>{' '}
+              and understand that this enquiry does not confirm the engagement.
+            </FormCheckbox>
             <div className="flex items-start gap-3 rounded-lg bg-purple-950 px-4 py-4 text-white">
               <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-gold-300" />
               <p className="text-xs leading-5 text-white/70">
