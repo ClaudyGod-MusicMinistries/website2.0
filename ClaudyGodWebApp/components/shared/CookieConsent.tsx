@@ -205,7 +205,7 @@ export function CookieConsent() {
                   />
                 </div>
                 <p className="mt-1 text-xs leading-5 text-neutral-500">
-                  Remembers optional choices such as welcome messages and media caching.
+                  Remembers optional choices such as anonymous media and reaction settings.
                 </p>
               </div>
             </div>

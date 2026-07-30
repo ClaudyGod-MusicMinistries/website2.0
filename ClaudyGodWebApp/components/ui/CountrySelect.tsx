@@ -5,6 +5,7 @@ import { Check, ChevronDown, Search, X } from 'lucide-react';
 import { useCountries } from '@/hooks/useCountries';
 import { flagEmoji } from '@/lib/data/countries';
 import { cn } from '@/lib/utils/cn';
+import { FormError } from '@/components/ui/FormField';
 
 interface CountrySelectProps {
   value?: string;
@@ -65,7 +66,7 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
         className={cn(
           'flex h-12 w-full items-center gap-3 rounded-lg border bg-white px-3.5 text-left text-sm transition',
           'hover:border-neutral-400 focus:border-purple-600 focus:outline-none focus:ring-4 focus:ring-purple-600/10',
-          error ? 'border-red-400' : 'border-neutral-300'
+          error ? 'border-red-300 bg-red-50/20' : 'border-neutral-300'
         )}
       >
         {selected ? (
@@ -150,7 +151,7 @@ export function CountrySelect({ value, onChange, onBlur, error }: CountrySelectP
           </div>
         </div>
       )}
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      <FormError message={error} />
     </div>
   );
 }

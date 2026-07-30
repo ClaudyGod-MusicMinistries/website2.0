@@ -23,7 +23,7 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import type { Event } from '@/lib/data/types';
-import { formControlClass } from '@/components/ui/FormField';
+import { FormError, formControlClass } from '@/components/ui/FormField';
 
 interface TicketFormData {
   firstName: string;
@@ -250,8 +250,6 @@ function TicketForm({ events }: { events: Event[] }) {
   };
 
   const inputCls = formControlClass;
-  const errCls = 'mt-2 font-sans text-xs leading-5 text-red-600';
-
   // If no backend events exist yet, show a simple "coming soon" panel
   const hasBackendEvents = backendEvt.length > 0;
 
@@ -396,7 +394,7 @@ function TicketForm({ events }: { events: Event[] }) {
                       );
                     })}
                   </div>
-                  {errors.eventId && <p className={errCls}>{errors.eventId.message}</p>}
+                  <FormError message={errors.eventId?.message} tone="dark" />
                   <input type="hidden" {...register('eventId')} value={selectedId} />
                 </div>
               )}
@@ -405,11 +403,11 @@ function TicketForm({ events }: { events: Event[] }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <input {...register('firstName')} placeholder="First name" className={inputCls} />
-                  {errors.firstName && <p className={errCls}>{errors.firstName.message}</p>}
+                  <FormError message={errors.firstName?.message} tone="dark" />
                 </div>
                 <div>
                   <input {...register('lastName')} placeholder="Last name" className={inputCls} />
-                  {errors.lastName && <p className={errCls}>{errors.lastName.message}</p>}
+                  <FormError message={errors.lastName?.message} tone="dark" />
                 </div>
               </div>
 
@@ -420,7 +418,7 @@ function TicketForm({ events }: { events: Event[] }) {
                   placeholder="Email address"
                   className={inputCls}
                 />
-                {errors.email && <p className={errCls}>{errors.email.message}</p>}
+                <FormError message={errors.email?.message} tone="dark" />
               </div>
 
               <div>
@@ -437,6 +435,7 @@ function TicketForm({ events }: { events: Event[] }) {
                       onChange={field.onChange}
                       onBlur={field.onBlur}
                       error={errors.phone?.message}
+                      errorTone="dark"
                     />
                   )}
                 />
@@ -455,7 +454,7 @@ function TicketForm({ events }: { events: Event[] }) {
                   defaultValue={1}
                   className={`${inputCls} w-28`}
                 />
-                {errors.quantity && <p className={errCls}>{errors.quantity.message}</p>}
+                <FormError message={errors.quantity?.message} tone="dark" />
               </div>
 
               <button

@@ -214,7 +214,7 @@ export function VolunteerForm() {
             <span className="text-purple-500 ml-1">*</span>
           </label>
         </div>
-        {errors.agreeTerms && <p className="text-sm text-red-500">{errors.agreeTerms.message}</p>}
+        <FormError message={errors.agreeTerms?.message} />
 
         {/* Error Modal */}
         <ErrorModal

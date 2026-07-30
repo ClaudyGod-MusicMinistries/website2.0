@@ -5,6 +5,7 @@ import { ChevronDown, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useCountries } from '@/hooks/useCountries';
 import { FALLBACK_COUNTRIES, flagEmoji } from '@/lib/data/countries';
+import { FormError } from '@/components/ui/FormField';
 
 /* ── Country data ─────────────────────────────────────────── */
 export interface DialCountry {
@@ -29,6 +30,7 @@ export interface PhoneInputProps {
   placeholder?: string;
   required?: boolean;
   inputClass?: string;
+  errorTone?: 'light' | 'dark';
 }
 
 export function PhoneInput({
@@ -38,6 +40,7 @@ export function PhoneInput({
   error,
   placeholder = '800 000 0000',
   inputClass,
+  errorTone = 'light',
 }: PhoneInputProps) {
   const { countries } = useCountries();
   const dialCountries = countries.map((item) => ({
@@ -53,6 +56,7 @@ export function PhoneInput({
   const wrapRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const previousValueRef = useRef(value);
 
   /* Emit combined E.164-ish value upward */
   useEffect(() => {
@@ -63,10 +67,13 @@ export function PhoneInput({
   }, [country, local]);
 
   // react-hook-form clears the controlled value after a successful submit.
-  // Keep the visible national-number field in sync with that reset.
+  // Only clear after a real populated -> empty transition. Checking `!value`
+  // alone races the first keystroke because the controlled prop updates on the
+  // following render, which previously made every entered digit disappear.
   useEffect(() => {
-    if (!value && local) setLocal('');
-  }, [value, local]);
+    if (!value && previousValueRef.current) setLocal('');
+    previousValueRef.current = value;
+  }, [value]);
 
   /* Close on outside click */
   useEffect(() => {
@@ -108,7 +115,7 @@ export function PhoneInput({
           'flex h-12 border rounded-xl overflow-hidden transition-all duration-200',
           'bg-neutral-50 focus-within:bg-white',
           'focus-within:border-purple-500 focus-within:ring-2 focus-within:ring-purple-500/10',
-          error ? 'border-red-300' : 'border-neutral-200',
+          error ? 'border-red-300 bg-red-50/20' : 'border-neutral-200',
           inputClass
         )}
       >
@@ -237,13 +244,7 @@ export function PhoneInput({
         </div>
       )}
 
-      {/* Error message */}
-      {error && (
-        <p className="mt-2 text-sm text-red-500 flex items-center gap-1.5">
-          <span className="w-1 h-1 rounded-full bg-red-500 flex-shrink-0" />
-          {error}
-        </p>
-      )}
+      <FormError message={error} tone={errorTone} />
     </div>
   );
 }

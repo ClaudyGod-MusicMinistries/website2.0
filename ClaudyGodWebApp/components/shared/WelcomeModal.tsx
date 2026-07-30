@@ -10,11 +10,12 @@ import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { YoutubeThumbnail } from '@/components/ui';
 import {
+  canShowWelcome,
   CONSENT_CHANGED_EVENT,
   getStoredConsent,
   type CookiePreferences,
 } from '@/lib/utils/cookieConsent';
-import { darkFormControlClass } from '@/components/ui/FormField';
+import { darkFormControlClass, FormError } from '@/components/ui/FormField';
 
 const SESSION_KEY = 'cgm_welcome';
 const WELCOME_COOKIE_DAYS = 0.5; // 12 hours
@@ -49,11 +50,11 @@ export function WelcomeModal() {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const schedule = (consent: CookiePreferences | null) => {
       if (timer) clearTimeout(timer);
-      if (!consent?.preferences || getCookie(SESSION_KEY)) {
+      if (!canShowWelcome(consent, getCookie(SESSION_KEY) !== null)) {
         setOpen(false);
         return;
       }
-      timer = setTimeout(() => setOpen(true), 8000);
+      timer = setTimeout(() => setOpen(true), 1500);
     };
     const onConsent = (event: Event) => schedule((event as CustomEvent<CookiePreferences>).detail);
 
@@ -67,7 +68,7 @@ export function WelcomeModal() {
 
   const close = useCallback(() => {
     setOpen(false);
-    // Set cookie to expire in 12 hours
+    // Necessary UI state: avoid interrupting the visitor again for 12 hours.
     setCookie(SESSION_KEY, '1', { expires: WELCOME_COOKIE_DAYS });
   }, []);
 
@@ -237,11 +238,7 @@ export function WelcomeModal() {
                         <Bell className="h-3 w-3 shrink-0" />
                         Subscribe
                       </button>
-                      {subscriptionError && (
-                        <p role="alert" className="font-sans text-xs text-red-300">
-                          {subscriptionError}
-                        </p>
-                      )}
+                      <FormError message={subscriptionError || undefined} tone="dark" />
                     </form>
                   )}
                 </div>
