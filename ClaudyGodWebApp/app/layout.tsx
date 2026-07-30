@@ -4,11 +4,6 @@ import { Footer } from '@/components/layout/Footer';
 import { GlobalOverlays } from '@/components/layout/GlobalOverlays';
 import { musicGroup, webSite, person } from '@/lib/utils/jsonLd';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_PATH } from '@/lib/config/site';
-import '@fontsource-variable/montserrat/wght.css';
-import '@fontsource-variable/montserrat/wght-italic.css';
-import '@fontsource-variable/open-sans/wght.css';
-import '@fontsource-variable/open-sans/wght-italic.css';
-import '@fontsource-variable/raleway/wght.css';
 import './globals.css';
 
 // ─── Viewport ──────────────────────────────────────────────────────────────

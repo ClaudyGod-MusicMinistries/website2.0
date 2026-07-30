@@ -45,7 +45,7 @@ const config: Config = {
       colors: { purple, neutral, gold, cream, surface, brand, status },
 
       // ─── Typography ──────────────────────────────────────────────
-      // Two families (next/font/google, see lib/fonts.ts): `display`
+      // Three locally hosted variable families (see lib/fonts.ts): `display`
       // and `sans` are the only font-family classes in the codebase —
       // every call site was migrated off the old 5-family names
       // (bricolage/abril/raleway/worksans/roboto). Change the actual
