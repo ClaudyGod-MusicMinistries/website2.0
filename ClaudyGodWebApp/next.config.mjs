@@ -12,6 +12,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'img.youtube.com' },
     ],
     formats: ['image/avif', 'image/webp'],
+    qualities: [50, 75, 85],
     // Reuse optimized derivatives at the edge instead of repeatedly asking
     // the origin to transform an unchanged content asset.
     minimumCacheTTL: 86400,

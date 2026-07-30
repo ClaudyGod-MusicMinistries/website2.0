@@ -26,7 +26,7 @@ export const buttonVariants = cva(
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base',
     'disabled:pointer-events-none disabled:opacity-40',
     'select-none cursor-pointer touch-manipulation active:translate-y-px active:scale-[0.985]',
-    'before:pointer-events-none before:absolute before:inset-y-0 before:-left-1/2 before:-z-10 before:w-1/3 before:skew-x-[-18deg] before:bg-white/15 before:opacity-0 before:transition-[left,opacity] before:duration-500 hover:before:left-[115%] hover:before:opacity-100',
+    'before:pointer-events-none before:absolute before:inset-y-0 before:-left-1/2 before:w-1/3 before:skew-x-[-18deg] before:bg-white/15 before:opacity-0 before:transition-[left,opacity] before:duration-500 hover:before:left-[115%] hover:before:opacity-100',
   ],
   {
     variants: {
