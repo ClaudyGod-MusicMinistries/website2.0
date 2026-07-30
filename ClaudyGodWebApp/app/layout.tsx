@@ -4,7 +4,11 @@ import { Footer } from '@/components/layout/Footer';
 import { GlobalOverlays } from '@/components/layout/GlobalOverlays';
 import { musicGroup, webSite, person } from '@/lib/utils/jsonLd';
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, OG_IMAGE_PATH } from '@/lib/config/site';
-import { fontVariables } from '@/lib/fonts';
+import '@fontsource-variable/montserrat/wght.css';
+import '@fontsource-variable/montserrat/wght-italic.css';
+import '@fontsource-variable/open-sans/wght.css';
+import '@fontsource-variable/open-sans/wght-italic.css';
+import '@fontsource-variable/raleway/wght.css';
 import './globals.css';
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
@@ -121,7 +125,7 @@ const jsonLdGraph = {
 // ─── Root layout ────────────────────────────────────────────────────────────
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={fontVariables}>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* ── Structured data ── */}
         <script

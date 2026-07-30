@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fonts (Fraunces + Inter) are loaded via next/font/google in lib/fonts.ts —
-   no raw @font-face declarations needed here; next/font handles self-hosting,
-   preload, and font-display: swap. */
+/* Fontsource packages bundle the exact variable fonts with the application.
+   Builds and page rendering never depend on Google Fonts availability. */
 
 /* ─── CSS custom properties ───────────────────────────────────────────────── */
 /* Colour values below mirror lib/theme/colors.ts (the single source of
@@ -13,6 +12,10 @@
    Tailwind utility classes or import a .ts file. Keep these in sync with
    that file by hand; do not reintroduce a third, divergent palette. */
 :root {
+  --font-display: 'Montserrat Variable';
+  --font-raleway: 'Raleway Variable';
+  --font-sans: 'Open Sans Variable';
+
   --color-gold: #b5651d; /* gold-500 */
   --color-gold-light: #ce9962; /* gold-300 */
   --color-gold-dark: #834915; /* gold-700 */
