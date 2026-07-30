@@ -7,7 +7,10 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { PhoneInput } from '@/components/ui/PhoneInput';
-import { formControlClass } from '@/components/ui/FormField';
+import { FormError, formControlClass } from '@/components/ui/FormField';
+import { CountrySelect } from '@/components/ui/CountrySelect';
+import { RegionSelect } from '@/components/ui/RegionSelect';
+import { useCountries } from '@/hooks/useCountries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
@@ -152,7 +155,6 @@ function StepBar({ current }: { current: number }) {
 /* ── Shared input styling ───────────────────────────────── */
 const inputCls = formControlClass;
 const labelCls = 'mb-2 block font-sans text-xs font-medium tracking-[0.02em] text-neutral-600';
-const errCls = 'mt-2 font-sans text-xs leading-5 text-red-600';
 
 /* ── Order summary sidebar ──────────────────────────────── */
 function OrderSummary({
@@ -242,15 +244,32 @@ function OrderSummary({
 
 /* ── Step 1: Contact & Shipping Address ─────────────────── */
 function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
+  const { countries } = useCountries();
   const {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
-  } = useForm<ContactData>({ resolver: zodResolver(contactSchema) });
+  } = useForm<ContactData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      fullName: '',
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      state: '',
+      country: '',
+      postalCode: '',
+    },
+  });
+  const countryCode = watch('country');
+  const countryName = countries.find((country) => country.code === countryCode)?.name;
+  const submit = (data: ContactData) => onNext({ ...data, country: countryName ?? data.country });
 
   return (
-    <form onSubmit={handleSubmit(onNext)} className="space-y-6">
+    <form onSubmit={handleSubmit(submit)} className="space-y-6" noValidate>
       <div>
         <h2 className="font-display font-bold text-neutral-900 text-xl tracking-tight mb-1">
           Contact Information
@@ -264,7 +283,7 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
         <div>
           <label className={labelCls}>Full Name</label>
           <input {...register('fullName')} placeholder="Jane Doe" className={inputCls} />
-          {errors.fullName && <p className={errCls}>{errors.fullName.message}</p>}
+          <FormError message={errors.fullName?.message} />
         </div>
         <div>
           <label className={labelCls}>Email Address</label>
@@ -274,7 +293,7 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
             placeholder="jane@example.com"
             className={inputCls}
           />
-          {errors.email && <p className={errCls}>{errors.email.message}</p>}
+          <FormError message={errors.email?.message} />
         </div>
       </div>
 
@@ -292,7 +311,6 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
             />
           )}
         />
-        {errors.phone && <p className={errCls}>{errors.phone.message}</p>}
       </div>
 
       <div className="pt-2 border-t border-neutral-100">
@@ -302,37 +320,62 @@ function StepContact({ onNext }: { onNext: (data: ContactData) => void }) {
 
         <div className="space-y-4">
           <div>
-            <label className={labelCls}>Street Address</label>
-            <input {...register('address')} placeholder="123 Ministry Lane" className={inputCls} />
-            {errors.address && <p className={errCls}>{errors.address.message}</p>}
+            <label className={labelCls}>Country</label>
+            <Controller
+              name="country"
+              control={control}
+              render={({ field }) => (
+                <CountrySelect
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  error={errors.country?.message}
+                />
+              )}
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className={labelCls}>State / Region</label>
+              <Controller
+                name="state"
+                control={control}
+                render={({ field }) => (
+                  <RegionSelect
+                    countryName={countryName}
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    error={errors.state?.message}
+                  />
+                )}
+              />
+            </div>
             <div>
               <label className={labelCls}>City</label>
               <input {...register('city')} placeholder="Port Harcourt" className={inputCls} />
-              {errors.city && <p className={errCls}>{errors.city.message}</p>}
-            </div>
-            <div>
-              <label className={labelCls}>State / Region</label>
-              <input {...register('state')} placeholder="Rivers State" className={inputCls} />
-              {errors.state && <p className={errCls}>{errors.state.message}</p>}
+              <FormError message={errors.city?.message} />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className={labelCls}>Country</label>
-              <input {...register('country')} placeholder="Nigeria" className={inputCls} />
-              {errors.country && <p className={errCls}>{errors.country.message}</p>}
-            </div>
-            <div>
-              <label className={labelCls}>
-                Postal / ZIP Code{' '}
-                <span className="normal-case tracking-normal text-neutral-400">(optional)</span>
-              </label>
-              <input {...register('postalCode')} placeholder="500001" className={inputCls} />
-            </div>
+          <div>
+            <label className={labelCls}>Street Address</label>
+            <input
+              {...register('address')}
+              autoComplete="street-address"
+              placeholder="123 Ministry Lane"
+              className={inputCls}
+            />
+            <FormError message={errors.address?.message} />
+          </div>
+
+          <div>
+            <label className={labelCls}>
+              Postal / ZIP Code{' '}
+              <span className="normal-case tracking-normal text-neutral-400">(optional)</span>
+            </label>
+            <input {...register('postalCode')} placeholder="500001" className={inputCls} />
           </div>
         </div>
       </div>

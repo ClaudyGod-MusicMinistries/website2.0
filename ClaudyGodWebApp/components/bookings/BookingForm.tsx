@@ -16,6 +16,7 @@ import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 import { cn } from '@/lib/utils/cn';
 import { useCountries } from '@/hooks/useCountries';
 import { CountrySelect } from '@/components/ui/CountrySelect';
+import { RegionSelect } from '@/components/ui/RegionSelect';
 import { FormSelect } from '@/components/ui/FormSelect';
 import {
   FormCheckbox,
@@ -116,6 +117,8 @@ export function BookingForm() {
     formState: { errors, isSubmitting, isValidating },
   } = useForm<BookingInput>({ mode: 'onTouched', defaultValues: BOOKING_DEFAULT_VALUES });
   const eventType = watch('eventType');
+  const countryCode = watch('country');
+  const countryName = countries.find((item) => item.code === countryCode)?.name;
   const stepFields: (keyof BookingInput)[][] = [
     ['firstName', 'lastName', 'email', 'phone', 'organization', 'orgType', 'orgTypeOther'],
     ['eventType', 'eventTypeOther', 'eventDate', 'eventDetails'],
@@ -457,59 +460,6 @@ export function BookingForm() {
         {step === 2 && (
           <div className="space-y-6">
             <div>
-              <Label>Venue name or street address</Label>
-              <input
-                {...register('address1', {
-                  required: 'Enter the venue or event address.',
-                  minLength: { value: 3, message: 'Use at least 3 characters.' },
-                  maxLength: 200,
-                })}
-                autoComplete="address-line1"
-                className={fieldClass}
-                placeholder="Venue name and street address"
-              />
-              <FieldError message={errors.address1?.message} />
-            </div>
-            <div>
-              <Label optional>Additional location details</Label>
-              <input
-                {...register('address2', { maxLength: 200 })}
-                autoComplete="address-line2"
-                className={fieldClass}
-                placeholder="Building, hall, landmark or access note"
-              />
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <Label>City</Label>
-                <input
-                  {...register('city', {
-                    required: 'Enter the event city.',
-                    minLength: { value: 2, message: 'Use at least 2 characters.' },
-                    maxLength: 100,
-                  })}
-                  autoComplete="address-level2"
-                  className={fieldClass}
-                  placeholder="City"
-                />
-                <FieldError message={errors.city?.message} />
-              </div>
-              <div>
-                <Label>State, province or region</Label>
-                <input
-                  {...register('state', {
-                    required: 'Enter the state, province, or region.',
-                    minLength: { value: 2, message: 'Use at least 2 characters.' },
-                    maxLength: 100,
-                  })}
-                  autoComplete="address-level1"
-                  className={fieldClass}
-                  placeholder="State / province / region"
-                />
-                <FieldError message={errors.state?.message} />
-              </div>
-            </div>
-            <div>
               <Label>Country</Label>
               <Controller
                 name="country"
@@ -523,6 +473,60 @@ export function BookingForm() {
                     error={errors.country?.message}
                   />
                 )}
+              />
+            </div>
+            <div>
+              <Label>State, province or region</Label>
+              <Controller
+                name="state"
+                control={control}
+                rules={{ required: 'Choose the state, province, or region.' }}
+                render={({ field }) => (
+                  <RegionSelect
+                    countryName={countryName}
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    error={errors.state?.message}
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <Label>City</Label>
+              <input
+                {...register('city', {
+                  required: 'Enter the event city.',
+                  minLength: { value: 2, message: 'Use at least 2 characters.' },
+                  maxLength: 100,
+                })}
+                autoComplete="address-level2"
+                className={fieldClass}
+                placeholder="City"
+              />
+              <FieldError message={errors.city?.message} />
+            </div>
+            <div>
+              <Label>Venue name or street address</Label>
+              <input
+                {...register('address1', {
+                  required: 'Enter the venue or event address.',
+                  minLength: { value: 3, message: 'Use at least 3 characters.' },
+                  maxLength: 200,
+                })}
+                autoComplete="street-address"
+                className={fieldClass}
+                placeholder="Venue name and street address"
+              />
+              <FieldError message={errors.address1?.message} />
+            </div>
+            <div>
+              <Label optional>Additional location details</Label>
+              <input
+                {...register('address2', { maxLength: 200 })}
+                autoComplete="address-line2"
+                className={fieldClass}
+                placeholder="Building, hall, landmark or access note"
               />
             </div>
             <FormCheckbox
