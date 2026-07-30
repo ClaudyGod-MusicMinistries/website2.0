@@ -86,29 +86,39 @@ export default function Home() {
       <TheArtist />
 
       {/* 3. Latest release — the #1 reason a returning fan visits */}
-      <AnimateOnView>
+      <AnimateOnView className="render-deferred">
         <LatestRelease />
       </AnimateOnView>
 
       {/* Discography — browse the full catalog and continue on Spotify,
           Apple Music, YouTube, or Deezer */}
-      <MusicHighlight />
+      <div className="render-deferred">
+        <MusicHighlight />
+      </div>
 
       {/* 4. Tour dates — reason to see them live */}
-      <TourDatesStrip />
+      <div className="render-deferred">
+        <TourDatesStrip />
+      </div>
 
       {/* 5. One strong video moment */}
-      <AnimateOnView>
+      <AnimateOnView className="render-deferred">
         <FeaturedVideos />
       </AnimateOnView>
 
       {/* 6. Scripture breather before commerce */}
-      <ScriptureDivider />
+      <div className="render-deferred">
+        <ScriptureDivider />
+      </div>
 
-      <ExplorePathways />
+      <div className="render-deferred">
+        <ExplorePathways />
+      </div>
 
       {/* Final capture before footer */}
-      <NewsletterBanner />
+      <div className="render-deferred">
+        <NewsletterBanner />
+      </div>
     </>
   );
 }

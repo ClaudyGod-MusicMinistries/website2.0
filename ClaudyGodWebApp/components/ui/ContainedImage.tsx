@@ -7,6 +7,7 @@ interface ContainedImageProps {
   className?: string;
   sizes?: string;
   priority?: boolean;
+  quality?: number;
 }
 
 /**
@@ -27,21 +28,27 @@ export function ContainedImage({
   className,
   sizes = '400px',
   priority,
+  quality = 75,
 }: ContainedImageProps) {
   return (
     <div className={cn('relative w-full h-full overflow-hidden', className)}>
       {/* Blurred backdrop fill — fully opaque so it reads as a rich glow,
           not a washed-out haze, when it shows through as letterboxing. */}
-      <div
+      <Image
+        src={src}
+        alt=""
+        fill
         aria-hidden="true"
-        className="absolute inset-0 scale-110 bg-cover bg-center blur-2xl"
-        style={{ backgroundImage: `url(${src})` }}
+        className="scale-110 object-cover blur-2xl"
+        sizes={sizes}
+        quality={50}
       />
       <Image
         src={src}
         alt={alt}
         fill
         priority={priority}
+        quality={quality}
         className="object-contain"
         sizes={sizes}
       />

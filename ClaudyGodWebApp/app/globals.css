@@ -261,6 +261,13 @@
     text-wrap: pretty;
   }
 
+  /* Skip layout and paint work for sections that remain below the viewport.
+     The reserved size avoids scroll jumps as each section materializes. */
+  .render-deferred {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+
   /* GPU acceleration */
   .gpu {
     transform: translateZ(0);
