@@ -71,10 +71,10 @@ function toFallbackVideo(id: string, title: string, youtubeId: string): MediaIte
 
 // The full catalog — mirrors data/videos.ts (the seed-script source of
 // truth for the real backend) so the fallback shown during an outage is
-// the same 24 videos, not a token sample. "I Will Not Be Moved" is newer
-// than everything in data/videos.ts, so it's prepended as the latest.
+// the same 24 videos, not a token sample. "Not Be Moved" is newer than
+// everything in data/videos.ts, so it's prepended as the latest.
 export const fallbackVideos: MediaItem[] = [
-  toFallbackVideo('fallback-video-0', 'I Will Not Be Moved', '2JV1k5GGjmk'),
+  toFallbackVideo('fallback-video-0', 'Not Be Moved', '2JV1k5GGjmk'),
   toFallbackVideo('fallback-video-1', 'STEP ASIDE', '3nvGauo7kjA'),
   toFallbackVideo('fallback-video-2', 'Nothing Compares To You', 'Dw5S-jzzboA'),
   toFallbackVideo('fallback-video-3', 'Dwelling Place (Forever God)', 'KoVkhbrRjf8'),

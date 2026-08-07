@@ -1,5 +1,3 @@
-'use client';
-
 import { cva, type VariantProps } from 'class-variance-authority';
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils/cn';
@@ -7,10 +5,10 @@ import { cn } from '@/lib/utils/cn';
 const iconButtonVariants = cva(
   [
     'inline-flex items-center justify-center',
-    'rounded-full border transition-all duration-250',
+    'rounded-full border shadow-sm transition-[color,background-color,border-color,box-shadow,transform] duration-200 ease-out',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base',
     'disabled:pointer-events-none disabled:opacity-40',
-    'cursor-pointer select-none',
+    'cursor-pointer select-none touch-manipulation hover:-translate-y-0.5 active:translate-y-px',
   ],
   {
     variants: {

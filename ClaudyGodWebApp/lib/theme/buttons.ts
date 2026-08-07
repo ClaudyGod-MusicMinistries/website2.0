@@ -18,36 +18,37 @@ import { cva } from 'class-variance-authority';
  */
 export const buttonVariants = cva(
   [
-    'inline-flex items-center justify-center gap-1.5',
+    'group relative isolate inline-flex items-center justify-center gap-1.5 overflow-hidden',
     // font-sans, not font-display — buttons are UI chrome, not editorial
     // headlines; the display face at button sizes read heavy/oversized.
     'font-sans font-semibold tracking-wide',
-    'rounded-lg border transition-all duration-150',
+    'rounded-lg border shadow-sm transition-[color,background-color,border-color,box-shadow,transform,filter] duration-200 ease-out',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base',
     'disabled:pointer-events-none disabled:opacity-40',
-    'select-none cursor-pointer active:scale-[0.97]',
+    'select-none cursor-pointer touch-manipulation active:translate-y-px active:scale-[0.985]',
+    'before:pointer-events-none before:absolute before:inset-y-0 before:-left-1/2 before:w-1/3 before:skew-x-[-18deg] before:bg-white/15 before:opacity-0 before:transition-[left,opacity] before:duration-500 hover:before:left-[115%] hover:before:opacity-100',
   ],
   {
     variants: {
       variant: {
         primary: [
           'bg-gradient-gold text-surface-base border-transparent',
-          'hover:shadow-gold hover:brightness-110',
+          'shadow-gold-cta hover:-translate-y-0.5 hover:shadow-gold-cta-hover hover:brightness-105',
         ],
         secondary: [
           'bg-purple-600 text-white border-transparent',
-          'hover:bg-purple-500 hover:shadow-purple',
+          'shadow-purple-cta hover:-translate-y-0.5 hover:bg-purple-500 hover:shadow-purple-cta-hover',
         ],
         outline: [
           'bg-transparent text-purple-200 border-purple-400/50',
-          'hover:bg-purple-600 hover:text-white hover:border-purple-600',
+          'hover:-translate-y-0.5 hover:bg-purple-600 hover:text-white hover:border-purple-600 hover:shadow-purple',
         ],
         // Same role as `outline`, for use on white/cream section
         // backgrounds — `outline`'s text-purple-200 is tuned for dark
         // surfaces and reads as nearly invisible on a light one.
         'outline-dark': [
           'bg-transparent text-purple-700 border-purple-300',
-          'hover:bg-purple-600 hover:text-white hover:border-purple-600',
+          'hover:-translate-y-0.5 hover:bg-purple-600 hover:text-white hover:border-purple-600 hover:shadow-purple',
         ],
         ghost: [
           'bg-transparent text-white border-transparent',
@@ -72,7 +73,7 @@ export const buttonVariants = cva(
         link: [
           'bg-transparent border-transparent text-gold-500 underline-offset-4',
           'hover:underline hover:text-gold-400',
-          'h-auto p-0 active:scale-100',
+          'h-auto p-0 shadow-none active:scale-100 before:hidden',
         ],
       },
       // Text stays at text-sm max even at the largest size — only height

@@ -68,6 +68,19 @@ function formatDuration(seconds?: number): string {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
+// Corrects titles already published under an earlier working title (backend
+// record or CMS entry) without needing a data migration — applied here, the
+// single place every video-rendering section (LatestRelease, FeaturedVideos,
+// VideoGrid) converts raw title strings, so the fix reaches all of them at
+// once instead of needing a per-component patch.
+const VIDEO_TITLE_OVERRIDES: Record<string, string> = {
+  'I Will Not Be Moved': 'Not Be Moved',
+};
+
+function applyTitleOverride(title: string): string {
+  return VIDEO_TITLE_OVERRIDES[title] ?? title;
+}
+
 /**
  * Maps the backend's MediaItem (generic uploaded-file model: publicUrl,
  * durationSeconds, no video-specific category taxonomy) onto the flat
@@ -89,7 +102,7 @@ export function toVideoView(m: MediaItem): VideoView {
   const youtubeId = extractYouTubeId(m.publicUrl);
   return {
     id: m.id,
-    title: m.title,
+    title: applyTitleOverride(m.title),
     youtubeId,
     duration: formatDuration(m.durationSeconds),
     thumbnailUrl: m.thumbnailPath || (youtubeId ? youtubeThumbnail(youtubeId) : ''),

@@ -7,6 +7,7 @@ interface ContainedImageProps {
   className?: string;
   sizes?: string;
   priority?: boolean;
+  quality?: number;
 }
 
 /**
@@ -15,11 +16,9 @@ interface ContainedImageProps {
  * anything else uploaded independently of the layout that shows it.
  * object-cover on a fixed-aspect box silently clips whatever doesn't match
  * (title text, logos, product edges); this renders the image with
- * object-contain — never cropped — filled out to the edges with a blurred,
- * fully-opaque copy of itself as backdrop instead of empty space. A source
- * that already matches the container's aspect ratio fills it edge to edge
- * and the backdrop is invisible, so this is safe as the default treatment
- * regardless of whether a given image happens to be a clean fit.
+ * object-contain — never cropped — over a restrained branded frame. It uses
+ * one optimized request only: a previous blurred CSS copy downloaded the
+ * original asset again and doubled the cost of every card image.
  */
 export function ContainedImage({
   src,
@@ -27,21 +26,21 @@ export function ContainedImage({
   className,
   sizes = '400px',
   priority,
+  quality = 75,
 }: ContainedImageProps) {
   return (
-    <div className={cn('relative w-full h-full overflow-hidden', className)}>
-      {/* Blurred backdrop fill — fully opaque so it reads as a rich glow,
-          not a washed-out haze, when it shows through as letterboxing. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 scale-110 bg-cover bg-center blur-2xl"
-        style={{ backgroundImage: `url(${src})` }}
-      />
+    <div
+      className={cn(
+        'relative w-full h-full overflow-hidden bg-gradient-to-br from-surface-elevated via-surface-overlay to-purple-950',
+        className
+      )}
+    >
       <Image
         src={src}
         alt={alt}
         fill
         priority={priority}
+        quality={quality}
         className="object-contain"
         sizes={sizes}
       />
