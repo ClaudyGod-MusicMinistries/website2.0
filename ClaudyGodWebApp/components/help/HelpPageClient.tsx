@@ -218,21 +218,21 @@ export function HelpPageClient() {
               </a>
             </div>
 
-            {/* Live Chat */}
+            {/* Prayer Requests */}
             <div className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
-                <MessageCircleIcon className="h-6 w-6 text-purple-600" />
+                <Heart className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="font-display font-bold text-neutral-900 mb-2">AI Assistant</h3>
+              <h3 className="font-display font-bold text-neutral-900 mb-2">Prayer Requests</h3>
               <p className="font-sans text-neutral-600 text-sm mb-5">
-                Chat with our AI assistant for instant answers. Available 24/7 at bottom right.
+                Share what&apos;s on your heart — our prayer team will hold it in confidence.
               </p>
-              <button
-                onClick={() => window.scrollTo(0, 0)}
+              <Link
+                href="/prayer"
                 className="inline-flex items-center gap-2 font-sans text-[0.65rem] tracking-[0.14em] uppercase text-purple-600 hover:text-purple-700 font-semibold"
               >
-                Open Chat <ExternalLink className="h-3.5 w-3.5" />
-              </button>
+                Submit a Request <ExternalLink className="h-3.5 w-3.5" />
+              </Link>
             </div>
 
             {/* General Inquiries */}
@@ -255,22 +255,5 @@ export function HelpPageClient() {
         </div>
       </section>
     </main>
-  );
-}
-
-function MessageCircleIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
   );
 }
