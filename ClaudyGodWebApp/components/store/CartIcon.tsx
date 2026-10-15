@@ -12,7 +12,7 @@ export function CartIcon() {
     <button
       onClick={openCart}
       aria-label={`Cart — ${count} item${count !== 1 ? 's' : ''}`}
-      className="relative text-neutral-500 hover:text-white transition-colors duration-300"
+      className="relative flex items-center justify-center w-9 h-9 rounded-full text-neutral-600 hover:text-purple-800 hover:bg-neutral-100 transition-colors duration-200"
     >
       <ShoppingBag className="h-4 w-4" />
       {count > 0 && (

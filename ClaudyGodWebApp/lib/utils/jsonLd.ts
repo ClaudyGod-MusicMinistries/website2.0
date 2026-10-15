@@ -67,7 +67,7 @@ export function musicGroup() {
     image: { '@type': 'ImageObject', url: OG_IMAGE, width: 1730, height: 909 },
     logo: { '@type': 'ImageObject', url: LOGO_URL, width: 200, height: 200 },
     description:
-      'ClaudyGod is a Nigerian gospel music artist, minister, and worship leader with over 20 years in ministry and 7 studio albums. Known for Spirit-filled worship that transforms lives across the globe.',
+      'ClaudyGod is a Nigerian gospel music artist, minister, and worship leader with over 8 years in ministry and 7 studio albums. Known for Spirit-filled worship that transforms lives across the globe.',
     genre: ['Gospel', 'Christian Music', 'Worship', 'Contemporary Gospel', 'Nigerian Gospel'],
     foundingDate: '2003',
     foundingLocation: {

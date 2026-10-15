@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Video, Mic2, Guitar, Users, ShieldCheck, Sparkles, ChevronDown } from 'lucide-react';
+import { Video, Mic2, Guitar, Users, ShieldCheck, HeartHandshake, ChevronDown } from 'lucide-react';
 import { post, BackendError } from '@/lib/data/client';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
-import { buttonVariants } from '@/lib/theme/buttons';
+import { Button } from '@/components/ui/Button';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 import { cn } from '@/lib/utils/cn';
@@ -34,7 +34,7 @@ const VOLUNTEER_ROLES = [
   { value: 'BackupSinger', label: 'Backup Singer', icon: Guitar },
   { value: 'Protocol', label: 'Protocol (Guest Relations/Ushering)', icon: Users },
   { value: 'Security', label: 'Security', icon: ShieldCheck },
-  { value: 'Others', label: 'Other (Please Specify)', icon: Sparkles },
+  { value: 'Others', label: 'Other (Please Specify)', icon: HeartHandshake },
 ] as const;
 
 export function VolunteerForm() {
@@ -232,18 +232,18 @@ export function VolunteerForm() {
         />
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className={buttonVariants({
-            variant: 'secondary',
-            size: 'xl',
-            fullWidth: true,
-            uppercase: true,
-          })}
-        >
-          {isSubmitting ? 'Submitting Application…' : 'Submit Application'}
-        </button>
+        <div className="pt-2">
+          <Button
+            type="submit"
+            variant="secondary"
+            size="lg"
+            uppercase
+            isLoading={isSubmitting}
+            disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
+          >
+            Submit Application
+          </Button>
+        </div>
       </form>
     </>
   );

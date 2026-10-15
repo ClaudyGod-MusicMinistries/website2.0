@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Sparkles, Headphones, Play, X } from 'lucide-react';
+import { Volume2, Headphones, Play, X } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
 import { latestReleasePlatforms, latestReleaseAnnouncement } from '@/data/music';
@@ -88,8 +88,8 @@ export function LatestReleaseSpotlight() {
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-gold-500 text-black font-sans font-semibold text-[0.62rem] tracking-[0.18em] uppercase px-4 py-1.5 rounded-full shadow-lg">
-                    <Sparkles className="h-3 w-3 fill-current" />
+                  <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-md text-neutral-900 border border-neutral-200/80 font-sans font-semibold text-[0.62rem] tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full shadow-md">
+                    <Volume2 className="h-3 w-3 text-purple-700" />
                     New Release
                   </div>
 

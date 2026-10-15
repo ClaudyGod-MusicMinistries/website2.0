@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Mic, Mic2, Camera, Users, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
+import { Mic, Mic2, Camera, Users, ShieldCheck, HeartHandshake, ArrowRight } from 'lucide-react';
 import { buttonVariants } from '@/lib/theme/buttons';
 import { AmbientGlow } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
@@ -10,7 +10,7 @@ const roles = [
   { icon: Camera, label: 'Media & Tech', desc: 'Video, audio & photography' },
   { icon: Users, label: 'Protocol Team', desc: 'Ushers & hospitality' },
   { icon: ShieldCheck, label: 'Security', desc: 'Safety & crowd management' },
-  { icon: Sparkles, label: 'Other', desc: 'Any other area of service' },
+  { icon: HeartHandshake, label: 'Other', desc: 'Any other area of service' },
 ] as const;
 
 /**

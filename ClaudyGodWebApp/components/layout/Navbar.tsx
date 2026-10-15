@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { navigationItems, type NavGroup } from '@/data/navbar';
 import { cn } from '@/lib/utils/cn';
-import { buttonVariants } from '@/lib/theme/buttons';
+import { Button } from '@/components/ui/Button';
 import { CartIcon } from '@/components/store/CartIcon';
 import { Dialog } from '@/components/ui';
 
@@ -51,14 +51,14 @@ export function Navbar() {
   }));
 
   const headerBg = scrolled
-    ? 'bg-white/[0.98] backdrop-blur-2xl border-b border-neutral-100 shadow-header'
-    : 'bg-gradient-to-b from-black/70 via-black/30 to-transparent';
+    ? 'bg-white/95 backdrop-blur-2xl border-b border-neutral-200/80 shadow-sm'
+    : 'bg-white/85 backdrop-blur-xl border-b border-neutral-200/60 shadow-xs';
 
-  const linkBase = 'font-sans text-xs tracking-[0.1em] uppercase transition-colors duration-250';
-  const linkColor = scrolled
-    ? 'text-neutral-600 hover:text-neutral-900'
-    : 'text-white/85 hover:text-white';
-  const activeColor = scrolled ? 'text-purple-600 font-semibold' : 'text-gold-400 font-medium';
+  const linkBase =
+    'relative font-sans text-xs tracking-[0.1em] uppercase transition-colors duration-250 py-1';
+  const linkColor = 'text-neutral-600 hover:text-neutral-900';
+  const activeColor =
+    'text-purple-700 font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-purple-600 after:rounded-full';
 
   const isActive = (href: string) =>
     pathname === href || (href !== '/' && pathname.startsWith(href));
@@ -71,7 +71,7 @@ export function Navbar() {
         <div className="container-site h-[68px] lg:h-[76px] flex items-center justify-between gap-4">
           {/* ── Brand lockup ────────────────────────────────────────────── */}
           <Link href="/" className="shrink-0 flex items-center gap-2.5 group">
-            <div className="relative w-9 h-9 lg:w-11 lg:h-11 rounded-full overflow-hidden ring-2 ring-gold-500/30 shrink-0">
+            <div className="relative w-9 h-9 lg:w-11 lg:h-11 rounded-full overflow-hidden ring-2 ring-gold-500/30 shrink-0 bg-white">
               <Image
                 src="/ClaudyGoLogo.webp"
                 alt="ClaudyGod"
@@ -82,30 +82,20 @@ export function Navbar() {
               />
             </div>
 
-            <span
-              className={cn(
-                'w-px h-8 shrink-0 transition-colors duration-300',
-                scrolled ? 'bg-neutral-200' : 'bg-white/20'
-              )}
-            />
+            <span className="w-px h-8 shrink-0 bg-neutral-200" />
 
-            <div
-              className={cn(
-                'hidden sm:flex flex-col gap-0 transition-colors duration-300',
-                scrolled ? 'text-neutral-900' : 'text-white/95'
-              )}
-            >
+            <div className="hidden sm:flex flex-col gap-0 text-neutral-900">
               <span className="font-display font-semibold text-[0.82rem] lg:text-sm tracking-tight leading-none">
                 ClaudyGod
               </span>
-              <span className="font-sans text-[0.46rem] lg:text-[0.52rem] tracking-[0.2em] uppercase opacity-55 leading-none mt-0.5">
+              <span className="font-sans text-[0.46rem] lg:text-[0.52rem] tracking-[0.2em] uppercase text-neutral-500 leading-none mt-0.5">
                 Music Ministries
               </span>
             </div>
           </Link>
 
           {/* ── Right cluster: nav links + cart + Book Now ───────────────── */}
-          <div className="flex items-center gap-6 lg:gap-8">
+          <div className="flex items-center gap-5 lg:gap-7">
             {/* Tablet nav — exactly 2 links, hidden once desktop's 5-link nav takes over */}
             <nav className="hidden md:flex lg:hidden items-center gap-5">
               {tabletLinks.map((item) => {
@@ -138,20 +128,12 @@ export function Navbar() {
               })}
             </nav>
 
-            <div className="hidden md:flex items-center gap-2.5 lg:gap-4 shrink-0">
+            <div className="hidden md:flex items-center gap-3 shrink-0">
               <CartIcon />
               {bookingLink && (
-                <Link
-                  href={bookingLink.href}
-                  className={cn(
-                    buttonVariants({ variant: 'secondary', size: 'sm', uppercase: true }),
-                    'lg:h-10 lg:px-6',
-                    !scrolled &&
-                      'bg-transparent border border-white/30 hover:border-white/70 hover:bg-white/10 hover:shadow-none'
-                  )}
-                >
+                <Button href={bookingLink.href} variant="secondary" size="sm" uppercase>
                   Book Now
-                </Link>
+                </Button>
               )}
             </div>
 
@@ -160,10 +142,7 @@ export function Navbar() {
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
               onClick={() => setOpen((p) => !p)}
-              className={cn(
-                'md:hidden relative flex items-center justify-center w-9 h-9',
-                open ? 'text-white' : scrolled ? 'text-neutral-800' : 'text-white'
-              )}
+              className="md:hidden relative flex items-center justify-center w-9 h-9 text-neutral-800 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -178,11 +157,11 @@ export function Navbar() {
           hideTitle
           variant="fullscreen"
           showClose={false}
-          className="z-[550] md:hidden bg-surface-raised border-none rounded-none flex flex-col p-0"
+          className="z-[550] md:hidden bg-white border-none rounded-none flex flex-col p-0 text-neutral-900"
         >
           {/* Mobile header bar */}
-          <div className="h-[68px] shrink-0 border-b border-white/[0.06] flex items-center px-4 gap-2.5">
-            <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0">
+          <div className="h-[68px] shrink-0 border-b border-neutral-100 flex items-center px-4 gap-2.5">
+            <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-gold-500/25 shrink-0 bg-white">
               <Image
                 src="/ClaudyGoLogo.webp"
                 alt="ClaudyGod"
@@ -191,25 +170,21 @@ export function Navbar() {
                 sizes="36px"
               />
             </div>
-            <span className="w-px h-7 bg-white/15 shrink-0" />
-            <div className="flex flex-col gap-0 text-white">
+            <span className="w-px h-7 bg-neutral-200 shrink-0" />
+            <div className="flex flex-col gap-0 text-neutral-900">
               <span className="font-display font-semibold text-[0.82rem] tracking-tight leading-none">
                 ClaudyGod
               </span>
-              <span className="font-sans text-[0.45rem] tracking-[0.2em] uppercase opacity-45 leading-none mt-0.5">
+              <span className="font-sans text-[0.45rem] tracking-[0.2em] uppercase text-neutral-500 leading-none mt-0.5">
                 Music Ministries
               </span>
             </div>
 
-            {/* Real close control — the header's own hamburger toggle sits
-                outside this dialog, so Radix marks it inert while the modal
-                is open and it becomes unclickable. This one lives inside
-                the dialog content, where it stays interactive. */}
             <button
               type="button"
               aria-label="Close menu"
               onClick={() => setOpen(false)}
-              className="ml-auto flex items-center justify-center w-9 h-9 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-white/70 hover:text-white transition-all duration-200 shrink-0"
+              className="ml-auto flex items-center justify-center w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 border border-neutral-200 text-neutral-700 transition-colors shrink-0"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -219,7 +194,7 @@ export function Navbar() {
           <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-7">
             {mobileLinksByGroup.map(({ group, items }) => (
               <div key={group}>
-                <p className="font-sans text-[0.55rem] tracking-[0.2em] uppercase text-white/30 mb-3">
+                <p className="font-sans text-[0.6rem] tracking-[0.2em] uppercase text-neutral-400 font-semibold mb-3">
                   {GROUP_LABELS[group]}
                 </p>
                 <div className="space-y-0">
@@ -230,12 +205,16 @@ export function Navbar() {
                         key={item.href}
                         href={item.href}
                         className={cn(
-                          'flex items-center justify-between py-2.5 font-display font-medium text-base tracking-wide transition-colors duration-200 border-b border-white/[0.06]',
-                          active ? 'text-gold-400' : 'text-white/65 hover:text-white'
+                          'flex items-center justify-between py-3 font-display font-medium text-base tracking-wide transition-colors duration-200 border-b border-neutral-100',
+                          active
+                            ? 'text-purple-700 font-semibold'
+                            : 'text-neutral-700 hover:text-neutral-900'
                         )}
                       >
                         {item.label}
-                        {active && <span className="w-1 h-1 rounded-full bg-gold-400 shrink-0" />}
+                        {active && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 shrink-0" />
+                        )}
                       </Link>
                     );
                   })}
@@ -243,27 +222,21 @@ export function Navbar() {
               </div>
             ))}
 
-            <div className="flex items-center gap-2.5 flex-wrap pt-2">
+            <div className="flex items-center gap-3 flex-wrap pt-4">
               {bookingLink && (
-                <Link
-                  href={bookingLink.href}
-                  className={buttonVariants({ variant: 'secondary', uppercase: true })}
-                >
+                <Button href={bookingLink.href} variant="secondary" size="sm" uppercase>
                   Book Now
-                </Link>
+                </Button>
               )}
               {donateLink && (
-                <Link
-                  href={donateLink.href}
-                  className={buttonVariants({ variant: 'primary', uppercase: true })}
-                >
+                <Button href={donateLink.href} variant="primary" size="sm" uppercase>
                   Donate
-                </Link>
+                </Button>
               )}
             </div>
           </nav>
 
-          <p className="px-6 pb-8 font-sans text-[0.5rem] tracking-[0.22em] uppercase text-white/20">
+          <p className="px-6 pb-8 font-sans text-[0.55rem] tracking-[0.22em] uppercase text-neutral-400">
             ClaudyGod Music Ministries © {new Date().getFullYear()}
           </p>
         </Dialog.Content>

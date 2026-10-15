@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { BackendError, post } from '@/lib/data/client';
+import { Button } from '@/components/ui/Button';
 import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
 import {
@@ -120,14 +121,9 @@ export function ContactForm() {
           onClose={closeError}
           actions={[{ label: 'Review message', onClick: closeError, variant: 'primary' }]}
         />
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-purple-700 px-6 text-sm font-semibold text-white shadow-purple-cta transition hover:bg-purple-600 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-          {isSubmitting ? 'Sending…' : 'Send message'}
-        </button>
+        <Button type="submit" variant="secondary" size="lg" isLoading={isSubmitting}>
+          Send message
+        </Button>
       </form>
     </>
   );

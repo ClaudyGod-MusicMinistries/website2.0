@@ -18,80 +18,70 @@ import { cva } from 'class-variance-authority';
  */
 export const buttonVariants = cva(
   [
-    'group relative isolate inline-flex items-center justify-center gap-1.5 overflow-hidden',
-    // font-sans, not font-display — buttons are UI chrome, not editorial
-    // headlines; the display face at button sizes read heavy/oversized.
+    'group relative isolate inline-flex w-auto max-w-full shrink-0 items-center justify-center gap-2 overflow-hidden',
     'font-sans font-semibold tracking-wide',
-    'rounded-lg border shadow-sm transition-[color,background-color,border-color,box-shadow,transform,filter] duration-200 ease-out',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base',
+    'rounded-full border shadow-xs transition-all duration-200 ease-out',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
     'disabled:pointer-events-none disabled:opacity-40',
-    'select-none cursor-pointer touch-manipulation active:translate-y-px active:scale-[0.985]',
-    'before:pointer-events-none before:absolute before:inset-y-0 before:-left-1/2 before:w-1/3 before:skew-x-[-18deg] before:bg-white/15 before:opacity-0 before:transition-[left,opacity] before:duration-500 hover:before:left-[115%] hover:before:opacity-100',
+    'select-none cursor-pointer touch-manipulation active:translate-y-px active:scale-[0.98]',
+    'before:pointer-events-none before:absolute before:inset-y-0 before:-left-1/2 before:w-1/3 before:skew-x-[-18deg] before:bg-white/20 before:opacity-0 before:transition-[left,opacity] before:duration-500 hover:before:left-[115%] hover:before:opacity-100',
   ],
   {
     variants: {
       variant: {
         primary: [
-          'bg-gradient-gold text-surface-base border-transparent',
-          'shadow-gold-cta hover:-translate-y-0.5 hover:shadow-gold-cta-hover hover:brightness-105',
+          'bg-gradient-gold text-surface-base border-gold-400/30',
+          'shadow-gold-cta hover:-translate-y-0.5 hover:shadow-gold-cta-hover hover:brightness-105 font-semibold',
         ],
         secondary: [
-          'bg-purple-600 text-white border-transparent',
-          'shadow-purple-cta hover:-translate-y-0.5 hover:bg-purple-500 hover:shadow-purple-cta-hover',
+          'bg-purple-700 text-white border-purple-600/30',
+          'shadow-purple-cta hover:-translate-y-0.5 hover:bg-purple-800 hover:shadow-purple-cta-hover font-semibold',
         ],
         outline: [
-          'bg-transparent text-purple-200 border-purple-400/50',
-          'hover:-translate-y-0.5 hover:bg-purple-600 hover:text-white hover:border-purple-600 hover:shadow-purple',
+          'bg-white/90 backdrop-blur-sm text-neutral-800 border-neutral-300',
+          'hover:-translate-y-0.5 hover:bg-white hover:text-gold-700 hover:border-gold-500 hover:shadow-sm',
         ],
-        // Same role as `outline`, for use on white/cream section
-        // backgrounds — `outline`'s text-purple-200 is tuned for dark
-        // surfaces and reads as nearly invisible on a light one.
         'outline-dark': [
-          'bg-transparent text-purple-700 border-purple-300',
-          'hover:-translate-y-0.5 hover:bg-purple-600 hover:text-white hover:border-purple-600 hover:shadow-purple',
+          'bg-white/95 backdrop-blur-sm text-neutral-800 border-neutral-300/80',
+          'hover:-translate-y-0.5 hover:bg-purple-50 hover:text-purple-800 hover:border-purple-300 hover:shadow-sm',
+        ],
+        dark: [
+          'bg-neutral-900 text-white border-neutral-800',
+          'shadow-sm hover:-translate-y-0.5 hover:bg-neutral-800 hover:shadow-md font-semibold',
         ],
         ghost: [
-          'bg-transparent text-white border-transparent',
-          'hover:bg-surface-elevated hover:text-gold-400',
+          'bg-transparent text-neutral-700 border-transparent',
+          'hover:bg-neutral-100 hover:text-neutral-900',
         ],
         soft: [
-          'bg-purple-600/15 text-purple-200 border-purple-500/20',
-          'hover:bg-purple-600/25 hover:border-purple-500/40',
+          'bg-purple-50 text-purple-800 border-purple-200/60',
+          'hover:bg-purple-100 hover:border-purple-300 hover:-translate-y-0.5',
         ],
         white: [
-          'bg-white text-surface-base border-transparent',
-          'hover:bg-neutral-100 hover:shadow-md',
+          'bg-white text-neutral-900 border-neutral-200 shadow-sm',
+          'hover:bg-neutral-50 hover:shadow-md hover:border-neutral-300 hover:-translate-y-0.5',
         ],
-        // For secondary CTAs over a photo/video background (hero sections,
-        // PageHero), where a purple-tinted outline would disappear against
-        // a busy image — needs true white/transparent contrast instead.
         'outline-white': [
-          'bg-transparent text-white border-white/30 backdrop-blur-sm',
-          'hover:border-white/70 hover:bg-white/10',
+          'bg-white/15 backdrop-blur-md text-white border-white/40',
+          'hover:border-white hover:bg-white/25 hover:-translate-y-0.5',
         ],
         danger: ['bg-status-error text-white border-transparent', 'hover:brightness-110'],
         link: [
-          'bg-transparent border-transparent text-gold-500 underline-offset-4',
-          'hover:underline hover:text-gold-400',
+          'bg-transparent border-transparent text-gold-600 underline-offset-4',
+          'hover:underline hover:text-gold-700',
           'h-auto p-0 shadow-none active:scale-100 before:hidden',
         ],
       },
-      // Text stays at text-sm max even at the largest size — only height
-      // and padding grow. A button reading text-base/uppercase/tracked
-      // was consistently the "buttons feel too big" complaint.
       size: {
-        xs: 'h-7  px-3   text-[0.7rem] gap-1',
-        sm: 'h-8  px-3.5 text-xs',
-        md: 'h-9  px-4   text-xs',
-        lg: 'h-10 px-5   text-sm',
-        xl: 'h-11 px-6   text-sm',
-        icon: 'h-9  w-9    p-0',
+        xs: 'h-8 px-4 text-xs gap-1.5',
+        sm: 'h-10 px-5 text-xs font-semibold tracking-wider gap-2',
+        md: 'h-11 px-6 text-xs sm:text-sm font-semibold tracking-wider gap-2.5',
+        lg: 'h-12 px-7 text-sm sm:text-base font-semibold tracking-wide gap-3',
+        xl: 'h-14 px-8 text-base font-bold tracking-wide gap-3',
+        icon: 'h-10 w-10 p-0 rounded-full',
       },
       fullWidth: { true: 'w-full' },
-      // tracking-wider, not tracking-widest — the widest tracking read as
-      // shouty at button sizes; save tracking-widest for actual eyebrow
-      // labels, which have room to breathe.
-      uppercase: { true: 'uppercase tracking-wider' },
+      uppercase: { true: 'uppercase tracking-[0.08em]' },
     },
     defaultVariants: { variant: 'primary', size: 'md' },
   }

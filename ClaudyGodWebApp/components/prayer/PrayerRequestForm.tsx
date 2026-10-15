@@ -7,7 +7,7 @@ import { ErrorModal } from '@/components/ui/ErrorModal';
 import { SuccessModal } from '@/components/ui/SuccessModal';
 import { useErrorHandler } from '@/hooks/useErrorHandler';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
-import { buttonVariants } from '@/lib/theme/buttons';
+import { Button } from '@/components/ui/Button';
 import type { SubmitPrayerRequestRequest } from '@/types/api';
 import {
   FormCheckbox,
@@ -163,18 +163,18 @@ export function PrayerRequestForm() {
           actions={[{ label: 'Edit Request', onClick: closeError, variant: 'primary' }]}
         />
 
-        <button
-          type="submit"
-          disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
-          className={buttonVariants({
-            variant: 'secondary',
-            size: 'xl',
-            fullWidth: true,
-            uppercase: true,
-          })}
-        >
-          {isSubmitting ? 'Submitting Request…' : 'Submit Prayer Request'}
-        </button>
+        <div className="pt-2">
+          <Button
+            type="submit"
+            variant="secondary"
+            size="lg"
+            uppercase
+            isLoading={isSubmitting}
+            disabled={isSubmitting || isValidating || Object.keys(errors).length > 0}
+          >
+            Submit Prayer Request
+          </Button>
+        </div>
       </form>
     </>
   );

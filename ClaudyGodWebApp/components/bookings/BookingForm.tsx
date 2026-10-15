@@ -15,6 +15,7 @@ import { BackendError, post } from '@/lib/data/client';
 import { getUserFriendlyError } from '@/lib/utils/errorMessages';
 import { cn } from '@/lib/utils/cn';
 import { useCountries } from '@/hooks/useCountries';
+import { Button } from '@/components/ui/Button';
 import { CountrySelect } from '@/components/ui/CountrySelect';
 import { RegionSelect } from '@/components/ui/RegionSelect';
 import { FormSelect } from '@/components/ui/FormSelect';
@@ -565,44 +566,43 @@ export function BookingForm() {
         />
         <div className="mt-9 flex items-center justify-between gap-3 border-t border-neutral-100 pt-6">
           {step > 0 ? (
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="md"
               disabled={busy}
               onClick={() => setStep((current) => current - 1)}
-              className="inline-flex h-12 items-center gap-2 rounded-lg px-3 text-sm font-semibold text-neutral-600 hover:bg-neutral-100 disabled:opacity-50"
+              leftIcon={<ChevronLeft className="h-4 w-4" />}
             >
-              <ChevronLeft className="h-4 w-4" /> Back
-            </button>
+              Back
+            </Button>
           ) : (
             <p className="hidden text-xs text-neutral-400 sm:block">
               Fields are validated before you continue.
             </p>
           )}
           {step < steps.length - 1 ? (
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="md"
               disabled={busy}
               onClick={continueToNext}
-              className="inline-flex h-12 items-center gap-2 rounded-lg bg-purple-700 px-6 text-sm font-semibold text-white shadow-purple-cta transition hover:bg-purple-600 disabled:opacity-50"
+              rightIcon={<ChevronRight className="h-4 w-4" />}
             >
-              Continue <ChevronRight className="h-4 w-4" />
-            </button>
+              Continue
+            </Button>
           ) : (
-            <button
+            <Button
               type="submit"
+              variant="secondary"
+              size="md"
               disabled={busy}
-              className="inline-flex h-12 items-center gap-2 rounded-lg bg-purple-700 px-6 text-sm font-semibold text-white shadow-purple-cta transition hover:bg-purple-600 disabled:opacity-50"
+              isLoading={isSubmitting}
+              rightIcon={<ChevronRight className="h-4 w-4" />}
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Sending securely…
-                </>
-              ) : (
-                <>
-                  Send booking request <ChevronRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
+              Send booking request
+            </Button>
           )}
         </div>
       </form>

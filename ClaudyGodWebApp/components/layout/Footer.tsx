@@ -65,23 +65,23 @@ export function Footer() {
   }));
 
   return (
-    <footer className="bg-surface-deep">
-      {/* Gold top accent — thicker */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-500/70 to-transparent" />
+    <footer className="bg-purple-950 border-t border-purple-800/80 text-white">
+      {/* Gold top accent */}
+      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-gold-400 to-transparent" />
 
       {/* Streaming CTA band */}
-      <div className="border-b border-white/[0.05] bg-gradient-to-r from-purple-900/30 via-surface-raised to-purple-900/20">
-        <div className="container-site py-8">
+      <div className="border-b border-purple-800/60 bg-purple-900/70 backdrop-blur-sm">
+        <div className="container-site py-8 sm:py-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
-              <p className="font-sans text-[0.55rem] tracking-[0.22em] uppercase text-gold-500/70 mb-2">
+              <p className="font-sans text-[0.62rem] tracking-[0.2em] uppercase font-semibold text-gold-300 mb-1.5">
                 Stream the Ministry
               </p>
-              <p className="font-display font-semibold text-white text-xl md:text-2xl tracking-tight">
+              <p className="font-display font-semibold text-white text-xl sm:text-2xl tracking-tight">
                 Listen on All Platforms
               </p>
             </div>
-            <div className="flex items-center flex-wrap gap-3">
+            <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
               {streamingLinks.map(({ Icon, label, href, color }) => (
                 <a
                   key={label}
@@ -91,10 +91,10 @@ export function Footer() {
                   aria-label={`Listen on ${label}`}
                   title={label}
                   style={{ '--brand': color } as React.CSSProperties}
-                  className="flex items-center gap-2.5 h-10 px-4 rounded-xl border border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 hover:bg-[var(--brand)]/[0.06] transition-all duration-300"
+                  className="flex items-center gap-2 h-9 sm:h-10 px-3.5 sm:px-4 rounded-full border border-purple-700/80 bg-purple-950/80 text-purple-200 hover:text-white hover:border-gold-400/80 hover:bg-purple-800/80 transition-all duration-200 shadow-2xs"
                 >
                   <Icon className="h-4 w-4 flex-shrink-0" />
-                  <span className="font-sans text-xs tracking-[0.08em] uppercase hidden sm:block">
+                  <span className="font-sans text-xs tracking-wider uppercase font-medium hidden sm:block">
                     {label}
                   </span>
                 </a>
@@ -105,43 +105,43 @@ export function Footer() {
       </div>
 
       {/* Main footer body */}
-      <div className="container-site py-10 sm:py-14 md:py-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-10 mb-10 lg:mb-14">
+      <div className="container-site py-12 sm:py-16 md:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-12 mb-10 lg:mb-14">
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-2">
-            <Link href="/" className="mb-7 w-fit block group">
-              <div className="flex items-center gap-4">
-                <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-gold-500/20 flex-shrink-0 group-hover:ring-gold-500/50 transition-all duration-300 bg-white/5">
+            <Link href="/" className="mb-6 w-fit block group">
+              <div className="flex items-center gap-3.5">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-gold-400/40 flex-shrink-0 bg-white shadow-2xs">
                   <Image
                     src="/ClaudyGoLogo.webp"
                     alt="ClaudyGod Music Ministries"
                     fill
-                    className="object-contain p-1"
-                    sizes="56px"
+                    className="object-contain p-0.5"
+                    sizes="48px"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
-                  <span className="font-display font-semibold text-white text-lg tracking-tight leading-none">
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-display font-semibold text-white text-xl tracking-tight leading-none group-hover:text-gold-300 transition-colors">
                     ClaudyGod
                   </span>
-                  <span className="font-sans text-[0.5rem] tracking-[0.22em] uppercase text-gold-500/70 leading-none mt-0.5">
+                  <span className="font-sans text-[0.52rem] tracking-[0.22em] uppercase text-gold-300 font-semibold leading-none">
                     Music Ministries
                   </span>
                 </div>
               </div>
             </Link>
 
-            <p className="font-sans text-neutral-400 text-sm leading-[1.8] max-w-xs mb-8">
+            <p className="font-sans text-purple-200/80 text-sm leading-relaxed max-w-sm mb-7">
               Spirit-filled gospel music, ministry, and worship — spreading the love of God to the
               ends of the earth.
             </p>
 
             {/* Social icons */}
             <div>
-              <p className="font-sans text-xs tracking-[0.12em] uppercase text-neutral-500 mb-4">
+              <p className="font-sans text-[0.65rem] tracking-[0.16em] uppercase font-semibold text-gold-300/80 mb-3">
                 Follow the Ministry
               </p>
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-center gap-2.5 flex-wrap">
                 {socialLinks.map((s) => {
                   const Icon = s.icon;
                   return (
@@ -152,7 +152,7 @@ export function Footer() {
                       rel="noopener noreferrer"
                       aria-label={s.label}
                       style={{ '--brand': s.brandColor } as React.CSSProperties}
-                      className="w-9 h-9 rounded-xl border border-white/[0.07] bg-white/[0.03] flex items-center justify-center text-neutral-500 hover:text-[var(--brand)] hover:border-[var(--brand)]/30 hover:bg-[var(--brand)]/[0.06] transition-all duration-300"
+                      className="w-9 h-9 rounded-full border border-purple-800/80 bg-purple-900/60 flex items-center justify-center text-purple-200 hover:text-gold-300 hover:border-gold-400/70 hover:bg-purple-800 transition-all duration-200 shadow-2xs"
                     >
                       <Icon className="h-4 w-4" />
                     </a>
@@ -165,17 +165,17 @@ export function Footer() {
           {/* Nav columns — Explore / Connect / Support */}
           {columns.map(({ group, items }) => (
             <div key={group}>
-              <p className="font-display font-semibold text-white text-sm tracking-tight mb-5 pb-3 border-b border-white/[0.08]">
+              <p className="font-display font-semibold text-gold-300 text-sm tracking-tight mb-4 pb-2.5 border-b border-purple-800/60">
                 {GROUP_LABELS[group]}
               </p>
-              <ul className="space-y-3.5">
+              <ul className="space-y-3">
                 {items.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="font-sans text-sm text-neutral-500 hover:text-white transition-colors duration-300 flex items-center gap-2 group"
+                      className="font-sans text-sm text-purple-200/90 hover:text-white transition-colors duration-200 flex items-center gap-1.5 group"
                     >
-                      <span className="w-0 group-hover:w-3 h-px bg-gold-500/60 transition-all duration-300 overflow-hidden flex-shrink-0" />
+                      <span className="w-0 group-hover:w-2.5 h-px bg-gold-400 transition-all duration-200 overflow-hidden flex-shrink-0" />
                       {item.label}
                     </Link>
                   </li>
@@ -186,8 +186,8 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/[0.07] pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-500">
+        <div className="border-t border-purple-800/60 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <p className="font-sans text-xs tracking-wider uppercase text-purple-300/70">
             © {year} ClaudyGod Music Ministries. All rights reserved.
           </p>
           <div className="flex items-center gap-5 flex-wrap">
@@ -196,7 +196,7 @@ export function Footer() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="font-sans text-xs tracking-[0.1em] uppercase text-neutral-500 hover:text-neutral-300 transition-colors duration-300"
+                className="font-sans text-xs tracking-wider uppercase text-purple-300/70 hover:text-white transition-colors duration-200"
               >
                 {l.label}
               </Link>

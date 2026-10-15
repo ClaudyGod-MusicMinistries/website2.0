@@ -2,21 +2,19 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import { buttonVariants } from '@/lib/theme/buttons';
-import { Section, AmbientGlow, Particles } from '@/components/ui';
-import { heroContent, heroCTAs } from '@/data/hero';
-import { cn } from '@/lib/utils/cn';
+import { ChevronDown, Play, CalendarDays } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Section, AmbientGlow } from '@/components/ui';
+import { heroContent } from '@/data/hero';
 
 const reveal = {
-  hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 0, letterSpacing: '0.06em' },
+  hidden: { clipPath: 'inset(0 0 100% 0)', opacity: 0, letterSpacing: '0.04em' },
   visible: (d = 0) => ({
     clipPath: 'inset(0 0 0% 0)',
     opacity: 1,
     letterSpacing: '0em',
-    transition: { duration: 1.1, delay: d, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 1.0, delay: d, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
@@ -25,29 +23,17 @@ const fadeUp = {
   visible: (d = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, delay: d, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.7, delay: d, ease: [0.16, 1, 0.3, 1] },
   }),
 };
 
-/**
- * One statement, not a five-slide carousel. Every gospel-artist reference
- * site studied for this rebuild (Sinach, Dunsin Oyekan, CeCe Winans) leads
- * with a single hero message and puts direct action right there — not a
- * rotating set of competing messages that dilute the first three seconds.
- *
- * The photo layer is true full-bleed (no max-width cap) — Next/Image's
- * `sizes="100vw"` requests a source large enough for the viewport at every
- * breakpoint, so there's no upscaling artifact to guard against even on
- * ultra-wide/4K screens.
- */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '18%']);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const photoY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
 
   return (
     <Section
@@ -55,179 +41,192 @@ export function Hero() {
       ref={sectionRef}
       bg="base"
       py="none"
-      className="relative w-full min-h-[100dvh] lg:min-h-[100vh] xl:min-h-[110vh] overflow-hidden"
+      className="relative w-full min-h-[100dvh] overflow-hidden bg-purple-950 flex flex-col justify-end lg:justify-center"
     >
-      {/* Animated gradient-mesh canvas — the base layer, visible at the
-          edges beyond the capped photo on ultra-wide screens. */}
-      <div className="absolute inset-0 bg-gradient-to-br from-surface-base via-purple-900 to-surface-base" />
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <AmbientGlow
-          color="purple"
-          size={900}
-          opacity={0.18}
-          duration={20}
-          className="-bottom-52 -left-40"
+      {/* 1. Background Image Layer — Anchored right on desktop so Minister ClaudyGod has room to breathe */}
+      <motion.div
+        style={{ y: photoY }}
+        className="absolute inset-y-0 right-0 w-full lg:w-[65%] xl:w-[60%] select-none pointer-events-none"
+      >
+        <Image
+          src={heroContent.backgroundImage}
+          alt="Minister ClaudyGod"
+          fill
+          priority
+          quality={95}
+          className="object-cover object-[center_top] sm:object-[center_12%] lg:object-[center_15%]"
+          sizes="(min-width: 1024px) 65vw, 100vw"
         />
+
+        {/* Desktop smooth inner edge fade: merges the left edge of the photo into the purple-950 canvas */}
+        <div className="absolute inset-y-0 left-0 hidden lg:block w-48 xl:w-64 bg-gradient-to-r from-purple-950 via-purple-950/70 to-transparent pointer-events-none" />
+      </motion.div>
+
+      {/* 2. Linear Gradients — Scoped for text legibility and clean contrast */}
+      {/* Top vignette for clean navbar readability */}
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-purple-950/80 to-transparent pointer-events-none" />
+
+      {/* Mobile/Tablet Vertical Linear Gradient: Bottom-to-top contrast */}
+      <div className="absolute inset-0 lg:hidden bg-gradient-to-t from-purple-950 via-purple-950/90 via-purple-950/40 to-transparent pointer-events-none" />
+
+      {/* Bottom transition seam into TheArtist white background */}
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+
+      {/* 3. Ambient Lighting Glows */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
         <AmbientGlow
           color="gold"
-          size={650}
-          opacity={0.1}
+          size={600}
+          opacity={0.16}
+          duration={20}
+          className="-top-24 right-1/4 pointer-events-none"
+        />
+        <AmbientGlow
+          color="purple"
+          size={700}
+          opacity={0.25}
           duration={24}
-          delay={3}
-          className="-top-40 -right-32"
+          delay={2}
+          className="-bottom-32 -left-32 pointer-events-none"
         />
       </div>
 
-      {/* Fine grid texture — subtle graphical depth, matches the Loader's treatment */}
-      <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
-        }}
-      />
-
-      {/* Full-bleed photo layer — edge to edge at every breakpoint.
-          Scroll-linked parallax (drift + slow scale) instead of a fixed
-          timed animation, so the motion reads as depth rather than a loop. */}
-      <div className="absolute inset-0">
-        <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale }}>
-          <Image
-            src={heroContent.backgroundImage}
-            alt=""
-            fill
-            priority
-            className="object-cover object-[center_18%]"
-            sizes="100vw"
-          />
-        </motion.div>
-
-        {/* Overall dark tint — a uniform film across the whole photo for a
-            darker, moodier feel, layered under the directional legibility
-            gradients below (which handle edge contrast for the text/UI). */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/25 to-black/55" />
-
-        {/* Legibility gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-
-        {/* Floating gold particles rising through the frame */}
-        <Particles color="gold" glyph="✦" count={8} direction="rise" />
-      </div>
-
-      {/* Content — a frosted glass panel at every breakpoint, not just mobile.
-          The photo's subject sits in the lower portion of the frame, so text
-          printed directly on raw pixels there read as covering her face;
-          blurring the backdrop behind the copy softens that into "text on
-          glass over the photo" instead. */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-end lg:pb-24 xl:pb-28">
-        <div className="w-full bg-black/35 backdrop-blur-md border-t border-white/15 pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-10 lg:pb-14 shadow-popup">
-          <div className="container-site w-full">
-            <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center sm:text-left mx-auto sm:mx-0">
-              <motion.div
-                custom={0}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="flex items-center gap-3 mb-5 lg:mb-7 justify-center sm:justify-start"
-              >
-                <motion.span
-                  initial={{ width: 0 }}
-                  animate={{ width: '2.5rem' }}
-                  transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  className="hidden sm:block h-px bg-gold-500/80"
-                />
-                <span className="label-eyebrow lg:text-sm text-gold-400">
-                  {heroContent.eyebrow}
-                </span>
-              </motion.div>
-
-              <div className="overflow-hidden mb-4 lg:mb-6">
-                <motion.h1
-                  custom={0.12}
-                  variants={reveal}
-                  initial="hidden"
-                  animate="visible"
-                  className="font-raleway font-light text-white text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl leading-[1.2] tracking-normal"
-                >
-                  {heroContent.headingLine1}
-                  <span className="block text-gold-300">{heroContent.headingLine2}</span>
-                </motion.h1>
-              </div>
-
-              <motion.p
-                custom={0.4}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="font-sans text-neutral-300 text-base md:text-lg lg:text-lg leading-relaxed max-w-lg lg:max-w-xl mb-9 lg:mb-11 mx-auto sm:mx-0"
-              >
-                {heroContent.subtitle}
-              </motion.p>
-
-              <motion.div
-                custom={0.6}
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                className="flex items-center flex-wrap gap-4 justify-center sm:justify-start"
-              >
-                {heroCTAs.map((cta) => {
-                  const Icon = cta.icon;
-                  const isPrimary = cta.variant === 'primary';
-                  return (
-                    <motion.div
-                      key={cta.href}
-                      whileHover={{ scale: 1.035 }}
-                      whileTap={{ scale: 0.97 }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                      className="relative inline-flex"
-                    >
-                      {isPrimary && (
-                        <motion.span
-                          aria-hidden="true"
-                          animate={{ opacity: [0.45, 0.85, 0.45] }}
-                          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-                          className="absolute inset-0 rounded-lg bg-gold-500/40 blur-md -z-10"
-                        />
-                      )}
-                      <Link
-                        href={cta.href}
-                        className={cn(
-                          buttonVariants({ variant: cta.variant, size: 'xl', uppercase: true }),
-                          'group',
-                          isPrimary
-                            ? 'shadow-gold-cta hover:shadow-gold-cta-hover'
-                            : 'hover:shadow-glow-dark'
-                        )}
-                      >
-                        {Icon && (
-                          <span
-                            className={cn(
-                              'flex items-center justify-center w-5 h-5 rounded-full shrink-0 transition-colors duration-200',
-                              isPrimary
-                                ? 'bg-surface-base/90 group-hover:bg-surface-base'
-                                : 'bg-white/10 border border-white/20 group-hover:bg-gold-500 group-hover:border-gold-500'
-                            )}
-                          >
-                            <Icon
-                              className={cn(
-                                'h-2.5 w-2.5 fill-current transition-colors duration-200',
-                                isPrimary ? 'text-gold-400' : 'text-white group-hover:text-black'
-                              )}
-                            />
-                          </span>
-                        )}
-                        {cta.label}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
+      {/* 4. Main Hero Content */}
+      <div className="relative z-10 container-site w-full pt-28 pb-14 sm:pb-16 lg:py-32">
+        <div className="max-w-2xl text-left">
+          {/* Live Soundwave Pill */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-purple-950/75 backdrop-blur-md border border-gold-400/50 shadow-xs mb-4 sm:mb-5 w-fit"
+          >
+            <div className="flex items-end gap-0.5 h-3.5 w-3.5 text-gold-400" aria-hidden="true">
+              <motion.span
+                animate={{ height: ['30%', '90%', '40%'] }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-0.5 bg-current rounded-full"
+              />
+              <motion.span
+                animate={{ height: ['90%', '30%', '80%'] }}
+                transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-0.5 bg-current rounded-full"
+              />
+              <motion.span
+                animate={{ height: ['40%', '100%', '30%'] }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-0.5 bg-current rounded-full"
+              />
+              <motion.span
+                animate={{ height: ['70%', '40%', '90%'] }}
+                transition={{ duration: 1.0, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-0.5 bg-current rounded-full"
+              />
             </div>
+            <span className="font-sans text-[0.65rem] sm:text-[0.68rem] tracking-[0.14em] uppercase font-semibold text-gold-200">
+              Latest Single &bull; Holy One of Israel
+            </span>
+          </motion.div>
+
+          {/* Eyebrow */}
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center gap-3 mb-3 sm:mb-4"
+          >
+            <span className="h-px w-8 bg-gold-400" />
+            <span className="label-eyebrow text-gold-300 font-semibold tracking-[0.16em]">
+              {heroContent.eyebrow}
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <div className="overflow-hidden mb-3.5 sm:mb-5">
+            <motion.h1
+              custom={0.1}
+              variants={reveal}
+              initial="hidden"
+              animate="visible"
+              className="font-raleway font-light text-white text-3xl sm:text-5xl lg:text-5.5xl leading-[1.12] tracking-tight drop-shadow-md"
+            >
+              {heroContent.headingLine1}
+              <span className="block font-medium text-gold-300 mt-1 sm:mt-2">
+                {heroContent.headingLine2}
+              </span>
+            </motion.h1>
           </div>
+
+          {/* Subtitle */}
+          <motion.p
+            custom={0.25}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="font-sans text-purple-100/90 text-sm sm:text-base lg:text-lg leading-relaxed mb-7 sm:mb-8 max-w-xl drop-shadow-sm"
+          >
+            {heroContent.subtitle}
+          </motion.p>
+
+          {/* Sleek Action Buttons — Tactile, never shrinked, never full-width on mobile */}
+          <motion.div
+            custom={0.4}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center flex-wrap gap-3 sm:gap-4 mb-8 sm:mb-10"
+          >
+            <Button
+              href="/music"
+              variant="primary"
+              size="lg"
+              uppercase
+              leftIcon={<Play className="h-4 w-4 fill-current" />}
+            >
+              Listen to Music
+            </Button>
+
+            <Button
+              href="/bookings"
+              variant="outline-white"
+              size="lg"
+              uppercase
+              leftIcon={<CalendarDays className="h-4 w-4" />}
+            >
+              Book Minister
+            </Button>
+          </motion.div>
+
+          {/* Credibility Micro-Strip */}
+          <motion.div
+            custom={0.5}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="pt-5 sm:pt-6 border-t border-purple-800/60 flex items-center gap-6 sm:gap-10 text-xs sm:text-sm text-purple-200/80 font-sans"
+          >
+            <div>
+              <span className="font-display font-bold text-white text-base sm:text-xl block">
+                7
+              </span>
+              Studio Albums
+            </div>
+            <div className="w-px h-8 bg-purple-800/60" />
+            <div>
+              <span className="font-display font-bold text-white text-base sm:text-xl block">
+                8+
+              </span>
+              Years in Ministry
+            </div>
+            <div className="w-px h-8 bg-purple-800/60" />
+            <div>
+              <span className="font-display font-bold text-gold-300 text-base sm:text-xl block">
+                Global
+              </span>
+              Worship Calling
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -235,9 +234,11 @@ export function Hero() {
       <motion.div
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        className="hidden sm:flex absolute z-10 bottom-6 right-6 sm:right-10 flex-col items-center gap-2 text-white/50"
+        className="hidden sm:flex absolute z-10 bottom-4 right-6 sm:right-10 flex-col items-center gap-1.5 text-purple-300/70 pointer-events-none"
       >
-        <span className="font-sans text-[0.55rem] tracking-[0.25em] uppercase">Scroll</span>
+        <span className="font-sans text-[0.55rem] tracking-[0.25em] uppercase font-medium">
+          Scroll
+        </span>
         <ChevronDown className="h-4 w-4" aria-hidden="true" />
       </motion.div>
     </Section>
