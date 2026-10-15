@@ -1,36 +1,32 @@
-import type { ComponentPropsWithoutRef, ReactElement } from 'react';
-
 declare module 'react-icons' {
   export type IconType = (
-    props: ComponentPropsWithoutRef<'svg'> & {
+    props: React.ComponentPropsWithoutRef<'svg'> & {
       size?: string | number;
       color?: string;
       title?: string;
     }
-  ) => ReactElement;
+  ) => React.ReactElement;
 }
 
 declare module 'react-icons/fa' {
-  import type { IconType } from 'react-icons';
-  export const FaCreditCard: IconType;
-  export const FaUniversity: IconType;
-  export const FaGlobe: IconType;
-  export const FaMobileAlt: IconType;
-  export const FaBuilding: IconType;
-  export type { IconType };
+  export const FaCreditCard: import('react-icons').IconType;
+  export const FaUniversity: import('react-icons').IconType;
+  export const FaGlobe: import('react-icons').IconType;
+  export const FaMobileAlt: import('react-icons').IconType;
+  export const FaBuilding: import('react-icons').IconType;
+  export type IconType = import('react-icons').IconType;
 }
 
 declare module 'react-icons/fa6' {
-  import type { IconType } from 'react-icons';
-  export const FaSpotify: IconType;
-  export const FaApple: IconType;
-  export const FaYoutube: IconType;
-  export const FaDeezer: IconType;
-  export const FaAmazon: IconType;
-  export const FaFacebookF: IconType;
-  export const FaXTwitter: IconType;
-  export const FaInstagram: IconType;
-  export const FaLinkedinIn: IconType;
-  export const FaTiktok: IconType;
-  export type { IconType };
+  export const FaSpotify: import('react-icons').IconType;
+  export const FaApple: import('react-icons').IconType;
+  export const FaYoutube: import('react-icons').IconType;
+  export const FaDeezer: import('react-icons').IconType;
+  export const FaAmazon: import('react-icons').IconType;
+  export const FaFacebookF: import('react-icons').IconType;
+  export const FaXTwitter: import('react-icons').IconType;
+  export const FaInstagram: import('react-icons').IconType;
+  export const FaLinkedinIn: import('react-icons').IconType;
+  export const FaTiktok: import('react-icons').IconType;
+  export type IconType = import('react-icons').IconType;
 }
