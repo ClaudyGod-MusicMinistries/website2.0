@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Cookie, Settings2, ShieldCheck, SlidersHorizontal, X } from 'lucide-react';
 import { Dialog } from '@/components/ui/Dialog';
+import { Button } from '@/components/ui/Button';
 import {
   acceptAll,
   getStoredConsent,
@@ -116,28 +117,32 @@ export function CookieConsent() {
                   </Link>
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-2 sm:flex md:shrink-0">
-                <button
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center md:shrink-0">
+                <Button
                   type="button"
+                  variant="outline-dark"
+                  size="sm"
                   onClick={() => finish('necessary')}
-                  className="h-10 rounded-lg border border-neutral-300 px-3 text-xs font-semibold text-neutral-700 transition hover:bg-neutral-50"
                 >
                   Necessary only
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="outline-dark"
+                  size="sm"
                   onClick={() => setSettingsOpen(true)}
-                  className="h-10 rounded-lg border border-neutral-300 px-3 text-xs font-semibold text-neutral-700 transition hover:border-purple-300 hover:text-purple-700"
                 >
                   Settings
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="sm"
                   onClick={() => finish('all')}
-                  className="col-span-2 h-10 rounded-lg bg-purple-700 px-4 text-xs font-semibold text-white transition hover:bg-purple-600 sm:col-auto"
+                  className="col-span-2 sm:col-auto"
                 >
                   Allow preferences
-                </button>
+                </Button>
               </div>
             </div>
           </motion.aside>
@@ -212,21 +217,18 @@ export function CookieConsent() {
           </div>
 
           <div className="border-t border-neutral-100 bg-neutral-50 px-5 py-4 sm:px-6">
-            <div className="grid gap-2 sm:grid-cols-2">
-              <button
+            <div className="grid gap-2.5 sm:grid-cols-2">
+              <Button
                 type="button"
+                variant="outline-dark"
+                size="md"
                 onClick={() => finish('necessary')}
-                className="h-11 rounded-lg border border-neutral-300 bg-white text-sm font-semibold text-neutral-700 hover:bg-neutral-100"
               >
                 Use necessary only
-              </button>
-              <button
-                type="button"
-                onClick={() => finish('custom')}
-                className="h-11 rounded-lg bg-purple-700 text-sm font-semibold text-white hover:bg-purple-600"
-              >
+              </Button>
+              <Button type="button" variant="secondary" size="md" onClick={() => finish('custom')}>
                 Save choices
-              </button>
+              </Button>
             </div>
             <p className="mt-3 text-center text-xs text-neutral-500">
               <Link href="/legal/cookies" className="hover:text-purple-700 hover:underline">

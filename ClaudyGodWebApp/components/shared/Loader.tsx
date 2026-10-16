@@ -87,8 +87,8 @@ export function Loader() {
             }}
           />
 
-          {/* ── Rising particles — worship "rising up", not random drift ── */}
-          <Particles color="gold" glyph="✦" count={9} direction="rise" />
+          {/* ── Rising ambient light particles ── */}
+          <Particles color="gold" glyph="•" count={6} direction="rise" />
 
           {/* ── Centre content ───────────────────────────── */}
           <div className="relative z-10 flex flex-col items-center gap-5 sm:gap-8">

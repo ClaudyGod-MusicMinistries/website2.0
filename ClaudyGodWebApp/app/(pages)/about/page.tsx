@@ -10,7 +10,7 @@ import { breadcrumb, person } from '@/lib/utils/jsonLd';
 export const metadata: Metadata = {
   title: 'About ClaudyGod — Nigerian Gospel Artist, Minister & Worship Leader',
   description:
-    'Discover the story of Minister ClaudyGod — Nigerian gospel artist, songwriter, evangelist, and worship leader from Port Harcourt. Over 20 years of Spirit-filled ministry, 7 studio albums, and a global gospel impact.',
+    'Discover the story of Minister ClaudyGod — Nigerian gospel artist, songwriter, evangelist, and worship leader from Port Harcourt. Over 8 years of Spirit-filled ministry, 7 studio albums, and a global gospel impact.',
   keywords: [
     'ClaudyGod biography',
     'who is ClaudyGod',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     'ClaudyGod ministry history',
     'ClaudyGod albums',
     'gospel music minister Nigeria',
-    'ClaudyGod 20 years ministry',
+    'ClaudyGod 8+ years ministry',
     'Rivers State gospel artist',
     'Christian music artist Nigeria',
     'ClaudyGod calling testimony',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Minister ClaudyGod — Nigerian Gospel Artist & Worship Leader',
     description:
-      'Over 20 years of faithful ministry, 7 studio albums, and a God-breathed calling — discover the woman behind the worship.',
+      'Over 8 years of faithful ministry, 7 studio albums, and a God-breathed calling — discover the woman behind the worship.',
     url: '/about',
     type: 'profile',
     images: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'About Minister ClaudyGod — Nigerian Gospel Artist',
-    description: 'Over 20 years of ministry, 7 albums, and a God-given calling.',
+    description: 'Over 8 years of ministry, 7 albums, and a God-given calling.',
     images: ['/ClaudySocial-wide.png'],
   },
   alternates: { canonical: `${SITE_URL}/about` },
@@ -63,7 +63,7 @@ const schemas = [
       occupationLocation: { '@type': 'Country', name: 'Nigeria' },
       skills: 'Gospel singing, songwriting, worship leading, preaching, evangelism',
     },
-    award: 'Over 20 years of faithful gospel ministry',
+    award: 'Over 8 years of faithful gospel ministry',
     numberOfAlbums: 7,
   },
 ];

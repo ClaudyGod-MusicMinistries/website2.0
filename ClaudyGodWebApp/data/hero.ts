@@ -16,7 +16,7 @@ export const heroContent: HeroContent = {
   headingLine1: 'Spirit-Filled Worship,',
   headingLine2: 'Sent to the Nations.',
   subtitle:
-    'Gospel music, ministry, and worship from Minister ClaudyGod — seven albums, two decades of ministry, one calling.',
+    'Gospel music, ministry, and worship from Minister ClaudyGod — seven albums, 8+ years of ministry, one calling.',
 };
 
 export interface HeroCTA {

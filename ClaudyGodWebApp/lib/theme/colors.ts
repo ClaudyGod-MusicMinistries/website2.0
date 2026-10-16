@@ -26,6 +26,7 @@ export const purple = {
   700: '#4C3873',
   800: '#382957',
   900: '#251B3D',
+  950: '#181128',
 } as const;
 
 /** Purple-tinted grayscale — overrides Tailwind's default `neutral`. */

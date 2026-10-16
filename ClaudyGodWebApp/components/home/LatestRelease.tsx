@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Play, Sparkles } from 'lucide-react';
+import { X, Play, Volume2, ArrowRight } from 'lucide-react';
 import { latestReleasePlatforms } from '@/data/music';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
-import { buttonVariants } from '@/lib/theme/buttons';
+import { Button } from '@/components/ui/Button';
 import { AmbientGlow, Skeleton, YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
@@ -68,14 +68,26 @@ export function LatestRelease() {
 
   return (
     <>
-      <section className="relative bg-white section-py overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <section className="relative bg-gradient-to-b from-purple-950 via-purple-900 to-purple-950 section-py overflow-hidden border-t border-b border-purple-800/80">
+        {/* Structured atmospheric studio background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+          <div className="absolute inset-0 opacity-25 mix-blend-screen">
+            <Image src="/MusicBanner5.webp" alt="" fill className="object-cover object-center" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-purple-950/80 via-transparent to-purple-950/90" />
+          <AmbientGlow
+            color="gold"
+            size={650}
+            opacity={0.18}
+            animate={true}
+            className="-top-[200px] -right-[150px]"
+          />
           <AmbientGlow
             color="purple"
-            size={600}
-            opacity={0.05}
+            size={700}
+            opacity={0.3}
             animate={false}
-            className="-top-[250px] -right-[200px]"
+            className="-bottom-[200px] -left-[150px]"
           />
         </div>
 
@@ -89,13 +101,16 @@ export function LatestRelease() {
             className="text-center mb-10 sm:mb-14"
           >
             <div className="flex items-center justify-center gap-4 mb-5">
-              <span className="rule-gold" />
-              <span className="label-eyebrow">Latest Releases</span>
+              <span className="h-px w-8 bg-gold-400" />
+              <span className="label-eyebrow text-gold-300 font-semibold tracking-[0.18em]">
+                Latest Releases
+              </span>
+              <span className="h-px w-8 bg-gold-400" />
             </div>
-            <h2 className="font-raleway font-light text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-normal leading-[1.15] mb-4 sm:mb-5">
+            <h2 className="font-raleway font-light text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-normal leading-[1.15] mb-4 sm:mb-5">
               New songs of worship and praise.
             </h2>
-            <p className="font-sans text-neutral-500 text-base leading-relaxed max-w-md mx-auto">
+            <p className="font-sans text-purple-200/90 text-base leading-relaxed max-w-lg mx-auto">
               Watch the newest visuals and share these anointed moments with your community.
             </p>
           </motion.div>
@@ -121,7 +136,7 @@ export function LatestRelease() {
                   <button
                     key={video.key}
                     onClick={() => setOpenVideo(video)}
-                    className="group relative w-full aspect-video rounded-xl overflow-hidden shadow-card-light-lg cursor-pointer ring-1 ring-black/[0.04]"
+                    className="group relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl cursor-pointer ring-1 ring-gold-400/30 hover:ring-gold-400/80 transition-all duration-500"
                     aria-label={`Play ${video.title}`}
                   >
                     <YoutubeThumbnail
@@ -133,10 +148,10 @@ export function LatestRelease() {
                       priority={idx === 0}
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-950/90 via-purple-950/20 to-transparent" />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300" />
 
-                    {/* Play button — small, gold-accented on hover, scales cleanly */}
+                    {/* Play button — gold luxury pill, scales cleanly */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <motion.div
                         className="absolute w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-gold-400/50"
@@ -152,21 +167,21 @@ export function LatestRelease() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         transition={{ duration: 0.25 }}
-                        className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center group-hover:bg-gold-500 group-hover:border-gold-500 transition-colors duration-300"
+                        className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gold-500 border border-gold-300 flex items-center justify-center group-hover:bg-gold-400 transition-colors duration-300 shadow-gold-md"
                       >
-                        <Play className="h-4 w-4 sm:h-[1.1rem] sm:w-[1.1rem] text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
+                        <Play className="h-4 w-4 sm:h-[1.1rem] sm:w-[1.1rem] text-purple-950 fill-purple-950 ml-0.5" />
                       </motion.div>
                     </div>
 
                     {/* Badge */}
-                    <div className="absolute top-5 left-5 inline-flex items-center gap-1.5 bg-gold-500 text-black font-sans font-semibold text-[0.6rem] tracking-[0.16em] uppercase px-3.5 py-1.5 rounded-full shadow-lg">
-                      <Sparkles className="h-3 w-3 fill-current" />
+                    <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 bg-purple-950/85 backdrop-blur-md text-gold-300 border border-gold-400/40 font-sans font-semibold text-[0.62rem] tracking-[0.14em] uppercase px-3 py-1.5 rounded-full shadow-md">
+                      <Volume2 className="h-3.5 w-3.5 text-gold-400" />
                       {video.badge}
                     </div>
 
                     {/* Title */}
                     <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 text-left">
-                      <p className="font-display font-bold text-white text-lg sm:text-xl leading-snug line-clamp-2">
+                      <p className="font-display font-bold text-white group-hover:text-gold-200 transition-colors text-lg sm:text-xl leading-snug line-clamp-2">
                         {video.title}
                       </p>
                     </div>
@@ -182,10 +197,10 @@ export function LatestRelease() {
                 transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="mt-10 sm:mt-12 text-center"
               >
-                <p className="font-sans text-[0.65rem] tracking-[0.18em] uppercase text-neutral-400 font-semibold mb-4">
+                <p className="font-sans text-[0.68rem] tracking-[0.2em] uppercase text-gold-300/80 font-semibold mb-4">
                   Listen Everywhere
                 </p>
-                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                <div className="flex flex-wrap justify-center gap-2.5 mb-10">
                   {latestReleasePlatforms.map((platform) => {
                     const Icon = platform.icon;
                     return (
@@ -195,7 +210,7 @@ export function LatestRelease() {
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ '--brand': platform.brandColor } as React.CSSProperties}
-                        className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-neutral-200 hover:border-[var(--brand)]/60 hover:bg-[var(--brand)]/5 text-neutral-500 hover:text-[var(--brand)] transition-all duration-300 group/icon"
+                        className="inline-flex items-center justify-center w-11 h-11 rounded-xl border border-purple-800/80 bg-purple-900/60 backdrop-blur-sm text-purple-200 hover:text-[var(--brand)] hover:border-[var(--brand)]/80 hover:bg-[var(--brand)]/10 transition-all duration-300 group/icon shadow-2xs"
                         title={platform.name}
                       >
                         <Icon className="h-4 w-4 transition-transform duration-300 group-hover/icon:scale-110" />
@@ -204,29 +219,21 @@ export function LatestRelease() {
                   })}
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-3 pt-8 border-t border-neutral-200">
-                  <Link
+                <div className="flex flex-wrap justify-center gap-3 pt-8 border-t border-purple-800/60">
+                  <Button
                     href="/music"
-                    className={cn(
-                      buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }),
-                      'group'
-                    )}
+                    variant="primary"
+                    size="lg"
+                    uppercase
+                    rightIcon={
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                    }
                   >
                     View All Music
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
-                      →
-                    </span>
-                  </Link>
-                  <Link
-                    href="/videos"
-                    className={buttonVariants({
-                      variant: 'outline-dark',
-                      size: 'lg',
-                      uppercase: true,
-                    })}
-                  >
+                  </Button>
+                  <Button href="/videos" variant="outline-white" size="lg" uppercase>
                     More Videos
-                  </Link>
+                  </Button>
                 </div>
               </motion.div>
             </div>

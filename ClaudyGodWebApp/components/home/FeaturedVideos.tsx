@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Play, X, ChevronRight, Clock } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
 import { toVideoView } from '@/lib/data/adapters';
-import { buttonVariants } from '@/lib/theme/buttons';
-import { AmbientGlow, Skeleton, YoutubeThumbnail } from '@/components/ui';
+import { Button } from '@/components/ui/Button';
+import { Skeleton, YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 
 const stagger = {
@@ -54,58 +53,37 @@ export function FeaturedVideos() {
   };
 
   return (
-    <section className="relative bg-surface-deep overflow-hidden">
-      {/* Ambient glows */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <AmbientGlow
-          color="purple"
-          size={600}
-          opacity={0.12}
-          animate={false}
-          className="-top-[300px] -right-[300px]"
-        />
-        <AmbientGlow
-          color="gold"
-          size={400}
-          opacity={0.06}
-          animate={false}
-          className="-bottom-[200px] -left-[200px]"
-        />
-      </div>
-
-      {/* Top gold accent */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/40 to-transparent" />
-
-      <div className="relative container-site py-12 sm:py-16 md:py-20 lg:py-28">
+    <section className="relative bg-white py-16 sm:py-24 border-t border-neutral-200/70 overflow-hidden">
+      <div className="relative container-site z-10">
         {/* Header */}
         <div className="flex items-end justify-between mb-8 sm:mb-12">
           <div>
-            <div className="flex items-center gap-4 mb-3">
-              <span className="block w-8 h-px bg-gold-500 opacity-70" />
-              <span className="label-eyebrow">Watch & Worship</span>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="h-px w-6 bg-gold-500" />
+              <span className="label-eyebrow text-gold-700 font-semibold">Watch & Worship</span>
             </div>
-            <h2 className="font-display text-white text-2xl sm:text-3xl md:text-4xl leading-tight tracking-tight">
-              Featured Videos
+            <h2 className="font-raleway font-light text-neutral-900 text-3xl sm:text-4xl tracking-tight">
+              Featured Videos & Ministration
             </h2>
           </div>
-          <Link
+          <Button
             href="/videos"
-            className={cn(
-              buttonVariants({ variant: 'outline', size: 'lg', uppercase: true }),
-              'hidden sm:inline-flex group'
-            )}
+            variant="dark"
+            size="sm"
+            uppercase
+            rightIcon={<ChevronRight className="h-3.5 w-3.5" />}
+            className="hidden sm:inline-flex"
           >
-            See All
-            <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
+            See All Videos
+          </Button>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-3 sm:gap-4">
-            <Skeleton className="aspect-video w-full" rounded="lg" />
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-4">
+            <Skeleton className="aspect-video w-full rounded-2xl" />
             <div className="flex flex-col gap-3">
               {[0, 1, 2].map((i) => (
-                <Skeleton key={i} className="flex-1 min-h-[88px]" rounded="lg" />
+                <Skeleton key={i} className="flex-1 min-h-[88px] rounded-2xl" />
               ))}
             </div>
           </div>
@@ -117,12 +95,12 @@ export function FeaturedVideos() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-60px' }}
-              className="grid grid-cols-1 lg:grid-cols-[1fr_340px] items-start gap-3 sm:gap-4 mb-3 sm:mb-4"
+              className="grid grid-cols-1 lg:grid-cols-[1fr_340px] items-start gap-4 mb-4"
             >
               {/* Display card — plays inline once a video is selected */}
               <motion.div
                 variants={cardVariant}
-                className="group relative overflow-hidden bg-neutral-900 rounded-xl ring-1 ring-white/[0.06] hover:ring-purple-500/40 transition-all duration-400"
+                className="group relative overflow-hidden bg-neutral-900 rounded-2xl border border-neutral-200/80 shadow-card-light-lg"
                 style={{ aspectRatio: '16/9' }}
               >
                 {isPlaying && display.youtubeId ? (
@@ -137,7 +115,7 @@ export function FeaturedVideos() {
                     />
                     <button
                       onClick={() => setIsPlaying(false)}
-                      aria-label="Stop"
+                      aria-label="Stop video"
                       className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white transition-colors duration-200"
                     >
                       <X className="h-4 w-4" />
@@ -153,30 +131,29 @@ export function FeaturedVideos() {
                       youtubeId={display.youtubeId!}
                       alt={display.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.05] opacity-80 group-hover:opacity-100"
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                       sizes="(max-width:1024px) 100vw, 65vw"
                     />
                     {/* Cinematic gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
 
                     {/* Play button */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-white/25 flex items-center justify-center bg-black/30 group-hover:bg-gold-500 group-hover:border-gold-500 group-hover:scale-110 transition-all duration-300">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-white/40 flex items-center justify-center bg-white/20 backdrop-blur-md group-hover:bg-gold-500 group-hover:border-gold-500 group-hover:scale-110 transition-all duration-300 shadow-md">
                         <Play className="h-5 w-5 sm:h-6 sm:w-6 text-white fill-white ml-0.5 group-hover:text-black group-hover:fill-black transition-colors duration-300" />
                       </div>
                     </div>
 
                     {/* Bottom info */}
-                    <div className="absolute inset-x-0 bottom-0 p-6 text-left">
-                      <span className="inline-block font-sans text-[0.65rem] tracking-[0.18em] uppercase text-gold-400 bg-black/60 px-3 py-1 rounded-full mb-3">
-                        {display.id === featured.id ? 'Featured' : 'Now Selected'}
+                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7 text-left">
+                      <span className="inline-block font-sans text-[0.62rem] tracking-[0.16em] uppercase font-semibold text-gold-300 bg-black/60 px-3 py-1 rounded-full mb-2.5 backdrop-blur-xs">
+                        {display.id === featured.id ? 'Featured Visual' : 'Now Playing'}
                       </span>
-                      <p className="font-display font-bold text-white text-xl md:text-2xl leading-snug line-clamp-2 mb-2">
+                      <p className="font-display font-semibold text-white text-lg sm:text-2xl leading-snug line-clamp-2 mb-2">
                         {display.title}
                       </p>
                       {display.duration && (
-                        <span className="flex items-center gap-1.5 font-sans text-[0.65rem] tracking-[0.12em] uppercase text-white/50">
+                        <span className="flex items-center gap-1.5 font-sans text-[0.65rem] tracking-[0.12em] uppercase text-white/70">
                           <Clock className="h-3 w-3" />
                           {display.duration}
                         </span>
@@ -196,34 +173,31 @@ export function FeaturedVideos() {
                         key={video.id}
                         onClick={() => play(video.id)}
                         className={cn(
-                          'group relative flex gap-4 items-center shrink-0 border p-3.5 rounded-xl transition-all duration-300 cursor-pointer text-left overflow-hidden',
+                          'group relative flex gap-3.5 items-center shrink-0 border p-3 rounded-2xl transition-all duration-200 cursor-pointer text-left overflow-hidden',
                           active
-                            ? 'bg-white/[0.1] border-gold-500/40'
-                            : 'bg-white/[0.04] hover:bg-white/[0.08] border-white/[0.05] hover:border-purple-500/30'
+                            ? 'bg-purple-50/90 border-purple-300 shadow-xs'
+                            : 'bg-cream-50/80 hover:bg-white border-neutral-200/80 hover:border-gold-300/80 shadow-2xs'
                         )}
                       >
                         {/* Thumbnail */}
-                        <div className="relative w-28 h-16 flex-shrink-0 overflow-hidden rounded-lg">
+                        <div className="relative w-24 h-15 sm:w-28 sm:h-16 flex-shrink-0 overflow-hidden rounded-xl bg-neutral-100">
                           <YoutubeThumbnail
                             youtubeId={video.youtubeId!}
                             alt={video.title}
                             fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-[1.07] opacity-75 group-hover:opacity-100"
+                            className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                             sizes="112px"
                           />
-                          <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
                             <div
                               className={cn(
-                                'w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-300',
-                                active ? 'bg-gold-500' : 'bg-black/50 group-hover:bg-purple-600/80'
+                                'w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center transition-colors duration-200',
+                                active
+                                  ? 'bg-gold-500 text-black'
+                                  : 'bg-black/60 text-white group-hover:bg-purple-600'
                               )}
                             >
-                              <Play
-                                className={cn(
-                                  'h-3 w-3 fill-white ml-px',
-                                  active ? 'text-black fill-black' : 'text-white'
-                                )}
-                              />
+                              <Play className="h-2.5 w-2.5 fill-current ml-px" />
                             </div>
                           </div>
                         </div>
@@ -232,27 +206,21 @@ export function FeaturedVideos() {
                         <div className="flex-1 min-w-0">
                           <p
                             className={cn(
-                              'font-display font-semibold text-xs leading-snug line-clamp-2 mb-1.5 transition-colors duration-300',
-                              active ? 'text-gold-300' : 'text-white/75 group-hover:text-white'
+                              'font-display font-medium text-xs leading-snug line-clamp-2 mb-1 transition-colors duration-200',
+                              active
+                                ? 'text-purple-900 font-semibold'
+                                : 'text-neutral-800 group-hover:text-purple-700'
                             )}
                           >
                             {video.title}
                           </p>
                           {video.duration && (
-                            <span className="flex items-center gap-1 font-sans text-[0.65rem] tracking-[0.1em] uppercase text-white/30">
+                            <span className="flex items-center gap-1 font-sans text-[0.62rem] tracking-wider uppercase text-neutral-400">
                               <Clock className="h-2.5 w-2.5" />
                               {video.duration}
                             </span>
                           )}
                         </div>
-
-                        {/* Gold left border */}
-                        <span
-                          className={cn(
-                            'absolute left-0 inset-y-0 w-0.5 bg-gold-500 origin-center rounded-full transition-transform duration-300',
-                            active ? 'scale-y-100' : 'scale-y-0 group-hover:scale-y-100'
-                          )}
-                        />
                       </button>
                     );
                   })}
@@ -267,7 +235,7 @@ export function FeaturedVideos() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: '-40px' }}
-                className="grid grid-cols-2 lg:grid-cols-4 gap-3"
+                className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4"
               >
                 {bottomRow.map((video) => {
                   const active = video.id === display.id;
@@ -277,18 +245,20 @@ export function FeaturedVideos() {
                       variants={cardVariant}
                       onClick={() => play(video.id)}
                       className={cn(
-                        'group relative aspect-video overflow-hidden bg-neutral-900 cursor-pointer rounded-xl ring-1 transition-all duration-300',
-                        active ? 'ring-gold-500/60' : 'ring-white/[0.04] hover:ring-purple-500/30'
+                        'group relative aspect-video overflow-hidden bg-neutral-900 cursor-pointer rounded-2xl border transition-all duration-300 shadow-xs',
+                        active
+                          ? 'border-purple-500 ring-2 ring-purple-400/40'
+                          : 'border-neutral-200/80 hover:border-gold-300'
                       )}
                     >
                       <YoutubeThumbnail
                         youtubeId={video.youtubeId!}
                         alt={video.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.07] opacity-70 group-hover:opacity-95"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
                         sizes="(max-width:768px) 50vw, 25vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
 
                       <div
                         className={cn(
@@ -296,18 +266,13 @@ export function FeaturedVideos() {
                           active ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                         )}
                       >
-                        <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center shadow-gold">
-                          <Play className="h-4 w-4 text-black fill-black ml-px" />
+                        <div className="w-9 h-9 rounded-full bg-gold-500 flex items-center justify-center shadow-md">
+                          <Play className="h-3.5 w-3.5 text-black fill-black ml-px" />
                         </div>
                       </div>
 
-                      <div className="absolute inset-x-0 bottom-0 p-3">
-                        <p
-                          className={cn(
-                            'font-display font-semibold text-xs leading-snug line-clamp-2 transition-colors duration-300',
-                            active ? 'text-gold-300' : 'text-white/85 group-hover:text-white'
-                          )}
-                        >
+                      <div className="absolute inset-x-0 bottom-0 p-3 text-left">
+                        <p className="font-display font-medium text-xs leading-snug line-clamp-1 text-white group-hover:text-gold-300 transition-colors">
                           {video.title}
                         </p>
                       </div>
@@ -319,23 +284,19 @@ export function FeaturedVideos() {
           </>
         )}
 
-        {/* Mobile see all */}
-        <div className="mt-10 flex justify-center sm:hidden">
-          <Link
+        {/* Mobile see all — Compact, sleek pill */}
+        <div className="mt-8 flex justify-center sm:hidden">
+          <Button
             href="/videos"
-            className={cn(
-              buttonVariants({ variant: 'soft', size: 'lg', uppercase: true }),
-              'group'
-            )}
+            variant="dark"
+            size="md"
+            uppercase
+            rightIcon={<ChevronRight className="h-3.5 w-3.5" />}
           >
             See All Videos
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
+          </Button>
         </div>
       </div>
-
-      {/* Bottom gold accent */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/20 to-transparent" />
     </section>
   );
 }

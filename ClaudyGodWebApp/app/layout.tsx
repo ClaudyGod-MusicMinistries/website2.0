@@ -8,7 +8,7 @@ import './globals.css';
 
 // ─── Viewport ──────────────────────────────────────────────────────────────
 export const viewport: Viewport = {
-  themeColor: '#080808',
+  themeColor: '#ffffff',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -135,7 +135,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://open.spotify.com" />
         <link rel="dns-prefetch" href="https://music.apple.com" />
       </head>
-      <body className="font-display bg-surface-base text-white antialiased min-h-dvh">
+      <body className="font-sans bg-white text-neutral-900 antialiased min-h-dvh selection:bg-gold-500/20 selection:text-gold-900">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1000] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:font-sans focus:text-sm focus:font-semibold focus:text-neutral-900"

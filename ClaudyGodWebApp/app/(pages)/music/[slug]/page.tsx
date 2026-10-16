@@ -2,16 +2,21 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ArrowLeft } from 'lucide-react';
 import { getRelease, releases } from '@/data/releases';
 import { SITE_NAME, SITE_URL } from '@/lib/config/site';
+import { Button } from '@/components/ui/Button';
+import { cn } from '@/lib/utils/cn';
+
+type PageProps = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
   return releases.map(({ slug }) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const release = getRelease(params.slug);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const release = getRelease(slug);
   if (!release) return {};
   return {
     title: release.title,
@@ -26,8 +31,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function ReleasePage({ params }: { params: { slug: string } }) {
-  const release = getRelease(params.slug);
+export default async function ReleasePage({ params }: PageProps) {
+  const { slug } = await params;
+  const release = getRelease(slug);
   if (!release) notFound();
   const schema = {
     '@context': 'https://schema.org',
@@ -40,17 +46,24 @@ export default function ReleasePage({ params }: { params: { slug: string } }) {
   };
 
   return (
-    <section className="min-h-screen bg-surface-base pt-28 pb-20">
+    <section className="min-h-screen bg-white text-neutral-900 pt-28 pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <div className="container-narrow">
-        <Link href="/music" className="font-sans text-sm text-gold-400 hover:text-gold-300">
-          ← Back to music
-        </Link>
-        <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center mt-8">
-          <div className="relative aspect-square overflow-hidden rounded-2xl shadow-popup">
+        <Button
+          href="/music"
+          variant="outline-dark"
+          size="sm"
+          uppercase
+          leftIcon={<ArrowLeft className="h-3.5 w-3.5" />}
+          className="mb-6"
+        >
+          Back to Music
+        </Button>
+        <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center mt-4">
+          <div className="relative aspect-square overflow-hidden rounded-3xl shadow-card-light-lg border border-neutral-200/80 bg-neutral-100">
             <Image
               src={release.artwork}
               alt={`${release.title} cover artwork`}
@@ -61,11 +74,16 @@ export default function ReleasePage({ params }: { params: { slug: string } }) {
             />
           </div>
           <div>
-            <p className="label-eyebrow text-gold-400 mb-3">Official Release</p>
-            <h1 className="font-raleway font-light text-4xl md:text-5xl text-white leading-tight">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="h-px w-6 bg-gold-500" />
+              <span className="label-eyebrow text-gold-700 font-semibold">Official Release</span>
+            </div>
+            <h1 className="font-raleway font-light text-4xl md:text-5xl text-neutral-900 leading-tight">
               {release.title}
             </h1>
-            <p className="font-sans text-neutral-400 leading-relaxed mt-5">{release.description}</p>
+            <p className="font-sans text-neutral-600 leading-relaxed mt-4 text-base">
+              {release.description}
+            </p>
             <div className="flex flex-col gap-3 mt-8">
               {Object.entries(release.links).map(([platform, url]) => (
                 <a
@@ -73,10 +91,10 @@ export default function ReleasePage({ params }: { params: { slug: string } }) {
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.04] px-5 py-4 font-sans text-sm text-white hover:border-gold-500/40 hover:bg-white/[0.07]"
+                  className="flex items-center justify-between rounded-2xl border border-neutral-200 bg-cream-50/70 px-5 py-4 font-sans text-sm font-medium text-neutral-800 hover:border-gold-400 hover:bg-gold-50/50 hover:text-gold-900 transition-all duration-200 shadow-2xs"
                 >
-                  Listen on {platform}
-                  <ExternalLink className="h-4 w-4 text-gold-400" aria-hidden="true" />
+                  <span className="capitalize">Listen on {platform}</span>
+                  <ExternalLink className="h-4 w-4 text-gold-600" aria-hidden="true" />
                 </a>
               ))}
             </div>

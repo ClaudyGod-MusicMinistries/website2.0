@@ -1,11 +1,12 @@
 'use client';
 
-import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { FaSpotify, FaApple, FaYoutube, FaDeezer } from 'react-icons/fa6';
 import { useAlbums } from '@/hooks/useAlbums';
 import { toAlbumView } from '@/lib/data/adapters';
-import { buttonVariants } from '@/lib/theme/buttons';
+import { Button } from '@/components/ui/Button';
 import { ContainedImage, Skeleton } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
 import { SectionHeading } from '@/components/shared/SectionHeading';
@@ -25,27 +26,25 @@ export function MusicHighlight() {
   const { albums: rawAlbums, loading } = useAlbums();
   const albums = rawAlbums.slice(0, 3).map(toAlbumView);
 
-  // `error` no longer hides the section — useAlbums falls back to real
-  // curated albums on a failed fetch, so this only stays empty if there's
-  // truly nothing (loading finished with zero albums either way).
   if (!loading && albums.length === 0) return null;
 
   return (
-    <section className="bg-cream-100 section-py border-t border-black/[0.05]">
-      <div className="container-site">
+    <section className="relative bg-cream-50 section-py border-t border-neutral-200/70 overflow-hidden">
+      <div className="container-site relative z-10">
         <SectionHeading
           eyebrow="Discography"
-          title="Albums"
+          title="Featured Albums"
           action={
-            <Link
+            <Button
               href="/music"
-              className={cn(
-                buttonVariants({ variant: 'outline-dark', size: 'lg', uppercase: true }),
-                'hidden md:inline-flex whitespace-nowrap'
-              )}
+              variant="dark"
+              size="sm"
+              uppercase
+              rightIcon={<ArrowRight className="h-3.5 w-3.5" />}
+              className="hidden md:inline-flex"
             >
-              All albums →
-            </Link>
+              Explore Catalog
+            </Button>
           }
         />
 
@@ -64,34 +63,44 @@ export function MusicHighlight() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-8 lg:gap-10"
           >
             {albums.map((album, idx) => (
               <motion.div
                 key={album.id}
                 variants={cardVariant}
-                className="group flex flex-col h-full"
+                className="group relative flex flex-col h-full bg-white p-5 sm:p-6 rounded-2xl border border-neutral-200/80 shadow-xs hover:shadow-card-light-hover hover:border-gold-300/80 transition-all duration-300"
               >
-                {/* Album Art Container */}
-                <div className="relative w-full aspect-square mb-4 sm:mb-5 overflow-hidden rounded-xl shadow-card-light-hover bg-neutral-100">
-                  <ContainedImage
-                    src={album.image}
-                    alt={album.title}
-                    className="w-full h-full grayscale-[15%] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
-                    sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(50vw - 1.5rem), calc(33.333vw - 1.5rem)"
-                    priority={idx === 0}
-                  />
-                  <div className="absolute inset-0 ring-1 ring-black/5 pointer-events-none" />
+                {/* Album Art with Vinyl Record Slide-out Effect */}
+                <div className="relative w-full aspect-square mb-5">
+                  {/* Vinyl Record (revealed on hover) */}
+                  <div className="absolute inset-y-2 right-2 w-full aspect-square rounded-full overflow-hidden transition-all duration-700 ease-out group-hover:translate-x-10 group-hover:rotate-45 pointer-events-none opacity-85 group-hover:opacity-100 -z-10 shadow-lg">
+                    <Image src="/CD1.png" alt="" fill className="object-contain" />
+                  </div>
+
+                  {/* Album Cover Front Sleeve */}
+                  <div className="relative w-full h-full overflow-hidden rounded-xl shadow-md bg-neutral-100 ring-1 ring-black/5 z-10 transition-transform duration-500 group-hover:-translate-x-1">
+                    <ContainedImage
+                      src={album.image}
+                      alt={album.title}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      priority={idx === 0}
+                    />
+                  </div>
                 </div>
 
-                {/* Album Info - flex-1 to push content down */}
+                {/* Album Info */}
                 <div className="flex-1 flex flex-col">
-                  <h3 className="font-display font-semibold text-neutral-800 text-lg sm:text-xl md:text-2xl tracking-wide mb-2 sm:mb-3 line-clamp-2">
+                  <h3 className="font-display font-semibold text-neutral-900 text-lg sm:text-xl tracking-tight mb-3 line-clamp-2 group-hover:text-purple-900 transition-colors">
                     {album.title}
                   </h3>
 
-                  {/* Platform icons */}
-                  <div className="flex items-center gap-2 mt-auto pt-2">
+                  {/* Platform Pills */}
+                  <div className="flex items-center gap-2 mt-auto pt-3 border-t border-neutral-100">
+                    <span className="font-sans text-[0.65rem] tracking-wider uppercase text-neutral-400 font-medium mr-1">
+                      Stream:
+                    </span>
                     {(Object.entries(album.links) as [keyof typeof icons, string][]).map(
                       ([key, url]) => {
                         const Icon = icons[key];
@@ -103,9 +112,9 @@ export function MusicHighlight() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${album.title} on ${key}`}
-                            className="w-9 h-9 flex items-center justify-center border border-neutral-200 hover:border-gold-400/50 text-neutral-400 hover:text-gold-500 rounded-lg transition-all duration-300 hover:bg-gold-50"
+                            className="w-8 h-8 flex items-center justify-center border border-neutral-200/80 hover:border-gold-400 text-neutral-500 hover:text-gold-600 rounded-full transition-all duration-200 hover:bg-gold-50/60"
                           >
-                            <Icon className="h-4 w-4" />
+                            <Icon className="h-3.5 w-3.5" />
                           </a>
                         );
                       }
@@ -117,17 +126,17 @@ export function MusicHighlight() {
           </motion.div>
         )}
 
-        <div className="mt-10 sm:mt-12 flex md:hidden justify-center sm:justify-start">
-          <Link
+        {/* Mobile Action Button — Sleek, compact pill, never full-width */}
+        <div className="mt-8 flex md:hidden justify-center">
+          <Button
             href="/music"
-            className={cn(
-              buttonVariants({ variant: 'secondary', size: 'lg', uppercase: true }),
-              'group'
-            )}
+            variant="dark"
+            size="md"
+            uppercase
+            rightIcon={<ArrowRight className="h-3.5 w-3.5" />}
           >
-            View All Albums
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
+            Explore All Albums
+          </Button>
         </div>
       </div>
     </section>

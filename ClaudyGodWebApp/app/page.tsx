@@ -82,7 +82,7 @@ export default function Home() {
       {/* 1. Hero — one statement, direct action, not a carousel */}
       <Hero />
 
-      {/* 2. Who this is — real credibility (7 albums, 20+ years), not abstractions */}
+      {/* 2. Who this is — real credibility (7 albums, 8+ years), not abstractions */}
       <TheArtist />
 
       {/* 3. Latest release — the #1 reason a returning fan visits */}
