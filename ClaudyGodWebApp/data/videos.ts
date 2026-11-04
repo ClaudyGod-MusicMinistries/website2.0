@@ -9,6 +9,19 @@ export type VideoType = {
 };
 
 export const videos: VideoType[] = [
+  {
+    id: 0,
+    title: 'He Put A New Song by ClaudyGod & Band',
+    youtubeId: '5FlpePAqhD8',
+    category: 'Live Sessions',
+    description: 'Song by Min. ClaudyGod and Her Band',
+    date: new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+    duration: '3:05',
+  },
   // Existing videos...
   {
     id: 1,

@@ -38,7 +38,7 @@ export const bookingSchema = z
     state: z.string().trim().min(2).max(100),
     country: z.string().trim().min(2).max(100),
     agreeTerms: z.literal(true, {
-      errorMap: () => ({ message: 'Booking terms must be accepted.' }),
+      message: 'Booking terms must be accepted.',
     }),
   })
   .strict();

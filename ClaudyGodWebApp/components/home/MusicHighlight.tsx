@@ -75,7 +75,13 @@ export function MusicHighlight() {
                 <div className="relative w-full aspect-square mb-5">
                   {/* Vinyl Record (revealed on hover) */}
                   <div className="absolute inset-y-2 right-2 w-full aspect-square rounded-full overflow-hidden transition-all duration-700 ease-out group-hover:translate-x-10 group-hover:rotate-45 pointer-events-none opacity-85 group-hover:opacity-100 -z-10 shadow-lg">
-                    <Image src="/CD1.png" alt="" fill className="object-contain" />
+                    <Image
+                      src="/CD1.png"
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-contain"
+                    />
                   </div>
 
                   {/* Album Cover Front Sleeve */}

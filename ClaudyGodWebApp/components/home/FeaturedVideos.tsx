@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Play, X, ChevronRight, Clock } from 'lucide-react';
 import { useMedia } from '@/hooks/useMedia';
-import { toVideoView } from '@/lib/data/adapters';
+import { toVideoView, type VideoView } from '@/lib/data/adapters';
 import { Button } from '@/components/ui/Button';
 import { Skeleton, YoutubeThumbnail } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
@@ -18,11 +18,21 @@ const cardVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 };
 
+// Pinned as the lead showcase video in the Featured Videos section,
+// guaranteeing that the latest release "He Put A New Song" is immediately
+// prominent as the primary visual ministration.
+const pinnedFeaturedVideo: VideoView = {
+  id: 'featured-he-put-a-new-song',
+  title: 'He Put A New Song by ClaudyGod & Band',
+  youtubeId: '5FlpePAqhD8',
+  duration: '3:05',
+  thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
+  createdAt: new Date().toISOString(),
+};
+
 /**
- * Shows the catalog beyond the single video LatestRelease already
- * spotlights (that section takes item 0 of the same useMedia('video')
- * list; this one explicitly skips it) — the two sections read as one
- * "spotlight, then browse" flow instead of two competing video showcases.
+ * Shows the curated featured video ministration on the homepage with an
+ * inline interactive player and accompanying catalog videos.
  *
  * Selecting any video (side list, bottom row, or the big card itself)
  * swaps and plays it directly in the big display — not a separate lightbox
@@ -33,10 +43,13 @@ export function FeaturedVideos() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const videos = media
+  // Guarantee pinned new release is the lead featured video, followed by the rest
+  // of the catalog without duplicates
+  const catalogVideos = media
     .map(toVideoView)
-    .filter((v) => v.youtubeId !== null)
-    .slice(1);
+    .filter((v) => v.youtubeId !== null && v.youtubeId !== pinnedFeaturedVideo.youtubeId);
+
+  const videos: VideoView[] = [pinnedFeaturedVideo, ...catalogVideos];
 
   const featured = videos[0];
   const display = videos.find((v) => v.id === selectedId) ?? featured;

@@ -23,7 +23,9 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      const fieldErrors = Object.fromEntries(err.errors.map((e) => [e.path[0], [e.message]]));
+      const fieldErrors = Object.fromEntries(
+        err.issues.map((e) => [String(e.path[0] ?? ''), [e.message]])
+      );
 
       return NextResponse.json(
         {

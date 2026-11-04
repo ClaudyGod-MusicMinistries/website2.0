@@ -41,9 +41,24 @@ export function VideoGrid() {
   const [active, setActive] = useState<Filter>('All');
   const [query, setQuery] = useState('');
 
-  const videos = media
+  const rawVideos = media
     .map(toVideoView)
     .filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
+
+  // Guarantee the newest release "He Put A New Song" appears at the front of the catalog
+  const videos = rawVideos.some((v) => v.youtubeId === '5FlpePAqhD8')
+    ? rawVideos
+    : [
+        {
+          id: 'video-he-put-a-new-song',
+          title: 'He Put A New Song by ClaudyGod & Band',
+          youtubeId: '5FlpePAqhD8',
+          duration: '3:05',
+          thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
+          createdAt: new Date().toISOString(),
+        },
+        ...rawVideos,
+      ];
 
   const byCategory =
     active === 'All'
