@@ -121,7 +121,11 @@ async function proxyWithBody(
       );
     }
 
-    console.error(`[proxy ${method} ${backendUrl}]`, message);
+    if (process.env.NODE_ENV !== 'production' && message === 'fetch failed') {
+      console.warn(`[proxy ${method} ${backendUrl}] Backend offline: ${message}`);
+    } else {
+      console.error(`[proxy ${method} ${backendUrl}]`, message);
+    }
     return NextResponse.json(
       {
         success: false,
@@ -214,7 +218,13 @@ export async function proxyGet(
       );
     }
 
-    console.error(`[proxy GET ${backendUrl}]`, message);
+    if (process.env.NODE_ENV !== 'production' && message === 'fetch failed') {
+      console.warn(
+        `[proxy GET ${backendUrl}] Backend offline (using frontend fallback): ${message}`
+      );
+    } else {
+      console.error(`[proxy GET ${backendUrl}]`, message);
+    }
     return NextResponse.json(
       {
         success: false,

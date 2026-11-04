@@ -52,10 +52,10 @@ export const featuredVideos: FeaturedVideoProps[] = [
 
   {
     id: '6',
-    title: 'He Put a New Song',
-    thumbnailUrl: 'https://img.youtube.com/vi/hto6hlHSpac/hqdefault.jpg',
-    duration: '6:10',
-    youtubeUrl: 'https://youtu.be/hto6hlHSpac?si=rGFe3niOqRcK-XVN',
+    title: 'He Put A New Song by ClaudyGod & Band',
+    thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
+    duration: '3:05',
+    youtubeUrl: 'https://youtu.be/5FlpePAqhD8?is=KKWz2CCApsRmq2SR',
   },
   {
     id: '7',

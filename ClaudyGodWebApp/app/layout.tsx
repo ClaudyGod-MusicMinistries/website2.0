@@ -120,7 +120,7 @@ const jsonLdGraph = {
 // ─── Root layout ────────────────────────────────────────────────────────────
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* ── Structured data ── */}
         <script
@@ -143,7 +143,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <Navbar />
-        <main id="main-content" tabIndex={-1} className="min-h-dvh">
+        <main id="main-content" tabIndex={-1} className="relative min-h-dvh">
           {children}
         </main>
         <Footer />

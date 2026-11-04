@@ -61,15 +61,18 @@ const VideoGrid = dynamic(() => import('@/components/videos/VideoGrid').then((m)
 const schemas = [
   breadcrumb([{ name: 'Videos', href: '/videos' }]),
   videoObject({
-    name: 'Very Glorious — Official Music Video | ClaudyGod',
-    description:
-      "Official music video for 'Very Glorious' by ClaudyGod — a Spirit-filled gospel worship anthem.",
-    youtubeId: 'F36AiXSSADQ',
-    uploadDate: '2024-01-01',
-    duration: 'PT4M30S',
-    thumbnailUrl: 'https://img.youtube.com/vi/F36AiXSSADQ/hqdefault.jpg',
+    name: 'He Put A New Song by ClaudyGod & Band',
+    description: "Official live worship ministration 'He Put A New Song' by ClaudyGod & Band.",
+    youtubeId: '5FlpePAqhD8',
+    uploadDate: '2026-11-01',
+    duration: 'PT3M05S',
+    thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
   }),
   itemList('ClaudyGod Official Videos', [
+    {
+      name: 'He Put A New Song by ClaudyGod & Band',
+      url: 'https://youtu.be/5FlpePAqhD8?is=KKWz2CCApsRmq2SR',
+    },
     {
       name: 'Very Glorious — Official Music Video',
       url: 'https://www.youtube.com/watch?v=F36AiXSSADQ',
