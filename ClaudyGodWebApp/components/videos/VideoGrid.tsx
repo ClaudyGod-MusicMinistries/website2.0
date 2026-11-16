@@ -45,20 +45,31 @@ export function VideoGrid() {
     .map(toVideoView)
     .filter((v): v is VideoView & { youtubeId: string } => v.youtubeId !== null);
 
-  // Guarantee the newest release "He Put A New Song" appears at the front of the catalog
-  const videos = rawVideos.some((v) => v.youtubeId === '5FlpePAqhD8')
-    ? rawVideos
-    : [
-        {
-          id: 'video-he-put-a-new-song',
-          title: 'He Put A New Song by ClaudyGod & Band',
-          youtubeId: '5FlpePAqhD8',
-          duration: '3:05',
-          thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
-          createdAt: new Date().toISOString(),
-        },
-        ...rawVideos,
-      ];
+  // Guarantee the newest releases "King of Heaven" and "He Put A New Song" appear at the front of the catalog
+  const prioritizedIds = ['rYs4ayF4gN8', '5FlpePAqhD8'];
+  const newReleases: (VideoView & { youtubeId: string })[] = [
+    {
+      id: 'video-king-of-heaven',
+      title: 'King of Heaven by ClaudyGod & Band',
+      youtubeId: 'rYs4ayF4gN8',
+      duration: '4:03',
+      thumbnailUrl: 'https://img.youtube.com/vi/rYs4ayF4gN8/hqdefault.jpg',
+      createdAt: new Date().toISOString(),
+    },
+    {
+      id: 'video-he-put-a-new-song',
+      title: 'He Put A New Song by ClaudyGod & Band',
+      youtubeId: '5FlpePAqhD8',
+      duration: '3:05',
+      thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
+      createdAt: new Date().toISOString(),
+    },
+  ];
+
+  const existingMap = new Map(rawVideos.map((v) => [v.youtubeId, v]));
+  const frontVideos = newReleases.map((nr) => existingMap.get(nr.youtubeId) ?? nr);
+  const remainingVideos = rawVideos.filter((v) => !prioritizedIds.includes(v.youtubeId));
+  const videos = [...frontVideos, ...remainingVideos];
 
   const byCategory =
     active === 'All'

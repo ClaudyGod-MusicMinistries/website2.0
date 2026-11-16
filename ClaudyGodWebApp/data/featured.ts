@@ -52,20 +52,27 @@ export const featuredVideos: FeaturedVideoProps[] = [
 
   {
     id: '6',
+    title: 'King of Heaven by ClaudyGod & Band',
+    thumbnailUrl: 'https://img.youtube.com/vi/rYs4ayF4gN8/hqdefault.jpg',
+    duration: '4:03',
+    youtubeUrl: 'https://youtu.be/rYs4ayF4gN8?is=wuTyhIx8dAYNWTDO',
+  },
+  {
+    id: '7',
     title: 'He Put A New Song by ClaudyGod & Band',
     thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
     duration: '3:05',
     youtubeUrl: 'https://youtu.be/5FlpePAqhD8?is=KKWz2CCApsRmq2SR',
   },
   {
-    id: '7',
+    id: '8',
     title: `Lord Of My Heart (Psalm 139) - ClaudyGO'D (Song writer & Singer)`,
     thumbnailUrl: 'https://img.youtube.com/vi/SmU3mxEvkE4/hqdefault.jpg',
     duration: '5:15',
     youtubeUrl: 'https://youtu.be/SmU3mxEvkE4?si=Oe41qTvleTo0plO-',
   },
   {
-    id: '8',
+    id: '9',
     title: 'New!!! THERE ALL THE TIME (So good). Song by ClaudyGod',
     thumbnailUrl: 'https://img.youtube.com/vi/qdNP8A4fW-U/hqdefault.jpg',
     duration: '5:15',

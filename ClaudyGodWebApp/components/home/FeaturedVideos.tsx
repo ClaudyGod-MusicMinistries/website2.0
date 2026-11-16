@@ -19,9 +19,18 @@ const cardVariant = {
 };
 
 // Pinned as the lead showcase video in the Featured Videos section,
-// guaranteeing that the latest release "He Put A New Song" is immediately
+// guaranteeing that the latest release "King of Heaven" is immediately
 // prominent as the primary visual ministration.
 const pinnedFeaturedVideo: VideoView = {
+  id: 'featured-king-of-heaven',
+  title: 'King of Heaven by ClaudyGod & Band',
+  youtubeId: 'rYs4ayF4gN8',
+  duration: '4:03',
+  thumbnailUrl: 'https://img.youtube.com/vi/rYs4ayF4gN8/hqdefault.jpg',
+  createdAt: new Date().toISOString(),
+};
+
+const recentReleaseVideo: VideoView = {
   id: 'featured-he-put-a-new-song',
   title: 'He Put A New Song by ClaudyGod & Band',
   youtubeId: '5FlpePAqhD8',
@@ -43,13 +52,18 @@ export function FeaturedVideos() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Guarantee pinned new release is the lead featured video, followed by the rest
+  // Guarantee pinned new releases are lead featured videos, followed by the rest
   // of the catalog without duplicates
   const catalogVideos = media
     .map(toVideoView)
-    .filter((v) => v.youtubeId !== null && v.youtubeId !== pinnedFeaturedVideo.youtubeId);
+    .filter(
+      (v) =>
+        v.youtubeId !== null &&
+        v.youtubeId !== pinnedFeaturedVideo.youtubeId &&
+        v.youtubeId !== recentReleaseVideo.youtubeId
+    );
 
-  const videos: VideoView[] = [pinnedFeaturedVideo, ...catalogVideos];
+  const videos: VideoView[] = [pinnedFeaturedVideo, recentReleaseVideo, ...catalogVideos];
 
   const featured = videos[0];
   const display = videos.find((v) => v.id === selectedId) ?? featured;
