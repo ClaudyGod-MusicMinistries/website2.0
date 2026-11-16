@@ -61,14 +61,18 @@ const VideoGrid = dynamic(() => import('@/components/videos/VideoGrid').then((m)
 const schemas = [
   breadcrumb([{ name: 'Videos', href: '/videos' }]),
   videoObject({
-    name: 'He Put A New Song by ClaudyGod & Band',
-    description: "Official live worship ministration 'He Put A New Song' by ClaudyGod & Band.",
-    youtubeId: '5FlpePAqhD8',
-    uploadDate: '2026-11-01',
-    duration: 'PT3M05S',
-    thumbnailUrl: 'https://img.youtube.com/vi/5FlpePAqhD8/hqdefault.jpg',
+    name: 'King of Heaven by ClaudyGod & Band',
+    description: "Official live worship ministration 'King of Heaven' by ClaudyGod & Band.",
+    youtubeId: 'rYs4ayF4gN8',
+    uploadDate: '2026-11-15',
+    duration: 'PT4M03S',
+    thumbnailUrl: 'https://img.youtube.com/vi/rYs4ayF4gN8/hqdefault.jpg',
   }),
   itemList('ClaudyGod Official Videos', [
+    {
+      name: 'King of Heaven by ClaudyGod & Band',
+      url: 'https://youtu.be/rYs4ayF4gN8?is=wuTyhIx8dAYNWTDO',
+    },
     {
       name: 'He Put A New Song by ClaudyGod & Band',
       url: 'https://youtu.be/5FlpePAqhD8?is=KKWz2CCApsRmq2SR',

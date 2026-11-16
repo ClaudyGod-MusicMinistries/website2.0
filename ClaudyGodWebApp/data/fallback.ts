@@ -71,9 +71,14 @@ function toFallbackVideo(id: string, title: string, youtubeId: string): MediaIte
 
 // The full catalog — mirrors data/videos.ts (the seed-script source of
 // truth for the real backend) so the fallback shown during an outage is
-// the same full catalog, not a token sample. "He Put A New Song" and "Not Be Moved"
+// the same full catalog, not a token sample. "King of Heaven", "He Put A New Song" and "Not Be Moved"
 // are prepended as the latest releases.
 export const fallbackVideos: MediaItem[] = [
+  toFallbackVideo(
+    'fallback-video-king-of-heaven',
+    'King of Heaven by ClaudyGod & Band',
+    'rYs4ayF4gN8'
+  ),
   toFallbackVideo(
     'fallback-video-he-put-a-new-song',
     'He Put A New Song by ClaudyGod & Band',
